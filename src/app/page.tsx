@@ -1,6 +1,5 @@
 import { notion } from '@/lib/notion';
 import { results } from 'fakeData';
-import { Title } from './styles';
 
 interface ResultResponse {
 	object: string;
@@ -64,5 +63,5 @@ export default async function Home() {
 		console.log(error);
 	}
 
-	return <Title>Hello World!!</Title>;
+	return <h1>Hello World!!</h1>;
 }

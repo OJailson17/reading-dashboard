@@ -1,5 +1,13 @@
 import StyledComponentsRegistry from '@/lib/registry';
 import { GlobalStyles } from '@/styles/global';
+import { defaultTheme } from '@/styles/theme/defaultTheme';
+import { ThemeProvider } from 'styled-components';
+import { Inter } from '@next/font/google';
+
+const inter = Inter({
+	subsets: ['latin'],
+	weight: ['500', '600'],
+});
 
 export default function RootLayout({
 	// Layouts must accept a children prop.
@@ -9,7 +17,7 @@ export default function RootLayout({
 	children: React.ReactNode;
 }) {
 	return (
-		<html>
+		<html className={inter.className}>
 			<body>
 				<GlobalStyles />
 				<StyledComponentsRegistry>{children}</StyledComponentsRegistry>
