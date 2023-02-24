@@ -1,5 +1,5 @@
 import { notion } from '@/lib/notion';
-import { GetServerSideProps } from 'next';
+import { results } from 'fakeData';
 
 interface ResultResponse {
 	object: string;
@@ -24,11 +24,7 @@ interface HomeProps {
 	finished_books: number;
 }
 
-export default function Home(data: HomeProps) {
-	return <h1>Hello World!!</h1>;
-}
-
-export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
+export default async function Home() {
 	const databaseId = process.env.NOTION_DATABASE_ID;
 
 	let total_books = 0;
@@ -38,18 +34,19 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
 
 	try {
 		// Make a query to get the database data
-		const response = await notion.databases.query({
-			database_id: databaseId || '',
-			filter: {
-				property: 'Status',
-				select: {
-					does_not_equal: 'Abandoned',
-				},
-			},
-		});
+		// const response = await notion.databases.query({
+		// 	database_id: databaseId || '',
+		// 	filter: {
+		// 		property: 'Status',
+		// 		select: {
+		// 			does_not_equal: 'Abandoned',
+		// 		},
+		// 	},
+		// });
 
 		// Add type to the response results
-		const responseResults = response.results as ResultResponse[];
+		// const responseResults = response.results as ResultResponse[];
+		const responseResults = results;
 
 		// Get amount of books by category
 		total_books = responseResults.length;
@@ -66,12 +63,5 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
 		console.log(error);
 	}
 
-	return {
-		props: {
-			total_books,
-			to_read_books,
-			reading_books,
-			finished_books,
-		},
-	};
-};
+	return <h1>Hello World!!</h1>;
+}
