@@ -1,5 +1,6 @@
 import { notion } from '@/lib/notion';
 import { results } from 'fakeData';
+import { Title } from './styles';
 
 interface ResultResponse {
 	object: string;
@@ -50,18 +51,18 @@ export default async function Home() {
 
 		// Get amount of books by category
 		total_books = responseResults.length;
-		reading_books = responseResults.filter(
-			book => book.properties.Status.select.name === 'Reading',
-		).length;
-		to_read_books = responseResults.filter(
-			book => book.properties.Status.select.name === 'To read',
-		).length;
-		finished_books = responseResults.filter(
-			book => book.properties.Status.select.name === 'Finished',
-		).length;
+		// reading_books = responseResults.filter(
+		// 	book => book.properties.Status.select.name === 'Reading',
+		// ).length;
+		// to_read_books = responseResults.filter(
+		// 	book => book.properties.Status.select.name === 'To read',
+		// ).length;
+		// finished_books = responseResults.filter(
+		// 	book => book.properties.Status.select.name === 'Finished',
+		// ).length;
 	} catch (error) {
 		console.log(error);
 	}
 
-	return <h1>Hello World!!</h1>;
+	return <Title>Hello World!!</Title>;
 }

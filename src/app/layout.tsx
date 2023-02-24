@@ -1,4 +1,5 @@
 import StyledComponentsRegistry from '@/lib/registry';
+import { GlobalStyles } from '@/styles/global';
 
 export default function RootLayout({
 	// Layouts must accept a children prop.
@@ -10,6 +11,7 @@ export default function RootLayout({
 	return (
 		<html>
 			<body>
+				<GlobalStyles />
 				<StyledComponentsRegistry>{children}</StyledComponentsRegistry>
 			</body>
 		</html>
