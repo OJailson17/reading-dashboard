@@ -18,6 +18,7 @@ export const StatusComponentWrapper = styled.div`
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+	gap: 2rem;
 `;
 
 export const StatusComponent = styled.div`

@@ -82,6 +82,7 @@ export default async function Home() {
 				</StatusComponent>
 
 				<Status />
+				<Status />
 			</StatusComponentWrapper>
 		</>
 	);

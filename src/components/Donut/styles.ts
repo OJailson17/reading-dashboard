@@ -4,10 +4,10 @@ import styled from 'styled-components';
 
 export const Donut = styled.div`
 	position: relative;
-	width: 200px;
-	height: 200px;
+	width: 12.5rem;
+	height: 12.5rem;
 	border-radius: 50%;
-	background: #363447;
+	background: #4a4556;
 	top: 0;
 	left: 0;
 	background-clip: border-box;
@@ -52,10 +52,10 @@ export const DonutLine = styled.div`
 `;
 
 export const DonutText = styled.div`
-	top: 25px;
-	left: 25px;
-	width: 150px;
-	height: 150px;
+	top: 1.5rem;
+	left: 1.5rem;
+	width: 9.375rem;
+	height: 9.375rem;
 	background: #292738;
 	position: absolute;
 	border-radius: 50%;
@@ -70,7 +70,7 @@ export const DonutCase = styled.div`
 	width: 100%;
 	height: 100%;
 	border-radius: 50%;
-	background: #363447;
+	background: #4a4556;
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -80,13 +80,13 @@ export const DonutCase = styled.div`
 	&::before {
 		content: '';
 		clip-path: circle(100%);
-		-webkit-transform: rotate(90deg);
-		transform: rotate(360deg);
+		-webkit-transform: rotate(360deg);
+		transform: rotate(-360deg);
 		background: green;
 		position: absolute;
 		top: 0;
 		left: 0;
-		width: 50%;
+		width: 70%;
 		height: 100%;
 	}
 `;
