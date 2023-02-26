@@ -1,5 +1,7 @@
+import { Status } from '@/components/Status';
 import { notion } from '@/lib/notion';
 import { results } from 'fakeData';
+import { PageTitle, StatusComponent, StatusComponentWrapper } from './styles';
 
 interface ResultResponse {
 	object: string;
@@ -63,5 +65,24 @@ export default async function Home() {
 		console.log(error);
 	}
 
-	return <h1>Hello World!!</h1>;
+	return (
+		<>
+			<header>
+				<PageTitle>Reading Dashboard</PageTitle>
+			</header>
+
+			<StatusComponentWrapper>
+				<StatusComponent>
+					<p className='status-component-title'>Para Ler</p>
+
+					<div className='status-component-info'>
+						<p className='info-value'>10</p>
+						<p>Livros</p>
+					</div>
+				</StatusComponent>
+
+				<Status />
+			</StatusComponentWrapper>
+		</>
+	);
 }
