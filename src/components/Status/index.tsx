@@ -6,25 +6,22 @@ import { ChartDataWrapper, StatusComponent } from './styles';
 export const Status = () => {
 	return (
 		<StatusComponent>
-			<p className='status-component-title'>Lendo</p>
+			<p className='status-component-title'>Reading</p>
 
-			<span className='status-component-book-name'>
-				Nome do livro que talvez seja muito grande para caber na linha completa
-				dessa div
-			</span>
+			<span className='status-component-book-name'>Book Name</span>
 
 			<DonutComponent />
 
 			<ChartDataWrapper>
 				<div className='chart-data'>
 					<div className='circle'></div>
-					<p className='chart-label'>Qtd. de Páginas</p>
+					<p className='chart-label'>Total Pages</p>
 					<span className='chart-data-value'>300</span>
 				</div>
 				<div className='chart-data'>
 					<div className='circle'></div>
-					<p className='chart-label'>Página atual</p>
-					<span className='chart-data-value'>100</span>
+					<p className='chart-label'>Current Page</p>
+					<span className='chart-data-value'>210</span>
 				</div>
 			</ChartDataWrapper>
 		</StatusComponent>

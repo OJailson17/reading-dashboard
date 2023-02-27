@@ -74,11 +74,11 @@ export default async function Home() {
 
 			<StatusComponentWrapper>
 				<StatusComponent>
-					<p className='status-component-title'>Para Ler</p>
+					<p className='status-component-title'>To Read</p>
 
 					<div className='status-component-info'>
 						<p className='info-value'>10</p>
-						<p>Livros</p>
+						<p>Books</p>
 					</div>
 				</StatusComponent>
 

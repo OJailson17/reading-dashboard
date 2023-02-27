@@ -58,17 +58,17 @@ const options = {
 
 const labels = [
 	'Jan',
-	'Fev',
+	'Feb',
 	'Mar',
-	'Abr',
-	'Mai',
+	'Apr',
+	'May',
 	'Jun',
 	'Jul',
-	'Ago',
-	'Set',
-	'Out',
+	'Aug',
+	'Sep',
+	'Oct',
 	'Nov',
-	'Dez',
+	'Dec',
 ];
 
 export const data = {
@@ -87,22 +87,22 @@ export const data = {
 export const YearlyChart = () => {
 	return (
 		<YearlyChartWrapper>
-			<ChartTitle>Livros lidos em cada mês</ChartTitle>
+			<ChartTitle>Books read by month</ChartTitle>
 
 			<ChartDataWrapper>
 				<CharData>
 					<div>
 						<GoTriangleUp size={15} color='#28C76F' />
-						<span>Mês com mais livros lidos</span>
+						<span>More books read</span>
 					</div>
-					<p className='month'>Fevereiro</p>
+					<p className='month'>February</p>
 				</CharData>
 				<CharData>
 					<div>
 						<GoTriangleDown size={15} color='#EA5455' />
-						<span>Mês com menos livros lidos</span>
+						<span>Less books read</span>
 					</div>
-					<p className='month'>Abril</p>
+					<p className='month'>April</p>
 				</CharData>
 			</ChartDataWrapper>
 

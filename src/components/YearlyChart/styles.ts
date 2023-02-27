@@ -4,8 +4,7 @@ import styled from 'styled-components';
 
 export const YearlyChartWrapper = styled.div`
 	width: 90%;
-	margin: 0 auto;
-	margin-top: 3.75rem;
+	margin: 3.75rem auto;
 	padding: 1.875rem 1.5rem;
 
 	display: flex;
@@ -51,5 +50,7 @@ export const CharData = styled.div`
 `;
 
 export const ChartComponent = styled.div`
+	width: 100%;
+	max-width: 600px;
 	margin-top: 2rem;
 `;

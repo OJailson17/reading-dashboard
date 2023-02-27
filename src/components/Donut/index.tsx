@@ -9,7 +9,7 @@ export const DonutComponent = () => {
 			<DonutLine />
 			<DonutText>
 				<p>70%</p>
-				<span>Lido</span>
+				<span>Read</span>
 			</DonutText>
 			<DonutCase />
 		</Donut>
