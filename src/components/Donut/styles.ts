@@ -82,7 +82,11 @@ export const DonutCase = styled.div`
 		clip-path: circle(100%);
 		-webkit-transform: rotate(360deg);
 		transform: rotate(-360deg);
-		background: green;
+		background: linear-gradient(
+			90deg,
+			rgba(115, 103, 240, 1) 10%,
+			rgba(206, 159, 252, 1) 100%
+		);
 		position: absolute;
 		top: 0;
 		left: 0;
@@ -90,3 +94,5 @@ export const DonutCase = styled.div`
 		height: 100%;
 	}
 `;
+
+// background: linear-gradient(90deg, rgba(223,151,128,1) 10%, rgba(166,109,233,1) 100%);

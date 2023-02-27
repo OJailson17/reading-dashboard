@@ -1,4 +1,5 @@
 import { Status } from '@/components/Status';
+import { YearlyChart } from '@/components/YearlyChart';
 import { notion } from '@/lib/notion';
 import { results } from 'fakeData';
 import { PageTitle, StatusComponent, StatusComponentWrapper } from './styles';
@@ -84,6 +85,9 @@ export default async function Home() {
 				<Status />
 				<Status />
 			</StatusComponentWrapper>
+
+			{/* Yearly Graph */}
+			<YearlyChart />
 		</>
 	);
 }
