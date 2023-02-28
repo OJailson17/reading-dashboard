@@ -5,6 +5,7 @@ import styled from 'styled-components';
 export const Donut = styled.div`
 	position: relative;
 	width: 12.5rem;
+	/* max-width: 25rem; */
 	height: 12.5rem;
 	border-radius: 50%;
 	background: #4a4556;

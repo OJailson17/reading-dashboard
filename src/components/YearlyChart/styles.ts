@@ -1,9 +1,11 @@
 'use client';
 
+import { device } from '@/styles/endpoints';
 import styled from 'styled-components';
 
 export const YearlyChartWrapper = styled.div`
 	width: 90%;
+	max-width: 90rem;
 	margin: 3.75rem auto;
 	padding: 1.875rem 1.5rem;
 
@@ -15,11 +17,36 @@ export const YearlyChartWrapper = styled.div`
 	background-color: #363447;
 	box-shadow: 0px 0px 20px 0px #1e1e1e;
 	border-radius: 16px;
+
+	.chart-container {
+		width: 100%;
+
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+
+		@media ${device.tablet} {
+			flex-direction: row;
+			padding: 0 1rem;
+			/* align-items: flex-start; */
+		}
+
+		@media ${device.laptop} {
+			padding: 0 3rem;
+			/* align-items: flex-start; */
+		}
+	}
 `;
 
 export const ChartTitle = styled.p`
 	font-size: 1.25rem;
 	font-weight: 600;
+
+	@media ${device.laptop} {
+		align-self: flex-start;
+		padding-left: 3rem;
+	}
 `;
 
 export const ChartDataWrapper = styled.div`

@@ -1,9 +1,10 @@
 'use client';
 
 import styled from 'styled-components';
+import { device } from 'src/styles/endpoints';
 
 export const StatusComponent = styled.div`
-	width: 100%;
+	max-width: 25rem;
 	/* height: 15rem; */
 	padding: 2rem 1.5rem;
 
@@ -16,6 +17,14 @@ export const StatusComponent = styled.div`
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
+
+	@media ${device.tablet} {
+		width: 45%;
+	}
+
+	@media ${device.laptop} {
+		width: 100%;
+	}
 
 	.status-component-title {
 		font-size: 1.5rem;
@@ -46,12 +55,24 @@ export const ChartDataWrapper = styled.div`
 		font-size: 0.75rem;
 		font-weight: 500;
 
-		.circle {
+		.circle-data {
 			width: 15px;
 			height: 15px;
 
 			border-radius: 50%;
 			background-color: #4a4556;
+		}
+
+		.circle {
+			width: 15px;
+			height: 15px;
+
+			border-radius: 50%;
+			background: linear-gradient(
+				90deg,
+				rgba(115, 103, 240, 1) 10%,
+				rgba(206, 159, 252, 1) 100%
+			);
 		}
 	}
 `;

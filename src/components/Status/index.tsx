@@ -14,7 +14,7 @@ export const Status = () => {
 
 			<ChartDataWrapper>
 				<div className='chart-data'>
-					<div className='circle'></div>
+					<div className='circle-data'></div>
 					<p className='chart-label'>Total Pages</p>
 					<span className='chart-data-value'>300</span>
 				</div>
