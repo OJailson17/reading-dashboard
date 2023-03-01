@@ -81,11 +81,8 @@ export default async function Home() {
 						<p>Books</p>
 					</div>
 				</StatusComponent>
-
-				{/* <div className='chart-status-container'> */}
 				<Status />
 				<Status />
-				{/* </div> */}
 			</StatusComponentWrapper>
 
 			{/* Yearly Graph */}
