@@ -1,6 +1,8 @@
-import { Status } from '@/components/Status';
+import { BookStatus } from '@/components/BooksStatus';
+import { ReadingStatus } from '@/components/ReadingStatus';
 import { YearlyChart } from '@/components/YearlyChart';
 import { notion } from '@/lib/notion';
+import { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 import { results } from 'fakeData';
 import { PageTitle, StatusComponent, StatusComponentWrapper } from './styles';
 
@@ -17,6 +19,15 @@ interface ResultResponse {
 				color: string;
 			};
 		};
+		Name: {
+			id: string;
+			type: string;
+			title: [
+				{
+					plain_text: string;
+				},
+			];
+		};
 	};
 }
 
@@ -31,7 +42,7 @@ export default async function Home() {
 	const databaseId = process.env.NOTION_DATABASE_ID;
 
 	let total_books = 0;
-	let reading_books = 0;
+	let reading_books;
 	let to_read_books = 0;
 	let finished_books = 0;
 
@@ -53,15 +64,17 @@ export default async function Home() {
 
 		// Get amount of books by category
 		total_books = responseResults.length;
-		// reading_books = responseResults.filter(
-		// 	book => book.properties.Status.select.name === 'Reading',
-		// ).length;
+		reading_books = responseResults.filter(
+			book => book.properties.Status.select.name === 'Reading',
+		);
 		// to_read_books = responseResults.filter(
 		// 	book => book.properties.Status.select.name === 'To read',
 		// ).length;
 		// finished_books = responseResults.filter(
 		// 	book => book.properties.Status.select.name === 'Finished',
 		// ).length;
+
+		console.log({ reading_books });
 	} catch (error) {
 		console.log(error);
 	}
@@ -77,12 +90,12 @@ export default async function Home() {
 					<p className='status-component-title'>To Read</p>
 
 					<div className='status-component-info'>
-						<p className='info-value'>10</p>
+						<p className='info-value'>{total_books}</p>
 						<p>Books</p>
 					</div>
 				</StatusComponent>
-				<Status />
-				<Status />
+				<ReadingStatus books={reading_books} />
+				<BookStatus />
 			</StatusComponentWrapper>
 
 			{/* Yearly Graph */}

@@ -67,7 +67,11 @@ export const DonutText = styled.div`
 	z-index: 3;
 `;
 
-export const DonutCase = styled.div`
+type DonutCase = {
+	read_percentage: number;
+};
+
+export const DonutCase = styled.div<DonutCase>`
 	width: 100%;
 	height: 100%;
 	border-radius: 50%;
@@ -91,7 +95,7 @@ export const DonutCase = styled.div`
 		position: absolute;
 		top: 0;
 		left: 0;
-		width: 70%;
+		width: ${props => `${props.read_percentage}%`};
 		height: 100%;
 	}
 `;
