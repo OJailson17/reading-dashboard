@@ -14,51 +14,54 @@ export const ReadingStatus = ({ books }: ReadingStatusProps) => {
 	const [totalPages, setTotalPages] = useState(0);
 	const [currentPage, setCurrentPage] = useState(0);
 	const [selectedBook, setSelectedBook] = useState(books[0]);
-	const [selectedBookName, setSelectedBookName] = useState('');
-	const [readPercentage, setReadPercentage] = useState(0);
+	const [selectedBookName, setSelectedBookName] = useState(
+		books[0].properties.Name.title[0].plain_text,
+	);
 
+	// Get the selected book and set on selectedBook state
 	const handleChangeSelectedBook = (book: any) => {
 		setSelectedBookName(book);
 	};
 
-	const bookNames = books.map(book => {
+	// Map through the books list and get just the name of the books
+	const bookNames = books.map((book: any) => {
 		return book.properties.Name.title[0].plain_text;
 	});
 
-	console.log({ bookNames });
-
-	console.log({ books });
-
+	// When the books list or the name of the book changes, update the book data to the new book name
 	useEffect(() => {
-		const getBookData = books.filter(
-			book => book.properties.Name.title[0].plain_text === selectedBookName,
+		// Find a book with the same name as the selected book state
+		const getBookData = books.find(
+			(book: any) =>
+				book.properties.Name.title[0].plain_text === selectedBookName,
 		);
 
-		// setSelectedBook(getBookData);
+		if (getBookData) {
+			setSelectedBook(getBookData);
+			setCurrentPage(getBookData.properties['Current Page'].number);
+			setTotalPages(getBookData.properties['Qtd. Pages'].number);
+		}
 
 		console.log({ getBookData });
 
 		console.log(selectedBookName);
 	}, [selectedBookName, books]);
 
-	// !Corrigir bug das propriedades estarem undefined
-
-	useEffect(() => {
-		console.log({ selectedBook2: selectedBook });
-
-		const calculatePercentage = () => {
+	// Calculate the percentage of how much the book was read
+	const calculatePercentage = useCallback(() => {
+		if (
+			selectedBook?.properties['Current Page']?.number &&
+			selectedBook?.properties['Qtd. Pages']?.number
+		) {
 			return Math.floor(
 				(selectedBook.properties['Current Page'].number /
 					selectedBook.properties['Qtd. Pages'].number) *
 					100,
 			);
-		};
+		}
 
-		const percentage = calculatePercentage();
-		setReadPercentage(percentage);
+		return 0;
 	}, [selectedBook]);
-
-	console.log({ selectedBook });
 
 	return (
 		<StatusComponent>
@@ -72,7 +75,7 @@ export const ReadingStatus = ({ books }: ReadingStatusProps) => {
 				</span>
 			)}
 
-			<DonutComponent read_percentage={readPercentage} />
+			<DonutComponent read_percentage={calculatePercentage()} />
 
 			<ChartDataWrapper>
 				<div className='chart-data'>
