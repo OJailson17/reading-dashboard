@@ -63,16 +63,18 @@ export default async function Home() {
 		const responseResults = results;
 
 		// Get amount of books by category
-		total_books = responseResults.length;
+		total_books = Number(responseResults.length);
 		reading_books = responseResults.filter(
 			book => book.properties.Status.select.name === 'Reading',
 		);
 		// to_read_books = responseResults.filter(
 		// 	book => book.properties.Status.select.name === 'To read',
 		// ).length;
-		// finished_books = responseResults.filter(
-		// 	book => book.properties.Status.select.name === 'Finished',
-		// ).length;
+		finished_books = Number(
+			responseResults.filter(
+				book => book.properties.Status.select.name === 'Finished',
+			).length,
+		);
 
 		console.log({ reading_books });
 	} catch (error) {
@@ -95,7 +97,10 @@ export default async function Home() {
 					</div>
 				</StatusComponent>
 				<ReadingStatus books={reading_books} />
-				<BookStatus />
+				<BookStatus
+					amountOfBooks={total_books}
+					amountOfFinishedBooks={finished_books}
+				/>
 			</StatusComponentWrapper>
 
 			{/* Yearly Graph */}

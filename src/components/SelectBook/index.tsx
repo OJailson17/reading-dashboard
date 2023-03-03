@@ -15,7 +15,7 @@ interface SelectBookProps {
 }
 
 export const SelectBook = ({ books, onSelectBook }: SelectBookProps) => {
-	console.log({ books2: books });
+	// console.log({ books2: books });
 
 	// books.push('Hábitos Atômicos');
 
