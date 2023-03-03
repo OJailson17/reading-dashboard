@@ -20,16 +20,17 @@ export const SelectTriggerButton = styled(Select.Trigger)`
 	color: #c4c4c4;
 
 	&:hover {
-		background-color: aqua;
+		background-color: #4a4556;
+		cursor: pointer;
 	}
 `;
 
 export const SelectContent = styled(Select.Content)`
 	/* width: 100%; */
 	overflow: hidden;
-	background-color: white;
+	background-color: #292738;
 	border-radius: 6px;
-	border: 1px solid blue;
+	/* border: 1px solid blue; */
 	z-index: 3;
 `;
 
@@ -40,16 +41,20 @@ export const SelectViewport = styled(Select.Viewport)`
 
 export const SelectItem = styled(Select.Item)`
 	width: 100%;
-	height: 40px;
+	height: 50px;
 	font-size: 13px;
 	line-height: 1;
-	color: red;
+	color: #fff;
 	border-radius: 3px;
 	display: flex;
 	align-items: center;
 	padding: 0 35px 0 25px;
 	position: relative;
 	user-select: none;
+
+	&:hover {
+		cursor: pointer;
+	}
 
 	&[data-highlighted] {
 		outline: none;

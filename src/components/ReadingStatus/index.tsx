@@ -70,9 +70,7 @@ export const ReadingStatus = ({ books }: ReadingStatusProps) => {
 			{books?.length > 1 ? (
 				<SelectBook books={bookNames} onSelectBook={handleChangeSelectedBook} />
 			) : (
-				<span className='status-component-description'>
-					Book Name quando o nome do book é muito grande
-				</span>
+				<span className='status-component-description'>{selectedBookName}</span>
 			)}
 
 			<DonutComponent read_percentage={calculatePercentage()} />
