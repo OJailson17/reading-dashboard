@@ -2,102 +2,61 @@
 
 import styled from 'styled-components';
 
-export const Donut = styled.div`
+export const DonutContainer = styled.div`
+	display: grid;
+	place-content: center;
 	position: relative;
-	width: 12.5rem;
-	/* max-width: 25rem; */
-	height: 12.5rem;
-	border-radius: 50%;
-	background: #4a4556;
-	top: 0;
-	left: 0;
-	background-clip: border-box;
-	overflow: hidden;
 `;
 
-export const DonutDefault = styled.div`
-	width: 100%;
-	height: 100%;
-	border-radius: 50%;
-`;
+// Calculate the stroke dashoffset
+const calcStrokeDash = (percentage: number) => {
+	const circumference = Math.round(2 * 3.14 * 98.5);
+	const fillLength = circumference - (circumference * percentage) / 100;
+	return fillLength;
+};
 
-export const DonutLine = styled.div`
-	width: 100%;
-	height: 100%;
-	position: absolute;
-	top: 0;
-	left: 0;
+type DonutSvgProps = {
+	read_percentage: number;
+};
 
-	&::before {
-		content: '';
-		width: 1px;
-		height: 100%;
-		position: absolute;
-		top: -25px;
-		left: 50%;
-		background: transparent;
-		z-index: 2;
-	}
+export const DonutSvg = styled.svg<DonutSvgProps>`
+	width: 197px;
+	height: 197px;
+	transform: rotate(-90deg);
 
-	&::after {
-		content: '';
-		width: 100%;
-		height: 1px;
-		position: absolute;
-		top: 50%;
-		left: 25px;
-		background: transparent;
-		border-bottom: 1px solid transparent;
-		z-index: 2;
+	circle {
+		stroke-dasharray: 618;
+		stroke-dashoffset: 618;
+		stroke-width: 35;
+		fill: none;
+
+		&:nth-child(1) {
+			stroke-dashoffset: 0;
+		}
+
+		&:nth-child(2) {
+			stroke-dashoffset: ${props => `${calcStrokeDash(props.read_percentage)}`};
+			stroke-linecap: round;
+			animation: progress 1s;
+
+			@keyframes progress {
+				0% {
+					stroke-dasharray: 618;
+					stroke-dashoffset: 618;
+				}
+			}
+		}
 	}
 `;
 
-export const DonutText = styled.div`
-	top: 1.5rem;
-	left: 1.5rem;
-	width: 9.375rem;
-	height: 9.375rem;
-	background: #292738;
+export const DonutMiddleContent = styled.div`
 	position: absolute;
-	border-radius: 50%;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	text-align: center;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	z-index: 3;
 `;
-
-type DonutCase = {
-	read_percentage: number;
-};
-
-export const DonutCase = styled.div<DonutCase>`
-	width: 100%;
-	height: 100%;
-	border-radius: 50%;
-	background: #4a4556;
-	position: absolute;
-	top: 0;
-	left: 0;
-	background-clip: border-box;
-	overflow: hidden;
-
-	&::before {
-		content: '';
-		clip-path: circle(100%);
-		-webkit-transform: rotate(360deg);
-		transform: rotate(-360deg);
-		background: linear-gradient(
-			90deg,
-			rgba(115, 103, 240, 1) 10%,
-			rgba(206, 159, 252, 1) 100%
-		);
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: ${props => `${props.read_percentage}%`};
-		height: 100%;
-	}
-`;
-
-// background: linear-gradient(90deg, rgba(223,151,128,1) 10%, rgba(166,109,233,1) 100%);
