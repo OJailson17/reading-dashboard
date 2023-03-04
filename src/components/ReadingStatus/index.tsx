@@ -2,7 +2,7 @@
 
 import { ChartDataWrapper, StatusComponent } from '@/styles/common';
 import { results } from 'fakeData';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DonutComponent } from '../Donut';
 import { SelectBook } from '../SelectBook';
 
@@ -48,32 +48,24 @@ export const ReadingStatus = ({ books }: ReadingStatusProps) => {
 	}, [selectedBookName, books]);
 
 	// Calculate the percentage of how much the book was read
-	const calculatePercentage = useCallback(() => {
-		if (
-			selectedBook?.properties['Current Page']?.number &&
-			selectedBook?.properties['Qtd. Pages']?.number
-		) {
-			return Math.floor(
-				(selectedBook.properties['Current Page'].number /
-					selectedBook.properties['Qtd. Pages'].number) *
-					100,
-			);
-		}
-
-		return 0;
-	}, [selectedBook]);
+	const readPercentage = Math.floor(
+		(selectedBook?.properties['Current Page']?.number /
+			selectedBook?.properties['Qtd. Pages']?.number) *
+			100,
+	);
 
 	return (
 		<StatusComponent>
 			<p className='status-component-title'>Reading</p>
 
+			{/* If there is more the one book render a select element, if not render just the name of the book */}
 			{books?.length > 1 ? (
 				<SelectBook books={bookNames} onSelectBook={handleChangeSelectedBook} />
 			) : (
 				<span className='status-component-description'>{selectedBookName}</span>
 			)}
 
-			<DonutComponent read_percentage={calculatePercentage()} />
+			<DonutComponent read_percentage={readPercentage} />
 
 			<ChartDataWrapper>
 				<div className='chart-data'>
