@@ -44,7 +44,7 @@ export default async function Home() {
 	let total_books = 0;
 	let reading_books;
 	let to_read_books = 0;
-	let finished_books = 0;
+	let finished_books: any;
 
 	try {
 		// Make a query to get the database data
@@ -70,13 +70,9 @@ export default async function Home() {
 		// to_read_books = responseResults.filter(
 		// 	book => book.properties.Status.select.name === 'To read',
 		// ).length;
-		finished_books = Number(
-			responseResults.filter(
-				book => book.properties.Status.select.name === 'Finished',
-			).length,
+		finished_books = responseResults.filter(
+			book => book.properties.Status.select.name === 'Finished',
 		);
-
-		console.log({ reading_books });
 	} catch (error) {
 		console.log(error);
 	}
@@ -99,12 +95,12 @@ export default async function Home() {
 				<ReadingStatus books={reading_books} />
 				<BookStatus
 					amountOfBooks={total_books}
-					amountOfFinishedBooks={finished_books}
+					amountOfFinishedBooks={Number(finished_books.length)}
 				/>
 			</StatusComponentWrapper>
 
 			{/* Yearly Graph */}
-			<YearlyChart />
+			<YearlyChart finished_books={finished_books} />
 		</>
 	);
 }

@@ -11,6 +11,8 @@ import {
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { GoTriangleUp, GoTriangleDown } from 'react-icons/go';
+import { getYear, isSameMonth } from 'date-fns';
+
 import {
 	CharData,
 	ChartComponent,
@@ -56,7 +58,21 @@ const options = {
 	},
 };
 
-const labels = [
+type MonthLabel =
+	| 'Jan'
+	| 'Feb'
+	| 'Mar'
+	| 'Apr'
+	| 'May'
+	| 'Jun'
+	| 'Jul'
+	| 'Aug'
+	| 'Sep'
+	| 'Oct'
+	| 'Nov'
+	| 'Dec';
+
+const monthsLabels: MonthLabel[] = [
 	'Jan',
 	'Feb',
 	'Mar',
@@ -71,20 +87,117 @@ const labels = [
 	'Dec',
 ];
 
-export const data = {
-	labels,
-	datasets: [
-		{
-			data: labels.map(() => Math.floor(Math.random() * 100)),
-			barPercentage: 0.9,
-			barThickness: 20,
-			maxBarThickness: 30,
-			minBarLength: 5,
-		},
-	],
-};
+interface YearlyChartProps {
+	finished_books: any;
+}
 
-export const YearlyChart = () => {
+export const YearlyChart = ({ finished_books }: YearlyChartProps) => {
+	// Book quantity in each month
+	const monthsBooksQtd = {
+		Jan: {
+			quantity: 0,
+			name: 'January',
+		},
+		Feb: {
+			quantity: 0,
+			name: 'February',
+		},
+		Mar: {
+			quantity: 0,
+			name: 'March',
+		},
+		Apr: {
+			quantity: 0,
+			name: 'April',
+		},
+		May: {
+			quantity: 0,
+			name: 'May',
+		},
+		Jun: {
+			quantity: 0,
+			name: 'June',
+		},
+		Jul: {
+			quantity: 0,
+			name: 'July',
+		},
+		Aug: {
+			quantity: 0,
+			name: 'August',
+		},
+		Sep: {
+			quantity: 0,
+			name: 'September',
+		},
+		Oct: {
+			quantity: 0,
+			name: 'October',
+		},
+		Nov: {
+			quantity: 0,
+			name: 'November',
+		},
+		Dec: {
+			quantity: 0,
+			name: 'December',
+		},
+	};
+
+	// It return the current year
+	const currentYear = getYear(new Date()); // 2023
+
+	// Got through the book list and check which month the book was finished
+	for (let i = 0; i < finished_books.length; i++) {
+		monthsLabels.map(label => {
+			// Check if the books is from the same month as the current label
+			const isMonth = isSameMonth(
+				new Date(`${label}, 1, ${currentYear}`),
+				new Date(finished_books[i]?.properties['Finished Date']?.date?.start),
+			);
+
+			// If the finished date is the same month as the label, add 1 to the books quantity on that month
+			if (isMonth) {
+				monthsBooksQtd[label].quantity += 1;
+			}
+		});
+	}
+
+	const amountOfBooks: number[] = [];
+	for (const [_, value] of Object.entries(monthsBooksQtd)) {
+		amountOfBooks.push(value.quantity);
+	}
+
+	const leastQtdMonthValue = Math.min(...amountOfBooks);
+	const maxQtdMonthValue = Math.max(...amountOfBooks);
+	let leastBooksReadMonth;
+	let mostBooksReadMonth;
+
+	for (const [_, value] of Object.entries(monthsBooksQtd)) {
+		if (!leastBooksReadMonth && value.quantity === leastQtdMonthValue) {
+			leastBooksReadMonth = value.name;
+		}
+
+		if (!mostBooksReadMonth && value.quantity === maxQtdMonthValue) {
+			mostBooksReadMonth = value.name;
+		}
+	}
+
+	console.log({ leastBooksReadMonth, mostBooksReadMonth });
+
+	const data = {
+		labels: monthsLabels,
+		datasets: [
+			{
+				data: monthsLabels.map(label => monthsBooksQtd[label].quantity),
+				barPercentage: 0.9,
+				barThickness: 20,
+				maxBarThickness: 30,
+				minBarLength: 3,
+			},
+		],
+	};
+
 	return (
 		<YearlyChartWrapper>
 			<ChartTitle>Books Read by Month</ChartTitle>
@@ -96,14 +209,14 @@ export const YearlyChart = () => {
 							<GoTriangleUp size={15} color='#28C76F' />
 							<span>More books read</span>
 						</div>
-						<p className='month'>February</p>
+						<p className='month'>{mostBooksReadMonth}</p>
 					</CharData>
 					<CharData>
 						<div>
 							<GoTriangleDown size={15} color='#EA5455' />
 							<span>Less books read</span>
 						</div>
-						<p className='month'>April</p>
+						<p className='month'>{leastBooksReadMonth}</p>
 					</CharData>
 				</ChartDataWrapper>
 
