@@ -4,7 +4,13 @@ import { YearlyChart } from '@/components/YearlyChart';
 import { notion } from '@/lib/notion';
 import { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 import { results } from 'fakeData';
+import { cookies } from 'next/headers';
 import { PageTitle, StatusComponent, StatusComponentWrapper } from './styles';
+import { redirect } from 'next/navigation';
+
+interface TitleProperty {
+	plain_text: string;
+}
 
 interface ResultResponse {
 	object: string;
@@ -22,11 +28,7 @@ interface ResultResponse {
 		Name: {
 			id: string;
 			type: string;
-			title: [
-				{
-					plain_text: string;
-				},
-			];
+			title: TitleProperty[];
 		};
 	};
 }
@@ -39,7 +41,17 @@ interface HomeProps {
 }
 
 export default async function Home() {
-	const databaseId = process.env.NOTION_DATABASE_ID;
+	// Get token from cookies
+	const token = cookies().has('@reading_dashboard:token');
+
+	// Redirect to login page if token does not exists
+	if (!token) {
+		redirect('/login');
+	}
+
+	// Get database id from cookies
+	const databaseIdCookie = cookies().get('@reading_dashboard:database_id');
+	const databaseId = databaseIdCookie?.value;
 
 	let total_books = 0;
 	let reading_books;
@@ -48,19 +60,19 @@ export default async function Home() {
 
 	try {
 		// Make a query to get the database data
-		// const response = await notion.databases.query({
-		// 	database_id: databaseId || '',
-		// 	filter: {
-		// 		property: 'Status',
-		// 		select: {
-		// 			does_not_equal: 'Abandoned',
-		// 		},
-		// 	},
-		// });
+		const response = await notion.databases.query({
+			database_id: databaseId || '',
+			filter: {
+				property: 'Status',
+				select: {
+					does_not_equal: 'Abandoned',
+				},
+			},
+		});
 
 		// Add type to the response results
-		// const responseResults = response.results as ResultResponse[];
-		const responseResults = results;
+		const responseResults = response.results as ResultResponse[];
+		// const responseResults = results;
 
 		// Get amount of books by category
 		total_books = Number(responseResults.length);

@@ -1,14 +1,20 @@
 'use client';
 
+import { useAuthentication } from '@/context/auth';
 import { FormEvent, useState } from 'react';
 
 export const FormComponent = () => {
 	const [username, setUsername] = useState('');
 
+	const { onSignIn } = useAuthentication();
+
 	const handleSignIn = (e: FormEvent) => {
 		e.preventDefault();
 
 		console.log(username);
+		if (username !== '') {
+			onSignIn(username);
+		}
 	};
 
 	return (
