@@ -13,4 +13,8 @@ body {
   background-color: #292738;
   color: white;
 }
+
+button {
+  cursor: pointer;
+}
 `;

@@ -5,8 +5,9 @@ import { notion } from '@/lib/notion';
 import { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 import { results } from 'fakeData';
 import { cookies } from 'next/headers';
-import { PageTitle, StatusComponent, StatusComponentWrapper } from './styles';
+import { StatusComponent, StatusComponentWrapper } from './styles';
 import { redirect } from 'next/navigation';
+import { PageTitle } from '@/styles/common';
 
 interface TitleProperty {
 	plain_text: string;
@@ -60,19 +61,19 @@ export default async function Home() {
 
 	try {
 		// Make a query to get the database data
-		const response = await notion.databases.query({
-			database_id: databaseId || '',
-			filter: {
-				property: 'Status',
-				select: {
-					does_not_equal: 'Abandoned',
-				},
-			},
-		});
+		// const response = await notion.databases.query({
+		// 	database_id: databaseId || '',
+		// 	filter: {
+		// 		property: 'Status',
+		// 		select: {
+		// 			does_not_equal: 'Abandoned',
+		// 		},
+		// 	},
+		// });
 
 		// Add type to the response results
-		const responseResults = response.results as ResultResponse[];
-		// const responseResults = results;
+		// const responseResults = response.results as ResultResponse[];
+		const responseResults = results;
 
 		// Get amount of books by category
 		total_books = Number(responseResults.length);

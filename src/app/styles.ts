@@ -4,13 +4,6 @@ import styled from 'styled-components';
 
 import { device, size } from 'src/styles/endpoints';
 
-export const PageTitle = styled.h1`
-	font-size: 1.875rem;
-
-	text-align: center;
-	margin-top: 2rem;
-`;
-
 export const StatusComponentWrapper = styled.div`
 	width: 90%;
 	margin: 0 auto;
