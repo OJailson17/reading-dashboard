@@ -44,15 +44,16 @@ interface HomeProps {
 export default async function Home() {
 	// Get token from cookies
 	const token = cookies().has('@reading_dashboard:token');
-
-	// Redirect to login page if token does not exists
-	if (!token) {
-		redirect('/login');
-	}
-
 	// Get database id from cookies
 	const databaseIdCookie = cookies().get('@reading_dashboard:database_id');
+
+	// Sign the database id value into this variable
 	const databaseId = databaseIdCookie?.value;
+
+	// Redirect to login page if token does not exists
+	if (!token || !databaseIdCookie) {
+		redirect('/login');
+	}
 
 	let total_books = 0;
 	let reading_books;
@@ -61,19 +62,19 @@ export default async function Home() {
 
 	try {
 		// Make a query to get the database data
-		// const response = await notion.databases.query({
-		// 	database_id: databaseId || '',
-		// 	filter: {
-		// 		property: 'Status',
-		// 		select: {
-		// 			does_not_equal: 'Abandoned',
-		// 		},
-		// 	},
-		// });
+		const response = await notion.databases.query({
+			database_id: databaseId || '',
+			filter: {
+				property: 'Status',
+				select: {
+					does_not_equal: 'Abandoned',
+				},
+			},
+		});
 
 		// Add type to the response results
-		// const responseResults = response.results as ResultResponse[];
-		const responseResults = results;
+		const responseResults = response.results as ResultResponse[];
+		// const responseResults = results;
 
 		// Get amount of books by category
 		total_books = Number(responseResults.length);
