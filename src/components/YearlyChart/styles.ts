@@ -29,12 +29,10 @@ export const YearlyChartWrapper = styled.div`
 		@media ${device.tablet} {
 			flex-direction: row;
 			padding: 0 1rem;
-			/* align-items: flex-start; */
 		}
 
 		@media ${device.laptop} {
 			padding: 0 3rem;
-			/* align-items: flex-start; */
 		}
 	}
 `;

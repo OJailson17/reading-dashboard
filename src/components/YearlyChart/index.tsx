@@ -183,8 +183,6 @@ export const YearlyChart = ({ finished_books }: YearlyChartProps) => {
 		}
 	}
 
-	console.log({ leastBooksReadMonth, mostBooksReadMonth });
-
 	const data = {
 		labels: monthsLabels,
 		datasets: [

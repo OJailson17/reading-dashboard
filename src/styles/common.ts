@@ -12,7 +12,6 @@ export const PageTitle = styled.h1`
 
 export const StatusComponent = styled.div`
 	max-width: 25rem;
-	/* height: 15rem; */
 	padding: 2rem 1.5rem;
 
 	background-color: #363447;

@@ -50,10 +50,6 @@ const Login = async (req: NextApiRequest, res: NextApiResponse) => {
 		data => data.properties.username.title[0].plain_text === username,
 	);
 
-	// data?.properties?.username[0]?.plain_text === username
-
-	console.log({ getUsername });
-
 	if (getUsername) {
 		const user_database_id =
 			getUsername.properties.database_id.rich_text[0].plain_text;

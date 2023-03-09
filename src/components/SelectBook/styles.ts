@@ -26,11 +26,9 @@ export const SelectTriggerButton = styled(Select.Trigger)`
 `;
 
 export const SelectContent = styled(Select.Content)`
-	/* width: 100%; */
 	overflow: hidden;
 	background-color: #292738;
 	border-radius: 6px;
-	/* border: 1px solid blue; */
 	z-index: 3;
 `;
 

@@ -3,7 +3,7 @@
 import { useAuthentication } from '@/context/auth';
 import { FormEvent, useState } from 'react';
 import { Puff } from 'react-loading-icons';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
 import { LoginForm } from './styles';
@@ -19,7 +19,6 @@ export const FormComponent = () => {
 
 		// If username input is filled, make sign in request
 		if (username.trim() !== '') {
-			console.log(username);
 			// Disable button
 			setIsSubmitButtonDisable(true);
 

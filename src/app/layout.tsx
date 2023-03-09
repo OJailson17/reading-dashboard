@@ -1,7 +1,5 @@
 import StyledComponentsRegistry from '@/lib/registry';
 import { GlobalStyles } from '@/styles/global';
-import { defaultTheme } from '@/styles/theme/defaultTheme';
-import { ThemeProvider } from 'styled-components';
 import { Inter } from '@next/font/google';
 import { AuthContextProvider } from '@/context/auth';
 

@@ -42,12 +42,8 @@ export const AuthContextProvider = ({ children }: AuthProviderProps) => {
 				maxAge: 60 * 60 * 24, // 24 hours
 			});
 
-			// Add the token
-			// api.defaults.headers['Authorization'] = `Bearer ${data.token}`;
-
 			// Redirect user to home page
 			router.push(`/`);
-			console.log({ data });
 		} catch (error) {
 			toast('User not found', {
 				position: 'top-center',

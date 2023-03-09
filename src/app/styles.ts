@@ -2,7 +2,7 @@
 
 import styled from 'styled-components';
 
-import { device, size } from 'src/styles/endpoints';
+import { device } from 'src/styles/endpoints';
 
 export const StatusComponentWrapper = styled.div`
 	width: 90%;
@@ -11,7 +11,6 @@ export const StatusComponentWrapper = styled.div`
 
 	display: flex;
 	flex-direction: column;
-	/* align-items: center; */
 	justify-content: center;
 	gap: 2rem;
 
@@ -22,36 +21,11 @@ export const StatusComponentWrapper = styled.div`
 	@media ${device.laptop} {
 		flex-direction: row;
 	}
-
-	/* .chart-status-container {
-		width: 100%;
-
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		gap: 2rem;
-
-		@media ${device.tablet} {
-			flex-flow: column wrap;
-			gap: 1rem;
-		}
-
-		@media ${device.laptop} {
-			justify-content: space-around;
-			background-color: yellow;
-			width: 50%;
-		}
-
-	} */
 `;
 
 export const StatusComponent = styled.div`
 	width: 100%;
-	/* min-width: 18.5rem; */
 	max-width: 25rem;
-	/* min-height: 422px; */
-	/* height: 15rem; */
 	padding: 2rem 1.875rem;
 
 	background-color: #363447;
@@ -60,7 +34,6 @@ export const StatusComponent = styled.div`
 	box-shadow: 0px 0px 20px 0px #1e1e1e;
 
 	@media ${device.laptop} {
-		/* width: 40%; */
 		display: flex;
 		flex-direction: column;
 		align-items: center;

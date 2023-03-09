@@ -14,8 +14,6 @@ export const LoginForm = styled.form`
 	justify-content: center;
 	flex-direction: column;
 
-	/* background: red; */
-
 	label {
 		font-size: 0.875rem;
 		margin-bottom: 0.5rem;
@@ -24,10 +22,6 @@ export const LoginForm = styled.form`
 		@media ${device.tablet} {
 			font-size: 1rem;
 		}
-
-		/* @media ${device.laptop} {
-			padding: 0 3rem;
-		} */
 
 		strong {
 			color: #32ccbc;

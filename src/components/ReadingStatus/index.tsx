@@ -1,7 +1,6 @@
 'use client';
 
 import { ChartDataWrapper, StatusComponent } from '@/styles/common';
-import { results } from 'fakeData';
 import { useEffect, useState } from 'react';
 import { DonutComponent } from '../Donut';
 import { SelectBook } from '../SelectBook';
@@ -41,10 +40,6 @@ export const ReadingStatus = ({ books }: ReadingStatusProps) => {
 			setCurrentPage(getBookData.properties['Current Page'].number);
 			setTotalPages(getBookData.properties['Qtd. Pages'].number);
 		}
-
-		console.log({ getBookData });
-
-		console.log(selectedBookName);
 	}, [selectedBookName, books]);
 
 	// Calculate the percentage of how much the book was read
