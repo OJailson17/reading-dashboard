@@ -4,13 +4,14 @@ import { api } from '@/lib/axios';
 import { createContext, ReactNode, useContext, useEffect } from 'react';
 import { setCookie } from 'nookies';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
 
 type AuthProviderProps = {
 	children: ReactNode;
 };
 
 type AuthContext = {
-	onSignIn: (username: string) => Promise<void>;
+	onSignIn: (username: string) => Promise<void | boolean>;
 };
 
 type LoginResponse = {
@@ -25,7 +26,7 @@ export const AuthContextProvider = ({ children }: AuthProviderProps) => {
 	const router = useRouter();
 
 	// Make request to login route to return the jwt token
-	const onSignIn = async (username: string) => {
+	const onSignIn = async (username: string): Promise<void | boolean> => {
 		try {
 			const { data } = await api.post<LoginResponse>('/auth/login', {
 				username,
@@ -46,10 +47,16 @@ export const AuthContextProvider = ({ children }: AuthProviderProps) => {
 
 			// Redirect user to home page
 			router.push(`/`);
-
 			console.log({ data });
 		} catch (error) {
+			toast('User not found', {
+				position: 'top-center',
+				autoClose: 5000,
+				theme: 'dark',
+				type: 'error',
+			});
 			console.log(error);
+			return false;
 		}
 	};
 
