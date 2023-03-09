@@ -11,7 +11,7 @@ type AuthProviderProps = {
 };
 
 type AuthContext = {
-	onSignIn: (username: string) => Promise<void | boolean>;
+	onSignIn: (username: string) => Promise<boolean>;
 };
 
 type LoginResponse = {
@@ -26,7 +26,7 @@ export const AuthContextProvider = ({ children }: AuthProviderProps) => {
 	const router = useRouter();
 
 	// Make request to login route to return the jwt token
-	const onSignIn = async (username: string): Promise<void | boolean> => {
+	const onSignIn = async (username: string): Promise<boolean> => {
 		try {
 			const { data } = await api.post<LoginResponse>('/auth/login', {
 				username,
@@ -44,6 +44,8 @@ export const AuthContextProvider = ({ children }: AuthProviderProps) => {
 
 			// Redirect user to home page
 			router.push(`/`);
+
+			return true;
 		} catch (error) {
 			toast('User not found', {
 				position: 'top-center',

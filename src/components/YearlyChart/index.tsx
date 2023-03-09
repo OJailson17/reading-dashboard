@@ -20,6 +20,7 @@ import {
 	ChartTitle,
 	YearlyChartWrapper,
 } from './styles';
+import { getLeastAndMostMonthRead } from '@/utils/calculateMostAndLeastMonthsRead';
 
 ChartJS.register(
 	CategoryScale,
@@ -87,63 +88,63 @@ const monthsLabels: MonthLabel[] = [
 	'Dec',
 ];
 
+// Book quantity in each month
+export const monthsBooksQtd = {
+	Jan: {
+		quantity: 0,
+		name: 'January',
+	},
+	Feb: {
+		quantity: 0,
+		name: 'February',
+	},
+	Mar: {
+		quantity: 0,
+		name: 'March',
+	},
+	Apr: {
+		quantity: 0,
+		name: 'April',
+	},
+	May: {
+		quantity: 0,
+		name: 'May',
+	},
+	Jun: {
+		quantity: 0,
+		name: 'June',
+	},
+	Jul: {
+		quantity: 0,
+		name: 'July',
+	},
+	Aug: {
+		quantity: 0,
+		name: 'August',
+	},
+	Sep: {
+		quantity: 0,
+		name: 'September',
+	},
+	Oct: {
+		quantity: 0,
+		name: 'October',
+	},
+	Nov: {
+		quantity: 0,
+		name: 'November',
+	},
+	Dec: {
+		quantity: 0,
+		name: 'December',
+	},
+};
+
 interface YearlyChartProps {
 	finished_books: any;
 }
 
 export const YearlyChart = ({ finished_books }: YearlyChartProps) => {
-	// Book quantity in each month
-	const monthsBooksQtd = {
-		Jan: {
-			quantity: 0,
-			name: 'January',
-		},
-		Feb: {
-			quantity: 0,
-			name: 'February',
-		},
-		Mar: {
-			quantity: 0,
-			name: 'March',
-		},
-		Apr: {
-			quantity: 0,
-			name: 'April',
-		},
-		May: {
-			quantity: 0,
-			name: 'May',
-		},
-		Jun: {
-			quantity: 0,
-			name: 'June',
-		},
-		Jul: {
-			quantity: 0,
-			name: 'July',
-		},
-		Aug: {
-			quantity: 0,
-			name: 'August',
-		},
-		Sep: {
-			quantity: 0,
-			name: 'September',
-		},
-		Oct: {
-			quantity: 0,
-			name: 'October',
-		},
-		Nov: {
-			quantity: 0,
-			name: 'November',
-		},
-		Dec: {
-			quantity: 0,
-			name: 'December',
-		},
-	};
-
 	// It return the current year
 	const currentYear = getYear(new Date()); // 2023
 
@@ -163,26 +164,19 @@ export const YearlyChart = ({ finished_books }: YearlyChartProps) => {
 		});
 	}
 
+	// Get the quantity of each book and push into the amount of books array
 	const amountOfBooks: number[] = [];
 	for (const [_, value] of Object.entries(monthsBooksQtd)) {
 		amountOfBooks.push(value.quantity);
 	}
 
-	const leastQtdMonthValue = Math.min(...amountOfBooks);
-	const maxQtdMonthValue = Math.max(...amountOfBooks);
-	let leastBooksReadMonth;
-	let mostBooksReadMonth;
+	// Get the least and the most books reads
+	const { leastBooksReadMonth, mostBooksReadMonth } = getLeastAndMostMonthRead({
+		amountOfBooks,
+		monthsBooksQuantity: monthsBooksQtd,
+	});
 
-	for (const [_, value] of Object.entries(monthsBooksQtd)) {
-		if (!leastBooksReadMonth && value.quantity === leastQtdMonthValue) {
-			leastBooksReadMonth = value.name;
-		}
-
-		if (!mostBooksReadMonth && value.quantity === maxQtdMonthValue) {
-			mostBooksReadMonth = value.name;
-		}
-	}
-
+	// Chart data config
 	const data = {
 		labels: monthsLabels,
 		datasets: [
