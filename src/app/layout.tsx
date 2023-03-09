@@ -1,7 +1,9 @@
-import StyledComponentsRegistry from '@/lib/registry';
-import { GlobalStyles } from '@/styles/global';
 import { Inter } from '@next/font/google';
+
+import { GlobalStyles } from '@/styles/global';
 import { AuthContextProvider } from '@/context/auth';
+
+import StyledComponentsRegistry from '@/lib/registry';
 
 const inter = Inter({
 	subsets: ['latin'],

@@ -1,12 +1,14 @@
 'use client';
 
-import { useAuthentication } from '@/context/auth';
 import { FormEvent, useState } from 'react';
 import { Puff } from 'react-loading-icons';
 import { ToastContainer } from 'react-toastify';
 
-import 'react-toastify/dist/ReactToastify.css';
+import { useAuthentication } from '@/context/auth';
+
 import { LoginForm } from './styles';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 export const FormComponent = () => {
 	const [username, setUsername] = useState('');

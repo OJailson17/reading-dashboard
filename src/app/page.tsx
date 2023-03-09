@@ -1,12 +1,13 @@
+import { redirect } from 'next/navigation';
+import { cookies } from 'next/headers';
+import { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
+
+import { notion } from '@/lib/notion';
 import { BookStatus } from '@/components/BooksStatus';
 import { ReadingStatus } from '@/components/ReadingStatus';
 import { YearlyChart } from '@/components/YearlyChart';
-import { notion } from '@/lib/notion';
-import { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
-import { results } from 'fakeData';
-import { cookies } from 'next/headers';
+
 import { StatusComponent, StatusComponentWrapper } from './styles';
-import { redirect } from 'next/navigation';
 import { PageTitle } from '@/styles/common';
 
 interface TitleProperty {

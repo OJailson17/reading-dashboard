@@ -1,9 +1,11 @@
 'use client';
 
-import { ChartDataWrapper, StatusComponent } from '@/styles/common';
 import { useEffect, useState } from 'react';
+
 import { DonutComponent } from '../Donut';
 import { SelectBook } from '../SelectBook';
+
+import { ChartDataWrapper, StatusComponent } from '@/styles/common';
 
 interface ReadingStatusProps {
 	books: any;

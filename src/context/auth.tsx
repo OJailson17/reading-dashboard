@@ -1,9 +1,9 @@
 'use client';
 
 import { api } from '@/lib/axios';
-import { createContext, ReactNode, useContext, useEffect } from 'react';
-import { setCookie } from 'nookies';
 import { useRouter } from 'next/navigation';
+import { createContext, ReactNode, useContext } from 'react';
+import { setCookie } from 'nookies';
 import { toast } from 'react-toastify';
 
 type AuthProviderProps = {

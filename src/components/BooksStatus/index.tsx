@@ -1,7 +1,8 @@
 'use client';
 
-import { ChartDataWrapper, StatusComponent } from '@/styles/common';
 import { DonutComponent } from '../Donut';
+
+import { ChartDataWrapper, StatusComponent } from '@/styles/common';
 
 interface BookStatusProps {
 	amountOfBooks: number;
