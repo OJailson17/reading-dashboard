@@ -88,63 +88,63 @@ const monthsLabels: MonthLabel[] = [
 	'Dec',
 ];
 
-// Book quantity in each month
-export const monthsBooksQtd = {
-	Jan: {
-		quantity: 0,
-		name: 'January',
-	},
-	Feb: {
-		quantity: 0,
-		name: 'February',
-	},
-	Mar: {
-		quantity: 0,
-		name: 'March',
-	},
-	Apr: {
-		quantity: 0,
-		name: 'April',
-	},
-	May: {
-		quantity: 0,
-		name: 'May',
-	},
-	Jun: {
-		quantity: 0,
-		name: 'June',
-	},
-	Jul: {
-		quantity: 0,
-		name: 'July',
-	},
-	Aug: {
-		quantity: 0,
-		name: 'August',
-	},
-	Sep: {
-		quantity: 0,
-		name: 'September',
-	},
-	Oct: {
-		quantity: 0,
-		name: 'October',
-	},
-	Nov: {
-		quantity: 0,
-		name: 'November',
-	},
-	Dec: {
-		quantity: 0,
-		name: 'December',
-	},
-};
-
 interface YearlyChartProps {
 	finished_books: any;
 }
 
 export const YearlyChart = ({ finished_books }: YearlyChartProps) => {
+	// Book quantity in each month
+	const monthsBooksQtd = {
+		Jan: {
+			quantity: 0,
+			name: 'January',
+		},
+		Feb: {
+			quantity: 0,
+			name: 'February',
+		},
+		Mar: {
+			quantity: 0,
+			name: 'March',
+		},
+		Apr: {
+			quantity: 0,
+			name: 'April',
+		},
+		May: {
+			quantity: 0,
+			name: 'May',
+		},
+		Jun: {
+			quantity: 0,
+			name: 'June',
+		},
+		Jul: {
+			quantity: 0,
+			name: 'July',
+		},
+		Aug: {
+			quantity: 0,
+			name: 'August',
+		},
+		Sep: {
+			quantity: 0,
+			name: 'September',
+		},
+		Oct: {
+			quantity: 0,
+			name: 'October',
+		},
+		Nov: {
+			quantity: 0,
+			name: 'November',
+		},
+		Dec: {
+			quantity: 0,
+			name: 'December',
+		},
+	};
+
 	// It return the current year
 	const currentYear = getYear(new Date()); // 2023
 
