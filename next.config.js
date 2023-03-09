@@ -4,6 +4,9 @@ const nextConfig = {
 		appDir: true,
 	},
 	reactStrictMode: true,
+	env: {
+		API_BASE_URL: process.env.API_BASE_URL,
+	},
 	compiler: {
 		styledComponents: {
 			ssr: true,
