@@ -76,14 +76,20 @@ export default async function Home() {
 		const responseResults = response.results as ResultResponse[];
 		// const responseResults = results;
 
-		// Get amount of books by category
+		// Get the amount of total books
 		total_books = Number(responseResults.length);
+
+		// Get the reading books
 		reading_books = responseResults.filter(
 			book => book.properties.Status.select.name === 'Reading',
 		);
-		// to_read_books = responseResults.filter(
-		// 	book => book.properties.Status.select.name === 'To read',
-		// ).length;
+
+		// Get the amount of books to read
+		to_read_books = responseResults.filter(
+			book => book.properties.Status.select.name === 'To read',
+		).length;
+
+		// Get the finished books
 		finished_books = responseResults.filter(
 			book => book.properties.Status.select.name === 'Finished',
 		);
@@ -102,7 +108,7 @@ export default async function Home() {
 					<p className='status-component-title'>To Read</p>
 
 					<div className='status-component-info'>
-						<p className='info-value'>{total_books}</p>
+						<p className='info-value'>{to_read_books}</p>
 						<p>Books</p>
 					</div>
 				</StatusComponent>
