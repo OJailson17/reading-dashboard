@@ -12,7 +12,7 @@ import {
 
 interface SelectBookProps {
 	books: string[];
-	onSelectBook: (book: any) => void;
+	onSelectBook: (book: string) => void;
 }
 
 export const SelectBook = ({ books, onSelectBook }: SelectBookProps) => {

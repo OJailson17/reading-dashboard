@@ -4,7 +4,7 @@ import { FormEvent, useState } from 'react';
 import { Puff } from 'react-loading-icons';
 import { ToastContainer } from 'react-toastify';
 
-import { useAuthentication } from '@/context/auth';
+import { useAuthentication } from '@/context/AuthContext';
 
 import { LoginForm } from './styles';
 
@@ -26,7 +26,6 @@ export const FormComponent = () => {
 
 			// Call the function to make login passing the username
 			const isUserLogged = await onSignIn(username.toLowerCase());
-			console.log({ isUserLogged });
 
 			// If onSignIn return false, enable submit button again
 			if (!isUserLogged) {

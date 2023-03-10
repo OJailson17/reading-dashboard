@@ -1,6 +1,5 @@
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
-import { PageObjectResponse } from '@notionhq/client/build/src/api-endpoints';
 
 import { notion } from '@/lib/notion';
 import { BookStatus } from '@/components/BooksStatus';
@@ -14,7 +13,7 @@ interface TitleProperty {
 	plain_text: string;
 }
 
-interface ResultResponse {
+interface Book {
 	object: string;
 	id: string;
 	properties: {
@@ -32,14 +31,24 @@ interface ResultResponse {
 			type: string;
 			title: TitleProperty[];
 		};
+		'Current Page': {
+			id: string;
+			type: number;
+			number: number;
+		};
+		'Qtd. Pages': {
+			id: string;
+			type: number;
+			number: number;
+		};
+		'Finished Date': {
+			id: string;
+			type: string;
+			date: {
+				start: string;
+			};
+		};
 	};
-}
-
-interface HomeProps {
-	total_books: number;
-	to_read_books: number;
-	reading_books: number;
-	finished_books: number;
 }
 
 export default async function Home() {
@@ -57,9 +66,9 @@ export default async function Home() {
 	}
 
 	let total_books = 0;
-	let reading_books;
+	let reading_books: Book[] = [];
 	let to_read_books = 0;
-	let finished_books: any;
+	let finished_books: Book[] = [];
 
 	try {
 		// Make a query to get the database data
@@ -74,8 +83,8 @@ export default async function Home() {
 		});
 
 		// Add type to the response results
-		const responseResults = response.results as ResultResponse[];
-		// const responseResults = results;
+		const responseResults = response.results as Book[];
+		// const responseResults: ResultResponse[] = results;
 
 		// Get the amount of total books
 		total_books = Number(responseResults.length);

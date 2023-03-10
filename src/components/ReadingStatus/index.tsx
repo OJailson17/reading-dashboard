@@ -7,25 +7,60 @@ import { SelectBook } from '../SelectBook';
 
 import { ChartDataWrapper, StatusComponent } from '@/styles/common';
 
+interface TitleProperty {
+	plain_text: string;
+}
+
+interface Book {
+	object: string;
+	id: string;
+	properties: {
+		Status: {
+			id: string;
+			type: string;
+			select: {
+				id: string;
+				name: string;
+				color: string;
+			};
+		};
+		Name: {
+			id: string;
+			type: string;
+			title: TitleProperty[];
+		};
+		'Current Page': {
+			id: string;
+			type: number;
+			number: number;
+		};
+		'Qtd. Pages': {
+			id: string;
+			type: number;
+			number: number;
+		};
+	};
+}
+
 interface ReadingStatusProps {
-	books: any;
+	books: Book[];
 }
 
 export const ReadingStatus = ({ books }: ReadingStatusProps) => {
 	const [totalPages, setTotalPages] = useState(0);
 	const [currentPage, setCurrentPage] = useState(0);
-	const [selectedBook, setSelectedBook] = useState(books[0]);
+	const [selectedBook, setSelectedBook] = useState<Book>(books[0]);
 	const [selectedBookName, setSelectedBookName] = useState(
 		books[0].properties.Name.title[0].plain_text,
 	);
 
 	// Get the selected book and set on selectedBook state
-	const handleChangeSelectedBook = (book: any) => {
+	const handleChangeSelectedBook = (book: string) => {
 		setSelectedBookName(book);
 	};
 
 	// Map through the books list and get just the name of the books
-	const bookNames = books.map((book: any) => {
+	const bookNames = books.map((book: Book) => {
 		return book.properties.Name.title[0].plain_text;
 	});
 

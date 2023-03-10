@@ -35,8 +35,6 @@ const Login = async (req: NextApiRequest, res: NextApiResponse) => {
 
 	const { username } = req.body;
 
-	console.log({ username });
-
 	const databaseId = process.env.NOTION_USERS_DATABASE_ID;
 
 	// Make a query to get the database data

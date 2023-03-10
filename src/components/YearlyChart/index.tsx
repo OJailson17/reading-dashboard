@@ -88,8 +88,26 @@ const monthsLabels: MonthLabel[] = [
 	'Dec',
 ];
 
+interface TitleProperty {
+	plain_text: string;
+}
+
+interface Book {
+	object: string;
+	id: string;
+	properties: {
+		'Finished Date': {
+			id: string;
+			type: string;
+			date: {
+				start: string;
+			};
+		};
+	};
+}
+
 interface YearlyChartProps {
-	finished_books: any;
+	finished_books: Book[];
 }
 
 export const YearlyChart = ({ finished_books }: YearlyChartProps) => {

@@ -1,7 +1,7 @@
 import { Inter } from '@next/font/google';
 
 import { GlobalStyles } from '@/styles/global';
-import { AuthContextProvider } from '@/context/auth';
+import { AuthContextProvider } from '@/context/AuthContext';
 
 import StyledComponentsRegistry from '@/lib/registry';
 

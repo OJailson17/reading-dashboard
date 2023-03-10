@@ -1,5 +1,3 @@
-// type monthsBooksType = typeof monthsBooksQtd;
-
 type MonthsLabels = {
 	Jan: {
 		quantity: number;
