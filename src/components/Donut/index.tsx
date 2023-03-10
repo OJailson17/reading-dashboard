@@ -39,7 +39,7 @@ export const DonutComponent = ({ read_percentage }: DonutComponentProps) => {
 			</DonutSvg>
 			<DonutMiddleContent>
 				<h3>{read_percentage}%</h3>
-				<span>Alcançada</span>
+				<span>Read</span>
 			</DonutMiddleContent>
 		</DonutContainer>
 	);
