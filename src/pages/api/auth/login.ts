@@ -56,7 +56,7 @@ const Login = async (req: NextApiRequest, res: NextApiResponse) => {
 			{
 				user: username,
 			},
-			'e281e728-c362-4582-850f-8079e6f122ee',
+			`${process.env.JWT_SECRET}`,
 		);
 
 		return res.json({
