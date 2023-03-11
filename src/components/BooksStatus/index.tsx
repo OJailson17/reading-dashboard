@@ -23,7 +23,7 @@ export const BookStatus = ({
 			<p className='status-component-title'>Books Read</p>
 
 			<span className='status-component-description'>
-				All books on the to read list
+				Total Reading Progress
 			</span>
 
 			<DonutComponent read_percentage={percentageOfReadBooks} />

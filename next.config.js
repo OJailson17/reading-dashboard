@@ -8,8 +8,12 @@ const nextConfig = {
 		API_BASE_URL: process.env.API_BASE_URL,
 	},
 	compiler: {
-		styledComponents: true,
+		styledComponents: {
+			ssr: true,
+			minify: true,
+		},
 	},
+	swcMinify: true,
 };
 
 module.exports = nextConfig;

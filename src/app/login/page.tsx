@@ -4,6 +4,10 @@ import { redirect } from 'next/navigation';
 import { PageTitle } from '@/styles/common';
 import { FormComponent } from './components/Form';
 
+export const metadata = {
+	title: 'Login | Reading Dashboard',
+};
+
 export default function Login() {
 	// Get token from cookies
 	const token = cookies().has('@reading_dashboard:token');
