@@ -34,12 +34,12 @@ export const AuthContextProvider = ({ children }: AuthProviderProps) => {
 
 			// Set token cookies
 			setCookie(undefined, '@reading_dashboard:token', data.token, {
-				maxAge: 60 * 60 * 24, // 24 hours
+				maxAge: 60 * 60 * 24 * 7, // 7 days
 			});
 
 			// Set database id cookie
 			setCookie(undefined, '@reading_dashboard:database_id', data.database_id, {
-				maxAge: 60 * 60 * 24, // 24 hours
+				maxAge: 60 * 60 * 24 * 7, // 7 days
 			});
 
 			// Redirect user to home page
