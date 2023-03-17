@@ -8,7 +8,7 @@ import { YearlyChart } from '@/components/YearlyChart';
 
 import { StatusComponent, StatusComponentWrapper } from './styles';
 import { PageTitle } from '@/styles/common';
-import { results } from 'fakeData';
+// import { results } from 'fakeData';
 import { Library } from '@/components/Library';
 
 interface TitleProperty {
