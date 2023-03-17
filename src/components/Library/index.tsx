@@ -59,14 +59,20 @@ export const Library = ({ books }: LibraryBooks) => {
 				<BookSlide>
 					{books.map(book => (
 						<BookComponent key={book.id}>
-							{/* eslint-disable-next-line @next/next/no-img-element */}
-							<img
-								src={book?.icon?.external?.url}
-								alt=''
-								style={{
-									borderRadius: '10px',
-								}}
-							/>
+							{book.icon?.external?.url ? (
+								/* eslint-disable-next-line @next/next/no-img-element */
+								<img
+									src={book?.icon?.external?.url}
+									alt=''
+									style={{
+										borderRadius: '10px',
+									}}
+								/>
+							) : (
+								<div className='placeholder-cover'>
+									<p>{book.properties.Name.title[0].plain_text}</p>
+								</div>
+							)}
 						</BookComponent>
 					))}
 				</BookSlide>

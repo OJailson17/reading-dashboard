@@ -63,8 +63,9 @@ export const BookSlide = styled.div`
 	margin: 2rem 0;
 	padding-bottom: 0.5rem;
 
-	display: flex;
-	align-items: center;
+	display: grid;
+	grid-template-columns: repeat(20, 1fr);
+	place-items: center;
 	gap: 2rem;
 
 	/* background-color: red; */
@@ -96,9 +97,36 @@ export const BookComponent = styled.div`
 	border-radius: 10px;
 	cursor: pointer;
 
+	background-color: #2d2a42;
+
 	img {
 		max-width: 150px;
 		height: 100%;
 		object-fit: cover;
+	}
+
+	.placeholder-cover {
+		width: 150px;
+		height: 100%;
+		padding: 0.3rem;
+
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		word-wrap: break-word;
+		white-space: normal;
+		text-overflow: ellipsis;
+
+		background-color: #2d2a42;
+		border-radius: inherit;
+
+		p {
+			overflow: hidden;
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 6; /* start showing ellipsis when 6th line is reached */
+			white-space: pre-wrap;
+			font-size: 14px;
+		}
 	}
 `;
