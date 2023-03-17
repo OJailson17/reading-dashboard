@@ -8,6 +8,8 @@ import { YearlyChart } from '@/components/YearlyChart';
 
 import { StatusComponent, StatusComponentWrapper } from './styles';
 import { PageTitle } from '@/styles/common';
+import { results } from 'fakeData';
+import { Library } from '@/components/Library';
 
 interface TitleProperty {
 	plain_text: string;
@@ -16,6 +18,11 @@ interface TitleProperty {
 interface Book {
 	object: string;
 	id: string;
+	icon: {
+		external: {
+			url: string;
+		};
+	};
 	properties: {
 		Status: {
 			id: string;
@@ -69,6 +76,7 @@ export default async function Home() {
 	let reading_books: Book[] = [];
 	let to_read_books = 0;
 	let finished_books: Book[] = [];
+	let allBooks: Book[] = [];
 
 	try {
 		// Make a query to get the database data
@@ -84,7 +92,9 @@ export default async function Home() {
 
 		// Add type to the response results
 		const responseResults = response.results as Book[];
-		// const responseResults: ResultResponse[] = results;
+		// const responseResults: Book[] = results;
+
+		allBooks = responseResults;
 
 		// Get the amount of total books
 		total_books = Number(responseResults.length);
@@ -128,6 +138,8 @@ export default async function Home() {
 					amountOfFinishedBooks={Number(finished_books.length)}
 				/>
 			</StatusComponentWrapper>
+
+			<Library books={allBooks} />
 
 			{/* Yearly Graph */}
 			<YearlyChart finished_books={finished_books} />
