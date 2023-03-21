@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 
 import * as Dialog from '@radix-ui/react-dialog';
@@ -5,6 +6,8 @@ import * as Dialog from '@radix-ui/react-dialog';
 import {
 	DialogClose,
 	DialogContent,
+	DialogContentBookInfo,
+	DialogContentContainer,
 	DialogOverlay,
 	DialogTitle,
 } from './styles';
@@ -22,6 +25,18 @@ interface Book {
 		};
 	};
 	properties: {
+		Author: {
+			id: string;
+			rich_text: TitleProperty[];
+		};
+		Rating: {
+			id: string;
+			type: string;
+			select: {
+				name: string;
+			};
+		};
+
 		Status: {
 			id: string;
 			type: string;
@@ -60,7 +75,42 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 
 			<DialogContent>
 				<DialogTitle>{book?.properties.Name.title[0].plain_text}</DialogTitle>
-				<p>Book Content</p>
+				<DialogContentContainer>
+					{/* If there is a book cover, show the image, if not, show the placeholder cover */}
+					{book?.icon?.external?.url ? (
+						<img src={book?.icon.external.url} alt='' />
+					) : (
+						<div
+							className='placeholder-cover-dialog'
+							data-title={book?.properties.Name.title[0].plain_text}
+						>
+							<p>{book?.properties.Name.title[0].plain_text}</p>
+						</div>
+					)}
+					<DialogContentBookInfo>
+						<div>
+							<span>Author:</span>
+							<span>Author Name</span>
+						</div>
+						<div>
+							<span>Status:</span>
+							<span className={book?.properties.Status.select.name}>
+								{book?.properties.Status.select.name}
+							</span>
+						</div>
+						<div>
+							<span>Pages:</span>
+							<span>{book?.properties['Qtd. Pages'].number}</span>
+						</div>
+						{/* Show the rating ig the book status is Finished */}
+						{book?.properties.Status.select.name === 'Finished' && (
+							<div>
+								<span>Rating</span>
+								<span>{book.properties.Rating.select.name}</span>
+							</div>
+						)}
+					</DialogContentBookInfo>
+				</DialogContentContainer>
 				<DialogClose>Close</DialogClose>
 			</DialogContent>
 		</Dialog.Portal>

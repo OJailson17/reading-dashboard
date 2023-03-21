@@ -24,6 +24,17 @@ interface Book {
 		};
 	};
 	properties: {
+		Author: {
+			id: string;
+			rich_text: TitleProperty[];
+		};
+		Rating: {
+			id: string;
+			type: string;
+			select: {
+				name: string;
+			};
+		};
 		Status: {
 			id: string;
 			type: string;
@@ -82,7 +93,11 @@ export const Library = ({ books }: LibraryBooks) => {
 				<BookSlide>
 					<Dialog.Root>
 						{books.map(book => (
-							<Dialog.Trigger key={book.id} onClick={e => handleChoseBook(e)}>
+							<Dialog.Trigger
+								key={book.id}
+								onClick={e => handleChoseBook(e)}
+								style={{ border: 'none', borderRadius: '10px' }}
+							>
 								<BookComponent>
 									{book.icon?.external?.url ? (
 										/* eslint-disable-next-line @next/next/no-img-element */

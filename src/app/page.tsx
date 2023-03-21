@@ -24,6 +24,17 @@ interface Book {
 		};
 	};
 	properties: {
+		Author: {
+			id: string;
+			rich_text: TitleProperty[];
+		};
+		Rating: {
+			id: string;
+			type: string;
+			select: {
+				name: string;
+			};
+		};
 		Status: {
 			id: string;
 			type: string;

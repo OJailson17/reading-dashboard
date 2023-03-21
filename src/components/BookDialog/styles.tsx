@@ -33,16 +33,95 @@ export const DialogContent = styled(Dialog.Content)`
 
 export const DialogTitle = styled(Dialog.Title)`
 	margin: 0;
-	font-weight: 500;
+	font-weight: 700;
 	color: #fff;
-	font-size: 17px;
+	font-size: 1.2rem;
+	text-align: center;
 `;
 
 export const DialogClose = styled(Dialog.Close)`
 	width: 5rem;
-	height: 30px;
+	height: 2rem;
+	margin-top: 1rem;
+
+	position: relative;
+	right: -70%;
+
 	background-color: #292738;
 	color: #fff;
 	border: none;
 	border-radius: 7px;
+`;
+
+export const DialogContentContainer = styled.div`
+	width: 100%;
+	margin-top: 1rem;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+
+	& > img {
+		max-width: 150px;
+		height: 100%;
+		border-radius: 7px;
+	}
+
+	.placeholder-cover-dialog {
+		width: 150px;
+		height: 13.375rem;
+		padding: 0.3rem;
+
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		word-wrap: break-word;
+		white-space: normal;
+		text-overflow: ellipsis;
+
+		background-color: #2d2a42;
+		border-radius: 10px;
+
+		p {
+			overflow: hidden;
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 6;
+			white-space: pre-wrap;
+			text-align: center;
+			font-size: 14px;
+		}
+	}
+`;
+
+export const DialogContentBookInfo = styled.div`
+	width: 100%;
+	margin-top: 1rem;
+	/* background-color: red; */
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	gap: 0.8rem;
+
+	div {
+		width: 100%;
+		display: flex;
+		gap: 0.5rem;
+
+		.Finished {
+			background-color: #2b593f;
+			padding: 0.1rem;
+			border-radius: 4px;
+		}
+
+		.Reading {
+			background-color: #89632a;
+			padding: 0.1rem;
+			border-radius: 4px;
+		}
+	}
 `;

@@ -103,6 +103,7 @@ export const BookComponent = styled.div`
 		max-width: 150px;
 		height: 100%;
 		object-fit: cover;
+		border-radius: 10px;
 	}
 
 	.placeholder-cover {
@@ -118,7 +119,7 @@ export const BookComponent = styled.div`
 		text-overflow: ellipsis;
 
 		background-color: #2d2a42;
-		border-radius: inherit;
+		border-radius: 10px;
 
 		p {
 			overflow: hidden;
@@ -126,7 +127,9 @@ export const BookComponent = styled.div`
 			-webkit-box-orient: vertical;
 			-webkit-line-clamp: 6; /* start showing ellipsis when 6th line is reached */
 			white-space: pre-wrap;
+
 			font-size: 14px;
+			color: #fff;
 		}
 	}
 `;
