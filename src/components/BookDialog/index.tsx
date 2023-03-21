@@ -90,7 +90,7 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 					<DialogContentBookInfo>
 						<div>
 							<span>Author:</span>
-							<span>Author Name</span>
+							<span>{book?.properties.Author.rich_text[0].plain_text}</span>
 						</div>
 						<div>
 							<span>Status:</span>
