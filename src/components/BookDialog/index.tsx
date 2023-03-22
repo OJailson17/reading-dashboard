@@ -103,10 +103,15 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 							<span>{book?.properties['Qtd. Pages'].number}</span>
 						</div>
 						{/* Show the rating ig the book status is Finished */}
-						{book?.properties.Status.select.name === 'Finished' && (
+						{book?.properties.Status.select.name === 'Finished' ? (
 							<div>
 								<span>Rating</span>
 								<span>{book.properties.Rating.select.name}</span>
+							</div>
+						) : (
+							<div>
+								<span>Current Page:</span>
+								<span>{book?.properties['Current Page'].number}</span>
 							</div>
 						)}
 					</DialogContentBookInfo>
