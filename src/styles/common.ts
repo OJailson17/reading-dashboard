@@ -11,6 +11,7 @@ export const PageTitle = styled.h1`
 `;
 
 export const StatusComponent = styled.div`
+	width: 100%;
 	max-width: 25rem;
 	padding: 2rem 1.5rem;
 
@@ -25,7 +26,7 @@ export const StatusComponent = styled.div`
 	flex-direction: column;
 
 	@media ${device.tablet} {
-		width: 45%;
+		width: 47.5%;
 	}
 
 	@media ${device.laptop} {

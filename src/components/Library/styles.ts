@@ -11,6 +11,7 @@ export const LibraryComponentWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	align-items: center;
 	gap: 2rem;
 
 	/* @media ${device.tablet} and (max-width: 1023px) {
@@ -32,9 +33,9 @@ export const LibraryComponent = styled.div`
 	text-align: center;
 	box-shadow: 0px 0px 20px 0px #1e1e1e;
 
-	/* display: flex;
-	align-items: center;
-	justify-content: space-between; */
+	/* display: flex; */
+	/* align-items: center; */
+	/* justify-content: space-between; */
 	/* flex-direction: column; */
 
 	.library-component-title {
@@ -42,13 +43,9 @@ export const LibraryComponent = styled.div`
 		font-weight: 600;
 	}
 
-	@media ${device.tablet} {
+	/* @media ${device.tablet} {
 		width: 45%;
-	}
-
-	@media ${device.laptop} {
-		width: 100%;
-	}
+	} */
 
 	/* .status-component-description {
 		display: block;

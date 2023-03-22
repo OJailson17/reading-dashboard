@@ -14,7 +14,7 @@ export const StatusComponentWrapper = styled.div`
 	justify-content: center;
 	gap: 2rem;
 
-	@media ${device.tablet} and (max-width: 1023px) {
+	@media ${device.mobileL} and (max-width: 1023px) {
 		flex-flow: row wrap;
 	}
 
@@ -32,6 +32,10 @@ export const StatusComponent = styled.div`
 	border-radius: 16px;
 	text-align: center;
 	box-shadow: 0px 0px 20px 0px #1e1e1e;
+
+	@media ${device.tablet} {
+		width: 100%;
+	}
 
 	@media ${device.laptop} {
 		display: flex;
