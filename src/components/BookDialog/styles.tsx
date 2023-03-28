@@ -124,4 +124,31 @@ export const DialogContentBookInfo = styled.div`
 			border-radius: 4px;
 		}
 	}
+
+	input {
+		background-color: #292738;
+		width: 50px;
+		height: 20px;
+		border: none;
+		border-radius: 5px;
+		text-align: center;
+		font-weight: semibold;
+		color: #fff;
+
+		&:focus {
+			outline: none;
+		}
+
+		/* Chrome, Safari, Edge, Opera */
+		&::-webkit-outer-spin-button,
+		&::-webkit-inner-spin-button {
+			-webkit-appearance: none;
+			margin: 0;
+		}
+
+		/* Firefox */
+		&[type='number'] {
+			-moz-appearance: textfield;
+		}
+	}
 `;

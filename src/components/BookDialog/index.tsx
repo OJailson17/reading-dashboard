@@ -1,7 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 
+import { api } from '@/lib/axios';
 import * as Dialog from '@radix-ui/react-dialog';
+import { useEffect, useRef, useState } from 'react';
 
 import {
 	DialogClose,
@@ -69,6 +71,34 @@ interface BookDialogProps {
 }
 
 export const BookDialog = ({ book }: BookDialogProps) => {
+	const [currentPage, setCurrentPage] = useState<number>(0);
+	const [showSaveButton, setShowSaveButton] = useState(false);
+
+	// console.log({ book });
+
+	const inputRef = useRef(null);
+
+	const updatePages = async () => {
+		console.log({ currentPage });
+
+		try {
+			const response = await api.patch('/book/update', {
+				current_page: currentPage,
+				page_id: book?.id,
+			});
+			console.log(response.data);
+			setShowSaveButton(false);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	useEffect(() => {
+		if (currentPage > 0) {
+			setShowSaveButton(true);
+		}
+	}, [currentPage]);
+
 	return (
 		<Dialog.Portal>
 			<DialogOverlay />
@@ -111,7 +141,16 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 						) : (
 							<div>
 								<span>Current Page:</span>
-								<span>{book?.properties['Current Page'].number}</span>
+								<input
+									type='number'
+									ref={inputRef}
+									value={currentPage || book?.properties['Current Page'].number}
+									onChange={e => setCurrentPage(Number(e.target.value))}
+								/>
+								{/* <span>{book?.properties['Current Page'].number}</span> */}
+								{showSaveButton && (
+									<button onClick={() => updatePages()}>Save</button>
+								)}
 							</div>
 						)}
 					</DialogContentBookInfo>
