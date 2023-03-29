@@ -128,7 +128,7 @@ export const DialogContentBookInfo = styled.div`
 	input {
 		background-color: #292738;
 		width: 50px;
-		height: 20px;
+		height: 25px;
 		border: none;
 		border-radius: 5px;
 		text-align: center;
@@ -149,6 +149,20 @@ export const DialogContentBookInfo = styled.div`
 		/* Firefox */
 		&[type='number'] {
 			-moz-appearance: textfield;
+		}
+	}
+
+	.book-btn {
+		border: none;
+		border-radius: 5px;
+		background-color: #292738;
+		color: #fff;
+		padding: 0 1rem;
+
+		&:hover {
+			background-color: white;
+			color: #292738;
+			transition: all 0.2s ease;
 		}
 	}
 `;

@@ -73,31 +73,39 @@ interface BookDialogProps {
 export const BookDialog = ({ book }: BookDialogProps) => {
 	const [currentPage, setCurrentPage] = useState<number>(0);
 	const [showSaveButton, setShowSaveButton] = useState(false);
-
-	// console.log({ book });
+	const [isPageInputDisable, setIsPageInputDisable] = useState(true);
 
 	const inputRef = useRef(null);
 
 	const updatePages = async () => {
-		console.log({ currentPage });
-
 		try {
 			const response = await api.patch('/book/update', {
 				current_page: currentPage,
 				page_id: book?.id,
 			});
-			console.log(response.data);
+
+			// Add type to the response result data
+			const responseResult = response.data as Book;
+
+			// Set current page to the updated value
+			setCurrentPage(responseResult.properties['Current Page'].number);
+
+			// Make save button disappear
 			setShowSaveButton(false);
+
+			// Disable input
+			setIsPageInputDisable(true);
 		} catch (error) {
 			console.log(error);
 		}
 	};
 
+	// Show save button if
 	useEffect(() => {
-		if (currentPage > 0) {
+		if (!isPageInputDisable) {
 			setShowSaveButton(true);
 		}
-	}, [currentPage]);
+	}, [isPageInputDisable]);
 
 	return (
 		<Dialog.Portal>
@@ -136,7 +144,7 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 						{book?.properties.Status.select.name === 'Finished' ? (
 							<div>
 								<span>Rating</span>
-								<span>{book.properties.Rating.select.name}</span>
+								<span>{book?.properties.Rating.select.name}</span>
 							</div>
 						) : (
 							<div>
@@ -146,16 +154,28 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 									ref={inputRef}
 									value={currentPage || book?.properties['Current Page'].number}
 									onChange={e => setCurrentPage(Number(e.target.value))}
+									disabled={isPageInputDisable}
 								/>
 								{/* <span>{book?.properties['Current Page'].number}</span> */}
-								{showSaveButton && (
-									<button onClick={() => updatePages()}>Save</button>
+								{showSaveButton ? (
+									<button className='book-btn' onClick={() => updatePages()}>
+										Save
+									</button>
+								) : (
+									<button
+										className='book-btn'
+										onClick={() => {
+											setIsPageInputDisable(false);
+										}}
+									>
+										Edit
+									</button>
 								)}
 							</div>
 						)}
 					</DialogContentBookInfo>
 				</DialogContentContainer>
-				<DialogClose>Close</DialogClose>
+				<DialogClose onClick={() => setCurrentPage(0)}>Close</DialogClose>
 			</DialogContent>
 		</Dialog.Portal>
 	);
