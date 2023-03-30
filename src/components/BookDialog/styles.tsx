@@ -159,10 +159,20 @@ export const DialogContentBookInfo = styled.div`
 		color: #fff;
 		padding: 0 1rem;
 
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
 		&:hover {
 			background-color: white;
 			color: #292738;
 			transition: all 0.2s ease;
+
+			svg {
+				& > g {
+					stroke: #292738;
+				}
+			}
 		}
 	}
 `;

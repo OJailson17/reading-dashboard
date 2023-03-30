@@ -8,7 +8,7 @@ import { YearlyChart } from '@/components/YearlyChart';
 
 import { StatusComponent, StatusComponentWrapper } from './styles';
 import { PageTitle } from '@/styles/common';
-// import { results } from 'fakeData';
+import { results } from 'fakeData';
 import { Library } from '@/components/Library';
 
 interface TitleProperty {
@@ -91,19 +91,19 @@ export default async function Home() {
 
 	try {
 		// Make a query to get the database data
-		const response = await notion.databases.query({
-			database_id: databaseId || '',
-			filter: {
-				property: 'Status',
-				select: {
-					does_not_equal: 'Abandoned',
-				},
-			},
-		});
+		// const response = await notion.databases.query({
+		// 	database_id: databaseId || '',
+		// 	filter: {
+		// 		property: 'Status',
+		// 		select: {
+		// 			does_not_equal: 'Abandoned',
+		// 		},
+		// 	},
+		// });
 
 		// Add type to the response results
-		const responseResults = response.results as Book[];
-		// const responseResults: Book[] = results;
+		// const responseResults = response.results as Book[];
+		const responseResults: Book[] = results;
 
 		// Get the amount of total books
 		total_books = Number(responseResults.length);

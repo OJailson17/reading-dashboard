@@ -4,6 +4,7 @@
 import { api } from '@/lib/axios';
 import * as Dialog from '@radix-ui/react-dialog';
 import { useEffect, useRef, useState } from 'react';
+import { Rings } from 'react-loading-icons';
 
 import {
 	DialogClose,
@@ -78,6 +79,9 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 	const inputRef = useRef(null);
 
 	const updatePages = async () => {
+		// Disable input
+		setIsPageInputDisable(true);
+
 		try {
 			const response = await api.patch('/book/update', {
 				current_page: currentPage,
@@ -92,9 +96,6 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 
 			// Make save button disappear
 			setShowSaveButton(false);
-
-			// Disable input
-			setIsPageInputDisable(true);
 		} catch (error) {
 			console.log(error);
 		}
@@ -158,8 +159,16 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 								/>
 								{/* <span>{book?.properties['Current Page'].number}</span> */}
 								{showSaveButton ? (
-									<button className='book-btn' onClick={() => updatePages()}>
-										Save
+									<button
+										className='book-btn'
+										onClick={() => updatePages()}
+										disabled={isPageInputDisable}
+									>
+										{isPageInputDisable ? (
+											<Rings width={16} height={16} />
+										) : (
+											<p>Save</p>
+										)}
 									</button>
 								) : (
 									<button
