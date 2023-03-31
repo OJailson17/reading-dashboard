@@ -4,6 +4,7 @@ import { GlobalStyles } from '@/styles/global';
 import { AuthContextProvider } from '@/context/AuthContext';
 
 import StyledComponentsRegistry from '@/lib/registry';
+import { BookContextProvider } from '@/context/BookContext';
 
 const inter = Inter({
 	subsets: ['latin'],
@@ -20,10 +21,12 @@ export default function RootLayout({
 	return (
 		<html className={inter.className}>
 			<body>
-				<AuthContextProvider>
-					<GlobalStyles />
-					<StyledComponentsRegistry>{children}</StyledComponentsRegistry>
-				</AuthContextProvider>
+				<BookContextProvider>
+					<AuthContextProvider>
+						<GlobalStyles />
+						<StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+					</AuthContextProvider>
+				</BookContextProvider>
 			</body>
 		</html>
 	);
