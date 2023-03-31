@@ -2,7 +2,6 @@
 
 import { api } from '@/lib/axios';
 import { notion } from '@/lib/notion';
-import { getNotionData } from '@/utils/getData';
 import { parseCookies } from 'nookies';
 import React, {
 	createContext,
