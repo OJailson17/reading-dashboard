@@ -1,5 +1,8 @@
+'use client';
+
 import { redirect } from 'next/navigation';
-import { cookies } from 'next/headers';
+// import { cookies } from 'next/headers';
+import { parseCookies } from 'nookies';
 
 import { notion } from '@/lib/notion';
 import { BookStatus } from '@/components/BooksStatus';
@@ -8,8 +11,10 @@ import { YearlyChart } from '@/components/YearlyChart';
 
 import { StatusComponent, StatusComponentWrapper } from './styles';
 import { PageTitle } from '@/styles/common';
-import { results } from 'fakeData';
+// import { results } from 'fakeData';
 import { Library } from '@/components/Library';
+import { BookContext, useBook } from '@/context/BookContext';
+import { useContext, useEffect, useState } from 'react';
 
 interface TitleProperty {
 	plain_text: string;
@@ -69,17 +74,21 @@ interface Book {
 	};
 }
 
-export default async function Home() {
+export default function Home() {
+	const { books } = useBook();
+
 	// Get token from cookies
-	const token = cookies().has('@reading_dashboard:token');
+	const { '@reading_dashboard:token': token } = parseCookies();
 	// Get database id from cookies
-	const databaseIdCookie = cookies().get('@reading_dashboard:database_id');
+	const { '@reading_dashboard:database_id': databaseIdCookie } = parseCookies();
 
 	// Sign the database id value into this variable
-	const databaseId = databaseIdCookie?.value;
+	const databaseId = databaseIdCookie;
+
+	// console.log({ token, databaseIdCookie });
 
 	// Redirect to login page if token does not exists
-	if (!token || !databaseIdCookie) {
+	if (!token || !databaseId) {
 		redirect('/login');
 	}
 
@@ -89,44 +98,28 @@ export default async function Home() {
 	let finished_books: Book[] = [];
 	let allBooksReadAndReading: Book[] = [];
 
-	try {
-		// Make a query to get the database data
-		// const response = await notion.databases.query({
-		// 	database_id: databaseId || '',
-		// 	filter: {
-		// 		property: 'Status',
-		// 		select: {
-		// 			does_not_equal: 'Abandoned',
-		// 		},
-		// 	},
-		// });
-
-		// Add type to the response results
-		// const responseResults = response.results as Book[];
-		const responseResults: Book[] = results;
-
+	if (books) {
 		// Get the amount of total books
-		total_books = Number(responseResults.length);
+		total_books = Number(books?.length);
 
 		// Get the reading books
-		reading_books = responseResults.filter(
-			book => book.properties.Status.select.name === 'Reading',
-		);
+		reading_books =
+			books?.filter(book => book.properties.Status.select.name === 'Reading') ||
+			[];
 
 		// Get the amount of books to read
-		to_read_books = responseResults.filter(
-			book => book.properties.Status.select.name === 'To read',
-		).length;
+		to_read_books =
+			books?.filter(book => book.properties.Status.select.name === 'To read')
+				.length || 0;
 
 		// Get the finished books
-		finished_books = responseResults.filter(
-			book => book.properties.Status.select.name === 'Finished',
-		);
+		finished_books =
+			books?.filter(
+				book => book.properties.Status.select.name === 'Finished',
+			) || [];
 
 		// All finished and reading books together
 		allBooksReadAndReading = reading_books.concat(finished_books);
-	} catch (error) {
-		console.log(error);
 	}
 
 	return (

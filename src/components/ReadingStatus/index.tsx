@@ -51,7 +51,7 @@ export const ReadingStatus = ({ books }: ReadingStatusProps) => {
 	const [currentPage, setCurrentPage] = useState(0);
 	const [selectedBook, setSelectedBook] = useState<Book>(books[0]);
 	const [selectedBookName, setSelectedBookName] = useState(
-		books[0].properties.Name.title[0].plain_text,
+		books[0]?.properties.Name.title[0].plain_text,
 	);
 
 	// Get the selected book and set on selectedBook state

@@ -69,6 +69,7 @@ interface Book {
 
 interface BookDialogProps {
 	book: Book | null;
+	// onGetBooks: () => Promise<void>;
 }
 
 export const BookDialog = ({ book }: BookDialogProps) => {

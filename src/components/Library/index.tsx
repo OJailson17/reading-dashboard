@@ -64,6 +64,7 @@ interface Book {
 
 interface LibraryBooks {
 	books: Book[];
+	// onGetBooks: () => Promise<void>;
 }
 
 export const Library = ({ books }: LibraryBooks) => {
