@@ -75,22 +75,17 @@ interface Book {
 }
 
 export default function Home() {
-	const { books } = useBook();
-
 	// Get token from cookies
 	const { '@reading_dashboard:token': token } = parseCookies();
 	// Get database id from cookies
-	const { '@reading_dashboard:database_id': databaseIdCookie } = parseCookies();
-
-	// Sign the database id value into this variable
-	const databaseId = databaseIdCookie;
-
-	// console.log({ token, databaseIdCookie });
+	const { '@reading_dashboard:database_id': databaseId } = parseCookies();
 
 	// Redirect to login page if token does not exists
 	if (!token || !databaseId) {
 		redirect('/login');
 	}
+
+	const { books, onGetBooks } = useBook();
 
 	let total_books = 0;
 	let reading_books: Book[] = [];
@@ -121,6 +116,12 @@ export default function Home() {
 		// All finished and reading books together
 		allBooksReadAndReading = reading_books.concat(finished_books);
 	}
+
+	useEffect(() => {
+		onGetBooks({ databaseId, token });
+
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	return (
 		<>

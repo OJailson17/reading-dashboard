@@ -21,12 +21,12 @@ export default function RootLayout({
 	return (
 		<html className={inter.className}>
 			<body>
-				<BookContextProvider>
-					<AuthContextProvider>
+				<AuthContextProvider>
+					<BookContextProvider>
 						<GlobalStyles />
 						<StyledComponentsRegistry>{children}</StyledComponentsRegistry>
-					</AuthContextProvider>
-				</BookContextProvider>
+					</BookContextProvider>
+				</AuthContextProvider>
 			</body>
 		</html>
 	);

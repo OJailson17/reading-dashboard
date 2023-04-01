@@ -3,7 +3,7 @@
 import { api } from '@/lib/axios';
 import { useRouter } from 'next/navigation';
 import { createContext, ReactNode, useContext } from 'react';
-import { parseCookies, setCookie } from 'nookies';
+import { setCookie } from 'nookies';
 import { toast } from 'react-toastify';
 
 type AuthProviderProps = {
@@ -43,8 +43,6 @@ export const AuthContextProvider = ({ children }: AuthProviderProps) => {
 				maxAge: 60 * 60 * 24 * 7, // 7 days
 				path: '/',
 			});
-
-			console.log(data.database_id);
 
 			// Redirect user to home page
 			router.push(`/`);

@@ -1,9 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 
+import { useBook } from '@/context/BookContext';
 import { api } from '@/lib/axios';
 import * as Dialog from '@radix-ui/react-dialog';
-import { useEffect, useRef, useState } from 'react';
+import { parseCookies } from 'nookies';
+import { useEffect, useState } from 'react';
 import { Rings } from 'react-loading-icons';
 
 import {
@@ -69,7 +71,6 @@ interface Book {
 
 interface BookDialogProps {
 	book: Book | null;
-	// onGetBooks: () => Promise<void>;
 }
 
 export const BookDialog = ({ book }: BookDialogProps) => {
@@ -77,7 +78,13 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 	const [showSaveButton, setShowSaveButton] = useState(false);
 	const [isPageInputDisable, setIsPageInputDisable] = useState(true);
 
-	const inputRef = useRef(null);
+	// Get token from cookies
+	const { '@reading_dashboard:token': token } = parseCookies();
+	// Get database id from cookies
+	const { '@reading_dashboard:database_id': databaseId } = parseCookies();
+
+	// Books hook
+	const { onGetBooks } = useBook();
 
 	const updatePages = async () => {
 		// Disable input
@@ -90,10 +97,13 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 			});
 
 			// Add type to the response result data
-			const responseResult = response.data as Book;
+			const updatedBook = response.data as Book;
 
 			// Set current page to the updated value
-			setCurrentPage(responseResult.properties['Current Page'].number);
+			setCurrentPage(updatedBook.properties['Current Page'].number);
+
+			// Update the books data
+			await onGetBooks({ databaseId, token });
 
 			// Make save button disappear
 			setShowSaveButton(false);
@@ -153,7 +163,6 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 								<span>Current Page:</span>
 								<input
 									type='number'
-									ref={inputRef}
 									value={currentPage || book?.properties['Current Page'].number}
 									onChange={e => setCurrentPage(Number(e.target.value))}
 									disabled={isPageInputDisable}

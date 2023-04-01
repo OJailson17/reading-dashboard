@@ -1,15 +1,12 @@
 'use client';
 
 import { api } from '@/lib/axios';
-import { notion } from '@/lib/notion';
 // import { results } from 'fakeData';
-import { parseCookies } from 'nookies';
 import React, {
 	createContext,
 	ReactNode,
 	useCallback,
 	useContext,
-	useEffect,
 	useState,
 } from 'react';
 
@@ -75,10 +72,14 @@ type Book = {
 	};
 };
 
+type onGetBooksProps = {
+	databaseId: string;
+	token: string;
+};
+
 type BookContextProps = {
 	books: Book[] | null;
-	getBooks: () => Promise<void>;
-	onSetBooks: (booksData: Book[]) => void;
+	onGetBooks: (props: onGetBooksProps) => Promise<void>;
 };
 
 export const BookContext = createContext({} as BookContextProps);
@@ -86,37 +87,30 @@ export const BookContext = createContext({} as BookContextProps);
 export const BookContextProvider = ({ children }: BookProviderProps) => {
 	const [books, setBooks] = useState<Book[] | null>([]);
 
-	const { '@reading_dashboard:database_id': databaseIdCookie } = parseCookies();
-
-	const getBooks = useCallback(async () => {
+	// Make api call to get books data
+	const getBooks = useCallback(async (databaseId: string) => {
 		try {
-			const response = await api.get(`/book?db=${databaseIdCookie}`);
+			const response = await api.get(`/book?db=${databaseId}`);
 
-			// const responseResults = results as Book[];
-			const responseResults = response.data.results as Book[];
+			// const allBooks = results as Book[];
+			const allBooks = response.data.results as Book[];
 
-			console.log({ responseResults });
-
-			setBooks(responseResults);
+			// Set the api response to books state
+			setBooks(allBooks);
 		} catch (error) {
 			console.log(error);
 		}
-	}, [databaseIdCookie]);
+	}, []);
 
-	const onSetBooks = (booksData: Book[]) => {
-		setBooks(booksData);
+	// Verify if database id and token exist then call the getBooks function
+	const onGetBooks = async ({ databaseId, token }: onGetBooksProps) => {
+		if (token && databaseId) {
+			await getBooks(databaseId);
+		}
 	};
 
-	useEffect(() => {
-		const fetchBooks = async () => {
-			await getBooks();
-		};
-
-		fetchBooks();
-	}, [getBooks]);
-
 	return (
-		<BookContext.Provider value={{ books, getBooks, onSetBooks }}>
+		<BookContext.Provider value={{ books, onGetBooks }}>
 			{children}
 		</BookContext.Provider>
 	);
