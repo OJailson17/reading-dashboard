@@ -2,6 +2,7 @@
 
 import { api } from '@/lib/axios';
 import { notion } from '@/lib/notion';
+// import { results } from 'fakeData';
 import { parseCookies } from 'nookies';
 import React, {
 	createContext,
@@ -91,6 +92,7 @@ export const BookContextProvider = ({ children }: BookProviderProps) => {
 		try {
 			const response = await api.get(`/book?db=${databaseIdCookie}`);
 
+			// const responseResults = results as Book[];
 			const responseResults = response.data.results as Book[];
 
 			console.log({ responseResults });

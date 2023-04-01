@@ -128,26 +128,30 @@ export default function Home() {
 				<PageTitle>Reading Dashboard</PageTitle>
 			</header>
 
-			<StatusComponentWrapper>
-				<StatusComponent>
-					<p className='status-component-title'>To Read</p>
+			{books && books.length > 0 && (
+				<>
+					<StatusComponentWrapper>
+						<StatusComponent>
+							<p className='status-component-title'>To Read</p>
 
-					<div className='status-component-info'>
-						<p className='info-value'>{to_read_books}</p>
-						<p>Books</p>
-					</div>
-				</StatusComponent>
-				<ReadingStatus books={reading_books} />
-				<BookStatus
-					amountOfBooks={total_books}
-					amountOfFinishedBooks={Number(finished_books.length)}
-				/>
-			</StatusComponentWrapper>
+							<div className='status-component-info'>
+								<p className='info-value'>{to_read_books}</p>
+								<p>Books</p>
+							</div>
+						</StatusComponent>
+						<ReadingStatus books={reading_books} />
+						<BookStatus
+							amountOfBooks={total_books}
+							amountOfFinishedBooks={Number(finished_books.length)}
+						/>
+					</StatusComponentWrapper>
 
-			<Library books={allBooksReadAndReading} />
+					<Library books={allBooksReadAndReading} />
 
-			{/* Yearly Graph */}
-			<YearlyChart finished_books={finished_books} />
+					{/* Yearly Graph */}
+					<YearlyChart finished_books={finished_books} />
+				</>
+			)}
 		</>
 	);
 }
