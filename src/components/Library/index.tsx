@@ -98,6 +98,7 @@ export const Library = ({ books }: LibraryBooks) => {
 								key={book.id}
 								onClick={e => handleChoseBook(e)}
 								style={{ border: 'none', borderRadius: '10px' }}
+								asChild
 							>
 								<BookComponent>
 									{book.icon?.external?.url ? (
