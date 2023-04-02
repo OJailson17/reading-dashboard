@@ -99,7 +99,6 @@ export const DialogContentContainer = styled.div`
 export const DialogContentBookInfo = styled.div`
 	width: 100%;
 	margin-top: 1rem;
-	/* background-color: red; */
 
 	display: flex;
 	align-items: center;

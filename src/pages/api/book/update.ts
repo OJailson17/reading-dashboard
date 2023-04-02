@@ -5,7 +5,6 @@ import {
 	isNotionClientError,
 } from '@notionhq/client';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { parseCookies } from 'nookies';
 
 const UpdateBookPages = async (req: NextApiRequest, res: NextApiResponse) => {
 	if (req.method !== 'PATCH') {
@@ -30,14 +29,9 @@ const UpdateBookPages = async (req: NextApiRequest, res: NextApiResponse) => {
 			},
 		});
 
-		console.log({
-			response,
-		});
-
 		return res.json(response);
 	} catch (error) {
 		if (isNotionClientError(error)) {
-			// error is now strongly typed to NotionClientError
 			switch (error.code) {
 				case ClientErrorCode.RequestTimeout:
 					return {
@@ -57,7 +51,6 @@ const UpdateBookPages = async (req: NextApiRequest, res: NextApiResponse) => {
 				default:
 					console.log(error);
 					return res.json(error);
-				// you could even take advantage of exhaustiveness checking
 			}
 		}
 	}

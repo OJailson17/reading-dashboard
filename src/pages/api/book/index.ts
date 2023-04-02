@@ -26,7 +26,6 @@ const UpdateBookPages = async (req: NextApiRequest, res: NextApiResponse) => {
 		return res.json(response);
 	} catch (error) {
 		if (isNotionClientError(error)) {
-			// error is now strongly typed to NotionClientError
 			switch (error.code) {
 				case ClientErrorCode.RequestTimeout:
 					return {
@@ -46,7 +45,6 @@ const UpdateBookPages = async (req: NextApiRequest, res: NextApiResponse) => {
 				default:
 					console.log(error);
 					return res.json(error);
-				// you could even take advantage of exhaustiveness checking
 			}
 		}
 	}

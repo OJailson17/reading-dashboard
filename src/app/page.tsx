@@ -1,20 +1,16 @@
 'use client';
 
 import { redirect } from 'next/navigation';
-// import { cookies } from 'next/headers';
 import { parseCookies } from 'nookies';
-
-import { notion } from '@/lib/notion';
 import { BookStatus } from '@/components/BooksStatus';
 import { ReadingStatus } from '@/components/ReadingStatus';
 import { YearlyChart } from '@/components/YearlyChart';
 
 import { StatusComponent, StatusComponentWrapper } from './styles';
 import { PageTitle } from '@/styles/common';
-// import { results } from 'fakeData';
 import { Library } from '@/components/Library';
-import { BookContext, useBook } from '@/context/BookContext';
-import { useContext, useEffect, useState } from 'react';
+import { useBook } from '@/context/BookContext';
+import { useEffect } from 'react';
 import { LoadingScreen } from '@/components/LoadingScreen';
 
 interface TitleProperty {

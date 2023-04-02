@@ -167,7 +167,7 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 									onChange={e => setCurrentPage(Number(e.target.value))}
 									disabled={isPageInputDisable}
 								/>
-								{/* <span>{book?.properties['Current Page'].number}</span> */}
+
 								{showSaveButton ? (
 									<button
 										className='book-btn'

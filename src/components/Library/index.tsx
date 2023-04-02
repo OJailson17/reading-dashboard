@@ -1,8 +1,7 @@
 'use client';
 
 import * as Dialog from '@radix-ui/react-dialog';
-import Image from 'next/image';
-import { useState, SyntheticEvent, FormEvent } from 'react';
+import { useState, SyntheticEvent } from 'react';
 import { BookDialog } from '../BookDialog';
 import {
 	BookComponent,
@@ -64,7 +63,6 @@ interface Book {
 
 interface LibraryBooks {
 	books: Book[];
-	// onGetBooks: () => Promise<void>;
 }
 
 export const Library = ({ books }: LibraryBooks) => {
