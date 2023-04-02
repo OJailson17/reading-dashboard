@@ -15,6 +15,7 @@ import { PageTitle } from '@/styles/common';
 import { Library } from '@/components/Library';
 import { BookContext, useBook } from '@/context/BookContext';
 import { useContext, useEffect, useState } from 'react';
+import { LoadingScreen } from '@/components/LoadingScreen';
 
 interface TitleProperty {
 	plain_text: string;
@@ -129,7 +130,7 @@ export default function Home() {
 				<PageTitle>Reading Dashboard</PageTitle>
 			</header>
 
-			{books && books.length > 0 && (
+			{books && books.length > 0 ? (
 				<>
 					<StatusComponentWrapper>
 						<StatusComponent>
@@ -152,6 +153,8 @@ export default function Home() {
 					{/* Yearly Graph */}
 					<YearlyChart finished_books={finished_books} />
 				</>
+			) : (
+				<LoadingScreen />
 			)}
 		</>
 	);
