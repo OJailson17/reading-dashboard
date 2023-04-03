@@ -74,7 +74,7 @@ interface BookDialogProps {
 }
 
 export const BookDialog = ({ book }: BookDialogProps) => {
-	const [currentPage, setCurrentPage] = useState<number>(0);
+	const [currentPage, setCurrentPage] = useState<number>(-1);
 	const [showSaveButton, setShowSaveButton] = useState(false);
 	const [isPageInputDisable, setIsPageInputDisable] = useState(true);
 
@@ -112,12 +112,25 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 		}
 	};
 
+	const onCloseModal = () => {
+		setCurrentPage(-1);
+		setShowSaveButton(false);
+		setIsPageInputDisable(true);
+	};
+
 	// Show save button if
 	useEffect(() => {
 		if (!isPageInputDisable) {
 			setShowSaveButton(true);
 		}
 	}, [isPageInputDisable]);
+
+	// Set the current page api value to state
+	useEffect(() => {
+		if (book?.properties['Current Page'].number) {
+			setCurrentPage(Number(book?.properties['Current Page'].number));
+		}
+	}, [book]);
 
 	return (
 		<Dialog.Portal>
@@ -161,17 +174,24 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 						) : (
 							<div>
 								<span>Current Page:</span>
+
+								{/* If the state value is less than 0, show default value */}
 								<input
 									type='number'
-									value={currentPage || book?.properties['Current Page'].number}
+									value={
+										currentPage < 0
+											? book?.properties['Current Page'].number
+											: currentPage
+									}
 									onChange={e => setCurrentPage(Number(e.target.value))}
 									disabled={isPageInputDisable}
 								/>
 
+								{/* Show save or edit button depending on the showSaveButton state */}
 								{showSaveButton ? (
 									<button
 										className='book-btn'
-										onClick={() => updatePages()}
+										onClick={updatePages}
 										disabled={isPageInputDisable}
 									>
 										{isPageInputDisable ? (
@@ -194,7 +214,7 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 						)}
 					</DialogContentBookInfo>
 				</DialogContentContainer>
-				<DialogClose onClick={() => setCurrentPage(0)}>Close</DialogClose>
+				<DialogClose onClick={onCloseModal}>Close</DialogClose>
 			</DialogContent>
 		</Dialog.Portal>
 	);
