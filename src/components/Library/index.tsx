@@ -16,13 +16,17 @@ export const Library = ({ reading_books, finished_books }: LibraryBooks) => {
 				<p className='library-component-title'>Library</p>
 
 				<div>
-					<p className='library-component-subtitle'>Reading</p>
+					<p className='library-component-subtitle'>
+						Reading ({reading_books.length || 0})
+					</p>
 					<BookSlide>
 						<BookSlideComponent books={reading_books} />
 					</BookSlide>
 				</div>
 				<div>
-					<p className='library-component-subtitle'>Finished</p>
+					<p className='library-component-subtitle'>
+						Finished ({finished_books.length || 0})
+					</p>
 					<BookSlide>
 						<BookSlideComponent books={finished_books} />
 					</BookSlide>
