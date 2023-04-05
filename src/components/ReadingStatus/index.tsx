@@ -6,41 +6,7 @@ import { DonutComponent } from '../Donut';
 import { SelectBook } from '../SelectBook';
 
 import { ChartDataWrapper, StatusComponent } from '@/styles/common';
-
-interface TitleProperty {
-	plain_text: string;
-}
-
-interface Book {
-	object: string;
-	id: string;
-	properties: {
-		Status: {
-			id: string;
-			type: string;
-			select: {
-				id: string;
-				name: string;
-				color: string;
-			};
-		};
-		Name: {
-			id: string;
-			type: string;
-			title: TitleProperty[];
-		};
-		'Current Page': {
-			id: string;
-			type: number;
-			number: number;
-		};
-		'Qtd. Pages': {
-			id: string;
-			type: number;
-			number: number;
-		};
-	};
-}
+import { Book } from '@/types/bookTypes';
 
 interface ReadingStatusProps {
 	books: Book[];
