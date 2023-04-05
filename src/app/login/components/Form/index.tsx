@@ -25,7 +25,7 @@ export const FormComponent = () => {
 			setIsSubmitButtonDisable(true);
 
 			// Call the function to make login passing the username
-			const isUserLogged = await onSignIn(username.toLowerCase());
+			const isUserLogged = await onSignIn(username.toLowerCase().trim());
 
 			// If onSignIn return false, enable submit button again
 			if (!isUserLogged) {
