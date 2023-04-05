@@ -28,6 +28,13 @@ export const LibraryComponent = styled.div`
 		font-size: 1.5rem;
 		font-weight: 600;
 	}
+
+	.library-component-subtitle {
+		font-size: 1rem;
+		font-weight: 600;
+		text-align: left;
+		margin-top: 1.5rem;
+	}
 `;
 
 export const BookSlide = styled.div`

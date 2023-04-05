@@ -111,7 +111,7 @@ export default function Home() {
 			) || [];
 
 		// All finished and reading books together
-		allBooksReadAndReading = reading_books.concat(finished_books);
+		// allBooksReadAndReading = reading_books.concat(finished_books);
 	}
 
 	useEffect(() => {
@@ -144,7 +144,10 @@ export default function Home() {
 						/>
 					</StatusComponentWrapper>
 
-					<Library books={allBooksReadAndReading} />
+					<Library
+						reading_books={reading_books}
+						finished_books={finished_books}
+					/>
 
 					{/* Yearly Graph */}
 					<YearlyChart finished_books={finished_books} />
