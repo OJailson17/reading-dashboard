@@ -1,10 +1,10 @@
-import { notion } from '@/lib/notion';
+import { NextApiRequest, NextApiResponse } from 'next';
 import {
 	APIErrorCode,
 	ClientErrorCode,
 	isNotionClientError,
 } from '@notionhq/client';
-import { NextApiRequest, NextApiResponse } from 'next';
+import { notion } from '@/lib/notion';
 
 const UpdateBookPages = async (req: NextApiRequest, res: NextApiResponse) => {
 	if (req.method !== 'PATCH') {

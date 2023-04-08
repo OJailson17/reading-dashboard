@@ -1,7 +1,5 @@
 'use client';
 
-import { api } from '@/lib/axios';
-import { Book } from '@/types/bookTypes';
 // import { results } from 'fakeData';
 import React, {
 	createContext,
@@ -10,6 +8,9 @@ import React, {
 	useContext,
 	useState,
 } from 'react';
+import { api } from '@/lib/axios';
+
+import { Book } from '@/types/bookTypes';
 
 type BookProviderProps = {
 	children: ReactNode;

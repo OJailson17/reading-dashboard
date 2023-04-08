@@ -5,8 +5,8 @@ import { useEffect, useState } from 'react';
 import { DonutComponent } from '../Donut';
 import { SelectBook } from '../SelectBook';
 
-import { ChartDataWrapper, StatusComponent } from '@/styles/common';
 import { Book } from '@/types/bookTypes';
+import { ChartDataWrapper, StatusComponent } from '@/styles/common';
 
 interface ReadingStatusProps {
 	books: Book[];

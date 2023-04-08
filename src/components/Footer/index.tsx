@@ -1,4 +1,5 @@
 import Link from 'next/link';
+
 import { FooterComponent } from './styles';
 
 export const Footer = () => {

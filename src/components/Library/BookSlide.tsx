@@ -1,11 +1,13 @@
 'use client';
 
-import { Book } from '@/types/bookTypes';
 import * as Dialog from '@radix-ui/react-dialog';
 import React, { SyntheticEvent, useState } from 'react';
-import { BookDialog } from '../BookDialog';
-import { BookComponent } from './styles';
 
+import { BookDialog } from '../BookDialog';
+
+import { Book } from '@/types/bookTypes';
+
+import { BookComponent } from './styles';
 interface BookSlideComponentProps {
 	books: Book[];
 }

@@ -1,19 +1,21 @@
 'use client';
 
+import { useEffect } from 'react';
 import { redirect } from 'next/navigation';
 import { parseCookies } from 'nookies';
+
 import { BookStatus } from '@/components/BooksStatus';
 import { ReadingStatus } from '@/components/ReadingStatus';
 import { YearlyChart } from '@/components/YearlyChart';
-
-import { StatusComponent, StatusComponentWrapper } from './styles';
-import { PageTitle } from '@/styles/common';
 import { Library } from '@/components/Library';
-import { useBook } from '@/context/BookContext';
-import { useEffect } from 'react';
 import { LoadingScreen } from '@/components/LoadingScreen';
-import { Book } from '@/types/bookTypes';
 import { Footer } from '@/components/Footer';
+
+import { useBook } from '@/context/BookContext';
+import { Book } from '@/types/bookTypes';
+
+import { PageTitle } from '@/styles/common';
+import { StatusComponent, StatusComponentWrapper } from './styles';
 
 export default function Home() {
 	// Get token from cookies

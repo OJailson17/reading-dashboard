@@ -1,8 +1,9 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
-import { PageTitle } from '@/styles/common';
 import { FormComponent } from './components/Form';
+
+import { PageTitle } from '@/styles/common';
 
 export const metadata = {
 	title: 'Login | Reading Dashboard',

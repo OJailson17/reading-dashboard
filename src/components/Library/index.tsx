@@ -1,7 +1,8 @@
 'use client';
 
-import { Book } from '@/types/bookTypes';
 import { BookSlideComponent } from './BookSlide';
+
+import { Book } from '@/types/bookTypes';
 import { BookSlide, LibraryComponent, LibraryComponentWrapper } from './styles';
 
 interface LibraryBooks {
