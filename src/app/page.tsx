@@ -13,6 +13,7 @@ import { useBook } from '@/context/BookContext';
 import { useEffect } from 'react';
 import { LoadingScreen } from '@/components/LoadingScreen';
 import { Book } from '@/types/bookTypes';
+import { Footer } from '@/components/Footer';
 
 export default function Home() {
 	// Get token from cookies
@@ -94,6 +95,8 @@ export default function Home() {
 
 					{/* Yearly Graph */}
 					<YearlyChart finished_books={finished_books} />
+
+					<Footer />
 				</>
 			) : (
 				<LoadingScreen />
