@@ -32,15 +32,11 @@ export const ReadingStatus = ({ books }: ReadingStatusProps) => {
 
 	// When the books list or the name of the book changes, update the book data to the new book name
 	useEffect(() => {
-		console.log({ selectedBookName });
 		// Find a book with the same name as the selected book state
 		const getBookData = books.find(
 			(book: any) =>
 				book.properties.Name.title[0].plain_text === selectedBookName,
 		);
-		console.log(books[0]?.properties.Name.title[0].plain_text);
-
-		console.log({ getBookData });
 
 		if (getBookData) {
 			setSelectedBook(getBookData);
@@ -60,8 +56,6 @@ export const ReadingStatus = ({ books }: ReadingStatusProps) => {
 			selectedBook?.properties['Qtd. Pages']?.number) *
 			100,
 	);
-
-	console.log({ books });
 
 	return (
 		<StatusComponent>
