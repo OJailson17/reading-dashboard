@@ -1,6 +1,6 @@
 'use client';
 
-// import { results } from 'fakeData';
+import { results } from 'fakeData';
 import React, {
 	createContext,
 	ReactNode,
@@ -34,7 +34,7 @@ export const BookContextProvider = ({ children }: BookProviderProps) => {
 	// Make api call to get books data
 	const getBooks = useCallback(async (databaseId: string) => {
 		try {
-			const response = await api.get(`/book?db=${databaseId}`);
+			const response = await api.get(`/book/?db=${databaseId}`);
 
 			// const allBooks = results as Book[];
 			const allBooks = response.data.results as Book[];

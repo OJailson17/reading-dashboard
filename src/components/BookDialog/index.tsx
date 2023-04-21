@@ -48,6 +48,36 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 		// Disable input
 		setIsPageInputDisable(true);
 
+		// Check if the page number is equal to the total number of pages
+		const totalPages = book?.properties['Qtd. Pages'].number;
+
+		if (currentPage === totalPages) {
+			try {
+				const finishedBookUpdateResponse = await api.patch(
+					'/book/update/status/finished',
+					{
+						current_page: currentPage,
+						page_id: book?.id,
+					},
+				);
+
+				// Update the books data
+				await onGetBooks({ databaseId, token });
+
+				console.log({ finishedBookUpdateResponse });
+
+				// Make save button disappear
+				setShowSaveButton(false);
+			} catch (error) {
+				console.log(error);
+			}
+
+			return;
+		}
+
+		// Disable input
+		setIsPageInputDisable(true);
+
 		// Redirect user to login page if token or database id does not exist
 		if (!token || !databaseId) {
 			toast('Error', {
@@ -66,7 +96,7 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 
 		try {
 			// Make the api call to passing the new value
-			const response = await api.patch('/book/update', {
+			const response = await api.patch('/book/update/page', {
 				current_page: currentPage,
 				page_id: book?.id,
 			});
@@ -87,6 +117,7 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 		}
 	};
 
+	// Reset states after close modal
 	const onCloseModal = () => {
 		setCurrentPage(-1);
 		setShowSaveButton(false);
