@@ -1,6 +1,6 @@
 'use client';
 
-import { results } from 'fakeData';
+// import { results } from 'fakeData';
 import React, {
 	createContext,
 	ReactNode,
