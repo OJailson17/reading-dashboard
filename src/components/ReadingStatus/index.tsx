@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -25,29 +26,43 @@ export const ReadingStatus = ({ books }: ReadingStatusProps) => {
 		setSelectedBookName(book);
 	};
 
-	// Map through the books list and get just the name of the books
-	const bookNames = books.map((book: Book) => {
-		return book.properties.Name.title[0].plain_text;
-	});
-
-	// When the books list or the name of the book changes, update the book data to the new book name
-	useEffect(() => {
+	// Update the whole card values
+	const updateCardValues = () => {
 		// Find a book with the same name as the selected book state
 		const getBookData = books.find(
 			(book: any) =>
 				book.properties.Name.title[0].plain_text === selectedBookName,
 		);
 
+		// console.log(getBookData?.properties['Current Page'].number);
+
 		if (getBookData) {
 			setSelectedBook(getBookData);
 			setCurrentPage(getBookData.properties['Current Page'].number);
 			setTotalPages(getBookData.properties['Qtd. Pages'].number);
 		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
+	};
+
+	// Map through the books list and get just the name of the books
+	const bookNames = books.map((book: Book) => {
+		return book.properties.Name.title[0].plain_text;
+	});
+
+	// When the the name of the book changes, update the book data to the new book name
+	useEffect(() => {
+		updateCardValues();
 	}, [selectedBookName]);
 
+	// When the books list change, update the book data
 	useEffect(() => {
-		setSelectedBookName(books[0]?.properties.Name.title[0].plain_text);
+		// console.log({ selectedBookName });
+		// console.log({ books });
+		if (books[0]?.properties.Name.title[0].plain_text !== selectedBookName) {
+			// console.log('it rendered');
+			setSelectedBookName(books[0]?.properties.Name.title[0].plain_text);
+			return;
+		}
+		updateCardValues();
 	}, [books]);
 
 	// Calculate the percentage of how much the book was read
@@ -56,6 +71,10 @@ export const ReadingStatus = ({ books }: ReadingStatusProps) => {
 			selectedBook?.properties['Qtd. Pages']?.number) *
 			100,
 	);
+
+	// console.log({ selectedBookName });
+
+	// console.log({ books });
 
 	return (
 		<StatusComponent>
