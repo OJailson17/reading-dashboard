@@ -5,6 +5,7 @@ import { BookSlideComponent } from './BookSlide';
 
 import { Book } from '@/types/bookTypes';
 import { BookSlide, LibraryComponent, LibraryComponentWrapper } from './styles';
+import { useRouter } from 'next/navigation';
 
 interface LibraryBooks {
 	reading_books: Book[];
@@ -17,6 +18,12 @@ export const Library = ({
 	finished_books,
 	to_read_books,
 }: LibraryBooks) => {
+	const router = useRouter();
+
+	const redirectUser = (href: string) => {
+		router.push(href);
+	};
+
 	return (
 		<LibraryComponentWrapper>
 			<LibraryComponent>
@@ -24,9 +31,9 @@ export const Library = ({
 					<p className='library-component-title'>Library</p>
 
 					{!to_read_books ? (
-						<Link href={'library'}>more</Link>
+						<span onClick={() => redirectUser('/library')}>more</span>
 					) : (
-						<Link href={'/'}>home</Link>
+						<span onClick={() => redirectUser('/')}>more</span>
 					)}
 				</header>
 

@@ -35,10 +35,12 @@ export const LibraryComponent = styled.div`
 			font-weight: 600;
 		}
 
-		a {
+		span {
 			color: inherit;
 			position: absolute;
 			right: 0;
+			cursor: pointer;
+			text-decoration: underline;
 		}
 	}
 
