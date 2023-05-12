@@ -26,7 +26,7 @@ export const Library = ({
 					{!to_read_books ? (
 						<Link href={'/library'}>more</Link>
 					) : (
-						<Link href={'/'}>more</Link>
+						<Link href={'/'}>home</Link>
 					)}
 				</header>
 
