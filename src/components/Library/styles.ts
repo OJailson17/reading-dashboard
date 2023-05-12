@@ -24,9 +24,22 @@ export const LibraryComponent = styled.div`
 	text-align: center;
 	box-shadow: 0px 0px 20px 0px #1e1e1e;
 
-	.library-component-title {
-		font-size: 1.5rem;
-		font-weight: 600;
+	header {
+		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		.library-component-title {
+			font-size: 1.5rem;
+			font-weight: 600;
+		}
+
+		a {
+			color: inherit;
+			position: absolute;
+			right: 0;
+		}
 	}
 
 	.library-component-subtitle {

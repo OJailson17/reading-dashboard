@@ -180,45 +180,48 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 									<span>{book?.properties.Rating.select.name}</span>
 								</div>
 							) : (
-								<div>
-									<span>Current Page:</span>
+								book?.properties.Status.select.name !== 'To read' && (
+									<div>
+										<span>Current Page:</span>
 
-									{/* If the state value is less than 0, show default value */}
-									<input
-										type='number'
-										value={
-											currentPage < 0
-												? book?.properties['Current Page'].number
-												: currentPage
-										}
-										onChange={e => setCurrentPage(Number(e.target.value))}
-										disabled={isPageInputDisable}
-									/>
+										{/* If the state value is less than 0, show default value */}
 
-									{/* Show save or edit button depending on the showSaveButton state */}
-									{showSaveButton ? (
-										<button
-											className='book-btn'
-											onClick={updatePages}
+										<input
+											type='number'
+											value={
+												currentPage < 0
+													? book?.properties['Current Page'].number
+													: currentPage
+											}
+											onChange={e => setCurrentPage(Number(e.target.value))}
 											disabled={isPageInputDisable}
-										>
-											{isPageInputDisable ? (
-												<Rings width={16} height={16} />
-											) : (
-												<p>Save</p>
-											)}
-										</button>
-									) : (
-										<button
-											className='book-btn'
-											onClick={() => {
-												setIsPageInputDisable(false);
-											}}
-										>
-											Edit
-										</button>
-									)}
-								</div>
+										/>
+
+										{/* Show save or edit button depending on the showSaveButton state */}
+										{showSaveButton ? (
+											<button
+												className='book-btn'
+												onClick={updatePages}
+												disabled={isPageInputDisable}
+											>
+												{isPageInputDisable ? (
+													<Rings width={16} height={16} />
+												) : (
+													<p>Save</p>
+												)}
+											</button>
+										) : (
+											<button
+												className='book-btn'
+												onClick={() => {
+													setIsPageInputDisable(false);
+												}}
+											>
+												Edit
+											</button>
+										)}
+									</div>
+								)
 							)}
 						</DialogContentBookInfo>
 					</DialogContentContainer>
