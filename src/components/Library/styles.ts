@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import styled from 'styled-components';
 
 export const LibraryComponentWrapper = styled.div`
@@ -34,12 +35,6 @@ export const LibraryComponent = styled.div`
 			font-size: 1.5rem;
 			font-weight: 600;
 		}
-
-		a {
-			color: inherit;
-			position: absolute;
-			right: 0;
-		}
 	}
 
 	.library-component-subtitle {
@@ -48,6 +43,12 @@ export const LibraryComponent = styled.div`
 		text-align: left;
 		margin-top: 1.5rem;
 	}
+`;
+
+export const PageLink = styled(Link)`
+	color: inherit;
+	position: absolute;
+	right: 0;
 `;
 
 export const BookSlide = styled.div`
