@@ -1,10 +1,10 @@
 'use client';
+import Link from 'next/link';
 
 import { BookSlideComponent } from './BookSlide';
 
 import { Book } from '@/types/bookTypes';
 import { BookSlide, LibraryComponent, LibraryComponentWrapper } from './styles';
-import Link from 'next/link';
 
 interface LibraryBooks {
 	reading_books: Book[];
@@ -24,7 +24,7 @@ export const Library = ({
 					<p className='library-component-title'>Library</p>
 
 					{!to_read_books ? (
-						<Link href={'/library'}>more</Link>
+						<Link href={'library'}>more</Link>
 					) : (
 						<Link href={'/'}>home</Link>
 					)}
