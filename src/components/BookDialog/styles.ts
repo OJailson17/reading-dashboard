@@ -111,16 +111,21 @@ export const DialogContentBookInfo = styled.div`
 		display: flex;
 		gap: 0.5rem;
 
-		.Finished {
-			background-color: #2b593f;
+		.status {
 			padding: 0.1rem;
 			border-radius: 4px;
 		}
 
+		.Finished {
+			background-color: #2b593f;
+		}
+
 		.Reading {
 			background-color: #89632a;
-			padding: 0.1rem;
-			border-radius: 4px;
+		}
+
+		.tbr {
+			background-color: #28456c;
 		}
 	}
 

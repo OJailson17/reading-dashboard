@@ -165,7 +165,13 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 							</div>
 							<div>
 								<span>Status:</span>
-								<span className={book?.properties.Status.select.name}>
+								<span
+									className={`status ${
+										book?.properties.Status.select.name === 'To read'
+											? 'tbr'
+											: book?.properties.Status.select.name
+									}`}
+								>
 									{book?.properties.Status.select.name}
 								</span>
 							</div>
