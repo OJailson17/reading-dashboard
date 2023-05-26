@@ -6,8 +6,9 @@ import { Book } from '@/types/bookTypes';
 import { redirect } from 'next/navigation';
 import { parseCookies } from 'nookies';
 import { useEffect } from 'react';
-import { LibraryPageTitle } from './styles';
+import { LibraryPageTitle, MainComponent } from './styles';
 import { LoadingScreen } from '@/components/LoadingScreen';
+import { Footer } from '@/components/Footer';
 
 export const metadata = {
 	title: 'Library | Reading Dashboard',
@@ -61,13 +62,15 @@ export default function LibraryPage() {
 		<>
 			<LibraryPageTitle>All Books</LibraryPageTitle>
 
-			<main>
+			<MainComponent>
 				<Library
 					finished_books={finished_books}
 					reading_books={reading_books}
 					to_read_books={to_read_books}
 				/>
-			</main>
+			</MainComponent>
+
+			<Footer />
 		</>
 	);
 }
