@@ -17,8 +17,11 @@ export default function Login() {
 
 	// Redirect to login page if token already exists
 	if (token && databaseIdCookie) {
-		redirect('/');
+		// redirect('/');
+		console.log({ token, databaseIdCookie });
 	}
+
+	const handleSignIn = () => {};
 
 	return (
 		<div>

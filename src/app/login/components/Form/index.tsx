@@ -9,6 +9,7 @@ import { useAuthentication } from '@/context/AuthContext';
 import { LoginForm } from './styles';
 
 import 'react-toastify/dist/ReactToastify.css';
+import { redirect } from 'next/navigation';
 
 export const FormComponent = () => {
 	const [username, setUsername] = useState('');
@@ -31,6 +32,8 @@ export const FormComponent = () => {
 			if (!isUserLogged) {
 				setIsSubmitButtonDisable(false);
 			}
+
+			// TODO try to redirect the user passing the cookies
 		}
 	};
 

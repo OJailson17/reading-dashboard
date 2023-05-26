@@ -5,31 +5,27 @@ import {
 	isNotionClientError,
 } from '@notionhq/client';
 import { notion } from '@/lib/notion';
+import { NextRequest, NextResponse } from 'next/server';
 
-const UpdateBookPages = async (req: NextApiRequest, res: NextApiResponse) => {
-	if (req.method !== 'PATCH') {
-		res.status(405).send({ message: 'Only PATCH requests allowed' });
-		return;
-	}
+export async function GET(req: NextRequest, res: NextResponse) {
+	const { searchParams } = new URL(req.url);
+	const db = searchParams.get('db');
 
-	const { current_page, page_id } = req.body as {
-		current_page: number;
-		page_id: string;
-	};
-
-	console.log({ current_page, page_id });
+	const databaseIdCookie = `${db}`;
 
 	try {
-		const response = await notion.pages.update({
-			page_id,
-			properties: {
-				'Current Page': {
-					number: Number(current_page),
+		// Make a query to get the database data
+		const response = await notion.databases.query({
+			database_id: databaseIdCookie || '',
+			filter: {
+				property: 'Status',
+				select: {
+					does_not_equal: 'Abandoned',
 				},
 			},
 		});
 
-		return res.json(response);
+		return NextResponse.json(response);
 	} catch (error) {
 		if (isNotionClientError(error)) {
 			switch (error.code) {
@@ -50,10 +46,8 @@ const UpdateBookPages = async (req: NextApiRequest, res: NextApiResponse) => {
 
 				default:
 					console.log(error);
-					return res.json(error);
+					return NextResponse.json(error);
 			}
 		}
 	}
-};
-
-export default UpdateBookPages;
+}

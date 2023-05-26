@@ -5,22 +5,21 @@ import {
 	isNotionClientError,
 } from '@notionhq/client';
 import { format } from 'date-fns';
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest, NextResponse } from 'next/server';
+
+type BodyTypes = {
+	page_id: string;
+	current_page: string;
+};
 
 // Update the status of the book to finished, update the page and set the finished date to today
-const UpdateBookStatusToFinished = async (
-	req: NextApiRequest,
-	res: NextApiResponse,
-) => {
-	if (req.method !== 'PATCH') {
-		res.status(405).send({ message: 'Only PATCH requests allowed' });
-		return;
-	}
+export async function PATCH(req: NextRequest, res: NextResponse) {
+	// if (req.method !== 'PATCH') {
+	// 	res.status(405).send({ message: 'Only PATCH requests allowed' });
+	// 	return;
+	// }
 
-	const { page_id, current_page } = req.body as {
-		page_id: string;
-		current_page: string;
-	};
+	const { page_id, current_page } = await req.json();
 
 	console.log({ page_id });
 
@@ -46,7 +45,7 @@ const UpdateBookStatusToFinished = async (
 			},
 		});
 
-		return res.json(response);
+		return NextResponse.json(response);
 	} catch (error) {
 		if (isNotionClientError(error)) {
 			switch (error.code) {
@@ -67,10 +66,8 @@ const UpdateBookStatusToFinished = async (
 
 				default:
 					console.log(error);
-					return res.json(error);
+					return NextResponse.json(error);
 			}
 		}
 	}
-};
-
-export default UpdateBookStatusToFinished;
+}

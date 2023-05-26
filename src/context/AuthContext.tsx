@@ -29,21 +29,31 @@ export const AuthContextProvider = ({ children }: AuthProviderProps) => {
 	// Make request to login route to return the jwt token
 	const onSignIn = async (username: string): Promise<boolean> => {
 		try {
-			const { data } = await api.post<LoginResponse>('/auth/login', {
-				username,
-			});
+			const response = await api.get<LoginResponse>(
+				`/auth?username=${username}`,
+			);
 
 			// Set token cookies
-			setCookie(undefined, '@reading_dashboard:token', data.token, {
-				maxAge: 60 * 60 * 24 * 7, // 7 days
-				path: '/',
-			});
+			setCookie(
+				{ res: response },
+				'@reading_dashboard:token',
+				response.data.token,
+				{
+					maxAge: 60 * 60 * 24 * 7, // 7 days
+					path: '/',
+				},
+			);
 
-			// Set database id cookie
-			setCookie(undefined, '@reading_dashboard:database_id', data.database_id, {
-				maxAge: 60 * 60 * 24 * 7, // 7 days
-				path: '/',
-			});
+			// // Set database id cookie
+			setCookie(
+				{ res: response },
+				'@reading_dashboard:database_id',
+				response.data.database_id,
+				{
+					maxAge: 60 * 60 * 24 * 7, // 7 days
+					path: '/',
+				},
+			);
 
 			// Redirect user to home page
 			router.push(`/`);

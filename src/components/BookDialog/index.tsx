@@ -40,6 +40,8 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 	// Get database id from cookies
 	const { '@reading_dashboard:database_id': databaseId } = parseCookies();
 
+	// console.log({ tokenDiaglog: token, databaseIdDialog: databaseId });
+
 	// Books hook
 	const { onGetBooks } = useBook();
 
