@@ -20,8 +20,6 @@ export default function Login() {
 		redirect('/');
 	}
 
-	const handleSignIn = () => {};
-
 	return (
 		<div>
 			<PageTitle>Login</PageTitle>

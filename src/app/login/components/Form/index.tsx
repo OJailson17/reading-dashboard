@@ -32,8 +32,6 @@ export const FormComponent = () => {
 			if (!isUserLogged) {
 				setIsSubmitButtonDisable(false);
 			}
-
-			// TODO try to redirect the user passing the cookies
 		}
 	};
 

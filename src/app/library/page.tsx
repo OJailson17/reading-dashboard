@@ -48,7 +48,7 @@ export default async function LibraryPage() {
 	};
 
 	// Fetch books data from api
-	await fetch(`http://localhost:3000/api/book?db=${databaseId}`, {
+	await fetch(`${process.env.API_BASE_URL}/book?db=${databaseId}`, {
 		cache: 'default',
 	})
 		.then(res => res.json())
