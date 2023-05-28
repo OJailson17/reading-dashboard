@@ -44,7 +44,7 @@ export const AuthContextProvider = ({ children }: AuthProviderProps) => {
 				},
 			);
 
-			// // Set database id cookie
+			// Set database id cookie
 			setCookie(
 				{ res: response },
 				'@reading_dashboard:database_id',

@@ -6,6 +6,8 @@ import { AuthContextProvider } from '@/context/AuthContext';
 import { BookContextProvider } from '@/context/BookContext';
 
 import { GlobalStyles } from '@/styles/global';
+import { Suspense } from 'react';
+import Loading from './login/loading';
 
 const inter = Inter({
 	subsets: ['latin'],

@@ -40,8 +40,6 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 	// Get database id from cookies
 	const { '@reading_dashboard:database_id': databaseId } = parseCookies();
 
-	// console.log({ tokenDiaglog: token, databaseIdDialog: databaseId });
-
 	// Books hook
 	const { onGetBooks } = useBook();
 
@@ -55,18 +53,13 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 
 		if (currentPage === totalPages) {
 			try {
-				const finishedBookUpdateResponse = await api.patch(
-					'/book/update/status/finished',
-					{
-						current_page: currentPage,
-						page_id: book?.id,
-					},
-				);
+				await api.patch('/book/update/status/finished', {
+					current_page: currentPage,
+					page_id: book?.id,
+				});
 
 				// Update the books data
 				await onGetBooks({ databaseId, token });
-
-				console.log({ finishedBookUpdateResponse });
 
 				// Make save button disappear
 				setShowSaveButton(false);

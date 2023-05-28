@@ -25,7 +25,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
 			},
 		});
 
-		return NextResponse.json(response);
+		return NextResponse.json(response.results);
 	} catch (error) {
 		if (isNotionClientError(error)) {
 			switch (error.code) {

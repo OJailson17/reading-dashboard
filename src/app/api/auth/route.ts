@@ -53,50 +53,17 @@ export async function GET(req: NextRequest, res: NextResponse) {
 	);
 
 	if (getUsername) {
+		// Get the database id
 		const user_database_id =
 			getUsername.properties.database_id.rich_text[0].plain_text;
 
+		// Create the token
 		const token = sign(
 			{
 				user: username,
 			},
 			`${process.env.JWT_SECRET}`,
 		);
-
-		const redirectUrl = new URL('/', req.url);
-		const cookiesExpireInSeconds = 60 * 60 * 24 * 7; // 7 days
-
-		// const response = NextResponse.next();
-		// response.cookies.set('@reading_dashboard:token', token, {
-		// 	expires: cookiesExpireInSeconds,
-		// });
-		// response.cookies.set('@reading_dashboard:database_id', user_database_id, {
-		// 	expires: cookiesExpireInSeconds,
-		// });
-
-		// return NextResponse.json({
-		// 	response,
-		// });
-
-		// return NextResponse.redirect(redirectUrl);
-
-		// cookies().set('@reading_dashboard:token', token, {
-		// 	expires: cookiesExpireInSeconds,
-		// 	path: '/',
-		// });
-		// cookies().set('@reading_dashboard:database_id', user_database_id, {
-		// 	expires: cookiesExpireInSeconds,
-		// 	path: '/',
-		// });
-
-		// nookies.set({ res }, '@reading_dashboard:token', token, {
-		// 	maxAge: cookiesExpireInSeconds,
-		// 	path: '/',
-		// });
-		// nookies.set({ res }, '@reading_dashboard:database_id', user_database_id, {
-		// 	maxAge: cookiesExpireInSeconds,
-		// 	path: '/',
-		// });
 
 		return NextResponse.json({
 			token,

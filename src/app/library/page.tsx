@@ -1,62 +1,65 @@
-'use client';
+import { redirect } from 'next/navigation';
 
 import { Library } from '@/components/Library';
-import { useBook } from '@/context/BookContext';
 import { Book } from '@/types/bookTypes';
-import { redirect } from 'next/navigation';
-import { parseCookies } from 'nookies';
-import { useEffect } from 'react';
 import { LibraryPageTitle, MainComponent } from './styles';
-import { LoadingScreen } from '@/components/LoadingScreen';
 import { Footer } from '@/components/Footer';
+import { cookies } from 'next/headers';
 
 export const metadata = {
 	title: 'Library | Reading Dashboard',
 };
 
-export default function LibraryPage() {
+export default async function LibraryPage() {
 	// Get token from cookies
-	const { '@reading_dashboard:token': token } = parseCookies();
+	const token = cookies().get('@reading_dashboard:token')?.value;
 	// Get database id from cookies
-	const { '@reading_dashboard:database_id': databaseId } = parseCookies();
+	const databaseId = cookies().get('@reading_dashboard:database_id')?.value;
 
 	// Redirect to login page if token does not exists
 	if (!token || !databaseId) {
 		redirect('/login');
 	}
 
-	const { books, onGetBooks } = useBook();
-
+	let books: Book[] = [];
 	let reading_books: Book[] = [];
 	let to_read_books: Book[] = [];
 	let finished_books: Book[] = [];
 
-	if (books) {
-		// Get the reading books
-		reading_books =
-			books?.filter(book => book.properties.Status.select.name === 'Reading') ||
-			[];
+	const filterBooks = () => {
+		if (books) {
+			// Get the reading books
+			reading_books =
+				books?.filter(
+					book => book.properties.Status.select.name === 'Reading',
+				) || [];
 
-		// Get the amount of books to read
-		to_read_books = books?.filter(
-			book => book.properties.Status.select.name === 'To read',
-		);
+			// Get the amount of books to read
+			to_read_books = books?.filter(
+				book => book.properties.Status.select.name === 'To read',
+			);
 
-		// Get the finished books
-		finished_books =
-			books?.filter(
-				book => book.properties.Status.select.name === 'Finished',
-			) || [];
-	}
+			// Get the finished books
+			finished_books =
+				books?.filter(
+					book => book.properties.Status.select.name === 'Finished',
+				) || [];
+		}
+	};
 
-	useEffect(() => {
-		onGetBooks({ databaseId, token });
+	// Fetch books data from api
+	await fetch(`http://localhost:3000/api/book?db=${databaseId}`, {
+		cache: 'default',
+	})
+		.then(res => res.json())
+		.then(bookList => {
+			// Assign books array with the api response
+			books = bookList;
 
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
-
-	// If there is no books yet, add a loading screen
-	if (to_read_books.length <= 0) return <LoadingScreen />;
+			// Call the filter function to fill the data
+			filterBooks();
+		})
+		.catch(err => console.log(err));
 
 	return (
 		<>

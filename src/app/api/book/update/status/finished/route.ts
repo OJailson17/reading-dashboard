@@ -21,8 +21,6 @@ export async function PATCH(req: NextRequest, res: NextResponse) {
 
 	const { page_id, current_page } = await req.json();
 
-	console.log({ page_id });
-
 	const today = format(new Date(), 'yyyy-MM-dd');
 
 	try {
