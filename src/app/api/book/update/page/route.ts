@@ -5,6 +5,7 @@ import {
 } from '@notionhq/client';
 import { notion } from '@/lib/notion';
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidateTag } from 'next/cache';
 
 export async function PATCH(req: NextRequest, res: NextResponse) {
 	// if (req.method !== 'PATCH') {
@@ -28,6 +29,9 @@ export async function PATCH(req: NextRequest, res: NextResponse) {
 				},
 			},
 		});
+
+		// Revalidate data
+		revalidateTag('books');
 
 		return NextResponse.json(response);
 	} catch (error) {

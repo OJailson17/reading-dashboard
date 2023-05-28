@@ -5,12 +5,8 @@ import {
 	isNotionClientError,
 } from '@notionhq/client';
 import { format } from 'date-fns';
+import { revalidateTag } from 'next/cache';
 import { NextRequest, NextResponse } from 'next/server';
-
-type BodyTypes = {
-	page_id: string;
-	current_page: string;
-};
 
 // Update the status of the book to finished, update the page and set the finished date to today
 export async function PATCH(req: NextRequest, res: NextResponse) {
@@ -42,6 +38,9 @@ export async function PATCH(req: NextRequest, res: NextResponse) {
 				},
 			},
 		});
+
+		// Revalidate data
+		revalidateTag('books');
 
 		return NextResponse.json(response);
 	} catch (error) {
