@@ -5,7 +5,7 @@ import {
 } from '@notionhq/client';
 import { notion } from '@/lib/notion';
 import { NextRequest, NextResponse } from 'next/server';
-import { revalidateTag } from 'next/cache';
+// import { revalidateTag } from 'next/cache';
 
 export async function PATCH(req: NextRequest, res: NextResponse) {
 	// if (req.method !== 'PATCH') {
@@ -18,7 +18,7 @@ export async function PATCH(req: NextRequest, res: NextResponse) {
 		page_id: string;
 	};
 
-	console.log({ current_page, page_id });
+	// console.log({ current_page, page_id });
 
 	try {
 		const response = await notion.pages.update({
@@ -31,7 +31,7 @@ export async function PATCH(req: NextRequest, res: NextResponse) {
 		});
 
 		// Revalidate data
-		revalidateTag('books');
+		// revalidateTag('books');
 
 		return NextResponse.json(response);
 	} catch (error) {

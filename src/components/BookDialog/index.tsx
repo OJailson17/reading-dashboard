@@ -64,7 +64,7 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 					});
 
 				// Update the books data
-				// await onGetBooks({ databaseId, token });
+				await onGetBooks({ databaseId, token });
 			} catch (error) {
 				console.log(error);
 				setShowSaveButton(false);
@@ -94,7 +94,7 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 
 		try {
 			// Make the api call to passing the new value
-			await api
+			const response = await api
 				.patch('/book/update/page', {
 					current_page: currentPage,
 					page_id: book?.id,
@@ -105,13 +105,13 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 				});
 
 			// Add type to the response result data
-			// const updatedBook = response.data as Book;
+			const updatedBook = response.data as Book;
 
 			// Set current page to the updated value
-			// setCurrentPage(updatedBook.properties['Current Page'].number);
+			setCurrentPage(updatedBook.properties['Current Page'].number);
 
 			// Update the books data
-			// await onGetBooks({ databaseId, token });
+			await onGetBooks({ databaseId, token });
 			// revalidateTag('books');
 
 			// Make save button disappear

@@ -34,10 +34,10 @@ export const BookContextProvider = ({ children }: BookProviderProps) => {
 	// Make api call to get books data
 	const getBooks = useCallback(async (databaseId: string) => {
 		try {
-			const response = await api.get(`/book/?db=${databaseId}`);
+			const response = await api.get(`/book?db=${databaseId}`);
 
 			// const allBooks = results as Book[];
-			const allBooks = response.data.results as Book[];
+			const allBooks = response.data as Book[];
 
 			// Set the api response to books state
 			setBooks(allBooks);

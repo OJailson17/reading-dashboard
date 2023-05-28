@@ -8,18 +8,22 @@ import { SelectBook } from '../SelectBook';
 
 import { Book } from '@/types/bookTypes';
 import { ChartDataWrapper, StatusComponent } from '@/styles/common';
+import { useBook } from '@/context/BookContext';
 
 interface ReadingStatusProps {
 	books: Book[];
 }
 
 export const ReadingStatus = ({ books }: ReadingStatusProps) => {
+	const [readingBooks, setReadingBooks] = useState<Book[]>(books);
 	const [totalPages, setTotalPages] = useState(0);
 	const [currentPage, setCurrentPage] = useState(0);
-	const [selectedBook, setSelectedBook] = useState<Book>(books[0]);
+	const [selectedBook, setSelectedBook] = useState<Book>(readingBooks[0]);
 	const [selectedBookName, setSelectedBookName] = useState(
-		books[0]?.properties.Name.title[0].plain_text,
+		readingBooks[0]?.properties.Name.title[0].plain_text,
 	);
+
+	const { books: allBooks } = useBook();
 
 	// Get the selected book and set on selectedBook state
 	const handleChangeSelectedBook = (book: string) => {
@@ -29,7 +33,7 @@ export const ReadingStatus = ({ books }: ReadingStatusProps) => {
 	// Update the whole card values
 	const updateCardValues = () => {
 		// Find a book with the same name as the selected book state
-		const getBookData = books.find(
+		const getBookData = readingBooks.find(
 			(book: any) =>
 				book.properties.Name.title[0].plain_text === selectedBookName,
 		);
@@ -44,7 +48,7 @@ export const ReadingStatus = ({ books }: ReadingStatusProps) => {
 	};
 
 	// Map through the books list and get just the name of the books
-	const bookNames = books.map((book: Book) => {
+	const bookNames = readingBooks?.map((book: Book) => {
 		return book.properties.Name.title[0].plain_text;
 	});
 
@@ -57,13 +61,28 @@ export const ReadingStatus = ({ books }: ReadingStatusProps) => {
 	useEffect(() => {
 		// console.log({ selectedBookName });
 		// console.log({ books });
-		if (books[0]?.properties.Name.title[0].plain_text !== selectedBookName) {
+		if (
+			readingBooks[0]?.properties.Name.title[0].plain_text !== selectedBookName
+		) {
 			// console.log('it rendered');
-			setSelectedBookName(books[0]?.properties.Name.title[0].plain_text);
+			setSelectedBookName(readingBooks[0]?.properties.Name.title[0].plain_text);
 			return;
 		}
 		updateCardValues();
-	}, [books]);
+	}, [readingBooks]);
+
+	// If the books get updated, get the reading books and rerender
+	useEffect(() => {
+		const filterBooks = () => {
+			return allBooks?.filter(
+				book => book.properties.Status.select.name === 'Reading',
+			);
+		};
+
+		if (allBooks && allBooks?.length > 0) {
+			setReadingBooks(() => filterBooks() || []);
+		}
+	}, [allBooks]);
 
 	// Calculate the percentage of how much the book was read
 	const readPercentage = Math.floor(
@@ -81,7 +100,7 @@ export const ReadingStatus = ({ books }: ReadingStatusProps) => {
 			<p className='status-component-title'>Reading</p>
 
 			{/* If there is more the one book render a select element, if not render just the name of the book */}
-			{books?.length > 1 ? (
+			{readingBooks?.length > 1 ? (
 				<SelectBook books={bookNames} onSelectBook={handleChangeSelectedBook} />
 			) : (
 				<span className='status-component-description'>{selectedBookName}</span>
