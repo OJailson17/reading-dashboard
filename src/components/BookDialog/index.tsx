@@ -35,13 +35,13 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 
 	const router = useRouter();
 
+	// Books hook
+	const { onGetBooks } = useBook();
+
 	// Get token from cookies
 	const { '@reading_dashboard:token': token } = parseCookies();
 	// Get database id from cookies
 	const { '@reading_dashboard:database_id': databaseId } = parseCookies();
-
-	// Books hook
-	const { onGetBooks } = useBook();
 
 	// Update current page value
 	const updatePages = async () => {
@@ -51,6 +51,7 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 		// Check if the page number is equal to the total number of pages
 		const totalPages = book?.properties['Qtd. Pages'].number;
 
+		// Update the status to finish
 		if (currentPage === totalPages) {
 			try {
 				await api
@@ -107,15 +108,12 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 			// Add type to the response result data
 			const updatedBook = response.data as Book;
 
-			// Set current page to the updated value
+			// Set current page with the updated value
 			setCurrentPage(updatedBook.properties['Current Page'].number);
 
 			// Update the books data
 			await onGetBooks({ databaseId, token });
 			// revalidateTag('books');
-
-			// Make save button disappear
-			// setShowSaveButton(false);
 		} catch (error) {
 			console.log(error);
 			setShowSaveButton(false);

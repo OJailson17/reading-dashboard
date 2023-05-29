@@ -17,6 +17,8 @@ interface SelectBookProps {
 }
 
 export const SelectBook = ({ books, onSelectBook }: SelectBookProps) => {
+	console.log({ book2: books });
+
 	return (
 		<Select.Root defaultValue={books[0]} onValueChange={e => onSelectBook(e)}>
 			<SelectTriggerButton>
