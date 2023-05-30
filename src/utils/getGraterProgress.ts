@@ -20,7 +20,7 @@ export const getBookWithGraterProgress = (books: Book[]) => {
 
 	const booksNames = sortBooks.map(book => book.name);
 
-	console.log({ booksNames });
+	// console.log({ booksNames });
 
 	return booksNames;
 };

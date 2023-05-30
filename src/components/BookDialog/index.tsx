@@ -48,6 +48,22 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 		// Disable input
 		setIsPageInputDisable(true);
 
+		// Redirect user to login page if token or database id does not exist
+		if (!token || !databaseId) {
+			toast('Error', {
+				position: 'top-center',
+				autoClose: 2000,
+				theme: 'dark',
+				type: 'error',
+			});
+
+			setTimeout(() => {
+				router.push('/login');
+			}, 2500);
+
+			return;
+		}
+
 		// Check if the page number is equal to the total number of pages
 		const totalPages = book?.properties['Qtd. Pages'].number;
 
@@ -76,22 +92,6 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 
 		// Disable input
 		setIsPageInputDisable(true);
-
-		// Redirect user to login page if token or database id does not exist
-		if (!token || !databaseId) {
-			toast('Error', {
-				position: 'top-center',
-				autoClose: 2000,
-				theme: 'dark',
-				type: 'error',
-			});
-
-			setTimeout(() => {
-				router.push('/login');
-			}, 2500);
-
-			return;
-		}
 
 		try {
 			// Make the api call to passing the new value

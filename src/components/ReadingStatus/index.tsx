@@ -21,23 +21,27 @@ export const ReadingStatus = ({ books }: ReadingStatusProps) => {
 	const [totalPages, setTotalPages] = useState(0);
 	const [currentPage, setCurrentPage] = useState(0);
 	const [selectedBook, setSelectedBook] = useState<Book>(books[0]);
-	const [selectedBookName, setSelectedBookName] = useState('');
-
-	console.log(selectedBookName);
+	const [selectedBookName, setSelectedBookName] = useState(
+		books[0].properties.Name.title[0].plain_text,
+	);
 
 	// Book context hook
 	const { books: allBooks } = useBook();
 
 	// Get the selected book and set on selectedBook state
 	const handleChangeSelectedBook = (book: string) => {
+		console.log({ handle: book });
 		setSelectedBookName(book);
 	};
+
+	// Map through the books list and get just the name of the books
+	let bookNames = getBookWithGraterProgress(readingBooks);
 
 	// Update the whole card values
 	const updateCardValues = () => {
 		// Find a book with the same name as the selected book state
 		const getBookData = readingBooks.find(
-			(book: any) =>
+			(book: Book) =>
 				book.properties.Name.title[0].plain_text === selectedBookName,
 		);
 
@@ -48,23 +52,15 @@ export const ReadingStatus = ({ books }: ReadingStatusProps) => {
 		}
 	};
 
-	// Map through the books list and get just the name of the books
-	const bookNames = getBookWithGraterProgress(readingBooks);
-
-	// readingBooks?.map((book: Book) => {
-	// 	return book.properties.Name.title[0].plain_text;
-	// });
-
 	// When the the name of the book changes, update the book data to the new book name
 	useEffect(() => {
-		console.log({ selectedBookName });
 		updateCardValues();
-	}, [selectedBookName]);
+	}, [selectedBookName, bookNames]);
 
 	// When the books list changes, update all the card data
 	useEffect(() => {
-		console.log({ bookNames1: bookNames[0], selectedBookName });
-		if (bookNames[0] !== selectedBookName) {
+		if (bookNames.length > 0 && bookNames[0] !== selectedBookName) {
+			console.log({ bookName: bookNames[0], selectedBookName });
 			setSelectedBookName(bookNames[0]);
 			return;
 		}
@@ -74,21 +70,20 @@ export const ReadingStatus = ({ books }: ReadingStatusProps) => {
 
 	// If the books get updated, get just the reading books and rerender
 	useEffect(() => {
-		const filterBooks = () => {
-			return allBooks?.filter(
-				book => book.properties.Status.select.name === 'Reading',
-			);
-		};
+		const filterBooks =
+			allBooks?.filter(
+				(book: Book) => book.properties.Status.select.name === 'Reading',
+			) || [];
 
 		if (allBooks && allBooks?.length > 0) {
-			setReadingBooks(() => filterBooks() || []);
+			setReadingBooks(filterBooks || []);
 		}
 	}, [allBooks]);
 
 	// Calculate the percentage of how much the book was read
 	const readPercentage = calculateBookPercentage({
-		currentPage: selectedBook?.properties['Current Page']?.number,
-		totalPages: selectedBook?.properties['Qtd. Pages']?.number,
+		currentPage: selectedBook?.properties['Current Page']?.number || 0,
+		totalPages: selectedBook?.properties['Qtd. Pages']?.number || 0,
 	});
 
 	return (
