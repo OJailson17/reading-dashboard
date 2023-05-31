@@ -1,16 +1,8 @@
 'use client';
 
-import * as Select from '@radix-ui/react-select';
-
-import { GoTriangleDown } from 'react-icons/go';
-
-import {
-	SelectContent,
-	SelectItem,
-	SelectTriggerButton,
-	SelectViewport,
-} from './styles';
-import { useEffect } from 'react';
+import { SelectComponent } from './styles';
+import { useEffect, useState } from 'react';
+import Select from 'react-select';
 
 interface SelectBookProps {
 	books: string[];
@@ -18,42 +10,70 @@ interface SelectBookProps {
 }
 
 export const SelectBook = ({ books, onSelectBook }: SelectBookProps) => {
+	const [showSelect, setShowSelect] = useState(false);
+
+	const options = books.map(book => {
+		return {
+			value: book,
+			label: book,
+		};
+	});
+
 	useEffect(() => {
-		console.log(books.map(book => book));
-	}, [books]);
+		setShowSelect(true);
+	}, []);
 
 	return (
-		// <Select.Root defaultValue={books[0]} onValueChange={e => onSelectBook(e)}>
-		// 	<SelectTriggerButton>
-		// 		<Select.Value placeholder='Select a book' />
-		// 		<Select.Icon style={{ color: 'white' }}>
-		// 			<GoTriangleDown />
-		// 		</Select.Icon>
-		// 	</SelectTriggerButton>
+		<SelectComponent>
+			{showSelect && (
+				<Select
+					className='basic-single'
+					classNamePrefix='select'
+					defaultValue={{
+						label: books[0],
+						value: books[0],
+					}}
+					name='color'
+					options={options}
+					onChange={option => onSelectBook(option?.value || '')}
+					styles={{
+						control: baseStyles => ({
+							...baseStyles,
+							background: '#292738',
+							border: 'none',
+							cursor: 'pointer',
+						}),
+						container: base => ({
+							...base,
+							width: '100%',
+						}),
+						menu: base => ({
+							...base,
+							background: '#292738',
+							color: 'white',
+							borderRadius: '3px',
+						}),
+						option: (base, state) => ({
+							...base,
+							background: state.isFocused ? '#4a4556' : '#292738',
+							cursor: 'pointer',
+							fontWeight: 'normal',
+							textAlign: 'left',
+						}),
+						singleValue: base => ({
+							...base,
+							color: '#c4c4c4',
+							fontWeight: 'normal',
+							textAlign: 'left',
+						}),
 
-		// 	<Select.Portal>
-		// 		<SelectContent>
-		// 			<SelectViewport>
-		// 				{books.map((book, i) => (
-		// 					<SelectItem value={book} key={`${book}-${i}`}>
-		// 						<Select.ItemText>{book}</Select.ItemText>
-		// 					</SelectItem>
-		// 				))}
-		// 			</SelectViewport>
-		// 		</SelectContent>
-		// 	</Select.Portal>
-		// </Select.Root>
-		<select
-			name='books_names'
-			id='books_names'
-			onChange={e => onSelectBook(e.target.value)}
-			defaultValue={books[0]}
-		>
-			{books.map((book, i) => (
-				<option value={book} key={`${book}-${i}`}>
-					{book}
-				</option>
-			))}
-		</select>
+						indicatorSeparator: base => ({
+							...base,
+							display: 'none',
+						}),
+					}}
+				/>
+			)}
+		</SelectComponent>
 	);
 };
