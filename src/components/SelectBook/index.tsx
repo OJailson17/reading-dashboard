@@ -1,8 +1,6 @@
 'use client';
 
 import { SelectComponent } from './styles';
-import { useEffect, useState } from 'react';
-import Select from 'react-select';
 
 interface SelectBookProps {
 	books: string[];
