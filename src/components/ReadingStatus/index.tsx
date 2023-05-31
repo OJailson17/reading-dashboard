@@ -30,7 +30,6 @@ export const ReadingStatus = ({ books }: ReadingStatusProps) => {
 
 	// Get the selected book and set on selectedBook state
 	const handleChangeSelectedBook = (book: string) => {
-		console.log({ handle: book });
 		setSelectedBookName(book);
 	};
 
