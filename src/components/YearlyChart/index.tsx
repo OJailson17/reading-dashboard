@@ -11,7 +11,7 @@ import {
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { GoTriangleUp, GoTriangleDown } from 'react-icons/go';
-import { getYear, isSameMonth } from 'date-fns';
+import { getYear } from 'date-fns';
 
 import {
 	CharData,
@@ -23,6 +23,7 @@ import {
 import { getLeastAndMostMonthRead } from '@/utils/calculateMostAndLeastMonthsRead';
 import { useBook } from '@/context/BookContext';
 import { useEffect, useState } from 'react';
+import isSameMonth from '@/utils/isSameMonth';
 
 ChartJS.register(
 	CategoryScale,
@@ -112,7 +113,6 @@ export const YearlyChart = ({ finished_books }: YearlyChartProps) => {
 	const [allFinishedBooks, setAllFinishedBooks] =
 		useState<Book[]>(finished_books);
 
-	// Book quantity in each month
 	const monthsBooksQtd = {
 		Jan: {
 			quantity: 0,
@@ -166,17 +166,18 @@ export const YearlyChart = ({ finished_books }: YearlyChartProps) => {
 
 	const { books } = useBook();
 
-	// It return the current year
-	const currentYear = getYear(new Date()); // 2023
+	const currentYear = new Date().getUTCFullYear(); // 2023
 
 	// Got through the book list and check which month the book was finished
 	for (let i = 0; i < allFinishedBooks.length; i++) {
 		monthsLabels.map(label => {
 			// Check if the books is from the same month as the current label
-			const isMonth = isSameMonth(
-				new Date(`${label}, 1, ${currentYear}`),
-				new Date(allFinishedBooks[i]?.properties['Finished Date']?.date?.start),
-			);
+			const isMonth = isSameMonth({
+				monthDate: new Date(`${label}, 1, ${currentYear}`),
+				bookDate: new Date(
+					allFinishedBooks[i]?.properties['Finished Date']?.date?.start,
+				),
+			});
 
 			// If the finished date is the same month as the label, add 1 to the books quantity on that month
 			if (isMonth) {
