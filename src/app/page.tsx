@@ -88,7 +88,6 @@ export default async function Home() {
 				<PageTitle>Reading Dashboard</PageTitle>
 			</header>
 
-			{/* {books.length > 0 ? ( */}
 			<>
 				<StatusComponentWrapper>
 					<StatusComponent>
@@ -99,7 +98,7 @@ export default async function Home() {
 							<p>Books</p>
 						</div>
 					</StatusComponent>
-					<ReadingStatus books={reading_books} />
+					{reading_books.length > 0 && <ReadingStatus books={reading_books} />}
 					<BookStatus
 						amountOfBooks={total_books}
 						amountOfFinishedBooks={Number(finished_books.length)}

@@ -86,30 +86,39 @@ export const ReadingStatus = ({ books }: ReadingStatusProps) => {
 	});
 
 	return (
-		<StatusComponent>
-			<p className='status-component-title'>Reading</p>
+		<>
+			{readingBooks.length > 0 && (
+				<StatusComponent>
+					<p className='status-component-title'>Reading</p>
 
-			{/* If there is more the one book render a select element, if not render just the name of the book */}
-			{readingBooks?.length > 1 ? (
-				<SelectBook books={bookNames} onSelectBook={handleChangeSelectedBook} />
-			) : (
-				<span className='status-component-description'>{selectedBookName}</span>
+					{/* If there is more the one book render a select element, if not render just the name of the book */}
+					{readingBooks?.length > 1 ? (
+						<SelectBook
+							books={bookNames}
+							onSelectBook={handleChangeSelectedBook}
+						/>
+					) : (
+						<span className='status-component-description'>
+							{selectedBookName}
+						</span>
+					)}
+
+					<DonutComponent read_percentage={readPercentage} />
+
+					<ChartDataWrapper>
+						<div className='chart-data'>
+							<div className='circle-data'></div>
+							<p className='chart-label'>Total Pages</p>
+							<span className='chart-data-value'>{totalPages}</span>
+						</div>
+						<div className='chart-data'>
+							<div className='circle'></div>
+							<p className='chart-label'>Current Page</p>
+							<span className='chart-data-value'>{currentPage}</span>
+						</div>
+					</ChartDataWrapper>
+				</StatusComponent>
 			)}
-
-			<DonutComponent read_percentage={readPercentage} />
-
-			<ChartDataWrapper>
-				<div className='chart-data'>
-					<div className='circle-data'></div>
-					<p className='chart-label'>Total Pages</p>
-					<span className='chart-data-value'>{totalPages}</span>
-				</div>
-				<div className='chart-data'>
-					<div className='circle'></div>
-					<p className='chart-label'>Current Page</p>
-					<span className='chart-data-value'>{currentPage}</span>
-				</div>
-			</ChartDataWrapper>
-		</StatusComponent>
+		</>
 	);
 };
