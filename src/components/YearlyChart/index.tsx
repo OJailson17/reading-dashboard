@@ -21,6 +21,8 @@ import {
 	YearlyChartWrapper,
 } from './styles';
 import { getLeastAndMostMonthRead } from '@/utils/calculateMostAndLeastMonthsRead';
+import { useBook } from '@/context/BookContext';
+import { useEffect, useState } from 'react';
 
 ChartJS.register(
 	CategoryScale,
@@ -88,10 +90,6 @@ const monthsLabels: MonthLabel[] = [
 	'Dec',
 ];
 
-interface TitleProperty {
-	plain_text: string;
-}
-
 interface Book {
 	object: string;
 	id: string;
@@ -111,6 +109,9 @@ interface YearlyChartProps {
 }
 
 export const YearlyChart = ({ finished_books }: YearlyChartProps) => {
+	const [allFinishedBooks, setAllFinishedBooks] =
+		useState<Book[]>(finished_books);
+
 	// Book quantity in each month
 	const monthsBooksQtd = {
 		Jan: {
@@ -163,16 +164,18 @@ export const YearlyChart = ({ finished_books }: YearlyChartProps) => {
 		},
 	};
 
+	const { books } = useBook();
+
 	// It return the current year
 	const currentYear = getYear(new Date()); // 2023
 
 	// Got through the book list and check which month the book was finished
-	for (let i = 0; i < finished_books.length; i++) {
+	for (let i = 0; i < allFinishedBooks.length; i++) {
 		monthsLabels.map(label => {
 			// Check if the books is from the same month as the current label
 			const isMonth = isSameMonth(
 				new Date(`${label}, 1, ${currentYear}`),
-				new Date(finished_books[i]?.properties['Finished Date']?.date?.start),
+				new Date(allFinishedBooks[i]?.properties['Finished Date']?.date?.start),
 			);
 
 			// If the finished date is the same month as the label, add 1 to the books quantity on that month
@@ -207,6 +210,17 @@ export const YearlyChart = ({ finished_books }: YearlyChartProps) => {
 			},
 		],
 	};
+
+	// If the list changes, update the chart with the updated data
+	useEffect(() => {
+		const filterBooks = books?.filter(
+			book => book.properties.Status.select.name === 'Finished',
+		);
+
+		if (books && books.length > 0) {
+			setAllFinishedBooks(filterBooks || []);
+		}
+	}, [books]);
 
 	return (
 		<YearlyChartWrapper>
