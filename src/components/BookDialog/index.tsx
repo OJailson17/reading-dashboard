@@ -68,11 +68,13 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 		const totalPages = book?.properties['Qtd. Pages'].number;
 
 		// Update the status to finish
-		if (currentPage === totalPages) {
+		if (totalPages && currentPage >= totalPages) {
+			const newCurrentPage = totalPages;
+
 			try {
 				await api
 					.patch('/book/update/status/finished', {
-						current_page: currentPage,
+						current_page: newCurrentPage,
 						page_id: book?.id,
 					})
 					.finally(() => {
