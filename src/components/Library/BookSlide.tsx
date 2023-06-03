@@ -37,7 +37,9 @@ export const BookSlideComponent = ({ books }: BookSlideComponentProps) => {
 			{books.map(book => (
 				<Dialog.Trigger
 					key={book.id}
-					onClick={e => handleChoseBook(e)}
+					onClick={e => {
+						handleChoseBook(e);
+					}}
 					style={{ border: 'none', borderRadius: '10px' }}
 					asChild
 				>
