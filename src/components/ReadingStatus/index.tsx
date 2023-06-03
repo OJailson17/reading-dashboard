@@ -59,7 +59,6 @@ export const ReadingStatus = ({ books }: ReadingStatusProps) => {
 	// When the books list changes, update all the card data
 	useEffect(() => {
 		if (bookNames.length > 0 && bookNames[0] !== selectedBookName) {
-			console.log({ bookName: bookNames[0], selectedBookName });
 			setSelectedBookName(bookNames[0]);
 			return;
 		}

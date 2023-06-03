@@ -27,7 +27,7 @@ export type Book = {
 			type: string;
 			select: {
 				id: string;
-				name: string;
+				name: 'To read' | 'Reading' | 'Finished';
 				color: string;
 			};
 		};

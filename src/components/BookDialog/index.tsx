@@ -20,6 +20,11 @@ import {
 	DialogContentContainer,
 	DialogOverlay,
 	DialogTitle,
+	ReadingDialogClose,
+	ReadingDialogContent,
+	ReadingDialogContentContainer,
+	ReadingDialogOverlay,
+	ReadingDialogTitle,
 } from './styles';
 
 import 'react-toastify/dist/ReactToastify.css';
@@ -28,10 +33,18 @@ interface BookDialogProps {
 	book: Book | null;
 }
 
+type ReadingStatus = 'To read' | 'Reading' | 'Finished';
+
+interface UpdateStatusProps {
+	current_page: number;
+	status: 'reading' | 'finished';
+}
+
 export const BookDialog = ({ book }: BookDialogProps) => {
 	const [currentPage, setCurrentPage] = useState<number>(-1);
 	const [showSaveButton, setShowSaveButton] = useState(false);
 	const [isPageInputDisable, setIsPageInputDisable] = useState(true);
+	const [readingStatus, setReadingStatus] = useState<ReadingStatus>('To read');
 
 	const router = useRouter();
 
@@ -42,6 +55,23 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 	const { '@reading_dashboard:token': token } = parseCookies();
 	// Get database id from cookies
 	const { '@reading_dashboard:database_id': databaseId } = parseCookies();
+
+	const updateStatus = async ({ current_page, status }: UpdateStatusProps) => {
+		try {
+			await api
+				.patch(`/book/update/status/${status}`, {
+					current_page,
+					page_id: book?.id,
+				})
+				.finally(() => {});
+
+			// Update the books data
+			await onGetBooks({ databaseId, token });
+		} catch (error) {
+			console.log(error);
+			setShowSaveButton(false);
+		}
+	};
 
 	// Update current page value
 	const updatePages = async () => {
@@ -71,23 +101,13 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 		if (totalPages && currentPage >= totalPages) {
 			const newCurrentPage = totalPages;
 
-			try {
-				await api
-					.patch('/book/update/status/finished', {
-						current_page: newCurrentPage,
-						page_id: book?.id,
-					})
-					.finally(() => {
-						// Make save button disappear
-						setShowSaveButton(false);
-					});
-
-				// Update the books data
-				await onGetBooks({ databaseId, token });
-			} catch (error) {
-				console.log(error);
+			await updateStatus({
+				status: 'finished',
+				current_page: newCurrentPage,
+			}).finally(() => {
+				// Make save button disappear
 				setShowSaveButton(false);
-			}
+			});
 
 			return;
 		}
@@ -129,6 +149,38 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 		setIsPageInputDisable(true);
 	};
 
+	const onCloseReadingModal = async () => {
+		switch (readingStatus) {
+			case 'Reading':
+				if (
+					book?.properties.Status.select.name &&
+					book?.properties.Status.select.name !== 'Reading'
+				) {
+					await updateStatus({
+						status: 'reading',
+						current_page: 0,
+					});
+				}
+				break;
+
+			case 'Finished':
+				if (
+					book?.properties.Status.select.name &&
+					book?.properties.Status.select.name !== 'Finished'
+				) {
+					await updateStatus({
+						status: 'finished',
+						current_page: book?.properties['Qtd. Pages'].number || 0,
+					});
+				}
+
+				break;
+
+			default:
+				break;
+		}
+	};
+
 	// Show save button if
 	useEffect(() => {
 		if (!isPageInputDisable) {
@@ -140,6 +192,10 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 	useEffect(() => {
 		if (book?.properties['Current Page'].number) {
 			setCurrentPage(Number(book?.properties['Current Page'].number));
+		}
+
+		if (book?.properties.Status.select.name) {
+			setReadingStatus(book.properties.Status.select.name);
 		}
 	}, [book]);
 
@@ -170,28 +226,77 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 							</div>
 							<div>
 								<span>Status:</span>
-								<span
-									className={`status ${
-										book?.properties.Status.select.name === 'To read'
-											? 'tbr'
-											: book?.properties.Status.select.name
-									}`}
-								>
-									{book?.properties.Status.select.name}
-								</span>
+								<Dialog.Root>
+									<Dialog.Trigger>
+										<span
+											className={`status ${
+												readingStatus === 'To read' ? 'tbr' : readingStatus
+											}`}
+										>
+											{readingStatus}
+										</span>
+									</Dialog.Trigger>
+
+									<Dialog.Portal>
+										<ReadingDialogOverlay />
+										<ReadingDialogContent>
+											<ReadingDialogTitle>Select Status</ReadingDialogTitle>
+											<ReadingDialogContentContainer>
+												<div>
+													<input
+														type='radio'
+														id='to-read-status'
+														name='status'
+														value='to read'
+														checked={readingStatus === 'To read'}
+														onChange={() => setReadingStatus('To read')}
+													/>
+													<label htmlFor='to-read-status'>To Read</label>
+												</div>
+
+												<div>
+													<input
+														type='radio'
+														id='reading-status'
+														name='status'
+														value='reading'
+														checked={readingStatus === 'Reading'}
+														onChange={() => setReadingStatus('Reading')}
+													/>
+													<label htmlFor='reading-status'>Reading</label>
+												</div>
+
+												<div>
+													<input
+														type='radio'
+														id='finished-status'
+														name='status'
+														value='finished'
+														checked={readingStatus === 'Finished'}
+														onChange={() => setReadingStatus('Finished')}
+													/>
+													<label htmlFor='finished-status'>Finished</label>
+												</div>
+											</ReadingDialogContentContainer>
+											<ReadingDialogClose onClick={onCloseReadingModal}>
+												Close
+											</ReadingDialogClose>
+										</ReadingDialogContent>
+									</Dialog.Portal>
+								</Dialog.Root>
 							</div>
 							<div>
 								<span>Pages:</span>
 								<span>{book?.properties['Qtd. Pages'].number}</span>
 							</div>
 							{/* Show the rating ig the book status is Finished */}
-							{book?.properties.Status.select.name === 'Finished' ? (
+							{readingStatus === 'Finished' ? (
 								<div>
 									<span>Rating</span>
 									<span>{book?.properties.Rating.select.name}</span>
 								</div>
 							) : (
-								book?.properties.Status.select.name !== 'To read' && (
+								readingStatus !== 'To read' && (
 									<div>
 										<span>Current Page:</span>
 
