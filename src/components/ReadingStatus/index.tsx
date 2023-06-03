@@ -114,7 +114,7 @@ export const ReadingStatus = ({ books }: ReadingStatusProps) => {
 						<div className='chart-data'>
 							<div className='circle'></div>
 							<p className='chart-label'>Current Page</p>
-							<span className='chart-data-value'>{currentPage}</span>
+							<span className='chart-data-value'>{currentPage || 0}</span>
 						</div>
 					</ChartDataWrapper>
 				</StatusComponent>

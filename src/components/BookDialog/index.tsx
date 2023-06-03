@@ -201,7 +201,7 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 											type='number'
 											value={
 												currentPage < 0
-													? book?.properties['Current Page'].number
+													? book?.properties['Current Page'].number || 0
 													: currentPage
 											}
 											onChange={e => setCurrentPage(Number(e.target.value))}
