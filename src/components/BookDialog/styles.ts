@@ -113,8 +113,10 @@ export const DialogContentBookInfo = styled.div`
 		gap: 0.5rem;
 
 		.status {
-			padding: 0.1rem;
+			padding: 0.2rem;
+			border: none;
 			border-radius: 4px;
+			color: white;
 		}
 
 		.Finished {
@@ -242,6 +244,11 @@ export const ReadingDialogContentContainer = styled.div`
 	div {
 		label {
 			margin-left: 0.5rem;
+			cursor: pointer;
+		}
+
+		input {
+			cursor: pointer;
 		}
 	}
 

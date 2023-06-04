@@ -227,14 +227,12 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 							<div>
 								<span>Status:</span>
 								<Dialog.Root>
-									<Dialog.Trigger>
-										<span
-											className={`status ${
-												readingStatus === 'To read' ? 'tbr' : readingStatus
-											}`}
-										>
-											{readingStatus}
-										</span>
+									<Dialog.Trigger
+										className={`status ${
+											readingStatus === 'To read' ? 'tbr' : readingStatus
+										}`}
+									>
+										{readingStatus}
 									</Dialog.Trigger>
 
 									<Dialog.Portal>
