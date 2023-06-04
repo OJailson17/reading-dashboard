@@ -28,6 +28,14 @@ export async function GET(req: NextRequest, res: NextResponse) {
 					property: 'Finished Date',
 					direction: 'descending',
 				},
+				{
+					property: 'Started Date',
+					direction: 'ascending',
+				},
+				{
+					property: 'Name',
+					direction: 'ascending',
+				},
 			],
 		});
 
