@@ -23,6 +23,12 @@ export async function GET(req: NextRequest, res: NextResponse) {
 					does_not_equal: 'Abandoned',
 				},
 			},
+			sorts: [
+				{
+					property: 'Finished Date',
+					direction: 'descending',
+				},
+			],
 		});
 
 		return NextResponse.json(response.results);
