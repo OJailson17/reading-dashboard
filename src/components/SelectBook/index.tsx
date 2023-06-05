@@ -1,7 +1,14 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { SelectComponent } from './styles';
+import * as Select from '@radix-ui/react-select';
+import { GoTriangleDown } from 'react-icons/go';
+import {
+	SelectContent,
+	SelectItem,
+	SelectTriggerButton,
+	SelectViewport,
+} from './styles';
 
 interface SelectBookProps {
 	books: string[];
@@ -15,23 +22,33 @@ export const SelectBook = ({ books, onSelectBook }: SelectBookProps) => {
 		setSelectedBook(books[0]);
 	}, [books]);
 
-	const handleSelectBook = (e: any) => {
-		const selectedValue = e.target.value;
+	const handleSelectBook = (e: string) => {
+		const selectedValue = e;
 		setSelectedBook(selectedValue);
 		onSelectBook(selectedValue);
 	};
 
 	return (
-		<SelectComponent value={selectedBook} onChange={handleSelectBook}>
-			{books &&
-				books.map(book => {
-					return (
-						<option value={book} key={`${book}`}>
-							{book}
-						</option>
-					);
-				})}
-		</SelectComponent>
+		<Select.Root value={selectedBook} onValueChange={handleSelectBook}>
+			<SelectTriggerButton>
+				<Select.Value placeholder='Select a book' />
+				<Select.Icon style={{ color: 'white' }}>
+					<GoTriangleDown />
+				</Select.Icon>
+			</SelectTriggerButton>
+
+			<Select.Portal>
+				<SelectContent>
+					<SelectViewport>
+						{books.map((book, i) => (
+							<SelectItem value={book} key={`${book}-${i}`}>
+								<Select.ItemText>{book}</Select.ItemText>
+							</SelectItem>
+						))}
+					</SelectViewport>
+				</SelectContent>
+			</Select.Portal>
+		</Select.Root>
 	);
 };
 
