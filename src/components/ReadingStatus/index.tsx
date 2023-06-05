@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { DonutComponent } from '../Donut';
 import { SelectBook } from '../SelectBook';
@@ -11,6 +11,7 @@ import { ChartDataWrapper, StatusComponent } from '@/styles/common';
 import { useBook } from '@/context/BookContext';
 import { calculateBookPercentage } from '@/utils/calculateBookPercentage';
 import { getBookWithGraterProgress } from '@/utils/getGraterProgress';
+import { LoadingScreen } from '../LoadingScreen';
 
 interface ReadingStatusProps {
 	books: Book[];
@@ -24,6 +25,7 @@ export const ReadingStatus = ({ books }: ReadingStatusProps) => {
 	const [selectedBookName, setSelectedBookName] = useState(
 		books[0].properties.Name.title[0].plain_text,
 	);
+	const [bookNames, setBookNames] = useState<string[]>([]);
 
 	// Book context hook
 	const { books: allBooks } = useBook();
@@ -32,9 +34,6 @@ export const ReadingStatus = ({ books }: ReadingStatusProps) => {
 	const handleChangeSelectedBook = (book: string) => {
 		setSelectedBookName(book);
 	};
-
-	// Map through the books list and get just the name of the books
-	let bookNames = getBookWithGraterProgress(readingBooks);
 
 	// Update the whole card values
 	const updateCardValues = () => {
@@ -54,12 +53,14 @@ export const ReadingStatus = ({ books }: ReadingStatusProps) => {
 	// When the the name of the book changes, update the book data to the new book name
 	useEffect(() => {
 		updateCardValues();
-	}, [selectedBookName, bookNames]);
+	}, [selectedBookName]);
 
 	// When the books list changes, update all the card data
 	useEffect(() => {
-		if (bookNames.length > 0 && bookNames[0] !== selectedBookName) {
-			setSelectedBookName(bookNames[0]);
+		if (readingBooks && readingBooks.length > 0) {
+			const graterProgress = getBookWithGraterProgress(readingBooks);
+			setSelectedBookName(graterProgress[0]);
+			setBookNames(graterProgress);
 			return;
 		}
 
@@ -83,6 +84,10 @@ export const ReadingStatus = ({ books }: ReadingStatusProps) => {
 		currentPage: selectedBook?.properties['Current Page']?.number || 0,
 		totalPages: selectedBook?.properties['Qtd. Pages']?.number || 0,
 	});
+
+	if (bookNames.length <= 0) {
+		return <LoadingScreen full_screen_height={false} />;
+	}
 
 	return (
 		<>
