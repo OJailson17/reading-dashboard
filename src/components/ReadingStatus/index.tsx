@@ -85,42 +85,42 @@ export const ReadingStatus = ({ books }: ReadingStatusProps) => {
 		totalPages: selectedBook?.properties['Qtd. Pages']?.number || 0,
 	});
 
-	if (bookNames.length <= 0) {
-		return <LoadingScreen full_screen_height={false} />;
-	}
-
 	return (
 		<>
 			{readingBooks.length > 0 && (
 				<StatusComponent>
 					<p className='status-component-title'>Reading</p>
+					{bookNames.length > 0 ? (
+						<>
+							{readingBooks?.length > 1 ? (
+								<SelectBook
+									books={bookNames}
+									onSelectBook={handleChangeSelectedBook}
+								/>
+							) : (
+								<span className='status-component-description'>
+									{selectedBookName}
+								</span>
+							)}
 
-					{/* If there is more the one book render a select element, if not render just the name of the book */}
-					{readingBooks?.length > 1 ? (
-						<SelectBook
-							books={bookNames}
-							onSelectBook={handleChangeSelectedBook}
-						/>
+							<DonutComponent read_percentage={readPercentage} />
+
+							<ChartDataWrapper>
+								<div className='chart-data'>
+									<div className='circle-data'></div>
+									<p className='chart-label'>Total Pages</p>
+									<span className='chart-data-value'>{totalPages}</span>
+								</div>
+								<div className='chart-data'>
+									<div className='circle'></div>
+									<p className='chart-label'>Current Page</p>
+									<span className='chart-data-value'>{currentPage || 0}</span>
+								</div>
+							</ChartDataWrapper>
+						</>
 					) : (
-						<span className='status-component-description'>
-							{selectedBookName}
-						</span>
+						<LoadingScreen full_screen_height={false} />
 					)}
-
-					<DonutComponent read_percentage={readPercentage} />
-
-					<ChartDataWrapper>
-						<div className='chart-data'>
-							<div className='circle-data'></div>
-							<p className='chart-label'>Total Pages</p>
-							<span className='chart-data-value'>{totalPages}</span>
-						</div>
-						<div className='chart-data'>
-							<div className='circle'></div>
-							<p className='chart-label'>Current Page</p>
-							<span className='chart-data-value'>{currentPage || 0}</span>
-						</div>
-					</ChartDataWrapper>
 				</StatusComponent>
 			)}
 		</>
