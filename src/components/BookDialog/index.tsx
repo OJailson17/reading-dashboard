@@ -181,7 +181,6 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 		}
 	};
 
-	// Show save button if
 	useEffect(() => {
 		if (!isPageInputDisable) {
 			setShowSaveButton(true);
@@ -226,7 +225,11 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 							</div>
 							<div>
 								<span>Status:</span>
-								<Dialog.Root>
+								<Dialog.Root
+									onOpenChange={isOpen =>
+										!isOpen ? onCloseReadingModal() : console.log({ isOpen })
+									}
+								>
 									<Dialog.Trigger
 										className={`status ${
 											readingStatus === 'To read' ? 'tbr' : readingStatus
