@@ -27,17 +27,13 @@ export const ReadingStatus = ({ books }: ReadingStatusProps) => {
 	);
 	const [bookNames, setBookNames] = useState<string[]>([]);
 
-	// Book context hook
 	const { books: allBooks } = useBook();
 
-	// Get the selected book and set on selectedBook state
 	const handleChangeSelectedBook = (book: string) => {
 		setSelectedBookName(book);
 	};
 
-	// Update the whole card values
 	const updateCardValues = () => {
-		// Find a book with the same name as the selected book state
 		const getBookData = readingBooks.find(
 			(book: Book) =>
 				book.properties.Name.title[0].plain_text === selectedBookName,
@@ -50,24 +46,7 @@ export const ReadingStatus = ({ books }: ReadingStatusProps) => {
 		}
 	};
 
-	// When the the name of the book changes, update the book data to the new book name
-	useEffect(() => {
-		updateCardValues();
-	}, [selectedBookName]);
-
-	// When the books list changes, update all the card data
-	useEffect(() => {
-		if (readingBooks && readingBooks.length > 0) {
-			const graterProgress = getBookWithGraterProgress(readingBooks);
-			setSelectedBookName(graterProgress[0]);
-			setBookNames(graterProgress);
-			return;
-		}
-
-		updateCardValues();
-	}, [readingBooks]);
-
-	// If the books get updated, get just the reading books and rerender
+	// If the books get updated, get just the reading books and rerender the whole card
 	useEffect(() => {
 		const filterBooks =
 			allBooks?.filter(
@@ -78,6 +57,31 @@ export const ReadingStatus = ({ books }: ReadingStatusProps) => {
 			setReadingBooks(filterBooks || []);
 		}
 	}, [allBooks]);
+
+	// When the books list changes, update all the card data
+	useEffect(() => {
+		if (readingBooks && readingBooks.length > 0) {
+			const graterProgress = getBookWithGraterProgress(readingBooks);
+
+			// This check is needed to update the card data if the updated book is the first item of the list
+			if (graterProgress[0] === selectedBookName) {
+				setBookNames(graterProgress);
+				updateCardValues();
+				return;
+			}
+
+			setSelectedBookName(graterProgress[0]);
+			setBookNames(graterProgress);
+			return;
+		}
+
+		updateCardValues();
+	}, [readingBooks]);
+
+	// When the the name of the book changes, update the book data with the new book name
+	useEffect(() => {
+		updateCardValues();
+	}, [selectedBookName]);
 
 	// Calculate the percentage of how much the book was read
 	const readPercentage = calculateBookPercentage({
