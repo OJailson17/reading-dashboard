@@ -63,7 +63,9 @@ export async function PATCH(req: NextRequest, res: NextResponse) {
 
 				default:
 					console.log(error);
-					return NextResponse.json(error);
+					return NextResponse.json(error, {
+						status: 400,
+					});
 			}
 		}
 	}

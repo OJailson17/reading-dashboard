@@ -60,7 +60,9 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
 				default:
 					console.log(error);
-					return NextResponse.json(error);
+					return NextResponse.json(error, {
+						status: 400,
+					});
 			}
 		}
 	}

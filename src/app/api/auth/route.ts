@@ -2,9 +2,6 @@ import { sign } from 'jsonwebtoken';
 import { notion } from '@/lib/notion';
 import { NextRequest, NextResponse } from 'next/server';
 
-import nookies from 'nookies';
-import { cookies } from 'next/headers';
-
 type TitleProperty = {
 	plain_text: string;
 };
@@ -31,11 +28,6 @@ type ResultResponse = {
 };
 
 export async function GET(req: NextRequest, res: NextResponse) {
-	// if (req.method !== 'POST') {
-	// 	res.status(405).send({ message: 'Only POST requests allowed' });
-	// 	return;
-	// }
-
 	const { searchParams } = new URL(req.url);
 	const username = searchParams.get('username');
 
@@ -71,8 +63,13 @@ export async function GET(req: NextRequest, res: NextResponse) {
 			database_id: user_database_id,
 		});
 	} else {
-		return NextResponse.json({
-			error: 'User not found!',
-		});
+		return NextResponse.json(
+			{
+				error: 'User not found!',
+			},
+			{
+				status: 404,
+			},
+		);
 	}
 }
