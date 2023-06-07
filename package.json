@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@next/font": "13.1.6",
     "@notionhq/client": "^2.2.3",
     "@radix-ui/react-dialog": "^1.0.3",
     "@radix-ui/react-select": "^1.2.0",
