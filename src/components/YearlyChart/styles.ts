@@ -76,13 +76,18 @@ export const CharData = styled.div`
 
 export const ChartComponent = styled.div`
 	width: 100%;
-	height: 200px;
+	height: 12.5rem;
 	max-width: 600px;
 	margin-top: 2rem;
 
 	svg {
 		text.recharts-cartesian-axis-tick-value {
 			fill: white;
+			font-size: 12px;
+
+			@media ${device.tablet} {
+				font-size: 1rem;
+			}
 		}
 	}
 `;

@@ -2,50 +2,62 @@ type MonthsLabels = {
 	Jan: {
 		quantity: number;
 		name: string;
+		fullName: string;
 	};
 	Feb: {
 		quantity: number;
 		name: string;
+		fullName: string;
 	};
 	Mar: {
 		quantity: number;
 		name: string;
+		fullName: string;
 	};
 	Apr: {
 		quantity: number;
 		name: string;
+		fullName: string;
 	};
 	May: {
 		quantity: number;
 		name: string;
+		fullName: string;
 	};
 	Jun: {
 		quantity: number;
 		name: string;
+		fullName: string;
 	};
 	Jul: {
 		quantity: number;
 		name: string;
+		fullName: string;
 	};
 	Aug: {
 		quantity: number;
 		name: string;
+		fullName: string;
 	};
 	Sep: {
 		quantity: number;
 		name: string;
+		fullName: string;
 	};
 	Oct: {
 		quantity: number;
 		name: string;
+		fullName: string;
 	};
 	Nov: {
 		quantity: number;
 		name: string;
+		fullName: string;
 	};
 	Dec: {
 		quantity: number;
 		name: string;
+		fullName: string;
 	};
 };
 
@@ -69,11 +81,11 @@ export const getLeastAndMostMonthRead = ({
 	// Go through the monthsBooksQuantity and get the names of the books with the min and the max value
 	for (const [_, value] of Object.entries(monthsBooksQuantity)) {
 		if (!leastBooksReadMonth && value.quantity === leastQtdMonthValue) {
-			leastBooksReadMonth = value?.name;
+			leastBooksReadMonth = value?.fullName;
 		}
 
 		if (!mostBooksReadMonth && value?.quantity === maxQtdMonthValue) {
-			mostBooksReadMonth = value?.name;
+			mostBooksReadMonth = value?.fullName;
 		}
 	}
 
