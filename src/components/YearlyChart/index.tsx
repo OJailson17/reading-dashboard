@@ -1,17 +1,14 @@
 'use client';
 
-import {
-	Chart as ChartJS,
-	CategoryScale,
-	LinearScale,
-	BarElement,
-	Title,
-	Tooltip,
-	Legend,
-} from 'chart.js';
-import { Bar } from 'react-chartjs-2';
+import { useEffect, useState } from 'react';
 import { GoTriangleUp, GoTriangleDown } from 'react-icons/go';
-import { getYear } from 'date-fns';
+import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis } from 'recharts';
+
+import { CustomTooltip } from './CustomToolTip';
+import { getLeastAndMostMonthRead } from '@/utils/calculateMostAndLeastMonthsRead';
+import isSameMonth from '@/utils/isSameMonth';
+
+import { useBook } from '@/context/BookContext';
 
 import {
 	CharData,
@@ -20,47 +17,6 @@ import {
 	ChartTitle,
 	YearlyChartWrapper,
 } from './styles';
-import { getLeastAndMostMonthRead } from '@/utils/calculateMostAndLeastMonthsRead';
-import { useBook } from '@/context/BookContext';
-import { useEffect, useState } from 'react';
-import isSameMonth from '@/utils/isSameMonth';
-
-ChartJS.register(
-	CategoryScale,
-	LinearScale,
-	BarElement,
-	Title,
-	Tooltip,
-	Legend,
-);
-
-const options = {
-	responsive: true,
-	plugins: {
-		title: {
-			display: false,
-		},
-		legend: {
-			display: false,
-		},
-	},
-	scales: {
-		y: {
-			display: false,
-		},
-		x: {
-			grid: {
-				drawOnChartArea: false,
-			},
-		},
-	},
-	elements: {
-		bar: {
-			borderRadius: 999,
-			backgroundColor: '#32CCBC',
-		},
-	},
-};
 
 type MonthLabel =
 	| 'Jan'
@@ -116,19 +72,19 @@ export const YearlyChart = ({ finished_books }: YearlyChartProps) => {
 	const monthsBooksQtd = {
 		Jan: {
 			quantity: 0,
-			name: 'January',
+			name: 'Jan',
 		},
 		Feb: {
 			quantity: 0,
-			name: 'February',
+			name: 'Feb',
 		},
 		Mar: {
 			quantity: 0,
-			name: 'March',
+			name: 'Mar',
 		},
 		Apr: {
 			quantity: 0,
-			name: 'April',
+			name: 'Apr',
 		},
 		May: {
 			quantity: 0,
@@ -136,31 +92,31 @@ export const YearlyChart = ({ finished_books }: YearlyChartProps) => {
 		},
 		Jun: {
 			quantity: 0,
-			name: 'June',
+			name: 'Jun',
 		},
 		Jul: {
 			quantity: 0,
-			name: 'July',
+			name: 'Jul',
 		},
 		Aug: {
 			quantity: 0,
-			name: 'August',
+			name: 'Aug',
 		},
 		Sep: {
 			quantity: 0,
-			name: 'September',
+			name: 'Sep',
 		},
 		Oct: {
 			quantity: 0,
-			name: 'October',
+			name: 'Oct',
 		},
 		Nov: {
 			quantity: 0,
-			name: 'November',
+			name: 'Nov',
 		},
 		Dec: {
 			quantity: 0,
-			name: 'December',
+			name: 'Dec',
 		},
 	};
 
@@ -198,20 +154,6 @@ export const YearlyChart = ({ finished_books }: YearlyChartProps) => {
 		monthsBooksQuantity: monthsBooksQtd,
 	});
 
-	// Chart data config
-	const data = {
-		labels: monthsLabels,
-		datasets: [
-			{
-				data: monthsLabels.map(label => monthsBooksQtd[label].quantity),
-				barPercentage: 0.9,
-				barThickness: 20,
-				maxBarThickness: 30,
-				minBarLength: 3,
-			},
-		],
-	};
-
 	// If the list changes, update the chart with the updated data
 	useEffect(() => {
 		const filterBooks = books?.filter(
@@ -222,6 +164,11 @@ export const YearlyChart = ({ finished_books }: YearlyChartProps) => {
 			setAllFinishedBooks(filterBooks || []);
 		}
 	}, [books]);
+
+	const chartData = monthsLabels.map(label => ({
+		label: monthsBooksQtd[label].name,
+		quantity: monthsBooksQtd[label].quantity,
+	}));
 
 	return (
 		<YearlyChartWrapper>
@@ -246,7 +193,23 @@ export const YearlyChart = ({ finished_books }: YearlyChartProps) => {
 				</ChartDataWrapper>
 
 				<ChartComponent>
-					<Bar options={options} data={data} />
+					<ResponsiveContainer width='100%' height='100%'>
+						<BarChart width={450} height={250} data={chartData}>
+							<XAxis dataKey='label' />
+							<Bar
+								dataKey='quantity'
+								fill='#32CCBC'
+								barSize={20}
+								radius={[20, 20, 0, 0]}
+								minPointSize={2}
+								maxBarSize={30}
+							/>
+							<Tooltip
+								content={CustomTooltip}
+								cursor={{ fill: 'transparent' }}
+							/>
+						</BarChart>
+					</ResponsiveContainer>
 				</ChartComponent>
 			</div>
 		</YearlyChartWrapper>

@@ -76,6 +76,21 @@ export const CharData = styled.div`
 
 export const ChartComponent = styled.div`
 	width: 100%;
+	height: 200px;
 	max-width: 600px;
 	margin-top: 2rem;
+
+	svg {
+		text.recharts-cartesian-axis-tick-value {
+			fill: white;
+		}
+	}
+`;
+
+export const ChartToolTip = styled.div`
+	background-color: #292738;
+	border-radius: 10px;
+	padding: 10px;
+	text-align: center;
+	font-size: 14px;
 `;

@@ -28,6 +28,14 @@ type ResultResponse = {
 };
 
 export async function GET(req: NextRequest, res: NextResponse) {
+	if (process.env.NODE_ENV !== 'production') {
+		return NextResponse.json({
+			token: process.env.DEMO_JWT,
+			username: 'demo',
+			database_id: process.env.DEMO_DATABASE_ID,
+		});
+	}
+
 	const { searchParams } = new URL(req.url);
 	const username = searchParams.get('username');
 
