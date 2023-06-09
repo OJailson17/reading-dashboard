@@ -30,6 +30,9 @@ export async function PATCH(req: NextRequest, res: NextResponse) {
 						start: today,
 					},
 				},
+				'Finished Date': {
+					date: null,
+				},
 			},
 		});
 

@@ -58,13 +58,12 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 
 	const updateStatus = async ({ current_page, status }: UpdateStatusProps) => {
 		try {
-			await api
-				.patch(`/book/update/status/${status}`, {
-					current_page,
-					page_id: book?.id,
-				})
-				.finally(() => {});
+			await api.patch(`/book/update/status/${status}`, {
+				current_page,
+				page_id: book?.id,
+			});
 
+			router.refresh();
 			// Update the books data
 			await onGetBooks({ databaseId, token });
 		} catch (error) {
@@ -226,9 +225,9 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 							<div>
 								<span>Status:</span>
 								<Dialog.Root
-									onOpenChange={isOpen =>
-										!isOpen ? onCloseReadingModal() : console.log({ isOpen })
-									}
+								// onOpenChange={isOpen =>
+								// 	!isOpen ? onCloseReadingModal() : console.log({ isOpen })
+								// }
 								>
 									<Dialog.Trigger
 										className={`status ${

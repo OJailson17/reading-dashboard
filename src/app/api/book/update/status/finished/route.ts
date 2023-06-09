@@ -10,11 +10,6 @@ import { NextRequest, NextResponse } from 'next/server';
 
 // Update the status of the book to finished, update the page and set the finished date to today
 export async function PATCH(req: NextRequest, res: NextResponse) {
-	// if (req.method !== 'PATCH') {
-	// 	res.status(405).send({ message: 'Only PATCH requests allowed' });
-	// 	return;
-	// }
-
 	const { page_id, current_page } = await req.json();
 
 	const today = format(new Date(), 'yyyy-MM-dd');
@@ -64,7 +59,7 @@ export async function PATCH(req: NextRequest, res: NextResponse) {
 				default:
 					console.log(error);
 					return NextResponse.json(error, {
-						status: 400,
+						status: error.status,
 					});
 			}
 		}

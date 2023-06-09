@@ -78,7 +78,9 @@ export const Library = ({
 					{!to_read_books ? (
 						<PageLink href={'/library'}>more</PageLink>
 					) : (
-						<PageLink href={'/'}>home</PageLink>
+						<PageLink href={'/'} prefetch={false}>
+							home
+						</PageLink>
 					)}
 				</header>
 
