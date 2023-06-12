@@ -12,6 +12,10 @@ const inter = Inter({
 	weight: ['500', '600', '700'],
 });
 
+export const metadata = {
+	title: 'Home | Reading Dashboard',
+};
+
 export default function RootLayout({
 	// Layouts must accept a children prop.
 	// This will be populated with nested layouts or pages
