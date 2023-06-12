@@ -13,7 +13,11 @@ export const CustomTooltip = ({
 		return (
 			<ChartToolTip>
 				<p>{label}</p>
-				<p>{payload[0].value} books</p>
+				<p>
+					{payload[0].value <= 1
+						? `${payload[0].value} book`
+						: `${payload[0].value} books`}
+				</p>
 			</ChartToolTip>
 		);
 	}
