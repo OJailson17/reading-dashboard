@@ -202,7 +202,6 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 			<ToastContainer />
 			<Dialog.Portal>
 				<DialogOverlay />
-
 				<DialogContent>
 					<DialogTitle>{book?.properties.Name.title[0].plain_text}</DialogTitle>
 					<DialogContentContainer>
@@ -339,6 +338,14 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 									</div>
 								)
 							)}
+							<div
+								style={{
+									display: readingStatus !== 'To read' ? 'none' : 'block',
+								}}
+							>
+								<span>Goodreads:</span>{' '}
+								<span>{book?.properties?.Goodreads?.select?.name}</span>
+							</div>
 						</DialogContentBookInfo>
 					</DialogContentContainer>
 					<DialogClose onClick={onCloseModal}>Close</DialogClose>

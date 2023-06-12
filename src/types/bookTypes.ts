@@ -53,5 +53,12 @@ export type Book = {
 				start: string;
 			};
 		};
+		Goodreads: {
+			id: string;
+			type: string;
+			select: {
+				name: string;
+			};
+		};
 	};
 };
