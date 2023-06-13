@@ -69,7 +69,7 @@ export default async function Home() {
 			// Assign books array with the api response
 			books = bookList;
 
-			console.log('fetched data');
+			// console.log(bookList[0].properties);
 
 			// Call the filter function to fill the data
 			filterBooks();
