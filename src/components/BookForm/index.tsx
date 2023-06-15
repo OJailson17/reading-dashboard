@@ -3,24 +3,27 @@
 import { api } from '@/lib/axios';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
-// import { MultiSelect } from './MultiSelect';
-import CreatableSelect from 'react-select/creatable';
 import { Select as AntdSelect, Radio } from 'antd';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import { useRouter } from 'next/navigation';
+
+const bookSchema = yup.object({
+	name: yup.string().trim().required(),
+	icon_url: yup.string().trim().optional().url(),
+	genres: yup.array().ensure().of(yup.string().required()).required(),
+	author: yup.string().trim().required(),
+	status: yup.string().oneOf(['To read', 'Reading', 'Finished']).required(),
+	language: yup.string().oneOf(['Portuguese', 'English']).required(),
+	qtd_page: yup.number().min(1).required(),
+	current_page: yup.number().default(0).required(),
+	goodreads_review: yup.string().trim().default('none').required(),
+});
+
+type CreateBook = yup.InferType<typeof bookSchema>;
 
 interface BookFormProps {
 	database_id: string;
-}
-
-interface CreateBook {
-	name: string;
-	icon_url?: string;
-	genres: string[];
-	author: string;
-	status: 'To read' | 'Reading' | 'Finished';
-	language: 'Portuguese' | 'English';
-	qtd_page: number;
-	current_page: number;
-	goodreads_review: string;
 }
 
 const genreOptions = [
@@ -40,8 +43,8 @@ const genreOptions = [
 
 const reviewOptions = [
 	{
-		label: '⭐',
-		value: '⭐',
+		label: '⭐️',
+		value: '⭐️',
 	},
 	{
 		label: '⭐⭐',
@@ -71,7 +74,11 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 		handleSubmit,
 		control,
 		formState: { errors },
-	} = useForm<CreateBook>();
+	} = useForm({
+		resolver: yupResolver(bookSchema),
+	});
+
+	const router = useRouter();
 
 	const handleCreateBook = async (data: CreateBook) => {
 		const createBookBody = {
@@ -92,13 +99,9 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 		};
 
 		try {
-			const createBookResponse = await api.post(
-				`/book/create?db=${database_id}`,
-				createBookBody,
-			);
-			const dataResponse = createBookResponse.data;
+			await api.post(`/book/create?db=${database_id}`, createBookBody);
 
-			console.log({ dataResponse });
+			router.push('/library');
 		} catch (error) {
 			console.log({ error });
 		}
@@ -115,6 +118,7 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 					placeholder='Harry Potter'
 					{...register('name')}
 				/>
+				<span>{errors.name?.message}</span>
 			</div>
 
 			{/* Author */}
@@ -126,6 +130,7 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 					placeholder='J. K. Rowlling'
 					{...register('author')}
 				/>
+				<span>{errors.author?.message}</span>
 			</div>
 
 			{/* Cover */}
@@ -137,6 +142,7 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 					placeholder='Image URL'
 					{...register('icon_url')}
 				/>
+				<span>{errors.icon_url?.message}</span>
 			</div>
 
 			{/* Total Pages */}
@@ -151,6 +157,7 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 					})}
 					defaultValue={0}
 				/>
+				<span>{errors.qtd_page?.message}</span>
 			</div>
 
 			{/* Current Page */}
@@ -165,6 +172,7 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 					})}
 					defaultValue={0}
 				/>
+				<span>{errors.current_page?.message}</span>
 			</div>
 
 			{/* Status/Language */}
@@ -190,6 +198,7 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 							/>
 						)}
 					/>
+					<span>{errors.status?.message}</span>
 				</div>
 
 				{/* Language */}
@@ -212,6 +221,7 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 							/>
 						)}
 					/>
+					<span>{errors.language?.message}</span>
 				</div>
 			</div>
 
@@ -235,6 +245,7 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 							/>
 						)}
 					/>
+					<span>{errors.genres?.message}</span>
 				</div>
 
 				{/* Goodreads */}
@@ -254,6 +265,7 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 							/>
 						)}
 					/>
+					<span>{errors.goodreads_review?.message}</span>
 				</div>
 			</div>
 

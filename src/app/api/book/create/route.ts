@@ -84,8 +84,11 @@ export async function POST(req: NextRequest, res: NextResponse) {
 					number: createBookBody.current_page || 0,
 				},
 				Goodreads: {
+					type: 'select',
 					select: {
 						name: createBookBody.goodreads_review,
+						color:
+							createBookBody.goodreads_review === 'none' ? 'blue' : 'yellow',
 					},
 				},
 			},
