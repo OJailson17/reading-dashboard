@@ -5,7 +5,7 @@ import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 // import { MultiSelect } from './MultiSelect';
 import CreatableSelect from 'react-select/creatable';
-import { Select as AntdSelect } from 'antd';
+import { Select as AntdSelect, Radio } from 'antd';
 
 interface BookFormProps {
 	database_id: string;
@@ -20,6 +20,7 @@ interface CreateBook {
 	language: 'Portuguese' | 'English';
 	qtd_page: number;
 	current_page: number;
+	goodreads_review: string;
 }
 
 const genreOptions = [
@@ -37,6 +38,33 @@ const genreOptions = [
 	},
 ];
 
+const reviewOptions = [
+	{
+		label: '⭐',
+		value: '⭐',
+	},
+	{
+		label: '⭐⭐',
+		value: '⭐⭐',
+	},
+	{
+		label: '⭐⭐⭐',
+		value: '⭐⭐⭐',
+	},
+	{
+		label: '⭐⭐⭐⭐',
+		value: '⭐⭐⭐⭐',
+	},
+	{
+		label: '⭐⭐⭐⭐⭐',
+		value: '⭐⭐⭐⭐⭐',
+	},
+	{
+		label: 'none',
+		value: 'none',
+	},
+];
+
 export const BookForm = ({ database_id }: BookFormProps) => {
 	const {
 		register,
@@ -49,17 +77,19 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 		const createBookBody = {
 			name: data.name,
 			icon_url: data.icon_url,
-			genres: data.genres.map(genre =>
-				genre.replace(genre[0], genre[0].toUpperCase()),
-			),
+			genres:
+				(data.genres &&
+					data.genres.map(genre =>
+						genre.replace(genre[0], genre[0].toUpperCase()),
+					)) ||
+				[],
 			author: data.author,
-			status: data.status || 'To read',
-			language: data.language || 'Portuguese',
-			qtd_page: data.qtd_page || 0,
-			current_page: data.current_page || 0,
+			status: data.status,
+			language: data.language,
+			qtd_page: data.qtd_page,
+			current_page: data.current_page,
+			goodreads_review: data.goodreads_review,
 		};
-
-		console.log({ createBookBody });
 
 		try {
 			const createBookResponse = await api.post(
@@ -87,36 +117,6 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 				/>
 			</div>
 
-			{/* Cover */}
-			<div>
-				<label htmlFor='book-cover'>Book Cover</label>
-				<input
-					type='url'
-					id='book-cover'
-					placeholder='Image URL'
-					{...register('icon_url')}
-				/>
-			</div>
-
-			{/* Genres */}
-			<div>
-				<label htmlFor='book-genres'>Book Genres</label>
-				{/* <MultiSelect label='genres' /> */}
-				<Controller
-					name='genres'
-					control={control}
-					render={({ field }) => (
-						<AntdSelect
-							mode='tags'
-							{...field}
-							options={genreOptions}
-							size='large'
-							style={{ width: '100%' }}
-						/>
-					)}
-				/>
-			</div>
-
 			{/* Author */}
 			<div>
 				<label htmlFor='book-author'>Book Author</label>
@@ -128,25 +128,14 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 				/>
 			</div>
 
-			{/* Status */}
+			{/* Cover */}
 			<div>
-				<label htmlFor='book-status'>Book Status</label>
+				<label htmlFor='book-cover'>Book Cover</label>
 				<input
-					type='text'
-					id='book-status'
-					placeholder='Reading'
-					{...register('status')}
-				/>
-			</div>
-
-			{/* Language */}
-			<div>
-				<label htmlFor='book-language'>Book Language</label>
-				<input
-					type='text'
-					id='book-language'
-					placeholder='Portuguese'
-					{...register('language')}
+					type='url'
+					id='book-cover'
+					placeholder='Image URL'
+					{...register('icon_url')}
 				/>
 			</div>
 
@@ -160,6 +149,7 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 					{...register('qtd_page', {
 						valueAsNumber: true,
 					})}
+					defaultValue={0}
 				/>
 			</div>
 
@@ -173,7 +163,98 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 					{...register('current_page', {
 						valueAsNumber: true,
 					})}
+					defaultValue={0}
 				/>
+			</div>
+
+			{/* Status/Language */}
+			<div>
+				{/* Status */}
+				<div>
+					<label htmlFor='book-status'>Book Status</label>
+					<Controller
+						name='status'
+						control={control}
+						defaultValue={'To read'}
+						render={({ field }) => (
+							<Radio.Group
+								{...field}
+								options={[
+									{ label: 'To read', value: 'To read' },
+									{ label: 'Reading', value: 'Reading' },
+									{ label: 'Finished', value: 'Finished' },
+								]}
+								optionType='button'
+								buttonStyle='solid'
+								id='book-status'
+							/>
+						)}
+					/>
+				</div>
+
+				{/* Language */}
+				<div>
+					<label htmlFor='book-language'>Book Language</label>
+					<Controller
+						name='language'
+						control={control}
+						defaultValue={'Portuguese'}
+						render={({ field }) => (
+							<Radio.Group
+								{...field}
+								options={[
+									{ label: 'Portuguese', value: 'Portuguese' },
+									{ label: 'English', value: 'English' },
+								]}
+								optionType='button'
+								buttonStyle='solid'
+								id='book-language'
+							/>
+						)}
+					/>
+				</div>
+			</div>
+
+			{/* Genres/Goodreads */}
+			<div>
+				{/* Genres */}
+				<div>
+					<label htmlFor='book-genres'>Book Genres</label>
+					<Controller
+						name='genres'
+						control={control}
+						defaultValue={[]}
+						render={({ field }) => (
+							<AntdSelect
+								mode='tags'
+								{...field}
+								options={genreOptions}
+								size='large'
+								style={{ width: '100%' }}
+								id='book-genres'
+							/>
+						)}
+					/>
+				</div>
+
+				{/* Goodreads */}
+				<div>
+					<label htmlFor='book-goodreads'>Goodreads</label>
+					<Controller
+						name='goodreads_review'
+						control={control}
+						defaultValue={'none'}
+						render={({ field }) => (
+							<AntdSelect
+								{...field}
+								options={reviewOptions}
+								size='large'
+								style={{ width: '100%' }}
+								id='book-goodreads'
+							/>
+						)}
+					/>
+				</div>
 			</div>
 
 			<button type='submit'>Create</button>

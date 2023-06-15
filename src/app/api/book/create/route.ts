@@ -15,6 +15,7 @@ type CreateBookDTO = {
 	language: 'Portuguese' | 'English';
 	qtd_page: number;
 	current_page: number;
+	goodreads_review: string;
 };
 
 export async function POST(req: NextRequest, res: NextResponse) {
@@ -81,6 +82,11 @@ export async function POST(req: NextRequest, res: NextResponse) {
 				},
 				'Current Page': {
 					number: createBookBody.current_page || 0,
+				},
+				Goodreads: {
+					select: {
+						name: createBookBody.goodreads_review,
+					},
 				},
 			},
 		});
