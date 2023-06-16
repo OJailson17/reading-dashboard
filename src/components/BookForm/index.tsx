@@ -7,6 +7,7 @@ import { Select as AntdSelect, Radio } from 'antd';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useRouter } from 'next/navigation';
+import { CreateBookForm, CreateBookInputContainer } from './styles';
 
 const bookSchema = yup.object({
 	name: yup.string().trim().required(),
@@ -108,77 +109,79 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 	};
 
 	return (
-		<form onSubmit={handleSubmit(handleCreateBook)}>
-			{/* Name */}
-			<div>
-				<label htmlFor='book-name'>Name</label>
-				<input
-					type='text'
-					id='book-name'
-					placeholder='Harry Potter'
-					{...register('name')}
-				/>
-				<span>{errors.name?.message}</span>
-			</div>
+		<CreateBookForm onSubmit={handleSubmit(handleCreateBook)}>
+			<div className='inputs-group'>
+				{/* Name */}
+				<CreateBookInputContainer>
+					<label htmlFor='book-name'>Name</label>
+					<input
+						type='text'
+						id='book-name'
+						placeholder='Harry Potter'
+						{...register('name')}
+					/>
+					<span className='error-message'>{errors.name?.message}</span>
+				</CreateBookInputContainer>
 
-			{/* Author */}
-			<div>
-				<label htmlFor='book-author'>Book Author</label>
-				<input
-					type='text'
-					id='book-author'
-					placeholder='J. K. Rowlling'
-					{...register('author')}
-				/>
-				<span>{errors.author?.message}</span>
-			</div>
+				{/* Author */}
+				<CreateBookInputContainer>
+					<label htmlFor='book-author'>Book Author</label>
+					<input
+						type='text'
+						id='book-author'
+						placeholder='J. K. Rowlling'
+						{...register('author')}
+					/>
+					<span className='error-message'>{errors.author?.message}</span>
+				</CreateBookInputContainer>
 
-			{/* Cover */}
-			<div>
-				<label htmlFor='book-cover'>Book Cover</label>
-				<input
-					type='url'
-					id='book-cover'
-					placeholder='Image URL'
-					{...register('icon_url')}
-				/>
-				<span>{errors.icon_url?.message}</span>
-			</div>
+				{/* Cover */}
+				<CreateBookInputContainer>
+					<label htmlFor='book-cover'>Book Cover</label>
+					<input
+						type='url'
+						id='book-cover'
+						placeholder='Image URL'
+						{...register('icon_url')}
+					/>
+					<span className='error-message'>{errors.icon_url?.message}</span>
+				</CreateBookInputContainer>
 
-			{/* Total Pages */}
-			<div>
-				<label htmlFor='book-total-pages'>Total Pages</label>
-				<input
-					type='number'
-					id='book-total-pages'
-					placeholder='300'
-					{...register('qtd_page', {
-						valueAsNumber: true,
-					})}
-					defaultValue={0}
-				/>
-				<span>{errors.qtd_page?.message}</span>
-			</div>
+				{/* Total Pages */}
+				<CreateBookInputContainer>
+					<label htmlFor='book-total-pages'>Total Pages</label>
+					<input
+						type='number'
+						id='book-total-pages'
+						placeholder='300'
+						{...register('qtd_page', {
+							valueAsNumber: true,
+						})}
+						defaultValue={0}
+					/>
+					<span className='error-message'>{errors.qtd_page?.message}</span>
+				</CreateBookInputContainer>
 
-			{/* Current Page */}
-			<div>
-				<label htmlFor='book-current-page'>Current Page</label>
-				<input
-					type='number'
-					id='book-current-page'
-					placeholder='100'
-					{...register('current_page', {
-						valueAsNumber: true,
-					})}
-					defaultValue={0}
-				/>
-				<span>{errors.current_page?.message}</span>
+				{/* Current Page */}
+				<CreateBookInputContainer>
+					<label htmlFor='book-current-page'>Current Page</label>
+					<input
+						type='number'
+						id='book-current-page'
+						placeholder='100'
+						{...register('current_page', {
+							valueAsNumber: true,
+						})}
+						defaultValue={0}
+					/>
+					<span className='error-message'>{errors.current_page?.message}</span>
+				</CreateBookInputContainer>
 			</div>
 
 			{/* Status/Language */}
-			<div>
+			<div className='inputs-group'>
 				{/* Status */}
-				<div>
+				<CreateBookInputContainer className='book-status'>
 					<label htmlFor='book-status'>Book Status</label>
 					<Controller
 						name='status'
@@ -198,11 +201,11 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 							/>
 						)}
 					/>
-					<span>{errors.status?.message}</span>
-				</div>
+					<span className='error-message'>{errors.status?.message}</span>
+				</CreateBookInputContainer>
 
 				{/* Language */}
-				<div>
+				<CreateBookInputContainer className='book-language'>
 					<label htmlFor='book-language'>Book Language</label>
 					<Controller
 						name='language'
@@ -221,14 +224,14 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 							/>
 						)}
 					/>
-					<span>{errors.language?.message}</span>
-				</div>
+					<span className='error-message'>{errors.language?.message}</span>
+				</CreateBookInputContainer>
 			</div>
 
 			{/* Genres/Goodreads */}
-			<div>
+			<div className='inputs-group'>
 				{/* Genres */}
-				<div>
+				<CreateBookInputContainer>
 					<label htmlFor='book-genres'>Book Genres</label>
 					<Controller
 						name='genres'
@@ -245,11 +248,11 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 							/>
 						)}
 					/>
-					<span>{errors.genres?.message}</span>
-				</div>
+					<span className='error-message'>{errors.genres?.message}</span>
+				</CreateBookInputContainer>
 
 				{/* Goodreads */}
-				<div>
+				<CreateBookInputContainer>
 					<label htmlFor='book-goodreads'>Goodreads</label>
 					<Controller
 						name='goodreads_review'
@@ -265,11 +268,15 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 							/>
 						)}
 					/>
-					<span>{errors.goodreads_review?.message}</span>
-				</div>
+					<span className='error-message'>
+						{errors.goodreads_review?.message}
+					</span>
+				</CreateBookInputContainer>
 			</div>
 
-			<button type='submit'>Create</button>
-		</form>
+			<button type='submit' className='submit-btn'>
+				Create
+			</button>
+		</CreateBookForm>
 	);
 };

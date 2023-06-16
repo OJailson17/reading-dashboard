@@ -1,4 +1,5 @@
 import { BookForm } from '@/components/BookForm';
+import { PageTitle } from '@/styles/common';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
@@ -15,7 +16,7 @@ export default async function CreateBook() {
 
 	return (
 		<>
-			<h1>Create Book</h1>
+			<PageTitle>Create Book</PageTitle>
 
 			<BookForm database_id={databaseId} />
 		</>
