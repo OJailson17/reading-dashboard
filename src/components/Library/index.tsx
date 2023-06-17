@@ -11,6 +11,7 @@ import {
 } from './styles';
 import { useEffect, useState } from 'react';
 import { useBook } from '@/context/BookContext';
+import { Dropdown, Space } from 'antd';
 
 interface LibraryBooks {
 	reading_books: Book[];
@@ -69,19 +70,42 @@ export const Library = ({
 		}
 	}, [books]);
 
+	const items = [
+		{
+			key: '1',
+			label: (
+				<div className='action-links'>
+					{!to_read_books ? (
+						<PageLink href={'/library'}>Library</PageLink>
+					) : (
+						<PageLink href={'/'} prefetch={false}>
+							Home
+						</PageLink>
+					)}
+
+					<PageLink href={'/book/create'}>Add Book</PageLink>
+				</div>
+			),
+		},
+	];
+
 	return (
 		<LibraryComponentWrapper>
 			<LibraryComponent>
 				<header>
 					<p className='library-component-title'>Library</p>
 
-					{!to_read_books ? (
-						<PageLink href={'/library'}>more</PageLink>
-					) : (
-						<PageLink href={'/'} prefetch={false}>
-							home
-						</PageLink>
-					)}
+					<div className='library-actions'>
+						<Dropdown menu={{ items }} overlayStyle={{ background: '#292738' }}>
+							<a onClick={e => e.preventDefault()}>
+								<Space
+									style={{ cursor: 'pointer', textDecoration: 'underline' }}
+								>
+									More
+								</Space>
+							</a>
+						</Dropdown>
+					</div>
 				</header>
 
 				{to_read_books && (

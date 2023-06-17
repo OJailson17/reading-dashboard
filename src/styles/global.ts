@@ -17,4 +17,21 @@ body {
 button {
   cursor: pointer;
 }
+
+.ant-dropdown {
+  background: #292738;
+  width: 150px;
+}
+
+.ant-dropdown-menu {
+  background: #292738;
+  text-align: center;
+}
+
+
+.action-links {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  }
 `;

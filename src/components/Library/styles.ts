@@ -35,6 +35,11 @@ export const LibraryComponent = styled.div`
 			font-size: 1.5rem;
 			font-weight: 600;
 		}
+
+		.library-actions {
+			position: absolute;
+			right: 0;
+		}
 	}
 
 	.library-component-subtitle {
@@ -47,8 +52,7 @@ export const LibraryComponent = styled.div`
 
 export const PageLink = styled(Link)`
 	color: inherit;
-	position: absolute;
-	right: 0;
+	text-decoration: underline;
 `;
 
 export const BookSlide = styled.div`
