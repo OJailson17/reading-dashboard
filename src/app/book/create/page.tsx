@@ -3,6 +3,10 @@ import { PageTitle } from '@/styles/common';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
+export const metadata = {
+	title: 'Create Book | Reading Dashboard',
+};
+
 export default async function CreateBook() {
 	// Get token from cookies
 	const token = cookies().get('@reading_dashboard:token')?.value;
