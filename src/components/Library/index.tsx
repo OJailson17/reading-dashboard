@@ -82,7 +82,13 @@ export const Library = ({
 							Home
 						</PageLink>
 					)}
-
+				</div>
+			),
+		},
+		{
+			key: '2',
+			label: (
+				<div className='action-links'>
 					<PageLink href={'/book/create'}>Add Book</PageLink>
 				</div>
 			),

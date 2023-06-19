@@ -8,6 +8,6 @@ export const FooterComponent = styled.footer`
 	margin-bottom: 2rem;
 
 	a {
-		color: #32ccbc;
+		color: #1677ff;
 	}
 `;

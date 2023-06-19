@@ -210,7 +210,7 @@ export const YearlyChart = ({ finished_books }: YearlyChartProps) => {
 							<XAxis dataKey='label' />
 							<Bar
 								dataKey='quantity'
-								fill='#32CCBC'
+								fill='#1677ff'
 								barSize={20}
 								radius={[20, 20, 0, 0]}
 								minPointSize={2}

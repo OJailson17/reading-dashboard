@@ -44,7 +44,7 @@ export const CreateBookForm = styled.form`
 		border-radius: 8px;
 		margin: 0 auto;
 		margin-top: 1.5rem;
-		background: #32ccbc;
+		background: #1677ff;
 		color: white;
 		font-weight: bold;
 
@@ -82,11 +82,12 @@ export const CreateBookInputContainer = styled.div`
 		max-width: 350px;
 	}
 
-	.ant-radio-group-solid
-		:where(
-			.css-dev-only-do-not-override-12jzuas
-		).ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
-		background: #32ccbc;
-		border-color: #32ccbc;
+	.ant-radio-button-wrapper {
+		border: none;
+
+		&::before {
+			content: '';
+			display: none;
+		}
 	}
 `;
