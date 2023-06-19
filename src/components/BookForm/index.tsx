@@ -135,7 +135,10 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 	return (
 		<>
 			<ToastContainer />
-			<CreateBookForm onSubmit={handleSubmit(handleCreateBook)}>
+			<CreateBookForm
+				onSubmit={handleSubmit(handleCreateBook)}
+				autoComplete='off'
+			>
 				<div className='inputs-group'>
 					{/* Name */}
 					<CreateBookInputContainer>
