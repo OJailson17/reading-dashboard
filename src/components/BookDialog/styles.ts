@@ -41,17 +41,21 @@ export const DialogTitle = styled(Dialog.Title)`
 `;
 
 export const DialogClose = styled(Dialog.Close)`
-	width: 5rem;
+	width: 7rem;
 	height: 2rem;
 	margin-top: 1rem;
 
 	position: relative;
-	right: -70%;
+	right: -60%;
 
 	background-color: #292738;
 	color: #fff;
 	border: none;
 	border-radius: 7px;
+
+	@media ${device.tablet} {
+		right: -70%;
+	}
 `;
 
 export const DialogContentContainer = styled.div`
@@ -220,17 +224,21 @@ export const ReadingDialogTitle = styled(Dialog.Title)`
 `;
 
 export const ReadingDialogClose = styled(Dialog.Close)`
-	width: 5rem;
+	width: 7rem;
 	height: 2rem;
 	margin-top: 1rem;
 
 	position: relative;
-	right: -70%;
+	right: -60%;
 
 	background-color: #292738;
 	color: #fff;
 	border: none;
 	border-radius: 7px;
+
+	@media ${device.tablet} {
+		right: -70%;
+	}
 `;
 
 export const ReadingDialogContentContainer = styled.div`

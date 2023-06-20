@@ -278,7 +278,7 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 												</div>
 											</ReadingDialogContentContainer>
 											<ReadingDialogClose onClick={onCloseReadingModal}>
-												Close
+												Save & Close
 											</ReadingDialogClose>
 										</ReadingDialogContent>
 									</Dialog.Portal>
@@ -348,7 +348,7 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 							</div>
 						</DialogContentBookInfo>
 					</DialogContentContainer>
-					<DialogClose onClick={onCloseModal}>Close</DialogClose>
+					<DialogClose onClick={onCloseModal}>Save & Close</DialogClose>
 				</DialogContent>
 			</Dialog.Portal>
 		</>
