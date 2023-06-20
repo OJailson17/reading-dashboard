@@ -132,6 +132,10 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 		}
 	};
 
+	const handleGoBack = () => {
+		router.back();
+	};
+
 	return (
 		<>
 			<ToastContainer />
@@ -305,13 +309,26 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 					</CreateBookInputContainer>
 				</div>
 
-				<button
-					type='submit'
-					className='submit-btn'
-					disabled={isSubmitButtonLoading}
-				>
-					{isSubmitButtonLoading ? <Rings width={26} height={26} /> : 'Create'}
-				</button>
+				<div className='form-actions'>
+					<button
+						type='submit'
+						className='submit-btn form-btn'
+						disabled={isSubmitButtonLoading}
+					>
+						{isSubmitButtonLoading ? (
+							<Rings width={26} height={26} />
+						) : (
+							'Create'
+						)}
+					</button>
+					<button
+						type='button'
+						className='cancel-btn form-btn'
+						onClick={handleGoBack}
+					>
+						Cancel
+					</button>
+				</div>
 			</CreateBookForm>
 		</>
 	);

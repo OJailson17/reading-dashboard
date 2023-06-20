@@ -1,6 +1,7 @@
 import { BookForm } from '@/components/BookForm';
 import { PageTitle } from '@/styles/common';
 import { cookies } from 'next/headers';
+import Link from 'next/link';
 import { redirect } from 'next/navigation';
 
 export const metadata = {
