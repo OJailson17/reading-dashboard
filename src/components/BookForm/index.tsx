@@ -12,6 +12,7 @@ import { Rings } from 'react-loading-icons';
 import { ToastContainer, toast } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
+import { UpdateDateDialog } from '../UpdateDateDialog';
 
 const bookSchema = yup.object({
 	name: yup.string().trim().required(),
@@ -29,6 +30,11 @@ type CreateBook = yup.InferType<typeof bookSchema>;
 
 interface BookFormProps {
 	database_id: string;
+}
+
+interface GetBookDatesProps {
+	startedDate: string | Date;
+	finishedDate: string | Date;
 }
 
 const genreOptions = [
@@ -75,6 +81,7 @@ const reviewOptions = [
 
 export const BookForm = ({ database_id }: BookFormProps) => {
 	const [isSubmitButtonLoading, setIsSubmitButtonLoading] = useState(false);
+	const [isDatesDialogOpen, setIsDatesDialogOpen] = useState(false);
 
 	const {
 		register,
@@ -136,9 +143,25 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 		router.back();
 	};
 
+	const handleChangeDatesDialogState = (dialogState: boolean) => {
+		setIsDatesDialogOpen(dialogState);
+	};
+
+	const handleGetBookDates = ({
+		startedDate,
+		finishedDate,
+	}: GetBookDatesProps) => {
+		console.log({ startedDate, finishedDate });
+	};
+
 	return (
 		<>
 			<ToastContainer />
+			<UpdateDateDialog
+				isDialogOpen={isDatesDialogOpen}
+				onChangeModalState={handleChangeDatesDialogState}
+				onGetBookDates={handleGetBookDates}
+			/>
 			<CreateBookForm
 				onSubmit={handleSubmit(handleCreateBook)}
 				autoComplete='off'
