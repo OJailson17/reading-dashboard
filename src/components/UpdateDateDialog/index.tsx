@@ -7,8 +7,8 @@ import { DateModal, ModalContent } from './styles';
 import { format } from 'date-fns';
 
 interface DateRange {
-	startedDate: string | Date;
-	finishedDate: string | Date;
+	startedDate: string;
+	finishedDate: string;
 }
 
 interface UpdateDateDialogProps {
@@ -44,10 +44,6 @@ export const UpdateDateDialog = ({
 			finishedDate: rangeDatePicked?.finishedDate || today,
 		});
 	};
-
-	useEffect(() => {
-		onChangeModalState(true);
-	}, []);
 
 	return (
 		<ConfigProvider

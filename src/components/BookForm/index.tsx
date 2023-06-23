@@ -1,7 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
 import { api } from '@/lib/axios';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Select as AntdSelect, Radio } from 'antd';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -13,6 +14,7 @@ import { ToastContainer, toast } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
 import { UpdateDateDialog } from '../UpdateDateDialog';
+import { format } from 'date-fns';
 
 const bookSchema = yup.object({
 	name: yup.string().trim().required(),
@@ -24,6 +26,8 @@ const bookSchema = yup.object({
 	qtd_page: yup.number().min(1).required(),
 	current_page: yup.number().default(0).required(),
 	goodreads_review: yup.string().trim().default('none').required(),
+	started_date: yup.string().trim().optional(),
+	finished_date: yup.string().trim().optional(),
 });
 
 type CreateBook = yup.InferType<typeof bookSchema>;
@@ -33,8 +37,8 @@ interface BookFormProps {
 }
 
 interface GetBookDatesProps {
-	startedDate: string | Date;
-	finishedDate: string | Date;
+	startedDate: string;
+	finishedDate: string;
 }
 
 const genreOptions = [
@@ -82,6 +86,8 @@ const reviewOptions = [
 export const BookForm = ({ database_id }: BookFormProps) => {
 	const [isSubmitButtonLoading, setIsSubmitButtonLoading] = useState(false);
 	const [isDatesDialogOpen, setIsDatesDialogOpen] = useState(false);
+	const [rangedDatePicked, setRangeDatePicked] = useState<GetBookDatesProps>();
+	const [bookData, setBookData] = useState<CreateBook>();
 
 	const {
 		register,
@@ -94,25 +100,10 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 
 	const router = useRouter();
 
-	const handleCreateBook = async (data: CreateBook) => {
+	const handleCreateBook = async (createBookBody: CreateBook) => {
 		setIsSubmitButtonLoading(true);
 
-		const createBookBody = {
-			name: data.name,
-			icon_url: data.icon_url,
-			genres:
-				(data.genres &&
-					data.genres.map(genre =>
-						genre.replace(genre[0], genre[0].toUpperCase()),
-					)) ||
-				[],
-			author: data.author,
-			status: data.status,
-			language: data.language,
-			qtd_page: data.qtd_page,
-			current_page: data.current_page,
-			goodreads_review: data.goodreads_review,
-		};
+		console.log({ handle: createBookBody });
 
 		try {
 			await api.post(`/book/create?db=${database_id}`, createBookBody);
@@ -139,6 +130,47 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 		}
 	};
 
+	const handleFormatBookData = useCallback(async () => {
+		setIsSubmitButtonLoading(true);
+
+		let createBookBody: CreateBook = {
+			name: bookData?.name || '',
+			icon_url: bookData?.icon_url,
+			genres:
+				(bookData?.genres &&
+					bookData?.genres.map(genre =>
+						genre.replace(genre[0], genre[0].toUpperCase()),
+					)) ||
+				[],
+			author: bookData?.author || '',
+			status: bookData?.status || 'To read',
+			language: bookData?.language || 'Portuguese',
+			qtd_page: bookData?.qtd_page || 0,
+			current_page: bookData?.current_page || 0,
+			goodreads_review: bookData?.goodreads_review || '',
+		};
+
+		if (!rangedDatePicked?.finishedDate && bookData?.status === 'Finished') {
+			setIsDatesDialogOpen(true);
+			setIsSubmitButtonLoading(false);
+			return;
+		}
+
+		if (bookData && bookData?.status === 'Reading') {
+			console.log('created');
+			createBookBody.started_date = format(new Date(), 'yyyy-MM-dd');
+		} else if (
+			rangedDatePicked &&
+			bookData &&
+			bookData?.status === 'Finished'
+		) {
+			createBookBody.started_date = rangedDatePicked?.startedDate;
+			createBookBody.finished_date = rangedDatePicked?.finishedDate;
+		}
+
+		handleCreateBook(createBookBody);
+	}, [bookData, rangedDatePicked]);
+
 	const handleGoBack = () => {
 		router.back();
 	};
@@ -152,7 +184,24 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 		finishedDate,
 	}: GetBookDatesProps) => {
 		console.log({ startedDate, finishedDate });
+		setRangeDatePicked({
+			startedDate,
+			finishedDate,
+		});
 	};
+
+	useEffect(() => {
+		if (rangedDatePicked && rangedDatePicked.startedDate !== '') {
+			handleFormatBookData();
+		}
+	}, [rangedDatePicked]);
+
+	useEffect(() => {
+		if (bookData && bookData.name !== '') {
+			console.log('data', { bookData });
+			handleFormatBookData();
+		}
+	}, [bookData]);
 
 	return (
 		<>
@@ -163,7 +212,7 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 				onGetBookDates={handleGetBookDates}
 			/>
 			<CreateBookForm
-				onSubmit={handleSubmit(handleCreateBook)}
+				onSubmit={handleSubmit((data: CreateBook) => setBookData(data))}
 				autoComplete='off'
 			>
 				<div className='inputs-group'>
