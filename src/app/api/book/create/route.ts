@@ -16,6 +16,8 @@ type CreateBookDTO = {
 	qtd_page: number;
 	current_page: number;
 	goodreads_review: string;
+	started_date?: string;
+	finished_date?: string;
 };
 
 export async function POST(req: NextRequest, res: NextResponse) {
@@ -90,6 +92,22 @@ export async function POST(req: NextRequest, res: NextResponse) {
 						color:
 							createBookBody.goodreads_review === 'none' ? 'blue' : 'yellow',
 					},
+				},
+				'Started Date': {
+					type: 'date',
+					date: createBookBody.started_date
+						? {
+								start: createBookBody.started_date,
+						  }
+						: null,
+				},
+				'Finished Date': {
+					type: 'date',
+					date: createBookBody.finished_date
+						? {
+								start: createBookBody.finished_date,
+						  }
+						: null,
 				},
 			},
 		});

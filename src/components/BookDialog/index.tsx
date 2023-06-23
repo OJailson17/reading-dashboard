@@ -292,7 +292,7 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 							{readingStatus === 'Finished' ? (
 								<div>
 									<span>Rating</span>
-									<span>{book?.properties.Rating.select.name}</span>
+									<span>{book?.properties.Rating.select?.name}</span>
 								</div>
 							) : (
 								readingStatus !== 'To read' && (

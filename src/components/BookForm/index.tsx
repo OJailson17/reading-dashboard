@@ -103,8 +103,6 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 	const handleCreateBook = async (createBookBody: CreateBook) => {
 		setIsSubmitButtonLoading(true);
 
-		console.log({ handle: createBookBody });
-
 		try {
 			await api.post(`/book/create?db=${database_id}`, createBookBody);
 			setIsSubmitButtonLoading(false);
@@ -157,7 +155,6 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 		}
 
 		if (bookData && bookData?.status === 'Reading') {
-			console.log('created');
 			createBookBody.started_date = format(new Date(), 'yyyy-MM-dd');
 		} else if (
 			rangedDatePicked &&
@@ -183,7 +180,6 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 		startedDate,
 		finishedDate,
 	}: GetBookDatesProps) => {
-		console.log({ startedDate, finishedDate });
 		setRangeDatePicked({
 			startedDate,
 			finishedDate,
@@ -198,7 +194,6 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 
 	useEffect(() => {
 		if (bookData && bookData.name !== '') {
-			console.log('data', { bookData });
 			handleFormatBookData();
 		}
 	}, [bookData]);

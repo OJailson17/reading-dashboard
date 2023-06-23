@@ -57,9 +57,6 @@ export const UpdateDateDialog = ({
 				},
 			}}
 		>
-			<Button type='primary' onClick={() => onChangeModalState(true)}>
-				Vertically centered modal dialog
-			</Button>
 			<DateModal
 				title='Vertically centered modal dialog'
 				centered
