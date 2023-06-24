@@ -26,8 +26,8 @@ const bookSchema = yup.object({
 	qtd_page: yup.number().min(1).required(),
 	current_page: yup.number().default(0).required(),
 	goodreads_review: yup.string().trim().default('none').required(),
-	started_date: yup.string().trim().optional(),
-	finished_date: yup.string().trim().optional(),
+	started_date: yup.string().trim().optional().nullable(),
+	finished_date: yup.string().trim().optional().nullable(),
 });
 
 type CreateBook = yup.InferType<typeof bookSchema>;
@@ -37,8 +37,8 @@ interface BookFormProps {
 }
 
 interface GetBookDatesProps {
-	startedDate: string;
-	finishedDate: string;
+	startedDate: string | null;
+	finishedDate: string | null;
 }
 
 const genreOptions = [
@@ -88,6 +88,9 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 	const [isDatesDialogOpen, setIsDatesDialogOpen] = useState(false);
 	const [rangedDatePicked, setRangeDatePicked] = useState<GetBookDatesProps>();
 	const [bookData, setBookData] = useState<CreateBook>();
+	const [dateTypeDialog, setDateTypeDialog] = useState<'Reading' | 'Finished'>(
+		'Reading',
+	);
 
 	const {
 		register,
@@ -144,20 +147,33 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 			status: bookData?.status || 'To read',
 			language: bookData?.language || 'Portuguese',
 			qtd_page: bookData?.qtd_page || 0,
-			current_page: bookData?.current_page || 0,
+			current_page:
+				bookData?.status === 'Finished'
+					? bookData.qtd_page
+					: bookData?.current_page || 0,
 			goodreads_review: bookData?.goodreads_review || '',
 		};
 
-		if (!rangedDatePicked?.finishedDate && bookData?.status === 'Finished') {
+		if (!rangedDatePicked && bookData?.status === 'Reading') {
+			setDateTypeDialog('Reading');
+			setIsDatesDialogOpen(true);
+			setIsSubmitButtonLoading(false);
+			return;
+		} else if (!rangedDatePicked && bookData?.status === 'Finished') {
+			setDateTypeDialog('Finished');
 			setIsDatesDialogOpen(true);
 			setIsSubmitButtonLoading(false);
 			return;
 		}
 
-		if (bookData && bookData?.status === 'Reading') {
-			createBookBody.started_date = format(new Date(), 'yyyy-MM-dd');
+		if (
+			rangedDatePicked?.startedDate &&
+			bookData &&
+			bookData?.status === 'Reading'
+		) {
+			createBookBody.started_date = rangedDatePicked?.startedDate;
 		} else if (
-			rangedDatePicked &&
+			rangedDatePicked?.finishedDate &&
 			bookData &&
 			bookData?.status === 'Finished'
 		) {
@@ -205,6 +221,7 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 				isDialogOpen={isDatesDialogOpen}
 				onChangeModalState={handleChangeDatesDialogState}
 				onGetBookDates={handleGetBookDates}
+				dateTypeDialog={dateTypeDialog}
 			/>
 			<CreateBookForm
 				onSubmit={handleSubmit((data: CreateBook) => setBookData(data))}

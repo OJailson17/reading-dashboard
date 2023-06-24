@@ -7,24 +7,28 @@ import { DateModal, ModalContent } from './styles';
 import { format } from 'date-fns';
 
 interface DateRange {
-	startedDate: string;
-	finishedDate: string;
+	startedDate: string | null;
+	finishedDate: string | null;
 }
 
 interface UpdateDateDialogProps {
 	isDialogOpen: boolean;
 	onChangeModalState: (modalState: boolean) => void;
 	onGetBookDates: (props: DateRange) => void;
+	dateTypeDialog: 'Reading' | 'Finished';
 }
 
 export const UpdateDateDialog = ({
 	isDialogOpen,
 	onChangeModalState,
 	onGetBookDates,
+	dateTypeDialog,
 }: UpdateDateDialogProps) => {
 	const [rangeDatePicked, setRangeDatePicked] = useState<DateRange>();
 
 	const handleFormatPickedData = (dates: any) => {
+		if (!Array.isArray(dates)) dates = Array(dates);
+
 		const [startedDate, finishedDate] = dates.map((date: any) =>
 			format(new Date(date['$d']), 'yyyy-MM-dd'),
 		);
@@ -69,12 +73,16 @@ export const UpdateDateDialog = ({
 				width={'90%'}
 			>
 				<ModalContent>
-					<DatePicker.RangePicker
-						onOpenChange={e => console.log('change', e)}
-						onPanelChange={e => console.log('panel', e)}
-						placement='topRight'
-						onChange={e => handleFormatPickedData(e)}
-					/>
+					{dateTypeDialog === 'Finished' ? (
+						<DatePicker.RangePicker
+							onOpenChange={e => console.log('change', e)}
+							onPanelChange={e => console.log('panel', e)}
+							placement='topRight'
+							onChange={e => handleFormatPickedData(e)}
+						/>
+					) : (
+						<DatePicker onChange={e => handleFormatPickedData(e)} />
+					)}
 				</ModalContent>
 			</DateModal>
 		</ConfigProvider>
