@@ -68,4 +68,12 @@ export const ModalContent = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 1rem;
+
+	span[role='img'] {
+		color: #494949;
+	}
+
+	.ant-picker-input input::placeholder {
+		color: #494949;
+	}
 `;

@@ -89,7 +89,7 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 	const [rangedDatePicked, setRangeDatePicked] = useState<GetBookDatesProps>();
 	const [bookData, setBookData] = useState<CreateBook>();
 	const [dateTypeDialog, setDateTypeDialog] = useState<'Reading' | 'Finished'>(
-		'Reading',
+		'Finished',
 	);
 
 	const {

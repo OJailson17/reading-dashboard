@@ -30,7 +30,7 @@ export const UpdateDateDialog = ({
 		if (!Array.isArray(dates)) dates = Array(dates);
 
 		const [startedDate, finishedDate] = dates.map((date: any) =>
-			format(new Date(date['$d']), 'yyyy-MM-dd'),
+			format(new Date(date['$d'] || ''), 'yyyy-MM-dd'),
 		);
 
 		setRangeDatePicked({
@@ -49,6 +49,10 @@ export const UpdateDateDialog = ({
 		});
 	};
 
+	useEffect(() => {
+		onChangeModalState(true);
+	}, []);
+
 	return (
 		<ConfigProvider
 			theme={{
@@ -62,8 +66,15 @@ export const UpdateDateDialog = ({
 			}}
 		>
 			<DateModal
-				title='Vertically centered modal dialog'
-				centered
+				title={
+					<div
+						style={{
+							color: 'white',
+						}}
+					>
+						Choose Dates
+					</div>
+				}
 				open={isDialogOpen}
 				onOk={handleGetPickedData}
 				onCancel={() => onChangeModalState(false)}
@@ -77,11 +88,25 @@ export const UpdateDateDialog = ({
 						<DatePicker.RangePicker
 							onOpenChange={e => console.log('change', e)}
 							onPanelChange={e => console.log('panel', e)}
-							placement='topRight'
+							placement='topLeft'
 							onChange={e => handleFormatPickedData(e)}
 						/>
 					) : (
-						<DatePicker onChange={e => handleFormatPickedData(e)} />
+						<DatePicker
+							onChange={e => handleFormatPickedData(e)}
+							placeholder='Started Date'
+							placement='topLeft'
+							// cellRender={current => {
+							// 	const style: React.CSSProperties = {};
+							// 	style.color = 'white';
+
+							// 	return (
+							// 		<div className='ant-picker-cell-inner' style={style}>
+							// 			{current.date()}
+							// 		</div>
+							// 	);
+							// }}
+						/>
 					)}
 				</ModalContent>
 			</DateModal>
