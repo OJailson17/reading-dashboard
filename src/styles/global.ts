@@ -29,40 +29,11 @@ button {
   text-align: center;
 }
 
-/* .ant-picker-panel-container .ant-picker-panel-layout {
-  background-color: red;
-  color: white;
-} */
-
-/* .ant-picker-panels {
-  @media ${device.mobileS} {
-    flex-direction: column;
-  }
-} */
-
-.ant-picker-dropdown {
-  left: 0 !important;
 
 
-  .ant-picker-range-wrapper {
-    align-items: center;
-    justify-content: center;
-  }
-}
 
-@media (max-width: 485px) {
-  .ant-picker-panels {
-    flex-direction: column;
-  }
-  
-  
-    .ant-calendar-range {
-        width: 320px;
-    }
-    .ant-calendar-range-part {
-        width: 100%;
-    }
-}
+
+
 
 .ant-picker-panel-layout {
   background: #292738;
@@ -91,13 +62,46 @@ button {
   }
 }
 
-
-
-
 .action-links {
   display: flex;
   flex-direction: column;
   gap: 1rem;
   }
+
+
+
+  @media (max-width: 485px) {
+    html {
+      overflow-y:auto;
+    }
+
+    .ant-modal-wrap {
+      position: absolute !important;
+    }
+    
+    
+  .ant-picker-dropdown {
+  top: 181px !important;
+
+
+  .ant-picker-range-wrapper {
+    align-items: center;
+    justify-content: center;
+  }
+}
+  
+  
+  .ant-picker-panels {
+    flex-direction: column;
+  }
+  
+  
+    .ant-calendar-range {
+        min-width: 320px;
+    }
+    .ant-calendar-range-part {
+        width: 100%;
+    }
+}
 
 `;

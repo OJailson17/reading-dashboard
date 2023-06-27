@@ -49,10 +49,6 @@ export const UpdateDateDialog = ({
 		});
 	};
 
-	useEffect(() => {
-		onChangeModalState(true);
-	}, []);
-
 	return (
 		<ConfigProvider
 			theme={{
@@ -88,14 +84,14 @@ export const UpdateDateDialog = ({
 						<DatePicker.RangePicker
 							onOpenChange={e => console.log('change', e)}
 							onPanelChange={e => console.log('panel', e)}
-							placement='topLeft'
+							placement='bottomRight'
 							onChange={e => handleFormatPickedData(e)}
 						/>
 					) : (
 						<DatePicker
 							onChange={e => handleFormatPickedData(e)}
 							placeholder='Started Date'
-							placement='topLeft'
+							placement='bottomRight'
 							// cellRender={current => {
 							// 	const style: React.CSSProperties = {};
 							// 	style.color = 'white';
