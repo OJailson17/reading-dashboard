@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
-import { FormComponent } from './components/Form';
+import { FormComponent } from '../../components/Form/LoginForm';
 
 import { PageTitle } from '@/styles/common';
 

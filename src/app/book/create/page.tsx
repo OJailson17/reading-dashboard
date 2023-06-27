@@ -1,4 +1,4 @@
-import { BookForm } from '@/components/BookForm';
+import { BookForm } from '@/components/Form/BookForm';
 import { PageTitle } from '@/styles/common';
 import { cookies } from 'next/headers';
 import Link from 'next/link';

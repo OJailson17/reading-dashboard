@@ -19,18 +19,12 @@ interface LibraryBooks {
 	to_read_books?: Book[];
 }
 
-interface AllBooks {
-	reading_books: Book[];
-	finished_books: Book[];
-	to_read_books: Book[] | undefined;
-}
-
 export const Library = ({
 	reading_books,
 	finished_books,
 	to_read_books,
 }: LibraryBooks) => {
-	const [allBooks, setAllBooks] = useState<AllBooks>({
+	const [allBooks, setAllBooks] = useState<LibraryBooks>({
 		reading_books,
 		finished_books,
 		to_read_books,

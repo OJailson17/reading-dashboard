@@ -62,3 +62,5 @@ export type Book = {
 		};
 	};
 };
+
+export type ReadingStatus = 'To read' | 'Reading' | 'Finished';

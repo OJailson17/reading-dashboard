@@ -5,8 +5,8 @@ import { GoTriangleUp, GoTriangleDown } from 'react-icons/go';
 import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis } from 'recharts';
 
 import { CustomTooltip } from './CustomToolTip';
-import { getLeastAndMostMonthRead } from '@/utils/calculateMostAndLeastMonthsRead';
-import isSameMonth from '@/utils/isSameMonth';
+import { getLeastAndMostMonthRead } from '@/helpers/calculateMostAndLeastMonthsRead';
+import isSameMonth from '@/helpers/isSameMonth';
 
 import { useBook } from '@/context/BookContext';
 
@@ -17,20 +17,8 @@ import {
 	ChartTitle,
 	YearlyChartWrapper,
 } from './styles';
-
-type MonthLabel =
-	| 'Jan'
-	| 'Feb'
-	| 'Mar'
-	| 'Apr'
-	| 'May'
-	| 'Jun'
-	| 'Jul'
-	| 'Aug'
-	| 'Sep'
-	| 'Oct'
-	| 'Nov'
-	| 'Dec';
+import { monthsBooksQtd } from '@/utils/monthsBooksQtd';
+import { MonthLabel } from '@/types/chartTypes';
 
 const monthsLabels: MonthLabel[] = [
 	'Jan',
@@ -68,69 +56,6 @@ interface YearlyChartProps {
 export const YearlyChart = ({ finished_books }: YearlyChartProps) => {
 	const [allFinishedBooks, setAllFinishedBooks] =
 		useState<Book[]>(finished_books);
-
-	const monthsBooksQtd = {
-		Jan: {
-			quantity: 0,
-			name: 'Jan',
-			fullName: 'January',
-		},
-		Feb: {
-			quantity: 0,
-			name: 'Feb',
-			fullName: 'February',
-		},
-		Mar: {
-			quantity: 0,
-			name: 'Mar',
-			fullName: 'March',
-		},
-		Apr: {
-			quantity: 0,
-			name: 'Apr',
-			fullName: 'April',
-		},
-		May: {
-			quantity: 0,
-			name: 'May',
-			fullName: 'May',
-		},
-		Jun: {
-			quantity: 0,
-			name: 'Jun',
-			fullName: 'June',
-		},
-		Jul: {
-			quantity: 0,
-			name: 'Jul',
-			fullName: 'July',
-		},
-		Aug: {
-			quantity: 0,
-			name: 'Aug',
-			fullName: 'August',
-		},
-		Sep: {
-			quantity: 0,
-			name: 'Sep',
-			fullName: 'September',
-		},
-		Oct: {
-			quantity: 0,
-			name: 'Oct',
-			fullName: 'October',
-		},
-		Nov: {
-			quantity: 0,
-			name: 'Nov',
-			fullName: 'November',
-		},
-		Dec: {
-			quantity: 0,
-			name: 'Dec',
-			fullName: 'December',
-		},
-	};
 
 	const { books } = useBook();
 

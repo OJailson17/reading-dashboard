@@ -1,68 +1,7 @@
-type MonthsLabels = {
-	Jan: {
-		quantity: number;
-		name: string;
-		fullName: string;
-	};
-	Feb: {
-		quantity: number;
-		name: string;
-		fullName: string;
-	};
-	Mar: {
-		quantity: number;
-		name: string;
-		fullName: string;
-	};
-	Apr: {
-		quantity: number;
-		name: string;
-		fullName: string;
-	};
-	May: {
-		quantity: number;
-		name: string;
-		fullName: string;
-	};
-	Jun: {
-		quantity: number;
-		name: string;
-		fullName: string;
-	};
-	Jul: {
-		quantity: number;
-		name: string;
-		fullName: string;
-	};
-	Aug: {
-		quantity: number;
-		name: string;
-		fullName: string;
-	};
-	Sep: {
-		quantity: number;
-		name: string;
-		fullName: string;
-	};
-	Oct: {
-		quantity: number;
-		name: string;
-		fullName: string;
-	};
-	Nov: {
-		quantity: number;
-		name: string;
-		fullName: string;
-	};
-	Dec: {
-		quantity: number;
-		name: string;
-		fullName: string;
-	};
-};
+import { MonthsLabelsObject } from '@/types/chartTypes';
 
 type MonthRead = {
-	monthsBooksQuantity: MonthsLabels;
+	monthsBooksQuantity: MonthsLabelsObject;
 	amountOfBooks: number[];
 };
 

@@ -5,6 +5,7 @@ import { Button, ConfigProvider, DatePicker } from 'antd';
 
 import { DateModal, ModalContent } from './styles';
 import { format } from 'date-fns';
+import { ReadingStatus } from '@/types/bookTypes';
 
 interface DateRange {
 	startedDate: string | null;
@@ -15,7 +16,7 @@ interface UpdateDateDialogProps {
 	isDialogOpen: boolean;
 	onChangeModalState: (modalState: boolean) => void;
 	onGetBookDates: (props: DateRange) => void;
-	dateTypeDialog: 'Reading' | 'Finished';
+	dateTypeDialog: ReadingStatus | null;
 }
 
 export const UpdateDateDialog = ({

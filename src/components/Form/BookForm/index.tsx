@@ -13,8 +13,9 @@ import { Rings } from 'react-loading-icons';
 import { ToastContainer, toast } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
-import { UpdateDateDialog } from '../UpdateDateDialog';
+import { UpdateDateDialog } from '../../UpdateDateDialog';
 import { format } from 'date-fns';
+import { ReadingStatus } from '@/types/bookTypes';
 
 const bookSchema = yup.object({
 	name: yup.string().trim().required(),
@@ -88,8 +89,8 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 	const [isDatesDialogOpen, setIsDatesDialogOpen] = useState(false);
 	const [rangedDatePicked, setRangeDatePicked] = useState<GetBookDatesProps>();
 	const [bookData, setBookData] = useState<CreateBook>();
-	const [dateTypeDialog, setDateTypeDialog] = useState<'Reading' | 'Finished'>(
-		'Reading',
+	const [dateTypeDialog, setDateTypeDialog] = useState<ReadingStatus | null>(
+		null,
 	);
 
 	const {

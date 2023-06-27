@@ -11,7 +11,7 @@ import { parseCookies } from 'nookies';
 
 import { api } from '@/lib/axios';
 import { useBook } from '@/context/BookContext';
-import { Book } from '@/types/bookTypes';
+import { Book, ReadingStatus } from '@/types/bookTypes';
 
 import {
 	DialogClose,
@@ -32,8 +32,6 @@ import 'react-toastify/dist/ReactToastify.css';
 interface BookDialogProps {
 	book: Book | null;
 }
-
-type ReadingStatus = 'To read' | 'Reading' | 'Finished';
 
 interface UpdateStatusProps {
 	current_page: number;
@@ -223,11 +221,7 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 							</div>
 							<div>
 								<span>Status:</span>
-								<Dialog.Root
-								// onOpenChange={isOpen =>
-								// 	!isOpen ? onCloseReadingModal() : console.log({ isOpen })
-								// }
-								>
+								<Dialog.Root>
 									<Dialog.Trigger
 										className={`status ${
 											readingStatus === 'To read' ? 'tbr' : readingStatus

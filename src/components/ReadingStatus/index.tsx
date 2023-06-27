@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { DonutComponent } from '../Donut';
 import { SelectBook } from '../SelectBook';
@@ -9,8 +9,8 @@ import { SelectBook } from '../SelectBook';
 import { Book } from '@/types/bookTypes';
 import { ChartDataWrapper, StatusComponent } from '@/styles/common';
 import { useBook } from '@/context/BookContext';
-import { calculateBookPercentage } from '@/utils/calculateBookPercentage';
-import { getBookWithGraterProgress } from '@/utils/getGraterProgress';
+import { calculateBookPercentage } from '@/helpers/calculateBookPercentage';
+import { getBookWithGraterProgress } from '@/helpers/getGraterProgress';
 import { LoadingScreen } from '../LoadingScreen';
 
 interface ReadingStatusProps {
