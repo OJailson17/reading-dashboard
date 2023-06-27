@@ -16,6 +16,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { UpdateDateDialog } from '../../UpdateDateDialog';
 import { format } from 'date-fns';
 import { ReadingStatus } from '@/types/bookTypes';
+import { formatBookData } from '@/helpers/formatBookData';
 
 const bookSchema = yup.object({
 	name: yup.string().trim().required(),
@@ -31,7 +32,7 @@ const bookSchema = yup.object({
 	finished_date: yup.string().trim().optional().nullable(),
 });
 
-type CreateBook = yup.InferType<typeof bookSchema>;
+export type CreateBook = yup.InferType<typeof bookSchema>;
 
 interface BookFormProps {
 	database_id: string;
@@ -135,25 +136,7 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 	const handleFormatBookData = useCallback(async () => {
 		setIsSubmitButtonLoading(true);
 
-		let createBookBody: CreateBook = {
-			name: bookData?.name || '',
-			icon_url: bookData?.icon_url,
-			genres:
-				(bookData?.genres &&
-					bookData?.genres.map(genre =>
-						genre.replace(genre[0], genre[0].toUpperCase()),
-					)) ||
-				[],
-			author: bookData?.author || '',
-			status: bookData?.status || 'To read',
-			language: bookData?.language || 'Portuguese',
-			qtd_page: bookData?.qtd_page || 0,
-			current_page:
-				bookData?.status === 'Finished'
-					? bookData.qtd_page
-					: bookData?.current_page || 0,
-			goodreads_review: bookData?.goodreads_review || '',
-		};
+		let bookFormatted = formatBookData(bookData);
 
 		if (!rangedDatePicked && bookData?.status === 'Reading') {
 			setDateTypeDialog('Reading');
@@ -167,22 +150,23 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 			return;
 		}
 
+		// Add started and finished dates depending on the status
 		if (
 			rangedDatePicked?.startedDate &&
 			bookData &&
 			bookData?.status === 'Reading'
 		) {
-			createBookBody.started_date = rangedDatePicked?.startedDate;
+			bookFormatted.started_date = rangedDatePicked?.startedDate;
 		} else if (
 			rangedDatePicked?.finishedDate &&
 			bookData &&
 			bookData?.status === 'Finished'
 		) {
-			createBookBody.started_date = rangedDatePicked?.startedDate;
-			createBookBody.finished_date = rangedDatePicked?.finishedDate;
+			bookFormatted.started_date = rangedDatePicked?.startedDate;
+			bookFormatted.finished_date = rangedDatePicked?.finishedDate;
 		}
 
-		handleCreateBook(createBookBody);
+		handleCreateBook(bookFormatted);
 	}, [bookData, rangedDatePicked]);
 
 	const handleGoBack = () => {
