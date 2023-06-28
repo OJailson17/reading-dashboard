@@ -19,6 +19,7 @@ export const formatBookData = (bookData?: CreateBook) => {
 				? bookData.qtd_page
 				: bookData?.current_page || 0,
 		goodreads_review: bookData?.goodreads_review || '',
+		book_review: bookData?.book_review || '',
 	};
 
 	return formattedData;

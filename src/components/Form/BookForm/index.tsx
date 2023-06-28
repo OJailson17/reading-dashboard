@@ -149,8 +149,8 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 			});
 
 			setTimeout(() => {
-				// router.push('/library');
-				router.refresh();
+				router.push('/library');
+				// router.refresh();
 			}, 3000);
 		} catch (error) {
 			toast('An error ocurred', {
