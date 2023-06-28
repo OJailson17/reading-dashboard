@@ -3,8 +3,8 @@
 
 import { api } from '@/lib/axios';
 import React, { useCallback, useEffect, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import { Select as AntdSelect, Radio } from 'antd';
+import { Controller, useController, useForm } from 'react-hook-form';
+import { Select as AntdSelect, DatePicker, Radio } from 'antd';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useRouter } from 'next/navigation';
@@ -28,8 +28,23 @@ const bookSchema = yup.object({
 	qtd_page: yup.number().min(1).required(),
 	current_page: yup.number().default(0).required(),
 	goodreads_review: yup.string().trim().default('none').required(),
-	started_date: yup.string().trim().optional().nullable(),
-	finished_date: yup.string().trim().optional().nullable(),
+	started_date: yup
+		.string()
+		.trim()
+		.when('status', {
+			is: (value: string) => value === 'Reading' || value === 'Finished',
+			then: schema => schema.required(),
+			otherwise: schema => schema.nullable(),
+		}),
+	finished_date: yup
+		.string()
+		.trim()
+		.when('status', {
+			is: 'Finished',
+			then: schema => schema.required(),
+			otherwise: schema => schema.nullable(),
+		}),
+	book_review: yup.string().trim().optional().default('none'),
 });
 
 export type CreateBook = yup.InferType<typeof bookSchema>;
@@ -98,9 +113,23 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 		register,
 		handleSubmit,
 		control,
-		formState: { errors },
+		watch,
+		setError,
+		clearErrors,
+		setValue,
+		formState: { errors, isValid },
 	} = useForm({
 		resolver: yupResolver(bookSchema),
+	});
+	const watchBookStatus = watch('status');
+
+	const startedDateField = useController({
+		name: 'started_date',
+		control,
+	});
+	const finishedDateField = useController({
+		name: 'finished_date',
+		control,
 	});
 
 	const router = useRouter();
@@ -120,7 +149,8 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 			});
 
 			setTimeout(() => {
-				router.push('/library');
+				// router.push('/library');
+				router.refresh();
 			}, 3000);
 		} catch (error) {
 			toast('An error ocurred', {
@@ -138,34 +168,6 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 
 		let bookFormatted = formatBookData(bookData);
 
-		if (!rangedDatePicked && bookData?.status === 'Reading') {
-			setDateTypeDialog('Reading');
-			setIsDatesDialogOpen(true);
-			setIsSubmitButtonLoading(false);
-			return;
-		} else if (!rangedDatePicked && bookData?.status === 'Finished') {
-			setDateTypeDialog('Finished');
-			setIsDatesDialogOpen(true);
-			setIsSubmitButtonLoading(false);
-			return;
-		}
-
-		// Add started and finished dates depending on the status
-		if (
-			rangedDatePicked?.startedDate &&
-			bookData &&
-			bookData?.status === 'Reading'
-		) {
-			bookFormatted.started_date = rangedDatePicked?.startedDate;
-		} else if (
-			rangedDatePicked?.finishedDate &&
-			bookData &&
-			bookData?.status === 'Finished'
-		) {
-			bookFormatted.started_date = rangedDatePicked?.startedDate;
-			bookFormatted.finished_date = rangedDatePicked?.finishedDate;
-		}
-
 		handleCreateBook(bookFormatted);
 	}, [bookData, rangedDatePicked]);
 
@@ -177,6 +179,26 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 		setIsDatesDialogOpen(dialogState);
 	};
 
+	const handleFormatPickedDates = (dates: any) => {
+		if (!dates) return;
+
+		if (!Array.isArray(dates)) dates = Array(dates);
+
+		const [startedDate, finishedDate] = dates.map((date: any) =>
+			format(new Date(date['$d'] || ''), 'yyyy-MM-dd'),
+		);
+
+		startedDateField.field.onChange(startedDate);
+		finishedDateField.field.onChange(finishedDate);
+		setValue('started_date', startedDate);
+		setValue('finished_date', finishedDate);
+
+		setRangeDatePicked({
+			startedDate,
+			finishedDate,
+		});
+	};
+
 	const handleGetBookDates = ({
 		startedDate,
 		finishedDate,
@@ -186,12 +208,6 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 			finishedDate,
 		});
 	};
-
-	useEffect(() => {
-		if (rangedDatePicked && rangedDatePicked.startedDate !== '') {
-			handleFormatBookData();
-		}
-	}, [rangedDatePicked]);
 
 	useEffect(() => {
 		if (bookData && bookData.name !== '') {
@@ -332,7 +348,7 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 					</CreateBookInputContainer>
 				</div>
 
-				{/* Genres/Goodreads */}
+				{/* Genres/Goodreads/Review */}
 				<div className='inputs-group'>
 					{/* Genres */}
 					<CreateBookInputContainer>
@@ -376,6 +392,68 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 							{errors.goodreads_review?.message}
 						</span>
 					</CreateBookInputContainer>
+
+					{/* Review */}
+					{watchBookStatus === 'Finished' && (
+						<>
+							<CreateBookInputContainer>
+								<label htmlFor='book-goodreads'>Review</label>
+								<Controller
+									name='book_review'
+									control={control}
+									defaultValue={'none'}
+									render={({ field }) => (
+										<AntdSelect
+											{...field}
+											options={reviewOptions}
+											size='large'
+											style={{ width: '100%' }}
+											id='book-review'
+										/>
+									)}
+								/>
+								<span className='error-message'>
+									{errors.book_review?.message}
+								</span>
+							</CreateBookInputContainer>
+
+							<CreateBookInputContainer>
+								<label htmlFor='progress_dates'>Started & Finished Dates</label>
+								<DatePicker.RangePicker
+									onOpenChange={e => console.log('change', e)}
+									onPanelChange={e => console.log('panel', e)}
+									placement='bottomRight'
+									onChange={e => handleFormatPickedDates(e)}
+									style={{ height: '2.5rem' }}
+									id='progress_dates'
+									ref={finishedDateField.field.ref}
+								/>
+								<span className='error-message'>
+									{errors.started_date?.message}
+								</span>
+								<span className='error-message'>
+									{errors.finished_date?.message}
+								</span>
+							</CreateBookInputContainer>
+						</>
+					)}
+
+					{watchBookStatus === 'Reading' && (
+						<CreateBookInputContainer>
+							<label htmlFor='started_date'>Started Date</label>
+							<DatePicker
+								onChange={e => handleFormatPickedDates(e)}
+								placeholder='Started Date'
+								placement='bottomRight'
+								style={{ height: '2.5rem' }}
+								id='started_date'
+								ref={startedDateField.field.ref}
+							/>
+							<span className='error-message'>
+								{errors.started_date?.message}
+							</span>
+						</CreateBookInputContainer>
+					)}
 				</div>
 
 				<div className='form-actions'>

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Button, ConfigProvider, DatePicker } from 'antd';
+import { ConfigProvider, DatePicker } from 'antd';
 
 import { DateModal, ModalContent } from './styles';
 import { format } from 'date-fns';
@@ -79,6 +79,7 @@ export const UpdateDateDialog = ({
 				keyboard
 				closable={false}
 				width={'90%'}
+				centered
 			>
 				<ModalContent>
 					{dateTypeDialog === 'Finished' ? (
@@ -93,16 +94,6 @@ export const UpdateDateDialog = ({
 							onChange={e => handleFormatPickedData(e)}
 							placeholder='Started Date'
 							placement='bottomRight'
-							// cellRender={current => {
-							// 	const style: React.CSSProperties = {};
-							// 	style.color = 'white';
-
-							// 	return (
-							// 		<div className='ant-picker-cell-inner' style={style}>
-							// 			{current.date()}
-							// 		</div>
-							// 	);
-							// }}
 						/>
 					)}
 				</ModalContent>

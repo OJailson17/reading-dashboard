@@ -113,4 +113,12 @@ export const CreateBookInputContainer = styled.div`
 			display: none;
 		}
 	}
+
+	span[role='img'] {
+		color: #494949;
+	}
+
+	.ant-picker-input input::placeholder {
+		color: #494949;
+	}
 `;
