@@ -18,6 +18,7 @@ type CreateBookDTO = {
 	goodreads_review: string;
 	started_date?: string;
 	finished_date?: string;
+	book_review?: string;
 };
 
 export async function POST(req: NextRequest, res: NextResponse) {
@@ -108,6 +109,13 @@ export async function POST(req: NextRequest, res: NextResponse) {
 								start: createBookBody.finished_date,
 						  }
 						: null,
+				},
+				Rating: {
+					type: 'select',
+					select: {
+						name: createBookBody.book_review || 'none',
+						color: createBookBody.book_review === 'none' ? 'blue' : 'yellow',
+					},
 				},
 			},
 		});

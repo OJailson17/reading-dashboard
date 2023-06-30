@@ -420,8 +420,6 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 							<CreateBookInputContainer>
 								<label htmlFor='progress_dates'>Started & Finished Dates</label>
 								<DatePicker.RangePicker
-									onOpenChange={e => console.log('change', e)}
-									onPanelChange={e => console.log('panel', e)}
 									placement='bottomRight'
 									onChange={e => handleFormatPickedDates(e)}
 									style={{ height: '2.5rem' }}
