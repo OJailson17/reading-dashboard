@@ -27,11 +27,11 @@ button {
 .ant-dropdown-menu {
   background: #292738;
   text-align: center;
+
+  li a {
+    text-decoration: none;
+  }
 }
-
-
-
-
 
 
 
@@ -73,6 +73,27 @@ button {
   @media (max-width: 485px) {
     html {
       overflow-y:auto;
+    }
+
+    .ant-dropdown {
+      width: 14.5rem;
+    }
+
+    .ant-dropdown-menu {
+      height: 100px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+        li {
+          font-size: 1.1rem !important;
+          width: 100%;
+
+          a {
+            text-decoration: none;
+          }
+        }
     }
 
     .ant-modal-wrap {

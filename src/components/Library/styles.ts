@@ -39,6 +39,10 @@ export const LibraryComponent = styled.div`
 		.library-actions {
 			position: absolute;
 			right: 0;
+
+			&:hover {
+				cursor: pointer;
+			}
 		}
 	}
 

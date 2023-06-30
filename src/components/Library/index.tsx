@@ -97,13 +97,7 @@ export const Library = ({
 
 					<div className='library-actions'>
 						<Dropdown menu={{ items }} overlayStyle={{ background: '#292738' }}>
-							<a onClick={e => e.preventDefault()}>
-								<Space
-									style={{ cursor: 'pointer', textDecoration: 'underline' }}
-								>
-									More
-								</Space>
-							</a>
+							<a onClick={e => e.preventDefault()}>More</a>
 						</Dropdown>
 					</div>
 				</header>
