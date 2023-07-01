@@ -80,6 +80,7 @@ export const CreateBookForm = styled.form`
 export const CreateBookInputContainer = styled.div`
 	display: flex;
 	flex-direction: column;
+	max-width: 350px;
 
 	label {
 		margin-bottom: 0.3rem;
@@ -88,7 +89,6 @@ export const CreateBookInputContainer = styled.div`
 	}
 
 	input {
-		max-width: 350px;
 		height: 2.5rem;
 		border-radius: 8px;
 		padding: 0 1rem;

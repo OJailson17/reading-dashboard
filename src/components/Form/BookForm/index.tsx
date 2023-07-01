@@ -425,6 +425,7 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 									style={{ height: '2.5rem' }}
 									id='progress_dates'
 									ref={finishedDateField.field.ref}
+									inputReadOnly
 								/>
 								<span className='error-message'>
 									{errors.started_date?.message}
@@ -446,6 +447,7 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 								style={{ height: '2.5rem' }}
 								id='started_date'
 								ref={startedDateField.field.ref}
+								inputReadOnly
 							/>
 							<span className='error-message'>
 								{errors.started_date?.message}
