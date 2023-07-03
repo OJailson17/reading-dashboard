@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { DonutComponent } from '../Donut';
 import { SelectBook } from '../SelectBook';
 
-import { Book } from '@/types/bookTypes';
+import { Book } from '@/@types/bookTypes';
 import { ChartDataWrapper, StatusComponent } from '@/styles/common';
 import { useBook } from '@/context/BookContext';
 import { calculateBookPercentage } from '@/helpers/calculateBookPercentage';

@@ -13,9 +13,8 @@ import { Rings } from 'react-loading-icons';
 import { ToastContainer, toast } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
-import { UpdateDateDialog } from '../../UpdateDateDialog';
 import { format } from 'date-fns';
-import { ReadingStatus } from '@/types/bookTypes';
+import { ReadingStatus } from '@/@types/bookTypes';
 import { formatBookData } from '@/helpers/formatBookData';
 
 const bookSchema = yup.object({
@@ -218,12 +217,6 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 	return (
 		<>
 			<ToastContainer />
-			<UpdateDateDialog
-				isDialogOpen={isDatesDialogOpen}
-				onChangeModalState={handleChangeDatesDialogState}
-				onGetBookDates={handleGetBookDates}
-				dateTypeDialog={dateTypeDialog}
-			/>
 			<CreateBookForm
 				onSubmit={handleSubmit((data: CreateBook) => setBookData(data))}
 				autoComplete='off'

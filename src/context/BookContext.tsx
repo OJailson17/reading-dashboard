@@ -10,7 +10,7 @@ import React, {
 } from 'react';
 import { api } from '@/lib/axios';
 
-import { Book } from '@/types/bookTypes';
+import { Book } from '@/@types/bookTypes';
 
 type BookProviderProps = {
 	children: ReactNode;

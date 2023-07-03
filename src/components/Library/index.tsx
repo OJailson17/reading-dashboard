@@ -2,7 +2,7 @@
 
 import { BookSlideComponent } from './BookSlide';
 
-import { Book } from '@/types/bookTypes';
+import { Book } from '@/@types/bookTypes';
 import {
 	BookSlide,
 	LibraryComponent,
@@ -12,6 +12,8 @@ import {
 import { useEffect, useState } from 'react';
 import { useBook } from '@/context/BookContext';
 import { Dropdown, Space } from 'antd';
+import { ImBooks, ImHome } from 'react-icons/im';
+import { BiSolidBookAdd } from 'react-icons/bi';
 
 interface LibraryBooks {
 	reading_books: Book[];
@@ -70,9 +72,13 @@ export const Library = ({
 			label: (
 				<div className='action-links'>
 					{!to_read_books ? (
-						<PageLink href={'/library'}>Library</PageLink>
+						<PageLink href={'/library'}>
+							<ImBooks />
+							Library
+						</PageLink>
 					) : (
 						<PageLink href={'/'} prefetch={false}>
+							<ImHome />
 							Home
 						</PageLink>
 					)}
@@ -83,7 +89,10 @@ export const Library = ({
 			key: '2',
 			label: (
 				<div className='action-links'>
-					<PageLink href={'/book/create'}>Add Book</PageLink>
+					<PageLink href={'/book/create'}>
+						<BiSolidBookAdd />
+						Add Book
+					</PageLink>
 				</div>
 			),
 		},
