@@ -1,3 +1,4 @@
+import { validateURL } from '@/helpers/checkURL';
 import { notion } from '@/lib/notion';
 import {
 	APIErrorCode,
@@ -29,6 +30,12 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
 	const createBookBody = (await req.json()) as CreateBookDTO;
 
+	let bookCover: string = createBookBody.icon_url || '';
+
+	if (!validateURL(createBookBody.icon_url || '')) {
+		bookCover = `https://covers.openlibrary.org/b/isbn/${createBookBody.icon_url}-M.jpg`;
+	}
+
 	try {
 		// Make a query to get the database data
 		const response = await notion.pages.create({
@@ -38,7 +45,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 			icon: createBookBody.icon_url
 				? {
 						external: {
-							url: createBookBody.icon_url,
+							url: bookCover,
 						},
 				  }
 				: null,

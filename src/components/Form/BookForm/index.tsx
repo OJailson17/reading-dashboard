@@ -19,7 +19,7 @@ import { formatBookData } from '@/helpers/formatBookData';
 
 const bookSchema = yup.object({
 	name: yup.string().trim().required(),
-	icon_url: yup.string().trim().optional().url(),
+	icon_url: yup.string().trim().optional(),
 	genres: yup.array().ensure().of(yup.string().required()).required(),
 	author: yup.string().trim().required(),
 	status: yup.string().oneOf(['To read', 'Reading', 'Finished']).required(),
@@ -159,6 +159,7 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 				type: 'error',
 			});
 			console.log({ error });
+			setIsSubmitButtonLoading(false);
 		}
 	};
 
@@ -248,11 +249,11 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 
 					{/* Cover */}
 					<CreateBookInputContainer>
-						<label htmlFor='book-cover'>Book Cover</label>
+						<label htmlFor='book-cover'>Book Cover (URL or ISBN-10)</label>
 						<input
-							type='url'
+							type='text'
 							id='book-cover'
-							placeholder='Image URL'
+							placeholder='Image URL or ISBN-10 Code'
 							{...register('icon_url')}
 						/>
 						<span className='error-message'>{errors.icon_url?.message}</span>
