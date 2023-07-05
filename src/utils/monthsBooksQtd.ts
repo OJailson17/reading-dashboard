@@ -1,4 +1,4 @@
-import { MonthsLabelsObject } from '@/types/chartTypes';
+import { MonthsLabelsObject } from '@/@types/chartTypes';
 
 export const monthsBooksQtd: MonthsLabelsObject = {
 	Jan: {

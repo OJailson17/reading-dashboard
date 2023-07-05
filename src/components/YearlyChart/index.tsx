@@ -18,7 +18,7 @@ import {
 	YearlyChartWrapper,
 } from './styles';
 import { monthsBooksQtd } from '@/utils/monthsBooksQtd';
-import { MonthLabel } from '@/types/chartTypes';
+import { MonthLabel } from '@/@types/chartTypes';
 
 const monthsLabels: MonthLabel[] = [
 	'Jan',

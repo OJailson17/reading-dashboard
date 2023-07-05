@@ -5,7 +5,7 @@ import React, { SyntheticEvent, useState } from 'react';
 
 import { BookDialog } from '../BookDialog';
 
-import { Book } from '@/types/bookTypes';
+import { Book } from '@/@types/bookTypes';
 
 import { BookComponent } from './styles';
 interface BookSlideComponentProps {

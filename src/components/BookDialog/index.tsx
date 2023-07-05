@@ -11,7 +11,7 @@ import { parseCookies } from 'nookies';
 
 import { api } from '@/lib/axios';
 import { useBook } from '@/context/BookContext';
-import { Book, ReadingStatus } from '@/types/bookTypes';
+import { Book, ReadingStatus } from '@/@types/bookTypes';
 
 import {
 	DialogClose,

@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 
 import { Library } from '@/components/Library';
-import { Book } from '@/types/bookTypes';
+import { Book } from '@/@types/bookTypes';
 import { LibraryPageTitle, MainComponent } from './styles';
 import { Footer } from '@/components/Footer';
 import { cookies } from 'next/headers';

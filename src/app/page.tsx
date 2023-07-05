@@ -9,7 +9,7 @@ import { LoadingScreen } from '@/components/LoadingScreen';
 import { Footer } from '@/components/Footer';
 
 // import { useBook } from '@/context/BookContext';
-import { Book } from '@/types/bookTypes';
+import { Book } from '@/@types/bookTypes';
 
 import { PageTitle } from '@/styles/common';
 import { StatusComponent, StatusComponentWrapper } from './styles';

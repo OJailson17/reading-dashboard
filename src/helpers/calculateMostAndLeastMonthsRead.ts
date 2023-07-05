@@ -1,4 +1,4 @@
-import { MonthsLabelsObject } from '@/types/chartTypes';
+import { MonthsLabelsObject } from '@/@types/chartTypes';
 
 type MonthRead = {
 	monthsBooksQuantity: MonthsLabelsObject;
