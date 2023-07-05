@@ -124,6 +124,14 @@ export async function POST(req: NextRequest, res: NextResponse) {
 						color: createBookBody.book_review === 'none' ? 'blue' : 'yellow',
 					},
 				},
+				'Reading Summary': {
+					type: 'relation',
+					relation: [
+						{
+							id: `${process.env.NOTION_READING_SUMMARY_ID}`,
+						},
+					],
+				},
 			},
 		});
 
