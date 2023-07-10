@@ -2,49 +2,21 @@
 'use client';
 
 import { api } from '@/lib/axios';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Controller, useController, useForm } from 'react-hook-form';
 import { Select as AntdSelect, DatePicker, Radio } from 'antd';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useRouter } from 'next/navigation';
-import { CreateBookForm, CreateBookInputContainer } from './styles';
+import { CreateBookForm } from './styles';
 import { Rings } from 'react-loading-icons';
 import { ToastContainer, toast } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
 import { format } from 'date-fns';
-import { ReadingStatus } from '@/@types/bookTypes';
 import { formatBookData } from '@/helpers/formatBookData';
-
-const bookSchema = yup.object({
-	name: yup.string().trim().required(),
-	icon_url: yup.string().trim().optional(),
-	genres: yup.array().ensure().of(yup.string().required()).required(),
-	author: yup.string().trim().required(),
-	status: yup.string().oneOf(['To read', 'Reading', 'Finished']).required(),
-	language: yup.string().oneOf(['Portuguese', 'English']).required(),
-	qtd_page: yup.number().min(1).required(),
-	current_page: yup.number().default(0).required(),
-	goodreads_review: yup.string().trim().default('none').required(),
-	started_date: yup
-		.string()
-		.trim()
-		.when('status', {
-			is: (value: string) => value === 'Reading' || value === 'Finished',
-			then: schema => schema.required(),
-			otherwise: schema => schema.nullable(),
-		}),
-	finished_date: yup
-		.string()
-		.trim()
-		.when('status', {
-			is: 'Finished',
-			then: schema => schema.required(),
-			otherwise: schema => schema.nullable(),
-		}),
-	book_review: yup.string().trim().optional().default('none'),
-});
+import { InputComponent } from './InputComponent';
+import { bookSchema } from './bookSchema';
 
 export type CreateBook = yup.InferType<typeof bookSchema>;
 
@@ -101,22 +73,16 @@ const reviewOptions = [
 
 export const BookForm = ({ database_id }: BookFormProps) => {
 	const [isSubmitButtonLoading, setIsSubmitButtonLoading] = useState(false);
-	const [isDatesDialogOpen, setIsDatesDialogOpen] = useState(false);
 	const [rangedDatePicked, setRangeDatePicked] = useState<GetBookDatesProps>();
 	const [bookData, setBookData] = useState<CreateBook>();
-	const [dateTypeDialog, setDateTypeDialog] = useState<ReadingStatus | null>(
-		null,
-	);
 
 	const {
 		register,
 		handleSubmit,
 		control,
 		watch,
-		setError,
-		clearErrors,
 		setValue,
-		formState: { errors, isValid },
+		formState: { errors },
 	} = useForm({
 		resolver: yupResolver(bookSchema),
 	});
@@ -132,6 +98,7 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 	});
 
 	const router = useRouter();
+	const formRef = useRef<HTMLFormElement>(null);
 
 	const handleCreateBook = async (createBookBody: CreateBook) => {
 		setIsSubmitButtonLoading(true);
@@ -175,10 +142,6 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 		router.back();
 	};
 
-	const handleChangeDatesDialogState = (dialogState: boolean) => {
-		setIsDatesDialogOpen(dialogState);
-	};
-
 	const handleFormatPickedDates = (dates: any) => {
 		if (!dates) return;
 
@@ -199,16 +162,6 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 		});
 	};
 
-	const handleGetBookDates = ({
-		startedDate,
-		finishedDate,
-	}: GetBookDatesProps) => {
-		setRangeDatePicked({
-			startedDate,
-			finishedDate,
-		});
-	};
-
 	useEffect(() => {
 		if (bookData && bookData.name !== '') {
 			handleFormatBookData();
@@ -221,82 +174,70 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 			<CreateBookForm
 				onSubmit={handleSubmit((data: CreateBook) => setBookData(data))}
 				autoComplete='off'
+				ref={formRef}
 			>
 				<div className='inputs-group'>
 					{/* Name */}
-					<CreateBookInputContainer>
-						<label htmlFor='book-name'>Name</label>
-						<input
-							type='text'
-							id='book-name'
-							placeholder='Harry Potter'
-							{...register('name')}
-						/>
-						<span className='error-message'>{errors.name?.message}</span>
-					</CreateBookInputContainer>
+					<InputComponent
+						{...register('name')}
+						error={errors.name}
+						label='Name'
+						id='book-name'
+						placeholder='Ex: Harry Potter'
+					/>
 
 					{/* Author */}
-					<CreateBookInputContainer>
-						<label htmlFor='book-author'>Book Author</label>
-						<input
-							type='text'
-							id='book-author'
-							placeholder='J. K. Rowlling'
-							{...register('author')}
-						/>
-						<span className='error-message'>{errors.author?.message}</span>
-					</CreateBookInputContainer>
+					<InputComponent
+						{...register('author')}
+						error={errors.author}
+						label='Book Author'
+						id='book-author'
+						placeholder='J. K. Rowlling'
+					/>
 
 					{/* Cover */}
-					<CreateBookInputContainer>
-						<label htmlFor='book-cover'>Book Cover (URL or ISBN-10)</label>
-						<input
-							type='text'
-							id='book-cover'
-							placeholder='Image URL or ISBN-10 Code'
-							{...register('icon_url')}
-						/>
-						<span className='error-message'>{errors.icon_url?.message}</span>
-					</CreateBookInputContainer>
+					<InputComponent
+						{...register('icon_url')}
+						error={errors.icon_url}
+						label='Book Cover (URL or ISBN-10)'
+						id='book-cover'
+						placeholder='Image URL or ISBN-10 Code'
+					/>
 
 					{/* Total Pages */}
-					<CreateBookInputContainer>
-						<label htmlFor='book-total-pages'>Total Pages</label>
-						<input
-							type='number'
-							id='book-total-pages'
-							placeholder='300'
-							{...register('qtd_page', {
-								valueAsNumber: true,
-							})}
-							defaultValue={0}
-						/>
-						<span className='error-message'>{errors.qtd_page?.message}</span>
-					</CreateBookInputContainer>
+					<InputComponent
+						{...register('qtd_page', {
+							valueAsNumber: true,
+						})}
+						type='number'
+						error={errors.qtd_page}
+						label='Total Pages'
+						id='book-total-pages'
+						placeholder='Image URL or ISBN-10 Code'
+					/>
 
 					{/* Current Page */}
-					<CreateBookInputContainer>
-						<label htmlFor='book-current-page'>Current Page</label>
-						<input
-							type='number'
-							id='book-current-page'
-							placeholder='100'
-							{...register('current_page', {
-								valueAsNumber: true,
-							})}
-							defaultValue={0}
-						/>
-						<span className='error-message'>
-							{errors.current_page?.message}
-						</span>
-					</CreateBookInputContainer>
+					<InputComponent
+						{...register('current_page', {
+							valueAsNumber: true,
+						})}
+						type='number'
+						error={errors.current_page}
+						label='Current Page'
+						id='book-current-page'
+						placeholder='100'
+					/>
 				</div>
 
 				{/* Status/Language */}
 				<div className='inputs-group'>
 					{/* Status */}
-					<CreateBookInputContainer className='book-status'>
-						<label htmlFor='book-status'>Book Status</label>
+					<InputComponent
+						id='book-status'
+						label='Book Status'
+						error={errors.status}
+						isCustom
+					>
 						<Controller
 							name='status'
 							control={control}
@@ -315,12 +256,15 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 								/>
 							)}
 						/>
-						<span className='error-message'>{errors.status?.message}</span>
-					</CreateBookInputContainer>
+					</InputComponent>
 
 					{/* Language */}
-					<CreateBookInputContainer className='book-language'>
-						<label htmlFor='book-language'>Book Language</label>
+					<InputComponent
+						id='book-language'
+						label='Book Language'
+						error={errors.language}
+						isCustom
+					>
 						<Controller
 							name='language'
 							control={control}
@@ -338,15 +282,13 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 								/>
 							)}
 						/>
-						<span className='error-message'>{errors.language?.message}</span>
-					</CreateBookInputContainer>
+					</InputComponent>
 				</div>
 
 				{/* Genres/Goodreads/Review */}
 				<div className='inputs-group'>
 					{/* Genres */}
-					<CreateBookInputContainer>
-						<label htmlFor='book-genres'>Book Genres</label>
+					<InputComponent id='book-genres' label='Book Genres' isCustom>
 						<Controller
 							name='genres'
 							control={control}
@@ -362,12 +304,15 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 								/>
 							)}
 						/>
-						<span className='error-message'>{errors.genres?.message}</span>
-					</CreateBookInputContainer>
+					</InputComponent>
 
 					{/* Goodreads */}
-					<CreateBookInputContainer>
-						<label htmlFor='book-goodreads'>Goodreads</label>
+					<InputComponent
+						id='book-goodreads'
+						label='Goodreads'
+						error={errors.goodreads_review}
+						isCustom
+					>
 						<Controller
 							name='goodreads_review'
 							control={control}
@@ -382,16 +327,17 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 								/>
 							)}
 						/>
-						<span className='error-message'>
-							{errors.goodreads_review?.message}
-						</span>
-					</CreateBookInputContainer>
+					</InputComponent>
 
 					{/* Review */}
 					{watchBookStatus === 'Finished' && (
 						<>
-							<CreateBookInputContainer>
-								<label htmlFor='book-goodreads'>Review</label>
+							<InputComponent
+								id='book-review-component'
+								label='Review'
+								error={errors.book_review}
+								isCustom
+							>
 								<Controller
 									name='book_review'
 									control={control}
@@ -406,13 +352,14 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 										/>
 									)}
 								/>
-								<span className='error-message'>
-									{errors.book_review?.message}
-								</span>
-							</CreateBookInputContainer>
+							</InputComponent>
 
-							<CreateBookInputContainer>
-								<label htmlFor='progress_dates'>Started & Finished Dates</label>
+							<InputComponent
+								id='progress-dates-component'
+								label='Started & Finished Dates'
+								error={errors.finished_date}
+								isCustom
+							>
 								<DatePicker.RangePicker
 									placement='bottomRight'
 									onChange={e => handleFormatPickedDates(e)}
@@ -421,19 +368,17 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 									ref={finishedDateField.field.ref}
 									inputReadOnly
 								/>
-								<span className='error-message'>
-									{errors.started_date?.message}
-								</span>
-								<span className='error-message'>
-									{errors.finished_date?.message}
-								</span>
-							</CreateBookInputContainer>
+							</InputComponent>
 						</>
 					)}
 
 					{watchBookStatus === 'Reading' && (
-						<CreateBookInputContainer>
-							<label htmlFor='started_date'>Started Date</label>
+						<InputComponent
+							id='started-date-component'
+							label='Started Date'
+							error={errors.started_date}
+							isCustom
+						>
 							<DatePicker
 								onChange={e => handleFormatPickedDates(e)}
 								placeholder='Started Date'
@@ -443,10 +388,7 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 								ref={startedDateField.field.ref}
 								inputReadOnly
 							/>
-							<span className='error-message'>
-								{errors.started_date?.message}
-							</span>
-						</CreateBookInputContainer>
+						</InputComponent>
 					)}
 				</div>
 
