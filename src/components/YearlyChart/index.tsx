@@ -17,7 +17,7 @@ import {
 	ChartTitle,
 	YearlyChartWrapper,
 } from './styles';
-import { monthsBooksQtd } from '@/utils/monthsBooksQtd';
+import { monthsBooksQtd, resetMonthsQtd } from '@/utils/monthsBooksQtd';
 import { MonthLabel } from '@/@types/chartTypes';
 
 const monthsLabels: MonthLabel[] = [
@@ -61,6 +61,9 @@ export const YearlyChart = ({ finished_books }: YearlyChartProps) => {
 
 	const currentYear = new Date().getUTCFullYear(); // 2023
 
+	// Reset the quantity of books on each month
+	resetMonthsQtd();
+
 	// Got through the book list and check which month the book was finished
 	for (let i = 0; i < allFinishedBooks.length; i++) {
 		monthsLabels.map(label => {
@@ -78,6 +81,8 @@ export const YearlyChart = ({ finished_books }: YearlyChartProps) => {
 			}
 		});
 	}
+
+	console.log({ booksQTD: monthsBooksQtd.Jan });
 
 	// Get the quantity of each book and push into the amount of books array
 	const amountOfBooks: number[] = [];

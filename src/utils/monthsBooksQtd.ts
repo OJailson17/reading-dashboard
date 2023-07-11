@@ -62,3 +62,9 @@ export const monthsBooksQtd: MonthsLabelsObject = {
 		fullName: 'December',
 	},
 };
+
+export const resetMonthsQtd = () => {
+	for (const [_, value] of Object.entries(monthsBooksQtd)) {
+		value.quantity = 0;
+	}
+};
