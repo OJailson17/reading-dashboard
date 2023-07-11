@@ -28,6 +28,7 @@ export const InputComponent = forwardRef<HTMLInputElement, InputComponentProps>(
 							type={props.type || 'text'}
 							defaultValue={props.type === 'number' ? 0 : ''}
 							{...rest}
+							style={props.error ? { outline: '1px solid red' } : {}}
 						/>
 						<span className='error-message'>{props.error?.message}</span>
 					</CreateBookInputContainer>

@@ -324,6 +324,7 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 									size='large'
 									style={{ width: '100%' }}
 									id='book-goodreads'
+									status={errors.goodreads_review ? 'error' : ''}
 								/>
 							)}
 						/>
@@ -367,6 +368,7 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 									id='progress_dates'
 									ref={finishedDateField.field.ref}
 									inputReadOnly
+									status={errors.finished_date ? 'error' : ''}
 								/>
 							</InputComponent>
 						</>
@@ -387,6 +389,7 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 								id='started_date'
 								ref={startedDateField.field.ref}
 								inputReadOnly
+								status={errors.started_date ? 'error' : ''}
 							/>
 						</InputComponent>
 					)}
