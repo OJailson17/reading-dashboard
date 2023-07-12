@@ -104,7 +104,10 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 		setIsSubmitButtonLoading(true);
 
 		try {
-			await api.post(`/book/create?db=${database_id}`, createBookBody);
+			await api.post(`/book/create?db=${database_id}`, createBookBody, {
+				timeout: 10000,
+				timeoutErrorMessage: 'It took too long, try again.',
+			});
 			setIsSubmitButtonLoading(false);
 
 			toast('Book Created', {
