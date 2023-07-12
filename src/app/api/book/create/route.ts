@@ -1,4 +1,4 @@
-import { validateURL } from '@/helpers/checkURL';
+import { validateURL } from '@/utils/functions/checkURL';
 import { notion } from '@/lib/notion';
 import {
 	APIErrorCode,

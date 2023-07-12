@@ -14,7 +14,7 @@ import { ToastContainer, toast } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
 import { format } from 'date-fns';
-import { formatBookData } from '@/helpers/formatBookData';
+import { formatBookData } from '@/utils/functions/formatBookData';
 import { InputComponent } from './InputComponent';
 import { bookSchema } from './bookSchema';
 

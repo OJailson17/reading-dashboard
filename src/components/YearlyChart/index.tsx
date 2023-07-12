@@ -5,8 +5,7 @@ import { GoTriangleUp, GoTriangleDown } from 'react-icons/go';
 import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis } from 'recharts';
 
 import { CustomTooltip } from './CustomToolTip';
-import { getLeastAndMostMonthRead } from '@/helpers/calculateMostAndLeastMonthsRead';
-import isSameMonth from '@/helpers/isSameMonth';
+import isSameMonth from '@/utils/functions/isSameMonth';
 
 import { useBook } from '@/context/BookContext';
 
@@ -17,8 +16,10 @@ import {
 	ChartTitle,
 	YearlyChartWrapper,
 } from './styles';
-import { monthsBooksQtd, resetMonthsQtd } from '@/utils/monthsBooksQtd';
+import { monthsBooksQtd } from '@/utils/helper/monthsBooksQtd';
 import { MonthLabel } from '@/@types/chartTypes';
+import { getLeastAndMostMonthRead } from '@/utils/functions/calculateMostAndLeastMonthsRead';
+import { resetMonthsQtd } from '@/utils/functions/resetMonthsData';
 
 const monthsLabels: MonthLabel[] = [
 	'Jan',
@@ -81,8 +82,6 @@ export const YearlyChart = ({ finished_books }: YearlyChartProps) => {
 			}
 		});
 	}
-
-	console.log({ booksQTD: monthsBooksQtd.Jan });
 
 	// Get the quantity of each book and push into the amount of books array
 	const amountOfBooks: number[] = [];

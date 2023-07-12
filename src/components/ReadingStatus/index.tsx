@@ -9,8 +9,8 @@ import { SelectBook } from '../SelectBook';
 import { Book } from '@/@types/bookTypes';
 import { ChartDataWrapper, StatusComponent } from '@/styles/common';
 import { useBook } from '@/context/BookContext';
-import { calculateBookPercentage } from '@/helpers/calculateBookPercentage';
-import { getBookWithGraterProgress } from '@/helpers/getBookWithGraterProgress';
+import { calculateBookPercentage } from '@/utils/functions/calculateBookPercentage';
+import { getBookWithGraterProgress } from '@/utils/functions/getBookWithGraterProgress';
 import { LoadingScreen } from '../LoadingScreen';
 
 interface ReadingStatusProps {
