@@ -3,7 +3,7 @@
 
 import * as Dialog from '@radix-ui/react-dialog';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast, ToastContainer } from 'react-toastify';
 import { Rings } from 'react-loading-icons';
@@ -53,6 +53,14 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 	const { '@reading_dashboard:token': token } = parseCookies();
 	// Get database id from cookies
 	const { '@reading_dashboard:database_id': databaseId } = parseCookies();
+
+	const currentPageInputRef = useRef<HTMLInputElement>(null);
+
+	const handleAddFocusToInput = () => {
+		if (currentPageInputRef.current) {
+			currentPageInputRef.current.focus();
+		}
+	};
 
 	const updateStatus = async ({ current_page, status }: UpdateStatusProps) => {
 		try {
@@ -181,6 +189,7 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 	useEffect(() => {
 		if (!isPageInputDisable) {
 			setShowSaveButton(true);
+			handleAddFocusToInput();
 		}
 	}, [isPageInputDisable]);
 
@@ -304,6 +313,7 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 											}
 											onChange={e => setCurrentPage(Number(e.target.value))}
 											disabled={isPageInputDisable}
+											ref={currentPageInputRef}
 										/>
 
 										{/* Show save or edit button depending on the showSaveButton state */}
