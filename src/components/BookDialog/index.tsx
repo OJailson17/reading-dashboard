@@ -3,7 +3,7 @@
 
 import * as Dialog from '@radix-ui/react-dialog';
 
-import { useEffect, useRef, useState } from 'react';
+import { SyntheticEvent, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast, ToastContainer } from 'react-toastify';
 import { Rings } from 'react-loading-icons';
@@ -12,6 +12,8 @@ import { parseCookies } from 'nookies';
 import { api } from '@/lib/axios';
 import { useBook } from '@/context/BookContext';
 import { Book, ReadingStatus } from '@/@types/bookTypes';
+
+import bookCoverPlaceholder from '../../../public/book-cover-placeholder.png';
 
 import {
 	DialogClose,
@@ -186,6 +188,14 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 		}
 	};
 
+	// If image src is a broken link, add a image placeholder
+	const handleImageError = (e: SyntheticEvent) => {
+		const targetImage = e.target as HTMLImageElement;
+		// targetImage.onerror = null;
+
+		targetImage.src = bookCoverPlaceholder.src;
+	};
+
 	useEffect(() => {
 		if (!isPageInputDisable) {
 			setShowSaveButton(true);
@@ -214,7 +224,11 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 					<DialogContentContainer>
 						{/* If there is a book cover, show the image, if not, show the placeholder cover */}
 						{book?.icon?.external?.url ? (
-							<img src={book?.icon.external.url} alt='' />
+							<img
+								src={book?.icon.external.url}
+								alt=''
+								onError={handleImageError}
+							/>
 						) : (
 							<div
 								className='placeholder-cover-dialog'

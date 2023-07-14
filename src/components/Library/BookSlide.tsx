@@ -7,6 +7,8 @@ import { BookDialog } from '../BookDialog';
 
 import { Book } from '@/@types/bookTypes';
 
+import bookCoverPlaceholder from '../../../public/book-cover-placeholder.png';
+
 import { BookComponent } from './styles';
 interface BookSlideComponentProps {
 	books: Book[];
@@ -32,6 +34,14 @@ export const BookSlideComponent = ({ books }: BookSlideComponentProps) => {
 		setChosenBook(findChosenBook);
 	};
 
+	// If image src is a broken link, add a image placeholder
+	const handleImageError = (e: SyntheticEvent) => {
+		const targetImage = e.target as HTMLImageElement;
+		// targetImage.onerror = null;
+
+		targetImage.src = bookCoverPlaceholder.src;
+	};
+
 	return (
 		<Dialog.Root>
 			{books.map(book => (
@@ -47,12 +57,13 @@ export const BookSlideComponent = ({ books }: BookSlideComponentProps) => {
 						{book.icon?.external?.url ? (
 							/* eslint-disable-next-line @next/next/no-img-element */
 							<img
-								src={book?.icon?.external?.url}
+								src={book.icon.external.url}
 								alt=''
 								style={{
 									borderRadius: '10px',
 								}}
 								data-title={book.properties.Name.title[0].plain_text}
+								onError={handleImageError}
 							/>
 						) : (
 							<div
