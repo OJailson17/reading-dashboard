@@ -36,8 +36,8 @@ interface BookDialogProps {
 }
 
 interface UpdateStatusProps {
-	current_page: number;
-	status: 'reading' | 'finished';
+	current_page?: number;
+	status: 'reading' | 'finished' | 'tbr';
 }
 
 export const BookDialog = ({ book }: BookDialogProps) => {
@@ -181,6 +181,17 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 					});
 				}
 
+				break;
+
+			case 'To read':
+				if (
+					book?.properties.Status.select.name &&
+					book?.properties.Status.select.name !== 'To read'
+				) {
+					await updateStatus({
+						status: 'tbr',
+					});
+				}
 				break;
 
 			default:

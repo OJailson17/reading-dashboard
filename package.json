@@ -1,6 +1,6 @@
 {
 	"name": "reading-dashboard",
-	"version": "1.4.8",
+	"version": "1.4.9",
 	"author": "Jailson de Oliveira",
 	"description": "Book Management application. The app is used to manage the reading progress of the user",
 	"repository": "https://github.com/OJailson17/reading-dashboard",
@@ -36,6 +36,7 @@
 		"react-select": "^5.7.3",
 		"react-toastify": "^9.1.1",
 		"recharts": "^2.6.2",
+		"sharp": "^0.32.3",
 		"styled-components": "^5.3.8",
 		"typescript": "4.9.5",
 		"yup": "^1.2.0"
