@@ -38,6 +38,12 @@ export const DialogTitle = styled(Dialog.Title)`
 	color: #fff;
 	font-size: 1.2rem;
 	text-align: center;
+
+	overflow: hidden;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2; /* start showing ellipsis when 3rd line is reached */
+	white-space: pre-wrap;
 `;
 
 export const DialogClose = styled(Dialog.Close)`

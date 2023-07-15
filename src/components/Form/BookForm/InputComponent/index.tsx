@@ -20,19 +20,21 @@ export const InputComponent = forwardRef<HTMLInputElement, InputComponentProps>(
 
 		return (
 			<>
-				{!props.isCustom ? (
+				{!props.isCustom && (
 					<CreateBookInputContainer>
 						<label htmlFor={props.id}>{props.label}</label>
 						<input
 							ref={ref}
 							type={props.type || 'text'}
 							defaultValue={props.type === 'number' ? 0 : ''}
-							{...rest}
 							style={props.error ? { outline: '1px solid red' } : {}}
+							{...rest}
 						/>
 						<span className='error-message'>{props.error?.message}</span>
 					</CreateBookInputContainer>
-				) : (
+				)}
+
+				{props.isCustom && (
 					<CreateBookInputContainer>
 						<label htmlFor={props.id}>{props.label}</label>
 						{children}

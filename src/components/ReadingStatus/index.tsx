@@ -96,12 +96,14 @@ export const ReadingStatus = ({ books }: ReadingStatusProps) => {
 					<p className='status-component-title'>Reading</p>
 					{bookNames.length > 0 ? (
 						<>
-							{readingBooks?.length > 1 ? (
+							{readingBooks?.length > 1 && (
 								<SelectBook
 									books={bookNames}
 									onSelectBook={handleChangeSelectedBook}
 								/>
-							) : (
+							)}
+
+							{readingBooks?.length < 1 && (
 								<span className='status-component-description'>
 									{selectedBookName}
 								</span>

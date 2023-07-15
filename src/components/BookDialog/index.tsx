@@ -233,14 +233,17 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 				<DialogContent>
 					<DialogTitle>{book?.properties.Name.title[0].plain_text}</DialogTitle>
 					<DialogContentContainer>
+						{/* Book Cover */}
 						{/* If there is a book cover, show the image, if not, show the placeholder cover */}
-						{book?.icon?.external?.url ? (
+						{book?.icon?.external?.url && (
 							<img
 								src={book?.icon.external.url}
 								alt=''
 								onError={handleImageError}
 							/>
-						) : (
+						)}
+
+						{!book?.icon.external.url && (
 							<div
 								className='placeholder-cover-dialog'
 								data-title={book?.properties.Name.title[0].plain_text}
@@ -248,11 +251,15 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 								<p>{book?.properties.Name.title[0].plain_text}</p>
 							</div>
 						)}
+
 						<DialogContentBookInfo>
+							{/* Author */}
 							<div>
 								<span>Author:</span>
 								<span>{book?.properties.Author.rich_text[0].plain_text}</span>
 							</div>
+
+							{/* Status */}
 							<div>
 								<span>Status:</span>
 								<Dialog.Root>
@@ -312,61 +319,70 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 									</Dialog.Portal>
 								</Dialog.Root>
 							</div>
+
+							{/* Pages */}
 							<div>
 								<span>Pages:</span>
 								<span>{book?.properties['Qtd. Pages'].number}</span>
 							</div>
-							{/* Show the rating ig the book status is Finished */}
-							{readingStatus === 'Finished' ? (
+
+							{/* Rating */}
+							{/* Show the rating if the book status is Finished */}
+							{readingStatus === 'Finished' && (
 								<div>
 									<span>Rating</span>
 									<span>{book?.properties.Rating.select?.name}</span>
 								</div>
-							) : (
-								readingStatus !== 'To read' && (
-									<div>
-										<span>Current Page:</span>
-
-										{/* If the state value is less than 0, show default value */}
-
-										<input
-											type='number'
-											value={
-												currentPage < 0
-													? book?.properties['Current Page'].number || 0
-													: currentPage
-											}
-											onChange={e => setCurrentPage(Number(e.target.value))}
-											disabled={isPageInputDisable}
-											ref={currentPageInputRef}
-										/>
-
-										{/* Show save or edit button depending on the showSaveButton state */}
-										{showSaveButton ? (
-											<button
-												className='book-btn'
-												onClick={updatePages}
-												disabled={isPageInputDisable}
-											>
-												{isPageInputDisable ? (
-													<Rings width={16} height={16} />
-												) : (
-													<p>Save</p>
-												)}
-											</button>
-										) : (
-											<button
-												className='book-btn'
-												onClick={() => {
-													setIsPageInputDisable(false);
-												}}
-											>
-												Edit
-											</button>
-										)}
-									</div>
-								)
 							)}
+
+							{/* Current Page */}
+							{readingStatus !== 'To read' && (
+								<div>
+									<span>Current Page:</span>
+
+									{/* If the state value is less than 0, show default value */}
+									<input
+										type='number'
+										value={
+											currentPage < 0
+												? book?.properties['Current Page'].number || 0
+												: currentPage
+										}
+										onChange={e => setCurrentPage(Number(e.target.value))}
+										disabled={isPageInputDisable}
+										ref={currentPageInputRef}
+									/>
+
+									{/* Show save or edit button depending on the showSaveButton state */}
+
+									{!showSaveButton && (
+										<button
+											className='book-btn'
+											onClick={() => {
+												setIsPageInputDisable(false);
+											}}
+										>
+											Edit
+										</button>
+									)}
+
+									{showSaveButton && (
+										<button
+											className='book-btn'
+											onClick={updatePages}
+											disabled={isPageInputDisable}
+										>
+											{isPageInputDisable ? (
+												<Rings width={16} height={16} />
+											) : (
+												<p>Save</p>
+											)}
+										</button>
+									)}
+								</div>
+							)}
+
+							{/* Goodreads review */}
 							<div
 								style={{
 									display: readingStatus !== 'To read' ? 'none' : 'block',
