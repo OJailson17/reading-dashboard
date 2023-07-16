@@ -336,7 +336,7 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 							)}
 
 							{/* Current Page */}
-							{readingStatus !== 'To read' && (
+							{readingStatus === 'Reading' && (
 								<div>
 									<span>Current Page:</span>
 
@@ -354,7 +354,6 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 									/>
 
 									{/* Show save or edit button depending on the showSaveButton state */}
-
 									{!showSaveButton && (
 										<button
 											className='book-btn'
