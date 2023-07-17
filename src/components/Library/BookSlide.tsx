@@ -1,7 +1,7 @@
 'use client';
 
 import * as Dialog from '@radix-ui/react-dialog';
-import React, { SyntheticEvent, useState } from 'react';
+import React, { SyntheticEvent, useEffect, useState } from 'react';
 
 import { BookDialog } from '../BookDialog';
 
@@ -16,6 +16,7 @@ interface BookSlideComponentProps {
 
 export const BookSlideComponent = ({ books }: BookSlideComponentProps) => {
 	const [chosenBook, setChosenBook] = useState<Book | null>(null);
+	const [imagesSrc, setImagesSrc] = useState<string[]>([]);
 
 	// Get the clicked book and set to the chosen book state
 	const handleChoseBook = (e: SyntheticEvent) => {
@@ -34,17 +35,38 @@ export const BookSlideComponent = ({ books }: BookSlideComponentProps) => {
 		setChosenBook(findChosenBook);
 	};
 
-	// If image src is a broken link, add a image placeholder
-	const handleImageError = (e: SyntheticEvent) => {
-		const targetImage = e.target as HTMLImageElement;
-		// targetImage.onerror = null;
+	// Image error handling to add a placeholder image if link is broken
+	useEffect(() => {
+		const loadImages = async () => {
+			let loadedImage: string[] = [];
 
-		targetImage.src = bookCoverPlaceholder.src;
-	};
+			for (const book of books) {
+				const img = new Image();
+				img.src = book.icon ? book.icon.external.url : '';
+
+				await new Promise((resolve, reject) => {
+					img.onload = resolve;
+					img.onerror = reject;
+				}).catch(() => {
+					// Image failed to load, push fallback URL to the loaded images array
+					loadedImage.push(bookCoverPlaceholder.src);
+				});
+
+				if (img.complete && img.naturalHeight !== 0) {
+					// Image loaded successfully, push the original URL to the loaded images array
+					loadedImage.push(book.icon.external.url);
+				}
+			}
+
+			setImagesSrc(loadedImage);
+		};
+
+		loadImages();
+	}, [books]);
 
 	return (
 		<Dialog.Root>
-			{books.map(book => (
+			{books.map((book, i) => (
 				<Dialog.Trigger
 					key={book.id}
 					onClick={e => {
@@ -57,13 +79,12 @@ export const BookSlideComponent = ({ books }: BookSlideComponentProps) => {
 						{book.icon?.external?.url ? (
 							/* eslint-disable-next-line @next/next/no-img-element */
 							<img
-								src={book.icon.external.url}
+								src={imagesSrc[i]}
 								alt=''
 								style={{
 									borderRadius: '10px',
 								}}
 								data-title={book.properties.Name.title[0].plain_text}
-								onError={handleImageError}
 							/>
 						) : (
 							<div

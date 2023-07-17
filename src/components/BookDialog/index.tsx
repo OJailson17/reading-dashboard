@@ -243,7 +243,7 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 							/>
 						)}
 
-						{!book?.icon.external.url && (
+						{!book?.icon?.external?.url && (
 							<div
 								className='placeholder-cover-dialog'
 								data-title={book?.properties.Name.title[0].plain_text}
