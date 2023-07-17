@@ -42,7 +42,7 @@ export const BookSlideComponent = ({ books }: BookSlideComponentProps) => {
 
 			for (const book of books) {
 				const img = new Image();
-				img.src = book.icon ? book.icon.external.url : '';
+				img.src = book.icon ? book.icon?.external?.url : '';
 
 				await new Promise((resolve, reject) => {
 					img.onload = resolve;
