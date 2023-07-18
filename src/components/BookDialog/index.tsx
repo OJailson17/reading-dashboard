@@ -239,7 +239,7 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 							<img
 								src={book?.icon.external.url}
 								alt=''
-								onError={handleImageError}
+								onErrorCapture={handleImageError}
 							/>
 						)}
 

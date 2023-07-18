@@ -10,13 +10,18 @@ import { Book } from '@/@types/bookTypes';
 import bookCoverPlaceholder from '../../../public/book-cover-placeholder.png';
 
 import { BookComponent } from './styles';
+import Image, { ImageProps as NextImage } from 'next/image';
 interface BookSlideComponentProps {
 	books: Book[];
 }
 
+interface ImageSrcProps {
+	index: number;
+	url: string;
+}
+
 export const BookSlideComponent = ({ books }: BookSlideComponentProps) => {
 	const [chosenBook, setChosenBook] = useState<Book | null>(null);
-	const [imagesSrc, setImagesSrc] = useState<string[]>([]);
 
 	// Get the clicked book and set to the chosen book state
 	const handleChoseBook = (e: SyntheticEvent) => {
@@ -35,34 +40,12 @@ export const BookSlideComponent = ({ books }: BookSlideComponentProps) => {
 		setChosenBook(findChosenBook);
 	};
 
-	// Image error handling to add a placeholder image if link is broken
-	useEffect(() => {
-		const loadImages = async () => {
-			let loadedImage: string[] = [];
+	// Update the image source to a fallback URL when the image fails to load
+	const handleImageError = (e: SyntheticEvent) => {
+		const image = e.target as HTMLImageElement;
 
-			for (const book of books) {
-				const img = new Image();
-				img.src = book.icon ? book.icon?.external?.url : '';
-
-				await new Promise((resolve, reject) => {
-					img.onload = resolve;
-					img.onerror = reject;
-				}).catch(() => {
-					// Image failed to load, push fallback URL to the loaded images array
-					loadedImage.push(bookCoverPlaceholder.src);
-				});
-
-				if (img.complete && img.naturalHeight !== 0) {
-					// Image loaded successfully, push the original URL to the loaded images array
-					loadedImage.push(book.icon.external.url);
-				}
-			}
-
-			setImagesSrc(loadedImage);
-		};
-
-		loadImages();
-	}, [books]);
+		image.src = bookCoverPlaceholder.src;
+	};
 
 	return (
 		<Dialog.Root>
@@ -78,13 +61,17 @@ export const BookSlideComponent = ({ books }: BookSlideComponentProps) => {
 					<BookComponent>
 						{book.icon?.external?.url ? (
 							/* eslint-disable-next-line @next/next/no-img-element */
-							<img
-								src={imagesSrc[i]}
+							<Image
+								src={book.icon?.external?.url}
 								alt=''
 								style={{
 									borderRadius: '10px',
 								}}
 								data-title={book.properties.Name.title[0].plain_text}
+								onErrorCapture={e => handleImageError(e)}
+								unoptimized
+								width={150}
+								height={214}
 							/>
 						) : (
 							<div
