@@ -1,3 +1,4 @@
+import { Footer } from '@/components/Footer';
 import { BookForm } from '@/components/Form/BookForm';
 import { PageTitle } from '@/styles/common';
 import { cookies } from 'next/headers';
@@ -24,6 +25,8 @@ export default async function CreateBook() {
 			<PageTitle>Create Book</PageTitle>
 
 			<BookForm database_id={databaseId} />
+
+			<Footer />
 		</>
 	);
 }
