@@ -1,28 +1,24 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { FormComponent } from '..';
 
-jest.mock('next/navigation', () => ({
-	useRouter() {
-		return {
-			route: '/',
-			pathname: '',
-			query: '',
-			asPath: '',
-		};
-	},
-}));
-
 const onSignInMock = jest.fn();
 
 jest.mock('../../../../context/AuthContext.tsx', () => ({
 	useAuthentication() {
 		return {
-			onSignIn: onSignInMock.mockResolvedValue(true),
+			onSignIn: onSignInMock
+				.mockReturnValue(true)
+				.mockReturnValueOnce(true)
+				.mockReturnValueOnce(false),
 		};
 	},
 }));
 
 describe('Login Form Component', () => {
+	beforeEach(() => {
+		onSignInMock.mockClear();
+	});
+
 	it('should be able to render component', () => {
 		render(<FormComponent />);
 
@@ -51,5 +47,38 @@ describe('Login Form Component', () => {
 
 			expect(onSignInMock).toHaveBeenCalled();
 		});
+	});
+
+	it('should not be able to call sign in function with empty input', () => {
+		render(<FormComponent />);
+
+		const submitBtn = screen.getByRole('button');
+		fireEvent.click(submitBtn);
+
+		expect(onSignInMock).not.toHaveBeenCalled();
+	});
+
+	it('should not be able sign in with wrong username', async () => {
+		render(<FormComponent />);
+
+		const inputComponent: HTMLInputElement =
+			screen.getByPlaceholderText('username');
+
+		fireEvent.change(inputComponent, {
+			target: {
+				value: 'demo',
+			},
+		});
+
+		expect(inputComponent.value).toBe('demo');
+
+		const submitBtn = await screen.findByRole('button');
+		fireEvent.click(submitBtn);
+
+		expect(onSignInMock).toHaveBeenCalledTimes(1);
+
+		// const errorToast = await screen.findByText('User not found');
+
+		// expect(errorToast).not.toBeInTheDocument();
 	});
 });
