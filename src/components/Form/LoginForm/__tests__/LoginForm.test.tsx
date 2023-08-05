@@ -76,9 +76,5 @@ describe('Login Form Component', () => {
 		fireEvent.click(submitBtn);
 
 		expect(onSignInMock).toHaveBeenCalledTimes(1);
-
-		// const errorToast = await screen.findByText('User not found');
-
-		// expect(errorToast).not.toBeInTheDocument();
 	});
 });

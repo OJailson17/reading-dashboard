@@ -1,7 +1,7 @@
 'use client';
 
 import styled from 'styled-components';
-import { device } from 'src/styles/endpoints';
+import { device } from './endpoints';
 
 export const PageTitle = styled.h1`
 	font-size: 1.875rem;
