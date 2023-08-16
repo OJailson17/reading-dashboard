@@ -44,7 +44,7 @@ const genreOptions = [
 	},
 ];
 
-const reviewOptions = [
+const demoReviewOptions = [
 	{
 		label: ' ⭐️ ',
 		value: 'b76a9fe1-b636-47b3-ab49-a264ee49d4f9',
@@ -68,6 +68,32 @@ const reviewOptions = [
 	{
 		label: 'none',
 		value: '90de4911-f67a-44bf-893e-3aeddb3e3e1e',
+	},
+];
+const reviewOptions = [
+	{
+		label: ' ⭐️ ',
+		value: '657f34f5-548c-4965-83b1-036a7927fc4b',
+	},
+	{
+		label: ' ⭐ ⭐ ',
+		value: '6de63a3d-6efe-4ace-a866-dae14f53d9bd',
+	},
+	{
+		label: ' ⭐ ⭐ ⭐ ',
+		value: '7ae6ef66-f223-4ca6-9db7-1a8d59b24d18',
+	},
+	{
+		label: ' ⭐ ⭐ ⭐ ⭐ ',
+		value: 'f9ba4d94-4bcb-4453-b99f-78316a97cd87',
+	},
+	{
+		label: ' ⭐ ⭐ ⭐ ⭐ ⭐ ',
+		value: 'f02396d5-e2b5-4119-bc7c-58d6a31d53cc',
+	},
+	{
+		label: 'none',
+		value: 'd5dc3000-0846-4c4f-970a-64202b433a16',
 	},
 ];
 
@@ -96,6 +122,8 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 		name: 'finished_date',
 		control,
 	});
+
+	const demoDatabaseId = process.env.NEXT_PUBLIC_DEMO_DATABASE_ID;
 
 	const router = useRouter();
 	const formRef = useRef<HTMLFormElement>(null);
@@ -319,11 +347,19 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 						<Controller
 							name='goodreads_review'
 							control={control}
-							defaultValue={'90de4911-f67a-44bf-893e-3aeddb3e3e1e'}
+							defaultValue={
+								database_id === demoDatabaseId
+									? demoReviewOptions[5].value
+									: reviewOptions[5].value
+							}
 							render={({ field }) => (
 								<AntdSelect
 									{...field}
-									options={reviewOptions}
+									options={
+										database_id === demoDatabaseId
+											? demoReviewOptions
+											: reviewOptions
+									}
 									size='large'
 									style={{ width: '100%' }}
 									id='book-goodreads'
@@ -345,11 +381,19 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 								<Controller
 									name='book_review'
 									control={control}
-									defaultValue={'90de4911-f67a-44bf-893e-3aeddb3e3e1e'}
+									defaultValue={
+										database_id === demoDatabaseId
+											? demoReviewOptions[5].value
+											: reviewOptions[5].value
+									}
 									render={({ field }) => (
 										<AntdSelect
 											{...field}
-											options={reviewOptions}
+											options={
+												database_id === demoDatabaseId
+													? demoReviewOptions
+													: reviewOptions
+											}
 											size='large'
 											style={{ width: '100%' }}
 											id='book-review'

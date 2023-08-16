@@ -99,7 +99,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 						id:
 							createBookBody.goodreads_review === 'none' ||
 							!createBookBody.goodreads_review
-								? '90de4911-f67a-44bf-893e-3aeddb3e3e1e'
+								? 'd5dc3000-0846-4c4f-970a-64202b433a16'
 								: createBookBody.goodreads_review,
 					},
 				},
@@ -142,8 +142,6 @@ export async function POST(req: NextRequest, res: NextResponse) {
 			},
 		});
 
-		// console.log(JSON.stringify(getReviewProperty.object, null, 2));
-
 		return NextResponse.json(response.object);
 	} catch (error) {
 		if (isNotionClientError(error)) {
@@ -172,3 +170,10 @@ export async function POST(req: NextRequest, res: NextResponse) {
 		}
 	}
 }
+
+// d5dc3000-0846-4c4f-970a-64202b433a16 none
+// 657f34f5-548c-4965-83b1-036a7927fc4b 1
+// 6de63a3d-6efe-4ace-a866-dae14f53d9bd 2
+// 7ae6ef66-f223-4ca6-9db7-1a8d59b24d18 3
+// f9ba4d94-4bcb-4453-b99f-78316a97cd87 4
+// f02396d5-e2b5-4119-bc7c-58d6a31d53cc 5
