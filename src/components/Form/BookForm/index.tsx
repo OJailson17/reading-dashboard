@@ -46,28 +46,28 @@ const genreOptions = [
 
 const reviewOptions = [
 	{
-		label: '⭐️',
-		value: '⭐️',
+		label: ' ⭐️ ',
+		value: 'b76a9fe1-b636-47b3-ab49-a264ee49d4f9',
 	},
 	{
-		label: '⭐⭐',
-		value: '⭐⭐',
+		label: ' ⭐ ⭐ ',
+		value: 'b04af175-1da7-4910-90de-05323b8d84de',
 	},
 	{
-		label: '⭐⭐⭐',
-		value: '⭐⭐⭐',
+		label: ' ⭐ ⭐ ⭐ ',
+		value: 'ce75ca4c-ce00-4d64-a2a4-88fa0e8de252',
 	},
 	{
-		label: '⭐⭐⭐⭐',
-		value: '⭐⭐⭐⭐',
+		label: ' ⭐ ⭐ ⭐ ⭐ ',
+		value: '37bf3f5a-74c7-42d1-a5a3-2a08d6f258dd',
 	},
 	{
-		label: '⭐⭐⭐⭐⭐',
-		value: '⭐⭐⭐⭐⭐',
+		label: ' ⭐ ⭐ ⭐ ⭐ ⭐ ',
+		value: '71a79313-505a-4c38-a050-ee28f9ea3fe4',
 	},
 	{
 		label: 'none',
-		value: 'none',
+		value: '90de4911-f67a-44bf-893e-3aeddb3e3e1e',
 	},
 ];
 
@@ -319,7 +319,7 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 						<Controller
 							name='goodreads_review'
 							control={control}
-							defaultValue={'none'}
+							defaultValue={'90de4911-f67a-44bf-893e-3aeddb3e3e1e'}
 							render={({ field }) => (
 								<AntdSelect
 									{...field}
@@ -345,7 +345,7 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 								<Controller
 									name='book_review'
 									control={control}
-									defaultValue={'none'}
+									defaultValue={'90de4911-f67a-44bf-893e-3aeddb3e3e1e'}
 									render={({ field }) => (
 										<AntdSelect
 											{...field}
