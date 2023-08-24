@@ -130,6 +130,7 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 
 	const handleCreateBook = async (createBookBody: CreateBook) => {
 		setIsSubmitButtonLoading(true);
+		console.log({ createBookBody });
 
 		try {
 			await api.post(`/book/create?db=${database_id}`, createBookBody, {

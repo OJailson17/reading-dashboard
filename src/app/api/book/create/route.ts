@@ -36,6 +36,11 @@ export async function POST(req: NextRequest, res: NextResponse) {
 		bookCover = `https://covers.openlibrary.org/b/isbn/${createBookBody.icon_url}-M.jpg`;
 	}
 
+	console.log({
+		goodreads: createBookBody.goodreads_review,
+		review: createBookBody.book_review,
+	});
+
 	try {
 		// Make a query to get the database data
 		const response = await notion.pages.create({
@@ -125,7 +130,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 						id:
 							createBookBody.book_review === 'none' ||
 							!createBookBody.book_review
-								? '90de4911-f67a-44bf-893e-3aeddb3e3e1e'
+								? 'd5dc3000-0846-4c4f-970a-64202b433a16'
 								: createBookBody.book_review,
 						// name: createBookBody.book_review || 'none',
 						// color: createBookBody.book_review === 'none' ? 'blue' : 'yellow',
