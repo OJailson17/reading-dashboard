@@ -123,14 +123,17 @@ export const Library = ({
 					</div>
 				)}
 
-				<div>
-					<p className='library-component-subtitle'>
-						Reading ({allBooks.reading_books.length || 0})
-					</p>
-					<BookSlide>
-						<BookSlideComponent books={allBooks.reading_books} />
-					</BookSlide>
-				</div>
+				{allBooks.reading_books.length > 0 && (
+					<div>
+						<p className='library-component-subtitle'>
+							Reading ({allBooks.reading_books.length || 0})
+						</p>
+						<BookSlide>
+							<BookSlideComponent books={allBooks.reading_books} />
+						</BookSlide>
+					</div>
+				)}
+
 				<div>
 					<p className='library-component-subtitle'>
 						Finished ({allBooks.finished_books.length || 0})
