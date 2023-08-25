@@ -44,7 +44,7 @@ const genreOptions = [
 	},
 ];
 
-const demoReviewOptions = [
+const RatingOptions = [
 	{
 		label: ' ⭐️ ',
 		value: 'b76a9fe1-b636-47b3-ab49-a264ee49d4f9',
@@ -70,7 +70,8 @@ const demoReviewOptions = [
 		value: '90de4911-f67a-44bf-893e-3aeddb3e3e1e',
 	},
 ];
-const reviewOptions = [
+const GoodreadsOptions = [
+	//goodreads
 	{
 		label: ' ⭐️ ',
 		value: '657f34f5-548c-4965-83b1-036a7927fc4b',
@@ -128,9 +129,10 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 	const router = useRouter();
 	const formRef = useRef<HTMLFormElement>(null);
 
+	const IS_DEMO_VERSION = database_id === demoDatabaseId;
+
 	const handleCreateBook = async (createBookBody: CreateBook) => {
 		setIsSubmitButtonLoading(true);
-		console.log({ createBookBody });
 
 		try {
 			await api.post(`/book/create?db=${database_id}`, createBookBody, {
@@ -165,7 +167,7 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 	const handleFormatBookData = useCallback(async () => {
 		setIsSubmitButtonLoading(true);
 
-		let bookFormatted = formatBookData(bookData);
+		let bookFormatted = formatBookData({ bookData });
 
 		handleCreateBook(bookFormatted);
 	}, [bookData, rangedDatePicked]);
@@ -349,18 +351,14 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 							name='goodreads_review'
 							control={control}
 							defaultValue={
-								database_id === demoDatabaseId
-									? demoReviewOptions[5].value
-									: reviewOptions[5].value
+								IS_DEMO_VERSION
+									? RatingOptions[5].value
+									: GoodreadsOptions[5].value
 							}
 							render={({ field }) => (
 								<AntdSelect
 									{...field}
-									options={
-										database_id === demoDatabaseId
-											? demoReviewOptions
-											: reviewOptions
-									}
+									options={IS_DEMO_VERSION ? RatingOptions : GoodreadsOptions}
 									size='large'
 									style={{ width: '100%' }}
 									id='book-goodreads'
@@ -382,19 +380,11 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 								<Controller
 									name='book_review'
 									control={control}
-									defaultValue={
-										database_id === demoDatabaseId
-											? demoReviewOptions[5].value
-											: reviewOptions[5].value
-									}
+									defaultValue={RatingOptions[5].value}
 									render={({ field }) => (
 										<AntdSelect
 											{...field}
-											options={
-												database_id === demoDatabaseId
-													? demoReviewOptions
-													: reviewOptions
-											}
+											options={RatingOptions}
 											size='large'
 											style={{ width: '100%' }}
 											id='book-review'
