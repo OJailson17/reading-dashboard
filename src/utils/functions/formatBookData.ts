@@ -1,6 +1,10 @@
 import { CreateBook } from '@/components/Form/BookForm';
 
-export const formatBookData = (bookData?: CreateBook) => {
+type FormatDataProps = {
+	bookData?: CreateBook;
+};
+
+export const formatBookData = ({ bookData }: FormatDataProps) => {
 	const formattedData: CreateBook = {
 		name: bookData?.name || '',
 		icon_url: bookData?.icon_url,
@@ -23,6 +27,10 @@ export const formatBookData = (bookData?: CreateBook) => {
 		started_date: bookData?.started_date,
 		finished_date: bookData?.finished_date,
 	};
+
+	if (bookData?.book_review === 'none') {
+		formattedData.book_review = '90de4911-f67a-44bf-893e-3aeddb3e3e1e';
+	}
 
 	return formattedData;
 };

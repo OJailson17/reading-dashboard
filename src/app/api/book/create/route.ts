@@ -96,11 +96,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 				Goodreads: {
 					type: 'select',
 					select: {
-						id:
-							createBookBody.goodreads_review === 'none' ||
-							!createBookBody.goodreads_review
-								? 'd5dc3000-0846-4c4f-970a-64202b433a16'
-								: createBookBody.goodreads_review,
+						id: createBookBody.goodreads_review || '',
 					},
 				},
 				'Started Date': {
@@ -122,13 +118,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 				Rating: {
 					type: 'select',
 					select: {
-						id:
-							createBookBody.book_review === 'none' ||
-							!createBookBody.book_review
-								? '90de4911-f67a-44bf-893e-3aeddb3e3e1e'
-								: createBookBody.book_review,
-						// name: createBookBody.book_review || 'none',
-						// color: createBookBody.book_review === 'none' ? 'blue' : 'yellow',
+						id: createBookBody.book_review || '',
 					},
 				},
 				'Reading Summary': {
@@ -142,7 +132,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 			},
 		});
 
-		return NextResponse.json(response.object);
+		return NextResponse.json(response);
 	} catch (error) {
 		if (isNotionClientError(error)) {
 			switch (error.code) {
