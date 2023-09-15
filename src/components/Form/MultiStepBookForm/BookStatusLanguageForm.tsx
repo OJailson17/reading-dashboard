@@ -6,18 +6,31 @@ import { Controller, useForm } from 'react-hook-form';
 import { InputComponent } from '../BookForm/InputComponent';
 import { Radio } from 'antd';
 import { CreateBook } from '../BookForm';
+import { StepFormComponentProps } from './BookTitleForm';
+import { useMultiForm } from '@/context/MultiFormContext';
 
 interface BookStatusLanguage extends Partial<CreateBook> {}
 
-export const BookStatusLanguageForm = () => {
+export const BookStatusLanguageForm = ({
+	formStep,
+	nextFormStep,
+}: StepFormComponentProps) => {
 	const {
+		handleSubmit,
 		register,
 		control,
 		formState: { errors },
 	} = useForm<BookStatusLanguage>();
 
+	const { setFormValues } = useMultiForm();
+
+	const handleSaveStatus = (data: BookStatusLanguage) => {
+		setFormValues(data);
+		nextFormStep();
+	};
+
 	return (
-		<>
+		<form onSubmit={handleSubmit(handleSaveStatus)}>
 			<MultiFormWrapper title='Book Status & Language'>
 				<InputComponent
 					id='book-status'
@@ -45,6 +58,6 @@ export const BookStatusLanguageForm = () => {
 					/>
 				</InputComponent>
 			</MultiFormWrapper>
-		</>
+		</form>
 	);
 };

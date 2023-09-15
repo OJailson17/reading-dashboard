@@ -3,6 +3,8 @@ import { ReactNode } from 'react';
 interface FormWrapperProps {
 	title: string;
 	children: ReactNode;
+	// prevFormStep: () => void;
+	// currentStep: number
 }
 
 export const MultiFormWrapper = ({ title, children }: FormWrapperProps) => {

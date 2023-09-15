@@ -6,6 +6,7 @@ import { CreateBook } from '../BookForm';
 import { Controller, useForm } from 'react-hook-form';
 import { InputComponent } from '../BookForm/InputComponent';
 import { Select as AntdSelect } from 'antd';
+import { StepFormComponentProps } from './BookTitleForm';
 
 interface BookGenres extends Partial<CreateBook> {}
 
@@ -24,7 +25,10 @@ const genreOptions = [
 	},
 ];
 
-export const BookGenresForm = () => {
+export const BookGenresForm = ({
+	formStep,
+	nextFormStep,
+}: StepFormComponentProps) => {
 	const {
 		register,
 		control,

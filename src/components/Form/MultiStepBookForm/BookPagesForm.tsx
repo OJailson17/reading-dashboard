@@ -5,10 +5,14 @@ import { MultiFormWrapper } from './MultiFormWrapper';
 import { CreateBook } from '../BookForm';
 import { useForm } from 'react-hook-form';
 import { InputComponent } from '../BookForm/InputComponent';
+import { StepFormComponentProps } from './BookTitleForm';
 
 interface BookPages extends Partial<CreateBook> {}
 
-export const BookPagesForm = () => {
+export const BookPagesForm = ({
+	formStep,
+	nextFormStep,
+}: StepFormComponentProps) => {
 	const {
 		register,
 		formState: { errors },
