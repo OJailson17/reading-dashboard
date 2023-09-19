@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { MultiFormWrapper } from './MultiFormWrapper';
 import { Controller, useForm } from 'react-hook-form';
 import { InputComponent } from '../BookForm/InputComponent';
@@ -15,22 +16,30 @@ export const BookStatusLanguageForm = ({
 	formStep,
 	nextFormStep,
 }: StepFormComponentProps) => {
+	const { formData, onHandleNext, onSetFormData } = useMultiForm();
+
 	const {
 		handleSubmit,
 		register,
 		control,
+		watch,
 		formState: { errors },
-	} = useForm<BookStatusLanguage>();
+	} = useForm<BookStatusLanguage>({
+		defaultValues: formData,
+	});
 
-	const { setFormValues } = useMultiForm();
+	// const watchBookStatus = watch('status');
 
-	const handleSaveStatus = (data: BookStatusLanguage) => {
-		setFormValues(data);
-		nextFormStep();
-	};
+	// const bookStatus = watchBookStatus || 'To read';
+
+	// console.log(bookStatus);
+
+	// onSetFormData({
+	// 	status: 'To read',
+	// });
 
 	return (
-		<form onSubmit={handleSubmit(handleSaveStatus)}>
+		<>
 			<MultiFormWrapper title='Book Status & Language'>
 				<InputComponent
 					id='book-status'
@@ -58,6 +67,6 @@ export const BookStatusLanguageForm = ({
 					/>
 				</InputComponent>
 			</MultiFormWrapper>
-		</form>
+		</>
 	);
 };

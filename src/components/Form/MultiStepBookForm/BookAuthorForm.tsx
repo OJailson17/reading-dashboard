@@ -14,17 +14,20 @@ export const BookAuthorForm = ({
 	formStep,
 	nextFormStep,
 }: StepFormComponentProps) => {
+	const { formData, onHandleNext, onSetFormData, onHandleBack, step } =
+		useMultiForm();
+
 	const {
 		handleSubmit,
 		register,
 		formState: { errors },
-	} = useForm<BookAuthor>();
-
-	const { setFormValues } = useMultiForm();
+	} = useForm<BookAuthor>({
+		defaultValues: formData,
+	});
 
 	const handleSaveBookAuthor = (data: BookAuthor) => {
-		setFormValues(data);
-		nextFormStep();
+		onSetFormData(data);
+		onHandleNext();
 	};
 
 	return (
@@ -41,7 +44,6 @@ export const BookAuthorForm = ({
 					/>
 				</MultiFormWrapper>
 			</form>
-			{/* )} */}
 		</>
 	);
 };

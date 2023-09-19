@@ -11,27 +11,32 @@ import { useMultiForm } from '@/context/MultiFormContext';
 import { MultiFormWrapper } from './MultiFormWrapper';
 import { BookPagesForm } from './BookPagesForm';
 import { BookStatusLanguageForm } from './BookStatusLanguageForm';
+import { BookCoverForm } from './BookCoverForm';
+import { BookReviewForm } from './BookReviewForm';
 
-export const MultiStepBookForm = () => {
-	const [formStep, setFormStep] = useState(0);
+interface MultiStepBookFormProps {
+	database_id: string;
+}
 
-	const nextFormStep = () => setFormStep(currentStep => currentStep + 1);
+export const MultiStepBookForm = ({ database_id }: MultiStepBookFormProps) => {
+	const { step, onHandleBack, onHandleNext } = useMultiForm();
 
-	const prevFormStep = () => setFormStep(currentStep => currentStep - 1);
-
-	// const { steps, currentStepIndex, step, isFirstStep, isLastStep, back, next } =
-	// 	// eslint-disable-next-line react/jsx-key
-	// 	useMultiStepForm([]);
-
-	// const { onCreateBook } = useMultiForm();
-
-	// const handleSubmit = (e: FormEvent) => {
-	// 	e.preventDefault();
-
-	// 	if (!isLastStep) return next();
-
-	// 	onCreateBook();
-	// };
+	function ActiveStepFormComponent() {
+		switch (step) {
+			case 1:
+				return <BookTitleForm />;
+			case 2:
+				return <BookAuthorForm />;
+			case 3:
+				return <BookPagesForm />;
+			case 4:
+				return <BookCoverForm />;
+			// case 5:
+			// 	return <BookReviewForm database_id={database_id} />;
+			default:
+				return null;
+		}
+	}
 
 	return (
 		<>
@@ -40,35 +45,17 @@ export const MultiStepBookForm = () => {
 			<main>
 				<div>
 					<div>
-						{formStep + 1}/{8}
+						{step}/{8}
 					</div>
-
-					{formStep >= 0 && (
-						<BookTitleForm formStep={formStep} nextFormStep={nextFormStep} />
-					)}
-
-					{formStep === 1 && (
-						<BookAuthorForm formStep={formStep} nextFormStep={nextFormStep} />
-					)}
-
-					{formStep === 2 && (
-						<BookPagesForm formStep={formStep} nextFormStep={nextFormStep} />
-					)}
-
-					{formStep === 3 && (
-						<BookStatusLanguageForm
-							formStep={formStep}
-							nextFormStep={nextFormStep}
-						/>
-					)}
+					<ActiveStepFormComponent />
 
 					<div style={{ marginTop: '1rem' }}>
-						{formStep > 0 && (
-							<button type='button' onClick={prevFormStep}>
+						{step > 1 && (
+							<button type='button' onClick={onHandleBack}>
 								Back
 							</button>
 						)}
-						<button type='button' onClick={nextFormStep}>
+						<button type='button' onClick={onHandleNext}>
 							Next
 						</button>
 					</div>

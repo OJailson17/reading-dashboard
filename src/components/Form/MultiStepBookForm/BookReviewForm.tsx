@@ -1,9 +1,12 @@
-import React from 'react';
+'use client';
+
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { MultiFormWrapper } from './MultiFormWrapper';
 import { InputComponent } from '../BookForm/InputComponent';
 import { DatePicker, Select as AntdSelect } from 'antd';
 import { Controller, useForm } from 'react-hook-form';
 import { CreateBook } from '../BookForm';
+import { useMultiForm } from '@/context/MultiFormContext';
 
 interface BookReview extends Partial<CreateBook> {}
 
@@ -66,20 +69,37 @@ const GoodreadsOptions = [
 ];
 
 export const BookReviewForm = ({ database_id }: BookReviewForm) => {
-	const {
-		register,
-		control,
-		watch,
-		formState: { errors },
-	} = useForm<BookReview>();
-	const watchBookStatus = watch('status');
+	const { onHandleNext, onSetFormData, formData } = useMultiForm();
 
 	const demoDatabaseId = process.env.NEXT_PUBLIC_DEMO_DATABASE_ID;
 
 	const IS_DEMO_VERSION = database_id === demoDatabaseId;
 
+	let bookReviewData: BookReview = {
+		...formData,
+		book_review: RatingOptions[5].value,
+		goodreads_review: IS_DEMO_VERSION
+			? RatingOptions[5].value
+			: GoodreadsOptions[5].value,
+	};
+
+	const {
+		handleSubmit,
+		register,
+		control,
+		watch,
+		formState: { errors },
+	} = useForm<BookReview>({
+		defaultValues: bookReviewData,
+	});
+	// const watchBookStatus = watch('status');
+
+	const handleSaveBookReview = () => {
+		onSetFormData(bookReviewData);
+	};
+
 	return (
-		<>
+		<form onSubmit={() => console.log('hello')}>
 			<MultiFormWrapper title='Book Title'>
 				<InputComponent
 					id='book-goodreads'
@@ -103,38 +123,46 @@ export const BookReviewForm = ({ database_id }: BookReviewForm) => {
 								style={{ width: '100%' }}
 								id='book-goodreads'
 								status={errors.goodreads_review ? 'error' : ''}
+								onChange={e => {
+									bookReviewData = { ...formData, goodreads_review: e };
+									handleSaveBookReview();
+								}}
 							/>
 						)}
 					/>
 				</InputComponent>
 
 				{/* Review */}
-				{watchBookStatus === 'Finished' && (
-					<>
-						<InputComponent
-							id='book-review-component'
-							label='Review'
-							error={errors.book_review}
-							isCustom
-						>
-							<Controller
-								name='book_review'
-								control={control}
-								defaultValue={RatingOptions[5].value}
-								render={({ field }) => (
-									<AntdSelect
-										{...field}
-										options={RatingOptions}
-										size='large'
-										style={{ width: '100%' }}
-										id='book-review'
-									/>
-								)}
-							/>
-						</InputComponent>
-					</>
-				)}
+				{/* {watchBookStatus === 'Finished' && ( */}
+				<>
+					<InputComponent
+						id='book-review-component'
+						label='Review'
+						error={errors.book_review}
+						isCustom
+					>
+						<Controller
+							name='book_review'
+							control={control}
+							defaultValue={RatingOptions[5].value}
+							render={({ field }) => (
+								<AntdSelect
+									{...field}
+									options={RatingOptions}
+									size='large'
+									style={{ width: '100%' }}
+									id='book-review'
+									onChange={e => {
+										bookReviewData = { ...formData, book_review: e };
+										handleSaveBookReview();
+									}}
+								/>
+							)}
+						/>
+					</InputComponent>
+				</>
+				{/* )} */}
 			</MultiFormWrapper>
-		</>
+		</form>
 	);
 };

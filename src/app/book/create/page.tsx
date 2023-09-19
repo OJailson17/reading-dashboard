@@ -25,7 +25,7 @@ export default async function CreateBook() {
 		<>
 			<PageTitle>Create Book</PageTitle>
 
-			<MultiStepBookForm />
+			<MultiStepBookForm database_id={databaseId} />
 
 			{/* <BookForm database_id={databaseId} /> */}
 
