@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form';
 import { InputComponent } from '../BookForm/InputComponent';
 import { StepFormComponentProps } from './BookTitleForm';
 import { useMultiForm } from '@/context/MultiFormContext';
+import { FormStepsAction } from './StepsAction';
 
 interface BookCover extends Partial<CreateBook> {}
 
@@ -14,7 +15,8 @@ export const BookCoverForm = ({
 	formStep,
 	nextFormStep,
 }: StepFormComponentProps) => {
-	const { onHandleNext, onSetFormData, formData } = useMultiForm();
+	const { onHandleNext, onSetFormData, formData, step, onHandleBack } =
+		useMultiForm();
 
 	const {
 		register,
@@ -39,6 +41,12 @@ export const BookCoverForm = ({
 					placeholder='Image URL or ISBN-10 Code'
 				/>
 			</MultiFormWrapper>
+
+			<FormStepsAction
+				step={step}
+				onHandleBack={onHandleBack}
+				onHandleSubmit={onHandleNext}
+			/>
 		</form>
 	);
 };

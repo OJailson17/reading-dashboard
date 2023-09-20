@@ -7,6 +7,8 @@ import { DatePicker } from 'antd';
 import { useController, useForm } from 'react-hook-form';
 import { CreateBook } from '../BookForm';
 import { format } from 'date-fns';
+import { FormStepsAction } from './StepsAction';
+import { useMultiForm } from '@/context/MultiFormContext';
 
 interface BookDates extends Partial<CreateBook> {}
 
@@ -16,18 +18,24 @@ interface GetBookDatesProps {
 }
 
 interface BookDatesFormProps {
-	watchBookStatus: 'To read' | 'Reading' | 'Finished';
+	watchBookStatus?: 'To read' | 'Reading' | 'Finished';
 }
 
 export const BookDatesForm = ({ watchBookStatus }: BookDatesFormProps) => {
 	const [rangedDatePicked, setRangeDatePicked] = useState<GetBookDatesProps>();
 
+	const { formData, onSetFormData, step, onHandleBack, onHandleNext } =
+		useMultiForm();
+
 	const {
+		handleSubmit,
 		register,
 		control,
 		setValue,
 		formState: { errors },
-	} = useForm<BookDates>();
+	} = useForm<BookDates>({
+		defaultValues: formData,
+	});
 
 	const startedDateField = useController({
 		name: 'started_date',
@@ -58,66 +66,58 @@ export const BookDatesForm = ({ watchBookStatus }: BookDatesFormProps) => {
 		});
 	};
 
+	const handleSaveDates = (data: BookDates) => {
+		onSetFormData(data);
+	};
+
 	return (
-		<>
-			{watchBookStatus === 'Finished' && (
-				<MultiFormWrapper title='Book Title'>
-					<InputComponent
-						id='progress-dates-component'
-						label='Started & Finished Dates'
-						error={errors.finished_date}
-						isCustom
-					>
-						<DatePicker.RangePicker
-							placement='bottomRight'
-							onChange={e => handleFormatPickedDates(e)}
-							style={{ height: '2.5rem' }}
-							id='progress_dates'
-							ref={finishedDateField.field.ref}
-							inputReadOnly
-							status={errors.finished_date ? 'error' : ''}
-						/>
-					</InputComponent>
-
-					<InputComponent
-						id='started-date-component'
-						label='Started Date'
-						error={errors.started_date}
-						isCustom
-					>
-						<DatePicker
-							onChange={e => handleFormatPickedDates(e)}
-							placeholder='Started Date'
-							placement='bottomRight'
-							style={{ height: '2.5rem' }}
-							id='started_date'
-							ref={startedDateField.field.ref}
-							inputReadOnly
-							status={errors.started_date ? 'error' : ''}
-						/>
-					</InputComponent>
-				</MultiFormWrapper>
-			)}
-
-			{watchBookStatus === 'Reading' && (
+		<form>
+			{/* {watchBookStatus === 'Finished' && ( */}
+			<MultiFormWrapper title='Book Title'>
 				<InputComponent
-					id='started-date-component'
-					label='Started Date'
-					error={errors.started_date}
+					id='progress-dates-component'
+					label='Started & Finished Dates'
+					error={errors.finished_date}
 					isCustom
 				>
-					<DatePicker
-						onChange={e => handleFormatPickedDates(e)}
-						placeholder='Started Date'
+					<DatePicker.RangePicker
 						placement='bottomRight'
+						onChange={e => handleFormatPickedDates(e)}
 						style={{ height: '2.5rem' }}
-						id='started_date'
-						ref={startedDateField.field.ref}
+						id='progress_dates'
+						ref={finishedDateField.field.ref}
 						inputReadOnly
-						status={errors.started_date ? 'error' : ''}
+						status={errors.finished_date ? 'error' : ''}
 					/>
 				</InputComponent>
-			)}
-		</>
+			</MultiFormWrapper>
+			{/* )} */}
+
+			{/* {watchBookStatus === 'Reading' && ( */}
+			<InputComponent
+				id='started-date-component'
+				label='Started Date'
+				error={errors.started_date}
+				isCustom
+			>
+				<DatePicker
+					onChange={e => handleFormatPickedDates(e)}
+					placeholder='Started Date'
+					placement='bottomRight'
+					style={{ height: '2.5rem' }}
+					id='started_date'
+					ref={startedDateField.field.ref}
+					inputReadOnly
+					status={errors.started_date ? 'error' : ''}
+				/>
+			</InputComponent>
+			{/* )} */}
+
+			<FormStepsAction
+				step={step}
+				onHandleBack={onHandleBack}
+				onHandleSubmit={handleSubmit(handleSaveDates)}
+			/>
+		</form>
 	);
 };

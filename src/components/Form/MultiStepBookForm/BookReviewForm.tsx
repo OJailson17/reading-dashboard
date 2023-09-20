@@ -7,6 +7,7 @@ import { DatePicker, Select as AntdSelect } from 'antd';
 import { Controller, useForm } from 'react-hook-form';
 import { CreateBook } from '../BookForm';
 import { useMultiForm } from '@/context/MultiFormContext';
+import { FormStepsAction } from './StepsAction';
 
 interface BookReview extends Partial<CreateBook> {}
 
@@ -69,19 +70,8 @@ const GoodreadsOptions = [
 ];
 
 export const BookReviewForm = ({ database_id }: BookReviewForm) => {
-	const { onHandleNext, onSetFormData, formData } = useMultiForm();
-
-	const demoDatabaseId = process.env.NEXT_PUBLIC_DEMO_DATABASE_ID;
-
-	const IS_DEMO_VERSION = database_id === demoDatabaseId;
-
-	let bookReviewData: BookReview = {
-		...formData,
-		book_review: RatingOptions[5].value,
-		goodreads_review: IS_DEMO_VERSION
-			? RatingOptions[5].value
-			: GoodreadsOptions[5].value,
-	};
+	const { onHandleNext, onSetFormData, formData, step, onHandleBack } =
+		useMultiForm();
 
 	const {
 		handleSubmit,
@@ -90,16 +80,19 @@ export const BookReviewForm = ({ database_id }: BookReviewForm) => {
 		watch,
 		formState: { errors },
 	} = useForm<BookReview>({
-		defaultValues: bookReviewData,
+		defaultValues: formData,
 	});
-	// const watchBookStatus = watch('status');
 
-	const handleSaveBookReview = () => {
-		onSetFormData(bookReviewData);
+	const handleSaveBookReview = (data: BookReview) => {
+		onSetFormData(data);
+		onHandleNext();
 	};
 
+	const demoDatabaseId = process.env.NEXT_PUBLIC_DEMO_DATABASE_ID;
+	const IS_DEMO_VERSION = database_id === demoDatabaseId;
+
 	return (
-		<form onSubmit={() => console.log('hello')}>
+		<form>
 			<MultiFormWrapper title='Book Title'>
 				<InputComponent
 					id='book-goodreads'
@@ -123,10 +116,6 @@ export const BookReviewForm = ({ database_id }: BookReviewForm) => {
 								style={{ width: '100%' }}
 								id='book-goodreads'
 								status={errors.goodreads_review ? 'error' : ''}
-								onChange={e => {
-									bookReviewData = { ...formData, goodreads_review: e };
-									handleSaveBookReview();
-								}}
 							/>
 						)}
 					/>
@@ -152,17 +141,18 @@ export const BookReviewForm = ({ database_id }: BookReviewForm) => {
 									size='large'
 									style={{ width: '100%' }}
 									id='book-review'
-									onChange={e => {
-										bookReviewData = { ...formData, book_review: e };
-										handleSaveBookReview();
-									}}
 								/>
 							)}
 						/>
 					</InputComponent>
 				</>
-				{/* )} */}
 			</MultiFormWrapper>
+
+			<FormStepsAction
+				step={step}
+				onHandleBack={onHandleBack}
+				onHandleSubmit={handleSubmit(handleSaveBookReview)}
+			/>
 		</form>
 	);
 };

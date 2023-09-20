@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form';
 import { InputComponent } from '../BookForm/InputComponent';
 import { useMultiForm } from '@/context/MultiFormContext';
 import { useMultiStepForm } from '@/hooks/useMultiStepForm';
+import { FormStepsAction } from './StepsAction';
 
 interface BookTitle extends Partial<CreateBook> {}
 
@@ -19,7 +20,7 @@ export const BookTitleForm = ({
 	formStep,
 	nextFormStep,
 }: StepFormComponentProps) => {
-	const { onHandleNext, onSetFormData, formData } = useMultiForm();
+	const { onHandleNext, onSetFormData, formData, step } = useMultiForm();
 
 	const {
 		register,
@@ -47,6 +48,8 @@ export const BookTitleForm = ({
 						placeholder='Ex: Harry Potter'
 					/>
 				</MultiFormWrapper>
+
+				<FormStepsAction step={step} onHandleSubmit={onHandleNext} />
 			</form>
 			{/* )} */}
 		</>

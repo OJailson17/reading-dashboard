@@ -7,6 +7,7 @@ import { InputComponent } from '../BookForm/InputComponent';
 import { CreateBook } from '../BookForm';
 import { useMultiForm } from '@/context/MultiFormContext';
 import { StepFormComponentProps } from './BookTitleForm';
+import { FormStepsAction } from './StepsAction';
 
 interface BookAuthor extends Partial<CreateBook> {}
 
@@ -43,6 +44,12 @@ export const BookAuthorForm = ({
 						placeholder='J. K. Rowlling'
 					/>
 				</MultiFormWrapper>
+
+				<FormStepsAction
+					step={step}
+					onHandleBack={onHandleBack}
+					onHandleSubmit={onHandleNext}
+				/>
 			</form>
 		</>
 	);

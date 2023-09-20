@@ -9,6 +9,7 @@ import { Radio } from 'antd';
 import { CreateBook } from '../BookForm';
 import { StepFormComponentProps } from './BookTitleForm';
 import { useMultiForm } from '@/context/MultiFormContext';
+import { FormStepsAction } from './StepsAction';
 
 interface BookStatusLanguage extends Partial<CreateBook> {}
 
@@ -16,7 +17,8 @@ export const BookStatusLanguageForm = ({
 	formStep,
 	nextFormStep,
 }: StepFormComponentProps) => {
-	const { formData, onHandleNext, onSetFormData } = useMultiForm();
+	const { formData, onHandleNext, onHandleBack, step, onSetFormData } =
+		useMultiForm();
 
 	const {
 		handleSubmit,
@@ -28,18 +30,13 @@ export const BookStatusLanguageForm = ({
 		defaultValues: formData,
 	});
 
-	// const watchBookStatus = watch('status');
-
-	// const bookStatus = watchBookStatus || 'To read';
-
-	// console.log(bookStatus);
-
-	// onSetFormData({
-	// 	status: 'To read',
-	// });
+	const handleSaveBookStatusLanguage = (data: BookStatusLanguage) => {
+		onSetFormData(data || { status: 'To read' });
+		onHandleNext();
+	};
 
 	return (
-		<>
+		<form>
 			<MultiFormWrapper title='Book Status & Language'>
 				<InputComponent
 					id='book-status'
@@ -66,7 +63,40 @@ export const BookStatusLanguageForm = ({
 						)}
 					/>
 				</InputComponent>
+
+				{/* Language */}
+				<InputComponent
+					id='book-language'
+					label='Book Language'
+					error={errors.language}
+					isCustom
+				>
+					<Controller
+						name='language'
+						control={control}
+						defaultValue={'Portuguese'}
+						render={({ field }) => (
+							<Radio.Group
+								{...field}
+								options={[
+									{ label: 'Portuguese', value: 'Portuguese' },
+									{ label: 'English', value: 'English' },
+									{ label: 'Spanish', value: 'Spanish' },
+								]}
+								optionType='button'
+								buttonStyle='solid'
+								id='book-language'
+							/>
+						)}
+					/>
+				</InputComponent>
 			</MultiFormWrapper>
-		</>
+
+			<FormStepsAction
+				step={step}
+				onHandleBack={onHandleBack}
+				onHandleSubmit={handleSubmit(handleSaveBookStatusLanguage)}
+			/>
+		</form>
 	);
 };

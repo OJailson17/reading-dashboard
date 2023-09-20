@@ -7,6 +7,8 @@ import { Controller, useForm } from 'react-hook-form';
 import { InputComponent } from '../BookForm/InputComponent';
 import { Select as AntdSelect } from 'antd';
 import { StepFormComponentProps } from './BookTitleForm';
+import { useMultiForm } from '@/context/MultiFormContext';
+import { FormStepsAction } from './StepsAction';
 
 interface BookGenres extends Partial<CreateBook> {}
 
@@ -29,14 +31,25 @@ export const BookGenresForm = ({
 	formStep,
 	nextFormStep,
 }: StepFormComponentProps) => {
+	const { formData, onSetFormData, step, onHandleBack, onHandleNext } =
+		useMultiForm();
+
 	const {
+		handleSubmit,
 		register,
 		control,
 		formState: { errors },
-	} = useForm<BookGenres>();
+	} = useForm<BookGenres>({
+		defaultValues: formData,
+	});
+
+	const handleSaveGenres = (data: BookGenres) => {
+		onSetFormData(data);
+		onHandleNext();
+	};
 
 	return (
-		<>
+		<form>
 			<MultiFormWrapper title='Book Genres'>
 				<InputComponent id='book-genres' label='Book Genres' isCustom>
 					<Controller
@@ -56,6 +69,12 @@ export const BookGenresForm = ({
 					/>
 				</InputComponent>
 			</MultiFormWrapper>
-		</>
+
+			<FormStepsAction
+				step={step}
+				onHandleBack={onHandleBack}
+				onHandleSubmit={handleSubmit(handleSaveGenres)}
+			/>
+		</form>
 	);
 };

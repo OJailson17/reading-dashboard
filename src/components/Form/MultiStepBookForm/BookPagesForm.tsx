@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form';
 import { InputComponent } from '../BookForm/InputComponent';
 import { StepFormComponentProps } from './BookTitleForm';
 import { useMultiForm } from '@/context/MultiFormContext';
+import { FormStepsAction } from './StepsAction';
 
 interface BookPages extends Partial<CreateBook> {}
 
@@ -14,7 +15,8 @@ export const BookPagesForm = ({
 	formStep,
 	nextFormStep,
 }: StepFormComponentProps) => {
-	const { formData, onSetFormData, onHandleNext } = useMultiForm();
+	const { formData, onSetFormData, onHandleNext, step, onHandleBack } =
+		useMultiForm();
 
 	const {
 		handleSubmit,
@@ -61,6 +63,12 @@ export const BookPagesForm = ({
 			<button type='submit' style={{ display: 'none' }} aria-hidden='true'>
 				Submit
 			</button>
+
+			<FormStepsAction
+				step={step}
+				onHandleBack={onHandleBack}
+				onHandleSubmit={onHandleNext}
+			/>
 		</form>
 	);
 };

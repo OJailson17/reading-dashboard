@@ -13,6 +13,9 @@ import { BookPagesForm } from './BookPagesForm';
 import { BookStatusLanguageForm } from './BookStatusLanguageForm';
 import { BookCoverForm } from './BookCoverForm';
 import { BookReviewForm } from './BookReviewForm';
+import { BookDatesForm } from './BookDatesForm';
+import { BookGenresForm } from './BookGenresForm';
+import { LoadingScreen } from '@/components/LoadingScreen';
 
 interface MultiStepBookFormProps {
 	database_id: string;
@@ -28,11 +31,17 @@ export const MultiStepBookForm = ({ database_id }: MultiStepBookFormProps) => {
 			case 2:
 				return <BookAuthorForm />;
 			case 3:
-				return <BookPagesForm />;
-			case 4:
 				return <BookCoverForm />;
-			// case 5:
-			// 	return <BookReviewForm database_id={database_id} />;
+			case 4:
+				return <BookPagesForm />;
+			case 5:
+				return <BookStatusLanguageForm />;
+			case 6:
+				return <BookGenresForm />;
+			case 7:
+				return <BookReviewForm database_id={database_id} />;
+			case 8:
+				return <BookDatesForm />;
 			default:
 				return null;
 		}
@@ -48,17 +57,6 @@ export const MultiStepBookForm = ({ database_id }: MultiStepBookFormProps) => {
 						{step}/{8}
 					</div>
 					<ActiveStepFormComponent />
-
-					<div style={{ marginTop: '1rem' }}>
-						{step > 1 && (
-							<button type='button' onClick={onHandleBack}>
-								Back
-							</button>
-						)}
-						<button type='button' onClick={onHandleNext}>
-							Next
-						</button>
-					</div>
 				</div>
 			</main>
 		</>
