@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MultiFormWrapper } from './MultiFormWrapper';
 import { InputComponent } from '../BookForm/InputComponent';
 import { DatePicker } from 'antd';
@@ -9,6 +9,12 @@ import { CreateBook } from '../BookForm';
 import { format } from 'date-fns';
 import { FormStepsAction } from './StepsAction';
 import { useMultiForm } from '@/context/MultiFormContext';
+import { formatBookData } from '@/utils/functions/formatBookData';
+import { api } from '@/lib/axios';
+import { ToastContainer, toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 interface BookDates extends Partial<CreateBook> {}
 
@@ -19,12 +25,17 @@ interface GetBookDatesProps {
 
 interface BookDatesFormProps {
 	watchBookStatus?: 'To read' | 'Reading' | 'Finished';
+	database_id: string;
 }
 
-export const BookDatesForm = ({ watchBookStatus }: BookDatesFormProps) => {
+export const BookDatesForm = ({
+	watchBookStatus,
+	database_id,
+}: BookDatesFormProps) => {
+	// const [isBSubmitting, setIsSubmitting] = useState(false);
 	const [rangedDatePicked, setRangeDatePicked] = useState<GetBookDatesProps>();
 
-	const { formData, onSetFormData, step, onHandleBack, onHandleNext } =
+	const { formData, onSetFormData, step, onHandleBack, onResetSteps } =
 		useMultiForm();
 
 	const {
@@ -32,7 +43,8 @@ export const BookDatesForm = ({ watchBookStatus }: BookDatesFormProps) => {
 		register,
 		control,
 		setValue,
-		formState: { errors },
+		reset,
+		formState: { errors, isSubmitting, isLoading, isValidating },
 	} = useForm<BookDates>({
 		defaultValues: formData,
 	});
@@ -47,6 +59,8 @@ export const BookDatesForm = ({ watchBookStatus }: BookDatesFormProps) => {
 	});
 
 	const handleFormatPickedDates = (dates: any) => {
+		// setIsSubmitting(true);
+
 		if (!dates) return;
 
 		if (!Array.isArray(dates)) dates = Array(dates);
@@ -66,58 +80,131 @@ export const BookDatesForm = ({ watchBookStatus }: BookDatesFormProps) => {
 		});
 	};
 
-	const handleSaveDates = (data: BookDates) => {
-		onSetFormData(data);
+	// const handleFormatBookData = async () => {
+	// 	setIsSubmitButtonLoading(true);
+
+	// 	let bookFormatted = formatBookData({ bookData: formData });
+
+	// 	console.log({ bookFormatted });
+
+	// 	// handleCreateBook(bookFormatted);
+	// };
+
+	const router = useRouter();
+
+	const handleCreateBook = async (book: Partial<CreateBook>) => {
+		// setIsSubmitButtonLoading(true);
+		try {
+			await api.post(`/book/create?db=${database_id}`, book, {
+				timeout: 15000,
+				timeoutErrorMessage: 'It took too long, try again.',
+			});
+			toast('Book Created', {
+				position: 'top-center',
+				autoClose: 1500,
+				theme: 'dark',
+				type: 'success',
+			});
+			reset();
+			onResetSteps();
+			setTimeout(() => {
+				router.push('/library');
+				// router.refresh();
+				// console.log('created');
+			}, 3000);
+		} catch (error) {
+			toast('An error ocurred', {
+				position: 'top-center',
+				autoClose: 1500,
+				theme: 'dark',
+				type: 'error',
+			});
+			console.log({ error });
+			// setIsSubmitting(false);
+		}
 	};
 
+	const handleSaveDates = async (data: BookDates) => {
+		const { book } = onSetFormData(data);
+
+		const formattedBook = formatBookData({ bookData: book });
+
+		console.log({ book, formattedBook });
+
+		await handleCreateBook(formattedBook);
+	};
+
+	// useEffect(() => {
+	// 	console.log('calling', isSubmitButtonLoading);
+
+	// 	if (isSubmitButtonLoading) {
+	// 		console.log({ formData });
+	// 	}
+	// }, [isSubmitButtonLoading, formData]);
+
+	useEffect(() => {
+		console.log(isSubmitting);
+	}, [isSubmitting]);
+
+	if (isSubmitting) {
+		return <h1>Creating</h1>;
+	}
+
+	console.log({ isSubmitting, isLoading, isValidating });
+
+	console.log('rendered');
+
 	return (
-		<form>
-			{/* {watchBookStatus === 'Finished' && ( */}
-			<MultiFormWrapper title='Book Title'>
+		<>
+			<ToastContainer />
+			<form>
+				{/* {watchBookStatus === 'Finished' && ( */}
+				<MultiFormWrapper title='Book Title'>
+					<InputComponent
+						id='progress-dates-component'
+						label='Started & Finished Dates'
+						error={errors.finished_date}
+						isCustom
+					>
+						<DatePicker.RangePicker
+							placement='bottomRight'
+							onChange={e => handleFormatPickedDates(e)}
+							style={{ height: '2.5rem' }}
+							id='progress_dates'
+							ref={finishedDateField.field.ref}
+							inputReadOnly
+							status={errors.finished_date ? 'error' : ''}
+						/>
+					</InputComponent>
+				</MultiFormWrapper>
+				{/* )} */}
+
+				{/* {watchBookStatus === 'Reading' && ( */}
 				<InputComponent
-					id='progress-dates-component'
-					label='Started & Finished Dates'
-					error={errors.finished_date}
+					id='started-date-component'
+					label='Started Date'
+					error={errors.started_date}
 					isCustom
 				>
-					<DatePicker.RangePicker
-						placement='bottomRight'
+					<DatePicker
 						onChange={e => handleFormatPickedDates(e)}
+						placeholder='Started Date'
+						placement='bottomRight'
 						style={{ height: '2.5rem' }}
-						id='progress_dates'
-						ref={finishedDateField.field.ref}
+						id='started_date'
+						ref={startedDateField.field.ref}
 						inputReadOnly
-						status={errors.finished_date ? 'error' : ''}
+						status={errors.started_date ? 'error' : ''}
 					/>
 				</InputComponent>
-			</MultiFormWrapper>
-			{/* )} */}
+				{/* )} */}
 
-			{/* {watchBookStatus === 'Reading' && ( */}
-			<InputComponent
-				id='started-date-component'
-				label='Started Date'
-				error={errors.started_date}
-				isCustom
-			>
-				<DatePicker
-					onChange={e => handleFormatPickedDates(e)}
-					placeholder='Started Date'
-					placement='bottomRight'
-					style={{ height: '2.5rem' }}
-					id='started_date'
-					ref={startedDateField.field.ref}
-					inputReadOnly
-					status={errors.started_date ? 'error' : ''}
+				<FormStepsAction
+					step={step}
+					onHandleBack={onHandleBack}
+					onHandleSubmit={handleSubmit(handleSaveDates)}
 				/>
-			</InputComponent>
-			{/* )} */}
-
-			<FormStepsAction
-				step={step}
-				onHandleBack={onHandleBack}
-				onHandleSubmit={handleSubmit(handleSaveDates)}
-			/>
-		</form>
+			</form>
+		</>
 	);
 };

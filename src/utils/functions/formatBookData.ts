@@ -1,7 +1,7 @@
 import { CreateBook } from '@/components/Form/BookForm';
 
 type FormatDataProps = {
-	bookData?: CreateBook;
+	bookData?: Partial<CreateBook>;
 };
 
 export const formatBookData = ({ bookData }: FormatDataProps) => {
@@ -20,7 +20,7 @@ export const formatBookData = ({ bookData }: FormatDataProps) => {
 		qtd_page: bookData?.qtd_page || 0,
 		current_page:
 			bookData?.status === 'Finished'
-				? bookData.qtd_page
+				? bookData.qtd_page || 0
 				: bookData?.current_page || 0,
 		goodreads_review: bookData?.goodreads_review || '',
 		book_review: bookData?.book_review || '',

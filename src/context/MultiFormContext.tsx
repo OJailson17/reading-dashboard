@@ -18,7 +18,8 @@ type MultiFormContextProps = {
 	onHandleBack: () => void;
 	formData: Partial<CreateBook>;
 	step: number;
-	onSetFormData: (data: FormDataProps) => void;
+	onResetSteps: () => void;
+	onSetFormData: (data: FormDataProps) => { book: FormDataProps };
 };
 
 export const MultiFormContext = createContext({} as MultiFormContextProps);
@@ -58,15 +59,30 @@ export default function MultiFormProvider({
 		setStep(prev => prev - 1);
 	}
 
+	const onResetSteps = () => {
+		setStep(1);
+	};
+
 	function onSetFormData(data: FormDataProps) {
 		setFormData((prev: any) => ({ ...prev, ...data }));
 
 		console.log({ data });
+
+		return {
+			book: data,
+		};
 	}
 
 	return (
 		<MultiFormContext.Provider
-			value={{ formData, onSetFormData, onHandleBack, onHandleNext, step }}
+			value={{
+				formData,
+				onSetFormData,
+				onHandleBack,
+				onHandleNext,
+				step,
+				onResetSteps,
+			}}
 		>
 			{children}
 		</MultiFormContext.Provider>
