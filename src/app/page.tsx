@@ -63,7 +63,9 @@ export default async function Home() {
 	};
 
 	// Fetch books data from api
-	await fetch(`${process.env.API_BASE_URL}/book?db=${databaseId}`)
+	await fetch(`${process.env.API_BASE_URL}/book?db=${databaseId}`, {
+		cache: 'force-cache',
+	})
 		.then(res => res.json())
 		.then(bookList => {
 			// Assign books array with the api response
