@@ -32,6 +32,12 @@ export const BookStatusLanguageForm = ({
 
 	const handleSaveBookStatusLanguage = (data: BookStatusLanguage) => {
 		onSetFormData(data || { status: 'To read' });
+
+		localStorage.setItem(
+			'@reading_dashboard:book_status',
+			data.status || 'To read',
+		);
+
 		onHandleNext();
 	};
 

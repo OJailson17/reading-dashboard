@@ -28,7 +28,11 @@ export const formatBookData = ({ bookData }: FormatDataProps) => {
 		finished_date: bookData?.finished_date,
 	};
 
-	if (bookData?.book_review === 'none') {
+	if (
+		!bookData?.book_review ||
+		bookData?.book_review?.length <= 0 ||
+		bookData?.book_review === 'none'
+	) {
 		formattedData.book_review = '90de4911-f67a-44bf-893e-3aeddb3e3e1e';
 	}
 

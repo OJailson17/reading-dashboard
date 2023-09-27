@@ -91,6 +91,10 @@ export const BookReviewForm = ({ database_id }: BookReviewForm) => {
 	const demoDatabaseId = process.env.NEXT_PUBLIC_DEMO_DATABASE_ID;
 	const IS_DEMO_VERSION = database_id === demoDatabaseId;
 
+	const getBookStatus = localStorage.getItem(
+		'@reading_dashboard:book_status',
+	) as 'To read' | 'Reading' | 'Finished';
+
 	return (
 		<form>
 			<MultiFormWrapper title='Book Title'>
@@ -122,30 +126,31 @@ export const BookReviewForm = ({ database_id }: BookReviewForm) => {
 				</InputComponent>
 
 				{/* Review */}
-				{/* {watchBookStatus === 'Finished' && ( */}
-				<>
-					<InputComponent
-						id='book-review-component'
-						label='Review'
-						error={errors.book_review}
-						isCustom
-					>
-						<Controller
-							name='book_review'
-							control={control}
-							defaultValue={RatingOptions[5].value}
-							render={({ field }) => (
-								<AntdSelect
-									{...field}
-									options={RatingOptions}
-									size='large'
-									style={{ width: '100%' }}
-									id='book-review'
-								/>
-							)}
-						/>
-					</InputComponent>
-				</>
+				{getBookStatus === 'Finished' && (
+					<>
+						<InputComponent
+							id='book-review-component'
+							label='Review'
+							error={errors.book_review}
+							isCustom
+						>
+							<Controller
+								name='book_review'
+								control={control}
+								defaultValue={RatingOptions[5].value}
+								render={({ field }) => (
+									<AntdSelect
+										{...field}
+										options={RatingOptions}
+										size='large'
+										style={{ width: '100%' }}
+										id='book-review'
+									/>
+								)}
+							/>
+						</InputComponent>
+					</>
+				)}
 			</MultiFormWrapper>
 
 			<FormStepsAction

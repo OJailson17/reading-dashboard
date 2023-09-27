@@ -93,24 +93,30 @@ export const BookDatesForm = ({
 	const router = useRouter();
 
 	const handleCreateBook = async (book: Partial<CreateBook>) => {
+		// console.log({ book });
 		// setIsSubmitButtonLoading(true);
 		try {
 			await api.post(`/book/create?db=${database_id}`, book, {
-				timeout: 15000,
+				timeout: 30000,
 				timeoutErrorMessage: 'It took too long, try again.',
 			});
+
 			toast('Book Created', {
 				position: 'top-center',
 				autoClose: 1500,
 				theme: 'dark',
 				type: 'success',
 			});
-			reset();
-			onResetSteps();
+
+			localStorage.removeItem('@reading_dashboard:book_status');
+
 			setTimeout(() => {
-				router.push('/library');
+				reset();
+				onResetSteps();
+
+				// router.push('/library');
 				// router.refresh();
-				// console.log('created');
+				console.log('created');
 			}, 3000);
 		} catch (error) {
 			toast('An error ocurred', {
@@ -154,50 +160,54 @@ export const BookDatesForm = ({
 
 	console.log('rendered');
 
+	const getBookStatus = localStorage.getItem(
+		'@reading_dashboard:book_status',
+	) as 'To read' | 'Reading' | 'Finished';
+
 	return (
 		<>
 			<ToastContainer />
 			<form>
-				{/* {watchBookStatus === 'Finished' && ( */}
-				<MultiFormWrapper title='Book Title'>
+				{getBookStatus === 'Finished' && (
+					<MultiFormWrapper title='Book Title'>
+						<InputComponent
+							id='progress-dates-component'
+							label='Started & Finished Dates'
+							error={errors.finished_date}
+							isCustom
+						>
+							<DatePicker.RangePicker
+								placement='bottomRight'
+								onChange={e => handleFormatPickedDates(e)}
+								style={{ height: '2.5rem' }}
+								id='progress_dates'
+								ref={finishedDateField.field.ref}
+								inputReadOnly
+								status={errors.finished_date ? 'error' : ''}
+							/>
+						</InputComponent>
+					</MultiFormWrapper>
+				)}
+
+				{getBookStatus === 'Reading' && (
 					<InputComponent
-						id='progress-dates-component'
-						label='Started & Finished Dates'
-						error={errors.finished_date}
+						id='started-date-component'
+						label='Started Date'
+						error={errors.started_date}
 						isCustom
 					>
-						<DatePicker.RangePicker
-							placement='bottomRight'
+						<DatePicker
 							onChange={e => handleFormatPickedDates(e)}
+							placeholder='Started Date'
+							placement='bottomRight'
 							style={{ height: '2.5rem' }}
-							id='progress_dates'
-							ref={finishedDateField.field.ref}
+							id='started_date'
+							ref={startedDateField.field.ref}
 							inputReadOnly
-							status={errors.finished_date ? 'error' : ''}
+							status={errors.started_date ? 'error' : ''}
 						/>
 					</InputComponent>
-				</MultiFormWrapper>
-				{/* )} */}
-
-				{/* {watchBookStatus === 'Reading' && ( */}
-				<InputComponent
-					id='started-date-component'
-					label='Started Date'
-					error={errors.started_date}
-					isCustom
-				>
-					<DatePicker
-						onChange={e => handleFormatPickedDates(e)}
-						placeholder='Started Date'
-						placement='bottomRight'
-						style={{ height: '2.5rem' }}
-						id='started_date'
-						ref={startedDateField.field.ref}
-						inputReadOnly
-						status={errors.started_date ? 'error' : ''}
-					/>
-				</InputComponent>
-				{/* )} */}
+				)}
 
 				<FormStepsAction
 					step={step}
