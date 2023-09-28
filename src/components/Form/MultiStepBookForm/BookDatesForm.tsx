@@ -44,7 +44,7 @@ export const BookDatesForm = ({
 		control,
 		setValue,
 		reset,
-		formState: { errors, isSubmitting, isLoading, isValidating },
+		formState: { errors, isSubmitting },
 	} = useForm<BookDates>({
 		defaultValues: formData,
 	});
@@ -109,14 +109,12 @@ export const BookDatesForm = ({
 			});
 
 			localStorage.removeItem('@reading_dashboard:book_status');
+			localStorage.setItem('@reading_dashboard:create_book_src', 'true');
 
 			setTimeout(() => {
-				reset();
-				onResetSteps();
-
-				// router.push('/library');
+				router.push('/library');
 				// router.refresh();
-				console.log('created');
+				// console.log('created');
 			}, 3000);
 		} catch (error) {
 			toast('An error ocurred', {
@@ -155,8 +153,6 @@ export const BookDatesForm = ({
 	if (isSubmitting) {
 		return <h1>Creating</h1>;
 	}
-
-	console.log({ isSubmitting, isLoading, isValidating });
 
 	console.log('rendered');
 
@@ -213,6 +209,7 @@ export const BookDatesForm = ({
 					step={step}
 					onHandleBack={onHandleBack}
 					onHandleSubmit={handleSubmit(handleSaveDates)}
+					isLoading={isSubmitting}
 				/>
 			</form>
 		</>

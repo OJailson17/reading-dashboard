@@ -15,6 +15,7 @@ import { Dropdown } from 'antd';
 import { ImBooks, ImHome } from 'react-icons/im';
 import { BiSolidBookAdd } from 'react-icons/bi';
 import { useMultiForm } from '@/context/MultiFormContext';
+import { useRouter } from 'next/navigation';
 
 interface LibraryBooks {
 	reading_books: Book[];
@@ -34,6 +35,7 @@ export const Library = ({
 	});
 
 	const { books } = useBook();
+	const { onResetSteps, onSetFormData } = useMultiForm();
 
 	useEffect(() => {
 		const filterBooks = () => {
@@ -66,6 +68,35 @@ export const Library = ({
 			filterBooks();
 		}
 	}, [books]);
+
+	useEffect(() => {
+		if (typeof window !== 'undefined') {
+			const isFromCreateBook = Boolean(
+				localStorage.getItem('@reading_dashboard:create_book_src'),
+			);
+
+			if (isFromCreateBook) {
+				onSetFormData({
+					author: '',
+					book_review: '',
+					current_page: 0,
+					finished_date: undefined,
+					genres: [],
+					goodreads_review: '',
+					icon_url: '',
+					language: 'Portuguese',
+					name: '',
+					qtd_page: 0,
+					status: 'To read',
+					started_date: undefined,
+				});
+
+				onResetSteps();
+
+				localStorage.removeItem('@reading_dashboard:create_book_src');
+			}
+		}
+	}, [onResetSteps, onSetFormData]);
 
 	const items = [
 		{

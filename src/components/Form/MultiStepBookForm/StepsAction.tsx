@@ -6,12 +6,14 @@ interface FormStepsActionProps {
 	step: number;
 	onHandleBack?: () => void;
 	onHandleSubmit?: () => void;
+	isLoading?: boolean;
 }
 
 export const FormStepsAction = ({
 	step,
 	onHandleBack,
 	onHandleSubmit,
+	isLoading,
 }: FormStepsActionProps) => {
 	return (
 		<div style={{ marginTop: '1rem' }}>
@@ -21,7 +23,7 @@ export const FormStepsAction = ({
 				</button>
 			)}
 			<button type='button' onClick={onHandleSubmit}>
-				{step >= 8 ? 'Create' : 'Next'}
+				{!isLoading ? (step >= 8 ? 'Create' : 'Next') : 'loading'}
 			</button>
 		</div>
 	);
