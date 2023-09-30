@@ -8,8 +8,15 @@ import { InputComponent } from '../BookForm/InputComponent';
 import { StepFormComponentProps } from './BookTitleForm';
 import { useMultiForm } from '@/context/MultiFormContext';
 import { FormStepsAction } from './StepsAction';
+import * as yup from 'yup';
+import { ObjectSchema } from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 interface BookCover extends Partial<CreateBook> {}
+
+const bookCoverSchema = yup.object({
+	icon_url: yup.string().trim().optional(),
+}) as ObjectSchema<Partial<CreateBook>>;
 
 export const BookCoverForm = ({
 	formStep,
@@ -24,6 +31,7 @@ export const BookCoverForm = ({
 		formState: { errors },
 	} = useForm<BookCover>({
 		defaultValues: formData,
+		resolver: yupResolver(bookCoverSchema),
 	});
 
 	const handleSaveBookCover = (data: BookCover) => {
@@ -45,7 +53,7 @@ export const BookCoverForm = ({
 			<FormStepsAction
 				step={step}
 				onHandleBack={onHandleBack}
-				onHandleSubmit={onHandleNext}
+				onHandleSubmit={handleSubmit(handleSaveBookCover)}
 			/>
 		</form>
 	);

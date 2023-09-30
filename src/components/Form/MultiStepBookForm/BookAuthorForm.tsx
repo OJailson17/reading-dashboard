@@ -8,8 +8,15 @@ import { CreateBook } from '../BookForm';
 import { useMultiForm } from '@/context/MultiFormContext';
 import { StepFormComponentProps } from './BookTitleForm';
 import { FormStepsAction } from './StepsAction';
+import * as yup from 'yup';
+import { ObjectSchema } from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 interface BookAuthor extends Partial<CreateBook> {}
+
+const bookAuthorSchema = yup.object({
+	author: yup.string().trim().required('author is required'),
+}) as ObjectSchema<Partial<CreateBook>>;
 
 export const BookAuthorForm = ({
 	formStep,
@@ -24,6 +31,7 @@ export const BookAuthorForm = ({
 		formState: { errors },
 	} = useForm<BookAuthor>({
 		defaultValues: formData,
+		resolver: yupResolver(bookAuthorSchema),
 	});
 
 	const handleSaveBookAuthor = (data: BookAuthor) => {
@@ -37,7 +45,9 @@ export const BookAuthorForm = ({
 			<form onSubmit={handleSubmit(handleSaveBookAuthor)}>
 				<MultiFormWrapper title='Book Author'>
 					<InputComponent
-						{...register('author')}
+						{...register('author', {
+							required: 'Campo obrigatório',
+						})}
 						error={errors.author}
 						label='Book Author'
 						id='book-author'
@@ -48,7 +58,7 @@ export const BookAuthorForm = ({
 				<FormStepsAction
 					step={step}
 					onHandleBack={onHandleBack}
-					onHandleSubmit={onHandleNext}
+					onHandleSubmit={handleSubmit(handleSaveBookAuthor)}
 				/>
 			</form>
 		</>

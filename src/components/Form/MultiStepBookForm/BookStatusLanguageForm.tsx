@@ -10,8 +10,22 @@ import { CreateBook } from '../BookForm';
 import { StepFormComponentProps } from './BookTitleForm';
 import { useMultiForm } from '@/context/MultiFormContext';
 import { FormStepsAction } from './StepsAction';
+import * as yup from 'yup';
+import { ObjectSchema } from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 interface BookStatusLanguage extends Partial<CreateBook> {}
+
+const bookStatusLanguageSchema = yup.object({
+	status: yup
+		.string()
+		.oneOf(['To read', 'Reading', 'Finished'])
+		.required('status is required'),
+	language: yup
+		.string()
+		.oneOf(['Portuguese', 'English', 'Spanish'])
+		.required('language is required'),
+}) as ObjectSchema<Partial<CreateBook>>;
 
 export const BookStatusLanguageForm = ({
 	formStep,
@@ -28,6 +42,7 @@ export const BookStatusLanguageForm = ({
 		formState: { errors },
 	} = useForm<BookStatusLanguage>({
 		defaultValues: formData,
+		resolver: yupResolver(bookStatusLanguageSchema),
 	});
 
 	const handleSaveBookStatusLanguage = (data: BookStatusLanguage) => {

@@ -9,6 +9,9 @@ import { Select as AntdSelect } from 'antd';
 import { StepFormComponentProps } from './BookTitleForm';
 import { useMultiForm } from '@/context/MultiFormContext';
 import { FormStepsAction } from './StepsAction';
+import * as yup from 'yup';
+import { ObjectSchema } from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 interface BookGenres extends Partial<CreateBook> {}
 
@@ -27,6 +30,14 @@ const genreOptions = [
 	},
 ];
 
+const bookGenresSchema = yup.object({
+	genres: yup
+		.array()
+		.ensure()
+		.of(yup.string().trim().required())
+		.required('genre is required'),
+}) as ObjectSchema<Partial<CreateBook>>;
+
 export const BookGenresForm = ({
 	formStep,
 	nextFormStep,
@@ -41,6 +52,7 @@ export const BookGenresForm = ({
 		formState: { errors },
 	} = useForm<BookGenres>({
 		defaultValues: formData,
+		resolver: yupResolver(bookGenresSchema),
 	});
 
 	const handleSaveGenres = (data: BookGenres) => {

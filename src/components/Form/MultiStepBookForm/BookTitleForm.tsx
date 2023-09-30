@@ -8,6 +8,9 @@ import { InputComponent } from '../BookForm/InputComponent';
 import { useMultiForm } from '@/context/MultiFormContext';
 import { useMultiStepForm } from '@/hooks/useMultiStepForm';
 import { FormStepsAction } from './StepsAction';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import { ObjectSchema } from 'yup';
 
 interface BookTitle extends Partial<CreateBook> {}
 
@@ -15,6 +18,10 @@ export interface StepFormComponentProps {
 	formStep?: number;
 	nextFormStep?: () => void;
 }
+
+const bookTitleSchema = yup.object({
+	name: yup.string().trim().required('name is required'),
+}) as ObjectSchema<Partial<CreateBook>>;
 
 export const BookTitleForm = ({
 	formStep,
@@ -26,8 +33,9 @@ export const BookTitleForm = ({
 		register,
 		handleSubmit,
 		formState: { errors },
-	} = useForm<BookTitle>({
+	} = useForm({
 		defaultValues: formData,
+		resolver: yupResolver(bookTitleSchema),
 	});
 
 	const handleSaveBookTitle = (data: BookTitle) => {
@@ -35,9 +43,10 @@ export const BookTitleForm = ({
 		onHandleNext();
 	};
 
+	console.log({ errors });
+
 	return (
 		<>
-			{/* {formStep === 0 && ( */}
 			<form onSubmit={handleSubmit(handleSaveBookTitle)}>
 				<MultiFormWrapper title='Book Title'>
 					<InputComponent
@@ -49,9 +58,12 @@ export const BookTitleForm = ({
 					/>
 				</MultiFormWrapper>
 
-				<FormStepsAction step={step} onHandleSubmit={onHandleNext} />
+				<FormStepsAction
+					step={step}
+					onHandleSubmit={handleSubmit(handleSaveBookTitle)}
+				/>
+				{/* <button type='submit'>Next</button> */}
 			</form>
-			{/* )} */}
 		</>
 	);
 };

@@ -8,6 +8,9 @@ import { Controller, useForm } from 'react-hook-form';
 import { CreateBook } from '../BookForm';
 import { useMultiForm } from '@/context/MultiFormContext';
 import { FormStepsAction } from './StepsAction';
+import * as yup from 'yup';
+import { ObjectSchema } from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 interface BookReview extends Partial<CreateBook> {}
 
@@ -69,6 +72,14 @@ const GoodreadsOptions = [
 	},
 ];
 
+const bookReviewSchema = yup.object({
+	book_review: yup.string().trim().optional(),
+	goodreads_review: yup
+		.string()
+		.trim()
+		.required('goodreads review is required'),
+}) as ObjectSchema<Partial<CreateBook>>;
+
 export const BookReviewForm = ({ database_id }: BookReviewForm) => {
 	const { onHandleNext, onSetFormData, formData, step, onHandleBack } =
 		useMultiForm();
@@ -81,6 +92,7 @@ export const BookReviewForm = ({ database_id }: BookReviewForm) => {
 		formState: { errors },
 	} = useForm<BookReview>({
 		defaultValues: formData,
+		resolver: yupResolver(bookReviewSchema),
 	});
 
 	const handleSaveBookReview = (data: BookReview) => {

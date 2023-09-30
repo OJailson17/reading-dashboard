@@ -13,8 +13,11 @@ import { formatBookData } from '@/utils/functions/formatBookData';
 import { api } from '@/lib/axios';
 import { ToastContainer, toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
+import * as yup from 'yup';
 
 import 'react-toastify/dist/ReactToastify.css';
+import { ObjectSchema } from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 interface BookDates extends Partial<CreateBook> {}
 
@@ -27,6 +30,26 @@ interface BookDatesFormProps {
 	watchBookStatus?: 'To read' | 'Reading' | 'Finished';
 	database_id: string;
 }
+
+const bookDatesSchema = yup.object({
+	started_date: yup
+		.string()
+		.trim()
+		.when('status', {
+			is: (value: string) => value === 'Reading' || value === 'Finished',
+			then: schema => schema.required('started date is required'),
+			otherwise: schema => schema.nullable(),
+		}),
+	finished_date: yup
+		.string()
+		.trim()
+		.when('status', {
+			is: 'Finished',
+			then: schema =>
+				schema.required('started and finished dates are required'),
+			otherwise: schema => schema.nullable(),
+		}),
+}) as ObjectSchema<Partial<CreateBook>>;
 
 export const BookDatesForm = ({
 	watchBookStatus,
@@ -47,6 +70,7 @@ export const BookDatesForm = ({
 		formState: { errors, isSubmitting },
 	} = useForm<BookDates>({
 		defaultValues: formData,
+		resolver: yupResolver(bookDatesSchema),
 	});
 
 	const startedDateField = useController({
@@ -71,8 +95,12 @@ export const BookDatesForm = ({
 
 		startedDateField.field.onChange(startedDate);
 		finishedDateField.field.onChange(finishedDate);
-		setValue('started_date', startedDate);
-		setValue('finished_date', finishedDate);
+		setValue('started_date', startedDate, {
+			shouldValidate: true,
+		});
+		setValue('finished_date', finishedDate, {
+			shouldValidate: true,
+		});
 
 		setRangeDatePicked({
 			startedDate,
@@ -171,6 +199,7 @@ export const BookDatesForm = ({
 							label='Started & Finished Dates'
 							error={errors.finished_date}
 							isCustom
+							// required
 						>
 							<DatePicker.RangePicker
 								placement='bottomRight'
