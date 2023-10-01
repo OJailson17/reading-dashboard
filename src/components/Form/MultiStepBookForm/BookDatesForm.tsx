@@ -140,11 +140,7 @@ export const BookDatesForm = ({
 			localStorage.removeItem(localStorageStrings.BOOK_STATUS);
 			localStorage.setItem(localStorageStrings.CREATE_BOOK_SOURCE, 'true');
 
-			setTimeout(() => {
-				router.push('/library');
-				// router.refresh();
-				// console.log('created');
-			}, 3000);
+			await Promise.resolve(router.push('/library'));
 		} catch (error) {
 			toast('An error ocurred', {
 				position: 'top-center',
