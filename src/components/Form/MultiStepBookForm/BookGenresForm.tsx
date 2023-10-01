@@ -61,7 +61,7 @@ export const BookGenresForm = ({
 	};
 
 	return (
-		<form>
+		<form autoComplete='off'>
 			<MultiFormWrapper title='Book Genres'>
 				<InputComponent id='book-genres' label='Book Genres' isCustom>
 					<Controller

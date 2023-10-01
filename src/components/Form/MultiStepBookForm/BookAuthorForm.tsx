@@ -42,7 +42,7 @@ export const BookAuthorForm = ({
 	return (
 		<>
 			{/* {formStep === 1 && ( */}
-			<form onSubmit={handleSubmit(handleSaveBookAuthor)}>
+			<form onSubmit={handleSubmit(handleSaveBookAuthor)} autoComplete='off'>
 				<MultiFormWrapper title='Book Author'>
 					<InputComponent
 						{...register('author', {

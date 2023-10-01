@@ -50,7 +50,7 @@ export const BookPagesForm = ({
 	};
 
 	return (
-		<form onSubmit={handleSubmit(handleSavePages)}>
+		<form onSubmit={handleSubmit(handleSavePages)} autoComplete='off'>
 			<MultiFormWrapper title='Book Title'>
 				<InputComponent
 					{...register('qtd_page', {

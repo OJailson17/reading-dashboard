@@ -188,7 +188,7 @@ export const BookDatesForm = ({
 	return (
 		<>
 			<ToastContainer />
-			<form>
+			<form autoComplete='off'>
 				{getBookStatus === 'Finished' && (
 					<MultiFormWrapper title='Book Title'>
 						<InputComponent

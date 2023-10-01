@@ -58,7 +58,7 @@ export const BookStatusLanguageForm = ({
 	};
 
 	return (
-		<form>
+		<form autoComplete='off'>
 			<MultiFormWrapper title='Book Status & Language'>
 				<InputComponent
 					id='book-status'

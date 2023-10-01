@@ -47,7 +47,7 @@ export const BookTitleForm = ({
 
 	return (
 		<>
-			<form onSubmit={handleSubmit(handleSaveBookTitle)}>
+			<form onSubmit={handleSubmit(handleSaveBookTitle)} autoComplete='off'>
 				<MultiFormWrapper title='Book Title'>
 					<InputComponent
 						{...register('name')}
