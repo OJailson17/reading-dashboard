@@ -16,6 +16,7 @@ import { ImBooks, ImHome } from 'react-icons/im';
 import { BiSolidBookAdd } from 'react-icons/bi';
 import { useMultiForm } from '@/context/MultiFormContext';
 import { useRouter } from 'next/navigation';
+import { localStorageStrings } from '@/utils/constants/storageStrings';
 
 interface LibraryBooks {
 	reading_books: Book[];
@@ -72,7 +73,7 @@ export const Library = ({
 	useEffect(() => {
 		if (typeof window !== 'undefined') {
 			const isFromCreateBook = Boolean(
-				localStorage.getItem('@reading_dashboard:create_book_src'),
+				localStorage.getItem(localStorageStrings.CREATE_BOOK_SOURCE),
 			);
 
 			if (isFromCreateBook) {
@@ -93,7 +94,7 @@ export const Library = ({
 
 				onResetSteps();
 
-				localStorage.removeItem('@reading_dashboard:create_book_src');
+				localStorage.removeItem(localStorageStrings.CREATE_BOOK_SOURCE);
 			}
 		}
 	}, [onResetSteps, onSetFormData]);

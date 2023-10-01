@@ -11,6 +11,7 @@ import { FormStepsAction } from './StepsAction';
 import * as yup from 'yup';
 import { ObjectSchema } from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { localStorageStrings } from '@/utils/constants/storageStrings';
 
 interface BookReview extends Partial<CreateBook> {}
 
@@ -104,7 +105,7 @@ export const BookReviewForm = ({ database_id }: BookReviewForm) => {
 	const IS_DEMO_VERSION = database_id === demoDatabaseId;
 
 	const getBookStatus = localStorage.getItem(
-		'@reading_dashboard:book_status',
+		localStorageStrings.BOOK_STATUS,
 	) as 'To read' | 'Reading' | 'Finished';
 
 	return (

@@ -13,6 +13,7 @@ import { FormStepsAction } from './StepsAction';
 import * as yup from 'yup';
 import { ObjectSchema } from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { localStorageStrings } from '@/utils/constants/storageStrings';
 
 interface BookStatusLanguage extends Partial<CreateBook> {}
 
@@ -49,7 +50,7 @@ export const BookStatusLanguageForm = ({
 		onSetFormData(data || { status: 'To read' });
 
 		localStorage.setItem(
-			'@reading_dashboard:book_status',
+			localStorageStrings.BOOK_STATUS,
 			data.status || 'To read',
 		);
 

@@ -2,6 +2,7 @@ import { Footer } from '@/components/Footer';
 import { BookForm } from '@/components/Form/BookForm';
 import { MultiStepBookForm } from '@/components/Form/MultiStepBookForm';
 import { PageTitle } from '@/styles/common';
+import { cookiesStrings } from '@/utils/constants/storageStrings';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
@@ -12,9 +13,9 @@ export const metadata = {
 
 export default async function CreateBook() {
 	// Get token from cookies
-	const token = cookies().get('@reading_dashboard:token')?.value;
+	const token = cookies().get(cookiesStrings.TOKEN)?.value;
 	// Get database id from cookies
-	const databaseId = cookies().get('@reading_dashboard:database_id')?.value;
+	const databaseId = cookies().get(cookiesStrings.DATABASE_ID)?.value;
 
 	// Redirect to login page if token does not exists
 	if (!token || !databaseId) {

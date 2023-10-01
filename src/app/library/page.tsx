@@ -5,6 +5,7 @@ import { Book } from '@/@types/bookTypes';
 import { LibraryPageTitle, MainComponent } from './styles';
 import { Footer } from '@/components/Footer';
 import { cookies } from 'next/headers';
+import { cookiesStrings } from '@/utils/constants/storageStrings';
 
 export const metadata = {
 	title: 'Library | Reading Dashboard',
@@ -12,9 +13,9 @@ export const metadata = {
 
 export default async function LibraryPage() {
 	// Get token from cookies
-	const token = cookies().get('@reading_dashboard:token')?.value;
+	const token = cookies().get(cookiesStrings.TOKEN)?.value;
 	// Get database id from cookies
-	const databaseId = cookies().get('@reading_dashboard:database_id')?.value;
+	const databaseId = cookies().get(cookiesStrings.DATABASE_ID)?.value;
 
 	// Redirect to login page if token does not exists
 	if (!token || !databaseId) {

@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation';
 import { FormComponent } from '../../components/Form/LoginForm';
 
 import { PageTitle } from '@/styles/common';
+import { cookiesStrings } from '@/utils/constants/storageStrings';
 
 export const metadata = {
 	title: 'Login | Reading Dashboard',
@@ -11,9 +12,9 @@ export const metadata = {
 
 export default function Login() {
 	// Get token from cookies
-	const token = cookies().has('@reading_dashboard:token');
+	const token = cookies().has(cookiesStrings.TOKEN);
 	// Get database id from cookies
-	const databaseIdCookie = cookies().has('@reading_dashboard:database_id');
+	const databaseIdCookie = cookies().has(cookiesStrings.DATABASE_ID);
 
 	// Redirect to login page if token already exists
 	if (token && databaseIdCookie) {

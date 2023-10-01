@@ -18,6 +18,7 @@ import * as yup from 'yup';
 import 'react-toastify/dist/ReactToastify.css';
 import { ObjectSchema } from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { localStorageStrings } from '@/utils/constants/storageStrings';
 
 interface BookDates extends Partial<CreateBook> {}
 
@@ -136,8 +137,8 @@ export const BookDatesForm = ({
 				type: 'success',
 			});
 
-			localStorage.removeItem('@reading_dashboard:book_status');
-			localStorage.setItem('@reading_dashboard:create_book_src', 'true');
+			localStorage.removeItem(localStorageStrings.BOOK_STATUS);
+			localStorage.setItem(localStorageStrings.CREATE_BOOK_SOURCE, 'true');
 
 			setTimeout(() => {
 				router.push('/library');
@@ -185,7 +186,7 @@ export const BookDatesForm = ({
 	console.log('rendered');
 
 	const getBookStatus = localStorage.getItem(
-		'@reading_dashboard:book_status',
+		localStorageStrings.BOOK_STATUS,
 	) as 'To read' | 'Reading' | 'Finished';
 
 	return (
