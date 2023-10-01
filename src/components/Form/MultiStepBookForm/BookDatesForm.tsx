@@ -64,10 +64,8 @@ export const BookDatesForm = ({
 
 	const {
 		handleSubmit,
-		register,
 		control,
 		setValue,
-		reset,
 		formState: { errors, isSubmitting },
 	} = useForm<BookDates>({
 		defaultValues: formData,
@@ -158,18 +156,8 @@ export const BookDatesForm = ({
 
 		const formattedBook = formatBookData({ bookData: book });
 
-		console.log({ book, formattedBook });
-
 		await handleCreateBook(formattedBook);
 	};
-
-	// useEffect(() => {
-	// 	console.log('calling', isSubmitButtonLoading);
-
-	// 	if (isSubmitButtonLoading) {
-	// 		console.log({ formData });
-	// 	}
-	// }, [isSubmitButtonLoading, formData]);
 
 	useEffect(() => {
 		console.log(isSubmitting);
@@ -178,8 +166,6 @@ export const BookDatesForm = ({
 	if (isSubmitting) {
 		return <h1>Creating</h1>;
 	}
-
-	console.log('rendered');
 
 	const getBookStatus = localStorage.getItem(
 		localStorageStrings.BOOK_STATUS,
