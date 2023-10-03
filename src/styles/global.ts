@@ -13,6 +13,7 @@ export const GlobalStyles = createGlobalStyle`
 body {
   background-color: #292738;
   color: white;
+	overflow: hidden;
 }
 
 button {
