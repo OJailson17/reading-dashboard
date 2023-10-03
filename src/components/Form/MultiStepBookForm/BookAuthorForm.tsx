@@ -52,6 +52,7 @@ export const BookAuthorForm = ({
 						label=''
 						id='book-author'
 						placeholder='J. K. Rowlling'
+						autoFocus
 					/>
 				</MultiFormWrapper>
 

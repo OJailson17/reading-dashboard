@@ -53,6 +53,7 @@ export const BookTitleForm = ({
 						label=''
 						id='book-name'
 						placeholder='Ex: Harry Potter'
+						autoFocus
 					/>
 				</MultiFormWrapper>
 

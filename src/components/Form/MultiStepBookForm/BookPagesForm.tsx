@@ -62,6 +62,7 @@ export const BookPagesForm = ({
 					label='Total Pages'
 					id='book-total-pages'
 					placeholder='300'
+					autoFocus
 				/>
 				{/* Current Page */}
 				<InputComponent

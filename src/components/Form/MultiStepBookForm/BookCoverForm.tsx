@@ -47,6 +47,7 @@ export const BookCoverForm = ({
 					label='Book Cover (URL or ISBN-10)'
 					id='book-cover'
 					placeholder='Image URL or ISBN-10 Code'
+					autoFocus
 				/>
 			</MultiFormWrapper>
 
