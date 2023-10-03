@@ -40,7 +40,7 @@ export const BookCoverForm = ({
 	};
 	return (
 		<form onSubmit={handleSubmit(handleSaveBookCover)} autoComplete='off'>
-			<MultiFormWrapper title='Book Cover'>
+			<MultiFormWrapper title='Cover'>
 				<InputComponent
 					{...register('icon_url')}
 					error={errors.icon_url}

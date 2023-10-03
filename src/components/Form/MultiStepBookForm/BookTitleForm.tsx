@@ -43,16 +43,14 @@ export const BookTitleForm = ({
 		onHandleNext();
 	};
 
-	console.log({ errors });
-
 	return (
 		<>
 			<form onSubmit={handleSubmit(handleSaveBookTitle)} autoComplete='off'>
-				<MultiFormWrapper title='Book Title'>
+				<MultiFormWrapper title='Title'>
 					<InputComponent
 						{...register('name')}
 						error={errors.name}
-						label='Name'
+						label=''
 						id='book-name'
 						placeholder='Ex: Harry Potter'
 					/>
@@ -62,7 +60,6 @@ export const BookTitleForm = ({
 					step={step}
 					onHandleSubmit={handleSubmit(handleSaveBookTitle)}
 				/>
-				{/* <button type='submit'>Next</button> */}
 			</form>
 		</>
 	);

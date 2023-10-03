@@ -43,13 +43,13 @@ export const BookAuthorForm = ({
 		<>
 			{/* {formStep === 1 && ( */}
 			<form onSubmit={handleSubmit(handleSaveBookAuthor)} autoComplete='off'>
-				<MultiFormWrapper title='Book Author'>
+				<MultiFormWrapper title='Author'>
 					<InputComponent
 						{...register('author', {
 							required: 'Campo obrigatório',
 						})}
 						error={errors.author}
-						label='Book Author'
+						label=''
 						id='book-author'
 						placeholder='J. K. Rowlling'
 					/>

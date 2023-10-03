@@ -1,6 +1,7 @@
 import React, { ButtonHTMLAttributes } from 'react';
 import { CreateBook } from '../BookForm';
 import { UseFormHandleSubmit } from 'react-hook-form';
+import { MultiStepActionButton, MultiStepActionContainer } from './styles';
 
 interface FormStepsActionProps {
 	step: number;
@@ -16,15 +17,15 @@ export const FormStepsAction = ({
 	isLoading,
 }: FormStepsActionProps) => {
 	return (
-		<div style={{ marginTop: '1rem' }}>
+		<MultiStepActionContainer>
 			{step > 1 && (
-				<button type='button' onClick={onHandleBack}>
+				<MultiStepActionButton type='button' onClick={onHandleBack}>
 					Back
-				</button>
+				</MultiStepActionButton>
 			)}
-			<button type='button' onClick={onHandleSubmit}>
+			<MultiStepActionButton type='button' onClick={onHandleSubmit}>
 				{!isLoading ? (step >= 8 ? 'Create' : 'Next') : 'loading'}
-			</button>
-		</div>
+			</MultiStepActionButton>
+		</MultiStepActionContainer>
 	);
 };

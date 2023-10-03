@@ -51,7 +51,7 @@ export const BookPagesForm = ({
 
 	return (
 		<form onSubmit={handleSubmit(handleSavePages)} autoComplete='off'>
-			<MultiFormWrapper title='Book Title'>
+			<MultiFormWrapper title='Pages'>
 				<InputComponent
 					{...register('qtd_page', {
 						valueAsNumber: true,
@@ -61,7 +61,7 @@ export const BookPagesForm = ({
 					error={errors.qtd_page}
 					label='Total Pages'
 					id='book-total-pages'
-					placeholder='Image URL or ISBN-10 Code'
+					placeholder='300'
 				/>
 				{/* Current Page */}
 				<InputComponent

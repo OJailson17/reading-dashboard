@@ -110,7 +110,7 @@ export const BookReviewForm = ({ database_id }: BookReviewForm) => {
 
 	return (
 		<form autoComplete='off'>
-			<MultiFormWrapper title='Book Title'>
+			<MultiFormWrapper title='Goodreads and Review'>
 				<InputComponent
 					id='book-goodreads'
 					label='Goodreads'

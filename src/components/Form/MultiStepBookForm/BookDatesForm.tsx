@@ -159,10 +159,6 @@ export const BookDatesForm = ({
 		await handleCreateBook(formattedBook);
 	};
 
-	useEffect(() => {
-		console.log(isSubmitting);
-	}, [isSubmitting]);
-
 	if (isSubmitting) {
 		return <h1>Creating</h1>;
 	}
@@ -175,8 +171,14 @@ export const BookDatesForm = ({
 		<>
 			<ToastContainer />
 			<form autoComplete='off'>
+				{getBookStatus === 'To read' && (
+					<p>
+						Data filled, click on <strong>Create</strong> to confirm
+					</p>
+				)}
+
 				{getBookStatus === 'Finished' && (
-					<MultiFormWrapper title='Book Title'>
+					<MultiFormWrapper title='Dates'>
 						<InputComponent
 							id='progress-dates-component'
 							label='Started & Finished Dates'
@@ -198,23 +200,25 @@ export const BookDatesForm = ({
 				)}
 
 				{getBookStatus === 'Reading' && (
-					<InputComponent
-						id='started-date-component'
-						label='Started Date'
-						error={errors.started_date}
-						isCustom
-					>
-						<DatePicker
-							onChange={e => handleFormatPickedDates(e)}
-							placeholder='Started Date'
-							placement='bottomRight'
-							style={{ height: '2.5rem' }}
-							id='started_date'
-							ref={startedDateField.field.ref}
-							inputReadOnly
-							status={errors.started_date ? 'error' : ''}
-						/>
-					</InputComponent>
+					<MultiFormWrapper title='Dates'>
+						<InputComponent
+							id='started-date-component'
+							label='Started Date'
+							error={errors.started_date}
+							isCustom
+						>
+							<DatePicker
+								onChange={e => handleFormatPickedDates(e)}
+								placeholder='Started Date'
+								placement='bottomRight'
+								style={{ height: '2.5rem' }}
+								id='started_date'
+								ref={startedDateField.field.ref}
+								inputReadOnly
+								status={errors.started_date ? 'error' : ''}
+							/>
+						</InputComponent>
+					</MultiFormWrapper>
 				)}
 
 				<FormStepsAction

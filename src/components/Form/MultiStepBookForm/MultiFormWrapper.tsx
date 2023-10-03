@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import { MultiStepFormWrapper } from './styles';
 
 interface FormWrapperProps {
 	title: string;
@@ -9,7 +10,7 @@ interface FormWrapperProps {
 
 export const MultiFormWrapper = ({ title, children }: FormWrapperProps) => {
 	return (
-		<>
+		<MultiStepFormWrapper>
 			<h2>{title}</h2>
 			<div
 				style={{
@@ -20,6 +21,6 @@ export const MultiFormWrapper = ({ title, children }: FormWrapperProps) => {
 			>
 				{children}
 			</div>
-		</>
+		</MultiStepFormWrapper>
 	);
 };

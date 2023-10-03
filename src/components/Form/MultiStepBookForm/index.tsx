@@ -16,6 +16,7 @@ import { BookReviewForm } from './BookReviewForm';
 import { BookDatesForm } from './BookDatesForm';
 import { BookGenresForm } from './BookGenresForm';
 import { LoadingScreen } from '@/components/LoadingScreen';
+import { MultiStepFormContainer } from './styles';
 
 // import 'react-toastify/dist/ReactToastify.css';
 // import { ToastContainer } from 'react-toastify';
@@ -52,18 +53,14 @@ export const MultiStepBookForm = ({ database_id }: MultiStepBookFormProps) => {
 
 	return (
 		<>
-			{/* <ToastContainer /> */}
-
-			<h1>Multi Step Form</h1>
-
-			<main>
+			<MultiStepFormContainer>
 				<div>
-					<div>
+					<div className='steps-info'>
 						{step}/{8}
 					</div>
 					<ActiveStepFormComponent />
 				</div>
-			</main>
+			</MultiStepFormContainer>
 		</>
 	);
 };
