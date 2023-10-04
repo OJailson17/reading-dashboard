@@ -52,11 +52,10 @@ const bookDatesSchema = yup.object({
 		}),
 }) as ObjectSchema<Partial<CreateBook>>;
 
-export const BookDatesForm = ({
+export const BookDatesFormComponent = ({
 	watchBookStatus,
 	database_id,
 }: BookDatesFormProps) => {
-	// const [isBSubmitting, setIsSubmitting] = useState(false);
 	const [rangedDatePicked, setRangeDatePicked] = useState<GetBookDatesProps>();
 
 	const { formData, onSetFormData, step, onHandleBack, onResetSteps } =
@@ -82,8 +81,6 @@ export const BookDatesForm = ({
 	});
 
 	const handleFormatPickedDates = (dates: any) => {
-		// setIsSubmitting(true);
-
 		if (!dates) return;
 
 		if (!Array.isArray(dates)) dates = Array(dates);
@@ -107,21 +104,9 @@ export const BookDatesForm = ({
 		});
 	};
 
-	// const handleFormatBookData = async () => {
-	// 	setIsSubmitButtonLoading(true);
-
-	// 	let bookFormatted = formatBookData({ bookData: formData });
-
-	// 	console.log({ bookFormatted });
-
-	// 	// handleCreateBook(bookFormatted);
-	// };
-
 	const router = useRouter();
 
 	const handleCreateBook = async (book: Partial<CreateBook>) => {
-		// console.log({ book });
-		// setIsSubmitButtonLoading(true);
 		try {
 			await api.post(`/book/create?db=${database_id}`, book, {
 				timeout: 30000,
@@ -138,7 +123,7 @@ export const BookDatesForm = ({
 			localStorage.removeItem(localStorageStrings.BOOK_STATUS);
 			localStorage.setItem(localStorageStrings.CREATE_BOOK_SOURCE, 'true');
 
-			await Promise.resolve(router.push('/library'));
+			return await Promise.resolve(router.push('/library'));
 		} catch (error) {
 			toast('An error ocurred', {
 				position: 'top-center',
@@ -147,21 +132,16 @@ export const BookDatesForm = ({
 				type: 'error',
 			});
 			console.log({ error });
-			// setIsSubmitting(false);
 		}
 	};
 
 	const handleSaveDates = async (data: BookDates) => {
-		const { book } = onSetFormData(data);
-
-		const formattedBook = formatBookData({ bookData: book });
+		// setIsSubmitting(true);
+		// const { book } = onSetFormData(data);
+		const formattedBook = formatBookData({ bookData: data });
 
 		await handleCreateBook(formattedBook);
 	};
-
-	if (isSubmitting) {
-		return <h1>Creating</h1>;
-	}
 
 	const getBookStatus = localStorage.getItem(
 		localStorageStrings.BOOK_STATUS,
@@ -231,3 +211,7 @@ export const BookDatesForm = ({
 		</>
 	);
 };
+
+export const BookDatesForm = React.memo(BookDatesFormComponent);
+
+BookDatesForm.displayName = 'BookDatesForm';

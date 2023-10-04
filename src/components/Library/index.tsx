@@ -9,7 +9,7 @@ import {
 	LibraryComponentWrapper,
 	PageLink,
 } from './styles';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useBook } from '@/context/BookContext';
 import { Dropdown } from 'antd';
 import { ImBooks, ImHome } from 'react-icons/im';
@@ -24,7 +24,7 @@ interface LibraryBooks {
 	to_read_books?: Book[];
 }
 
-export const Library = ({
+const BaseLibraryComponent = ({
 	reading_books,
 	finished_books,
 	to_read_books,
@@ -179,3 +179,7 @@ export const Library = ({
 		</LibraryComponentWrapper>
 	);
 };
+
+export const Library = React.memo(BaseLibraryComponent);
+
+Library.displayName = 'Library';
