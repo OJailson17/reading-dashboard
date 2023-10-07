@@ -26,7 +26,7 @@ interface MultiStepBookFormProps {
 }
 
 export const MultiStepBookForm = ({ database_id }: MultiStepBookFormProps) => {
-	const { step, onHandleBack, onHandleNext } = useMultiForm();
+	const { step } = useMultiForm();
 
 	function ActiveStepFormComponent() {
 		switch (step) {
@@ -51,12 +51,14 @@ export const MultiStepBookForm = ({ database_id }: MultiStepBookFormProps) => {
 		}
 	}
 
+	const totalNumberOfSteps = 8;
+
 	return (
 		<>
 			<MultiStepFormContainer>
 				<div>
 					<div className='steps-info'>
-						{step}/{8}
+						{step}/{totalNumberOfSteps}
 					</div>
 					<ActiveStepFormComponent />
 				</div>

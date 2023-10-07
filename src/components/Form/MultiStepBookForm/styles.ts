@@ -1,8 +1,8 @@
-import { device } from '@/styles/endpoints';
+import { device, size } from '@/styles/endpoints';
 import styled from 'styled-components';
 
 export const MultiStepFormContainer = styled.main`
-	width: 50%;
+	width: 90%;
 	max-width: 50rem;
 	margin: 3.75rem auto;
 	padding: 1.875rem 1.5rem;
@@ -32,13 +32,21 @@ export const MultiStepFormWrapper = styled.div`
 `;
 
 export const MultiStepActionContainer = styled.div`
-	width: 30%;
+	width: 100%;
 	margin-top: 1rem;
 
 	display: flex;
 	align-items: center;
 	/* justify-content: center; */
 	gap: 1rem;
+
+	@media ${device.mobileL} {
+		width: 55%;
+	}
+
+	@media ${device.laptop} {
+		width: 40%;
+	}
 `;
 
 export const MultiStepActionButton = styled.button`
