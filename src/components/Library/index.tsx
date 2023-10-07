@@ -24,7 +24,7 @@ interface LibraryBooks {
 	to_read_books?: Book[];
 }
 
-const BaseLibraryComponent = ({
+export const Library = ({
 	reading_books,
 	finished_books,
 	to_read_books,
@@ -180,6 +180,6 @@ const BaseLibraryComponent = ({
 	);
 };
 
-export const Library = React.memo(BaseLibraryComponent);
+// export const Library = React.memo(BaseLibraryComponent);
 
-Library.displayName = 'Library';
+// Library.displayName = 'Library';
