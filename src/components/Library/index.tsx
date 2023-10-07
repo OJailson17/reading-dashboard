@@ -9,11 +9,14 @@ import {
 	LibraryComponentWrapper,
 	PageLink,
 } from './styles';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useBook } from '@/context/BookContext';
 import { Dropdown } from 'antd';
 import { ImBooks, ImHome } from 'react-icons/im';
 import { BiSolidBookAdd } from 'react-icons/bi';
+import { useMultiForm } from '@/context/MultiFormContext';
+import { useRouter } from 'next/navigation';
+import { localStorageStrings } from '@/utils/constants/storageStrings';
 
 interface LibraryBooks {
 	reading_books: Book[];
@@ -21,7 +24,7 @@ interface LibraryBooks {
 	to_read_books?: Book[];
 }
 
-export const Library = ({
+const BaseLibraryComponent = ({
 	reading_books,
 	finished_books,
 	to_read_books,
@@ -33,6 +36,7 @@ export const Library = ({
 	});
 
 	const { books } = useBook();
+	const { onResetSteps, onSetFormData } = useMultiForm();
 
 	useEffect(() => {
 		const filterBooks = () => {
@@ -65,6 +69,35 @@ export const Library = ({
 			filterBooks();
 		}
 	}, [books]);
+
+	useEffect(() => {
+		if (typeof window !== 'undefined') {
+			const isFromCreateBook = Boolean(
+				localStorage.getItem(localStorageStrings.CREATE_BOOK_SOURCE),
+			);
+
+			if (isFromCreateBook) {
+				onSetFormData({
+					author: '',
+					book_review: '',
+					current_page: 0,
+					finished_date: undefined,
+					genres: [],
+					goodreads_review: '',
+					icon_url: '',
+					language: 'Portuguese',
+					name: '',
+					qtd_page: 0,
+					status: 'To read',
+					started_date: undefined,
+				});
+
+				onResetSteps();
+
+				localStorage.removeItem(localStorageStrings.CREATE_BOOK_SOURCE);
+			}
+		}
+	}, [onResetSteps, onSetFormData]);
 
 	const items = [
 		{
@@ -146,3 +179,7 @@ export const Library = ({
 		</LibraryComponentWrapper>
 	);
 };
+
+export const Library = React.memo(BaseLibraryComponent);
+
+Library.displayName = 'Library';

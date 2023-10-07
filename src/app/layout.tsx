@@ -6,6 +6,7 @@ import { AuthContextProvider } from '@/context/AuthContext';
 import { BookContextProvider } from '@/context/BookContext';
 
 import { GlobalStyles } from '@/styles/global';
+import MultiFormProvider from '@/context/MultiFormContext';
 
 const inter = Inter({
 	subsets: ['latin'],
@@ -27,10 +28,12 @@ export default function RootLayout({
 		<html className={inter.className}>
 			<body>
 				<AuthContextProvider>
-					<BookContextProvider>
-						<GlobalStyles />
-						<StyledComponentsRegistry>{children}</StyledComponentsRegistry>
-					</BookContextProvider>
+					<MultiFormProvider>
+						<BookContextProvider>
+							<GlobalStyles />
+							<StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+						</BookContextProvider>
+					</MultiFormProvider>
 				</AuthContextProvider>
 			</body>
 		</html>

@@ -13,6 +13,7 @@ export const GlobalStyles = createGlobalStyle`
 body {
   background-color: #292738;
   color: white;
+  overflow-x: hidden;
 }
 
 button {
@@ -48,6 +49,14 @@ button {
       }
     }
   }
+
+  /* .ant-picker-body {
+    padding: 8px -1px;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  } */
 
   table thead tr th {
     color: #1677ff !important;

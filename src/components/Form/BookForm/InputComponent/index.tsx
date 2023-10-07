@@ -1,15 +1,13 @@
 'use client';
 
-import { ReactNode, forwardRef } from 'react';
+import { ComponentProps, ReactNode, forwardRef } from 'react';
 import { FieldError } from 'react-hook-form';
 import { CreateBookInputContainer } from './styles';
 
-interface InputComponentProps {
+interface InputComponentProps extends ComponentProps<'input'> {
 	error?: FieldError;
 	label: string;
 	id: string;
-	placeholder?: string;
-	type?: string;
 	isCustom?: boolean;
 	children?: ReactNode;
 }
@@ -25,7 +23,6 @@ export const InputComponent = forwardRef<HTMLInputElement, InputComponentProps>(
 						<label htmlFor={props.id}>{props.label}</label>
 						<input
 							ref={ref}
-							type={props.type || 'text'}
 							defaultValue={props.type === 'number' ? 0 : ''}
 							style={props.error ? { outline: '1px solid red' } : {}}
 							{...rest}

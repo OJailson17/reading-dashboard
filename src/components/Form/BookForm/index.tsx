@@ -309,6 +309,7 @@ export const BookForm = ({ database_id }: BookFormProps) => {
 									options={[
 										{ label: 'Portuguese', value: 'Portuguese' },
 										{ label: 'English', value: 'English' },
+										{ label: 'Spanish', value: 'Spanish' },
 									]}
 									optionType='button'
 									buttonStyle='solid'

@@ -52,7 +52,7 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 	const { onGetBooks } = useBook();
 
 	// Get token from cookies
-	const { '@reading_dashboard:token': token } = parseCookies();
+	const { '@reading_dashboard': token } = parseCookies();
 	// Get database id from cookies
 	const { '@reading_dashboard:database_id': databaseId } = parseCookies();
 

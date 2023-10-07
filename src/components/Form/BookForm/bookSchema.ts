@@ -15,7 +15,7 @@ export const bookSchema = yup.object({
 		.required('status is required'),
 	language: yup
 		.string()
-		.oneOf(['Portuguese', 'English'])
+		.oneOf(['Portuguese', 'English', 'Spanish'])
 		.required('language is required'),
 	qtd_page: yup
 		.number()

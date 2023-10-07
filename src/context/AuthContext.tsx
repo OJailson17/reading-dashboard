@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 
 import { api } from '@/lib/axios';
+import { cookiesStrings } from '@/utils/constants/storageStrings';
 
 type AuthProviderProps = {
 	children: ReactNode;
@@ -34,20 +35,15 @@ export const AuthContextProvider = ({ children }: AuthProviderProps) => {
 			);
 
 			// Set token cookies
-			setCookie(
-				{ res: response },
-				'@reading_dashboard:token',
-				response.data.token,
-				{
-					maxAge: 60 * 60 * 24 * 7, // 7 days
-					path: '/',
-				},
-			);
+			setCookie({ res: response }, cookiesStrings.TOKEN, response.data.token, {
+				maxAge: 60 * 60 * 24 * 7, // 7 days
+				path: '/',
+			});
 
 			// Set database id cookie
 			setCookie(
 				{ res: response },
-				'@reading_dashboard:database_id',
+				cookiesStrings.DATABASE_ID,
 				response.data.database_id,
 				{
 					maxAge: 60 * 60 * 24 * 7, // 7 days

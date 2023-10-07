@@ -26,6 +26,8 @@ type BookContextProps = {
 	onGetBooks: (props: onGetBooksProps) => Promise<void>;
 };
 
+type onCreateBookProps = {};
+
 export const BookContext = createContext({} as BookContextProps);
 
 export const BookContextProvider = ({ children }: BookProviderProps) => {
@@ -52,6 +54,17 @@ export const BookContextProvider = ({ children }: BookProviderProps) => {
 			await getBooks(databaseId);
 		}
 	};
+
+	// const onCreateBook = async () => {
+	// 	try {
+	// 		await api.post(`/book/create?db=${database_id}`, createBookBody, {
+	// 			timeout: 15000,
+	// 			timeoutErrorMessage: 'It took too long, try again.',
+	// 		});
+	// 	} catch (error) {
+
+	// 	}
+	// }
 
 	return (
 		<BookContext.Provider value={{ books, onGetBooks }}>
