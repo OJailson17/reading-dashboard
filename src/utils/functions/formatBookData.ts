@@ -1,4 +1,4 @@
-import { CreateBook } from '@/components/Form/BookForm';
+import { CreateBook } from '@/@types/bookTypes';
 
 type FormatDataProps = {
 	bookData?: Partial<CreateBook>;

@@ -1,6 +1,6 @@
 'use client';
 
-import { CreateBook } from '@/components/Form/BookForm';
+import { CreateBook } from '@/@types/bookTypes';
 import { useState, createContext, useContext, ReactNode } from 'react';
 
 type MultiFormProviderProps = {
