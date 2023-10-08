@@ -15,15 +15,7 @@ import { BookCoverForm } from './BookCoverForm';
 import { BookReviewForm } from './BookReviewForm';
 import { BookDatesForm } from './BookDatesForm';
 import { BookGenresForm } from './BookGenresForm';
-import { LoadingScreen } from '@/components/LoadingScreen';
 import { MultiStepFormContainer } from './styles';
-import { bookSchema } from './bookSchema';
-import * as yup from 'yup';
-
-// import 'react-toastify/dist/ReactToastify.css';
-// import { ToastContainer } from 'react-toastify';
-
-// export type CreateBook = yup.InferType<typeof bookSchema>;
 
 interface MultiStepBookFormProps {
 	database_id: string;
