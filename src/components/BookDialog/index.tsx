@@ -87,7 +87,7 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 
 		// Redirect user to login page if token or database id does not exist
 		if (!token || !databaseId) {
-			toast('Error', {
+			toast('Error: Missing Credentials', {
 				position: 'top-center',
 				autoClose: 2000,
 				theme: 'dark',
