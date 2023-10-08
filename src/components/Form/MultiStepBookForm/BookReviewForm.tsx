@@ -2,16 +2,16 @@
 
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { MultiFormWrapper } from './MultiFormWrapper';
-import { InputComponent } from '../BookForm/InputComponent';
+import { InputComponent } from '../InputComponent';
 import { DatePicker, Select as AntdSelect } from 'antd';
 import { Controller, useForm } from 'react-hook-form';
-import { CreateBook } from '../BookForm';
 import { useMultiForm } from '@/context/MultiFormContext';
 import { FormStepsAction } from './StepsAction';
 import * as yup from 'yup';
 import { ObjectSchema } from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { localStorageStrings } from '@/utils/constants/storageStrings';
+import { CreateBook } from '@/@types/bookTypes';
 
 interface BookReview extends Partial<CreateBook> {}
 

@@ -2,9 +2,8 @@
 
 import React from 'react';
 import { MultiFormWrapper } from './MultiFormWrapper';
-import { CreateBook } from '../BookForm';
 import { Controller, useForm } from 'react-hook-form';
-import { InputComponent } from '../BookForm/InputComponent';
+import { InputComponent } from '../InputComponent';
 import { Select as AntdSelect } from 'antd';
 import { StepFormComponentProps } from './BookTitleForm';
 import { useMultiForm } from '@/context/MultiFormContext';
@@ -12,6 +11,7 @@ import { FormStepsAction } from './StepsAction';
 import * as yup from 'yup';
 import { ObjectSchema } from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { CreateBook } from '@/@types/bookTypes';
 
 interface BookGenres extends Partial<CreateBook> {}
 

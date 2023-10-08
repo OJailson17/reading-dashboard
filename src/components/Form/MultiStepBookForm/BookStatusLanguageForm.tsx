@@ -4,9 +4,8 @@
 import React, { useCallback, useEffect } from 'react';
 import { MultiFormWrapper } from './MultiFormWrapper';
 import { Controller, useForm } from 'react-hook-form';
-import { InputComponent } from '../BookForm/InputComponent';
+import { InputComponent } from '../InputComponent';
 import { Radio } from 'antd';
-import { CreateBook } from '../BookForm';
 import { StepFormComponentProps } from './BookTitleForm';
 import { useMultiForm } from '@/context/MultiFormContext';
 import { FormStepsAction } from './StepsAction';
@@ -14,6 +13,7 @@ import * as yup from 'yup';
 import { ObjectSchema } from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { localStorageStrings } from '@/utils/constants/storageStrings';
+import { CreateBook } from '@/@types/bookTypes';
 
 interface BookStatusLanguage extends Partial<CreateBook> {}
 

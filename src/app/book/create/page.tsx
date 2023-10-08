@@ -1,10 +1,8 @@
 import { Footer } from '@/components/Footer';
-import { BookForm } from '@/components/Form/BookForm';
 import { MultiStepBookForm } from '@/components/Form/MultiStepBookForm';
 import { PageTitle } from '@/styles/common';
 import { cookiesStrings } from '@/utils/constants/storageStrings';
 import { cookies } from 'next/headers';
-import Link from 'next/link';
 import { redirect } from 'next/navigation';
 
 export const metadata = {
@@ -27,8 +25,6 @@ export default async function CreateBook() {
 			<PageTitle>Create Book</PageTitle>
 
 			<MultiStepBookForm database_id={databaseId} />
-
-			{/* <BookForm database_id={databaseId} /> */}
 
 			<Footer />
 		</>

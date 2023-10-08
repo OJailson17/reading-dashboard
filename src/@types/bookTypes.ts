@@ -64,3 +64,18 @@ export type Book = {
 };
 
 export type ReadingStatus = 'To read' | 'Reading' | 'Finished';
+
+export type CreateBook = {
+	icon_url?: string | undefined;
+	started_date?: string;
+	finished_date?: string;
+	name: string;
+	genres: string[];
+	author: string;
+	status: ReadingStatus;
+	language: 'Portuguese' | 'English' | 'Spanish';
+	qtd_page: number;
+	current_page: number;
+	goodreads_review: string;
+	book_review: string;
+};

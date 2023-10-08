@@ -2,15 +2,15 @@
 
 import React, { useState } from 'react';
 import { MultiFormWrapper } from './MultiFormWrapper';
-import { CreateBook } from '../BookForm';
 import { useForm } from 'react-hook-form';
-import { InputComponent } from '../BookForm/InputComponent';
+import { InputComponent } from '../InputComponent';
 import { useMultiForm } from '@/context/MultiFormContext';
 import { useMultiStepForm } from '@/hooks/useMultiStepForm';
 import { FormStepsAction } from './StepsAction';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { ObjectSchema } from 'yup';
+import { CreateBook } from '@/@types/bookTypes';
 
 interface BookTitle extends Partial<CreateBook> {}
 
@@ -33,7 +33,7 @@ export const BookTitleForm = ({
 		register,
 		handleSubmit,
 		formState: { errors },
-	} = useForm({
+	} = useForm<BookTitle>({
 		defaultValues: formData,
 		resolver: yupResolver(bookTitleSchema),
 	});

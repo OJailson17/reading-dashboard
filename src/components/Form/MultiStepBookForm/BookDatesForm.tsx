@@ -2,10 +2,9 @@
 
 import React, { useEffect, useState } from 'react';
 import { MultiFormWrapper } from './MultiFormWrapper';
-import { InputComponent } from '../BookForm/InputComponent';
+import { InputComponent } from '../InputComponent';
 import { DatePicker } from 'antd';
 import { useController, useForm } from 'react-hook-form';
-import { CreateBook } from '../BookForm';
 import { format } from 'date-fns';
 import { FormStepsAction } from './StepsAction';
 import { useMultiForm } from '@/context/MultiFormContext';
@@ -19,6 +18,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ObjectSchema } from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { localStorageStrings } from '@/utils/constants/storageStrings';
+import { CreateBook } from '@/@types/bookTypes';
 
 interface BookDates extends Partial<CreateBook> {}
 
