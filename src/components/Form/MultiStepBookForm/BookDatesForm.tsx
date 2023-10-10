@@ -121,13 +121,12 @@ export const BookDatesFormComponent = ({
 				type: 'success',
 			});
 
-			localStorage.removeItem(localStorageStrings.BOOK_STATUS);
 			localStorage.setItem(localStorageStrings.CREATE_BOOK_SOURCE, 'true');
 
 			setTimeout(async () => {
 				return await Promise.resolve(router.push('/library'));
 				// alert('Created');
-			}, 3000);
+			}, 2500);
 		} catch (error) {
 			toast('An error ocurred', {
 				position: 'top-center',

@@ -18,7 +18,13 @@ export const MultiStepFormContainer = styled.main`
 	border-radius: 16px;
 
 	.steps-info {
-		text-align: right;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+
+		a {
+			color: inherit;
+		}
 	}
 
 	@media ${device.laptopL} {

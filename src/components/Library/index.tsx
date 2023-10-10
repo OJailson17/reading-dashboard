@@ -95,6 +95,7 @@ export const Library = ({
 				onResetSteps();
 
 				localStorage.removeItem(localStorageStrings.CREATE_BOOK_SOURCE);
+				localStorage.removeItem(localStorageStrings.BOOK_STATUS);
 			}
 		}
 	}, [onResetSteps, onSetFormData]);
@@ -179,7 +180,3 @@ export const Library = ({
 		</LibraryComponentWrapper>
 	);
 };
-
-// export const Library = React.memo(BaseLibraryComponent);
-
-// Library.displayName = 'Library';

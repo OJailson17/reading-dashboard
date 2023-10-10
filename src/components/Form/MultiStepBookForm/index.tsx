@@ -1,6 +1,8 @@
 /* eslint-disable react/jsx-key */
 'use client';
 
+import Link from 'next/link';
+
 import { useMultiForm } from '@/context/MultiFormContext';
 
 import { BookAuthorForm } from './BookAuthorForm';
@@ -50,6 +52,7 @@ export const MultiStepBookForm = ({ database_id }: MultiStepBookFormProps) => {
 			<MultiStepFormContainer>
 				<div>
 					<div className='steps-info'>
+						<Link href={'/'}>Cancel</Link>
 						{step}/{totalNumberOfSteps}
 					</div>
 					<ActiveStepFormComponent />
