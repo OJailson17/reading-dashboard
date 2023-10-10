@@ -2,6 +2,7 @@
 
 import { ComponentProps, ReactNode, forwardRef } from 'react';
 import { FieldError } from 'react-hook-form';
+
 import { CreateBookInputContainer } from './styles';
 
 interface InputComponentProps extends ComponentProps<'input'> {

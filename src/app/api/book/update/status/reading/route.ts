@@ -1,11 +1,12 @@
+import { format } from 'date-fns';
+import { NextRequest, NextResponse } from 'next/server';
+
 import { notion } from '@/lib/notion';
 import {
 	APIErrorCode,
 	ClientErrorCode,
 	isNotionClientError,
 } from '@notionhq/client';
-import { format } from 'date-fns';
-import { NextRequest, NextResponse } from 'next/server';
 
 // Update the status of the book to reading
 export async function PATCH(req: NextRequest, res: NextResponse) {

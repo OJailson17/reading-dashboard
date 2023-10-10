@@ -1,7 +1,8 @@
 'use client';
 
-import { device } from '@/styles/endpoints';
 import styled from 'styled-components';
+
+import { device } from '@/styles/endpoints';
 
 export const LoginForm = styled.form`
 	width: 90%;

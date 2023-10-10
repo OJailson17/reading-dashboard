@@ -1,7 +1,8 @@
 'use client';
 
-import { device } from '@/styles/endpoints';
 import styled from 'styled-components';
+
+import { device } from '@/styles/endpoints';
 
 export const YearlyChartWrapper = styled.div`
 	width: 90%;

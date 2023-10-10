@@ -2,7 +2,7 @@
 
 import styled from 'styled-components';
 
-import { device } from 'src/styles/endpoints';
+import { device } from '@/styles/endpoints';
 
 export const StatusComponentWrapper = styled.div`
 	width: 90%;

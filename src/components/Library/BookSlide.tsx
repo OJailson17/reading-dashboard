@@ -1,16 +1,15 @@
 'use client';
 
-import * as Dialog from '@radix-ui/react-dialog';
+import Image, { ImageProps as NextImage } from 'next/image';
 import React, { SyntheticEvent, useEffect, useState } from 'react';
 
-import { BookDialog } from '../BookDialog';
-
 import { Book } from '@/@types/bookTypes';
+import * as Dialog from '@radix-ui/react-dialog';
 
 import bookCoverPlaceholder from '../../../public/book-cover-placeholder.png';
-
+import { BookDialog } from '../BookDialog';
 import { BookComponent } from './styles';
-import Image, { ImageProps as NextImage } from 'next/image';
+
 interface BookSlideComponentProps {
 	books: Book[];
 }

@@ -1,19 +1,17 @@
 /* eslint-disable @next/next/no-img-element */
 'use client';
 
-import * as Dialog from '@radix-ui/react-dialog';
-
-import { SyntheticEvent, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { toast, ToastContainer } from 'react-toastify';
-import { Rings } from 'react-loading-icons';
 import { parseCookies } from 'nookies';
+import { SyntheticEvent, useEffect, useRef, useState } from 'react';
+import { Rings } from 'react-loading-icons';
+import { toast, ToastContainer } from 'react-toastify';
 
-import { api } from '@/lib/axios';
-import { useBook } from '@/context/BookContext';
 import { Book, ReadingStatus } from '@/@types/bookTypes';
-
-import bookCoverPlaceholder from '../../../public/book-cover-placeholder.png';
+import { useBook } from '@/context/BookContext';
+import { api } from '@/lib/axios';
+import bookCoverPlaceholder from '@public/book-cover-placeholder.png';
+import * as Dialog from '@radix-ui/react-dialog';
 
 import {
 	DialogClose,

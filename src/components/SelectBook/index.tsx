@@ -1,8 +1,10 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import * as Select from '@radix-ui/react-select';
 import { GoTriangleDown } from 'react-icons/go';
+
+import * as Select from '@radix-ui/react-select';
+
 import {
 	SelectContent,
 	SelectItem,

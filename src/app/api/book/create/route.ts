@@ -1,11 +1,12 @@
-import { validateURL } from '@/utils/functions/checkURL';
+import { NextRequest, NextResponse } from 'next/server';
+
 import { notion } from '@/lib/notion';
+import { validateURL } from '@/utils/functions/checkURL';
 import {
 	APIErrorCode,
 	ClientErrorCode,
 	isNotionClientError,
 } from '@notionhq/client';
-import { NextRequest, NextResponse } from 'next/server';
 
 type CreateBookDTO = {
 	name: string;

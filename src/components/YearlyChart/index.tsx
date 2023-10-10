@@ -4,11 +4,14 @@ import { useEffect, useState } from 'react';
 import { GoTriangleUp, GoTriangleDown } from 'react-icons/go';
 import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis } from 'recharts';
 
-import { CustomTooltip } from './CustomToolTip';
-import isSameMonth from '@/utils/functions/isSameMonth';
-
+import { MonthLabel } from '@/@types/chartTypes';
 import { useBook } from '@/context/BookContext';
+import { getLeastAndMostMonthRead } from '@/utils/functions/calculateMostAndLeastMonthsRead';
+import isSameMonth from '@/utils/functions/isSameMonth';
+import { resetMonthsQtd } from '@/utils/functions/resetMonthsData';
+import { monthsBooksQtd } from '@/utils/helper/monthsBooksQtd';
 
+import { CustomTooltip } from './CustomToolTip';
 import {
 	CharData,
 	ChartComponent,
@@ -16,10 +19,6 @@ import {
 	ChartTitle,
 	YearlyChartWrapper,
 } from './styles';
-import { monthsBooksQtd } from '@/utils/helper/monthsBooksQtd';
-import { MonthLabel } from '@/@types/chartTypes';
-import { getLeastAndMostMonthRead } from '@/utils/functions/calculateMostAndLeastMonthsRead';
-import { resetMonthsQtd } from '@/utils/functions/resetMonthsData';
 
 const monthsLabels: MonthLabel[] = [
 	'Jan',

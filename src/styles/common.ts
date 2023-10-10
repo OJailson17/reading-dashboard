@@ -1,6 +1,7 @@
 'use client';
 
 import styled from 'styled-components';
+
 import { device } from './endpoints';
 
 export const PageTitle = styled.h1`

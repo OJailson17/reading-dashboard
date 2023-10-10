@@ -1,10 +1,10 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
-import { FormComponent } from '../../components/Form/LoginForm';
-
 import { PageTitle } from '@/styles/common';
 import { cookiesStrings } from '@/utils/constants/storageStrings';
+
+import { FormComponent } from '../../components/Form/LoginForm';
 
 export const metadata = {
 	title: 'Login | Reading Dashboard',

@@ -1,20 +1,16 @@
+import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { parseCookies } from 'nookies';
 
+import { Book } from '@/@types/bookTypes';
 import { BookStatus } from '@/components/BooksStatus';
+import { Footer } from '@/components/Footer';
+import { Library } from '@/components/Library';
 import { ReadingStatus } from '@/components/ReadingStatus';
 import { YearlyChart } from '@/components/YearlyChart';
-import { Library } from '@/components/Library';
-import { LoadingScreen } from '@/components/LoadingScreen';
-import { Footer } from '@/components/Footer';
-
-// import { useBook } from '@/context/BookContext';
-import { Book } from '@/@types/bookTypes';
-
 import { PageTitle } from '@/styles/common';
-import { StatusComponent, StatusComponentWrapper } from './styles';
-import { cookies } from 'next/headers';
 import { cookiesStrings } from '@/utils/constants/storageStrings';
+
+import { StatusComponent, StatusComponentWrapper } from './styles';
 
 export default async function Home() {
 	// Get token from cookies

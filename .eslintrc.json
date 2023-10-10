@@ -1,3 +1,20 @@
 {
-  "extends": "next/core-web-vitals"
+	"extends": "next/core-web-vitals",
+	"plugins": ["eslint-plugin-import-helpers"],
+	"rules": {
+		"import-helpers/order-imports": [
+			"warn",
+			{
+				// example configuration
+				"newlinesBetween": "always",
+				"groups": [
+					"module",
+					"/^@/",
+					"/^@public/",
+					["parent", "sibling", "index"]
+				],
+				"alphabetize": { "order": "asc", "ignoreCase": false }
+			}
+		]
+	}
 }

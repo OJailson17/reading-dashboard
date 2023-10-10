@@ -3,15 +3,15 @@
 
 import { useEffect, useState } from 'react';
 
-import { DonutComponent } from '../Donut';
-import { SelectBook } from '../SelectBook';
-
 import { Book } from '@/@types/bookTypes';
-import { ChartDataWrapper, StatusComponent } from '@/styles/common';
 import { useBook } from '@/context/BookContext';
+import { ChartDataWrapper, StatusComponent } from '@/styles/common';
 import { calculateBookPercentage } from '@/utils/functions/calculateBookPercentage';
 import { getBookWithGraterProgress } from '@/utils/functions/getBookWithGraterProgress';
+
+import { DonutComponent } from '../Donut';
 import { LoadingScreen } from '../LoadingScreen';
+import { SelectBook } from '../SelectBook';
 
 interface ReadingStatusProps {
 	books: Book[];

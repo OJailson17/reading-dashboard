@@ -1,7 +1,6 @@
 'use client';
 
 import { createGlobalStyle } from 'styled-components';
-import { device } from './endpoints';
 
 export const GlobalStyles = createGlobalStyle`
 * {

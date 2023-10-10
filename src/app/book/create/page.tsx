@@ -1,9 +1,10 @@
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
+
 import { Footer } from '@/components/Footer';
 import { MultiStepBookForm } from '@/components/Form/MultiStepBookForm';
 import { PageTitle } from '@/styles/common';
 import { cookiesStrings } from '@/utils/constants/storageStrings';
-import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
 
 export const metadata = {
 	title: 'Create Book | Reading Dashboard',

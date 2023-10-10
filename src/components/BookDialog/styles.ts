@@ -1,9 +1,9 @@
 'use client';
 
+import styled from 'styled-components';
+
 import { device } from '@/styles/endpoints';
 import * as Dialog from '@radix-ui/react-dialog';
-
-import styled from 'styled-components';
 
 export const DialogOverlay = styled(Dialog.Overlay)`
 	background-color: #000000d5;

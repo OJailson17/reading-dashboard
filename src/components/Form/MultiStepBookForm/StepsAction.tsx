@@ -1,7 +1,7 @@
-import React, { ButtonHTMLAttributes } from 'react';
-import { UseFormHandleSubmit } from 'react-hook-form';
-import { MultiStepActionButton, MultiStepActionContainer } from './styles';
+import React from 'react';
 import { Puff } from 'react-loading-icons';
+
+import { MultiStepActionButton, MultiStepActionContainer } from './styles';
 
 interface FormStepsActionProps {
 	step: number;

@@ -1,6 +1,7 @@
 import { sign } from 'jsonwebtoken';
-import { notion } from '@/lib/notion';
 import { NextRequest, NextResponse } from 'next/server';
+
+import { notion } from '@/lib/notion';
 
 type TitleProperty = {
 	plain_text: string;

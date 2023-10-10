@@ -1,5 +1,6 @@
-import { device, size } from '@/styles/endpoints';
 import styled from 'styled-components';
+
+import { device } from '@/styles/endpoints';
 
 export const MultiStepFormContainer = styled.main`
 	width: 90%;

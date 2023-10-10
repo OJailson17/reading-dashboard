@@ -1,4 +1,5 @@
 import { Book } from '@/@types/bookTypes';
+
 import { calculateBookPercentage } from './calculateBookPercentage';
 
 export const getBookWithGraterProgress = (books: Book[]) => {

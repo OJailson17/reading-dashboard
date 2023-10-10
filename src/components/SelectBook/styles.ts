@@ -1,7 +1,8 @@
 'use client';
 
-import * as Select from '@radix-ui/react-select';
 import styled from 'styled-components';
+
+import * as Select from '@radix-ui/react-select';
 
 export const SelectTriggerButton = styled(Select.Trigger)`
 	width: 100%;

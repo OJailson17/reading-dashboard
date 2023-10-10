@@ -1,11 +1,12 @@
+import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
-import { Library } from '@/components/Library';
 import { Book } from '@/@types/bookTypes';
-import { LibraryPageTitle, MainComponent } from './styles';
 import { Footer } from '@/components/Footer';
-import { cookies } from 'next/headers';
+import { Library } from '@/components/Library';
 import { cookiesStrings } from '@/utils/constants/storageStrings';
+
+import { LibraryPageTitle, MainComponent } from './styles';
 
 export const metadata = {
 	title: 'Library | Reading Dashboard',
