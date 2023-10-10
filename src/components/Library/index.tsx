@@ -36,7 +36,7 @@ export const Library = ({
 	});
 
 	const { books } = useBook();
-	const { onResetSteps, onSetFormData } = useMultiForm();
+	const { onResetSteps, onSetFormData, onResetForm } = useMultiForm();
 
 	useEffect(() => {
 		const filterBooks = () => {
@@ -77,20 +77,7 @@ export const Library = ({
 			);
 
 			if (isFromCreateBook) {
-				onSetFormData({
-					author: '',
-					book_review: '',
-					current_page: 0,
-					finished_date: undefined,
-					genres: [],
-					goodreads_review: '',
-					icon_url: '',
-					language: 'Portuguese',
-					name: '',
-					qtd_page: 0,
-					status: 'To read',
-					started_date: undefined,
-				});
+				onResetForm();
 
 				onResetSteps();
 
@@ -98,7 +85,7 @@ export const Library = ({
 				localStorage.removeItem(localStorageStrings.BOOK_STATUS);
 			}
 		}
-	}, [onResetSteps, onSetFormData]);
+	}, [onResetSteps, onSetFormData, onResetForm]);
 
 	const items = [
 		{

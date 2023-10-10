@@ -17,6 +17,7 @@ type MultiFormContextProps = {
 	step: number;
 	onResetSteps: () => void;
 	onSetFormData: (data: FormDataProps) => { book: FormDataProps };
+	onResetForm: () => void;
 };
 
 export const MultiFormContext = createContext({} as MultiFormContextProps);
@@ -39,6 +40,23 @@ export default function MultiFormProvider({
 		setStep(1);
 	};
 
+	const onResetForm = () => {
+		onSetFormData({
+			author: '',
+			book_review: '',
+			current_page: 0,
+			finished_date: undefined,
+			genres: [],
+			goodreads_review: '',
+			icon_url: '',
+			language: 'Portuguese',
+			name: '',
+			qtd_page: 0,
+			status: 'To read',
+			started_date: undefined,
+		});
+	};
+
 	function onSetFormData(data: FormDataProps) {
 		setFormData((prev: any) => ({ ...prev, ...data }));
 
@@ -56,6 +74,7 @@ export default function MultiFormProvider({
 				onHandleNext,
 				step,
 				onResetSteps,
+				onResetForm,
 			}}
 		>
 			{children}
