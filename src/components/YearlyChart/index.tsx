@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { GoTriangleUp, GoTriangleDown } from 'react-icons/go';
 import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis } from 'recharts';
 
@@ -96,11 +97,11 @@ export const YearlyChart = ({ finished_books }: YearlyChartProps) => {
 
 	// If the list changes, update the chart with the updated data
 	useEffect(() => {
-		const filterBooks = books?.filter(
-			book => book.properties.Status.select.name === 'Finished',
-		);
-
 		if (books && books.length > 0) {
+			const filterBooks = books?.filter(
+				book => book.properties.Status.select.name === 'Finished',
+			);
+
 			setAllFinishedBooks(filterBooks || []);
 		}
 	}, [books]);
@@ -114,44 +115,46 @@ export const YearlyChart = ({ finished_books }: YearlyChartProps) => {
 		<YearlyChartWrapper>
 			<ChartTitle>Books Read by Month</ChartTitle>
 
-			<div className='chart-container'>
-				<ChartDataWrapper>
-					<CharData>
-						<div>
-							<GoTriangleUp size={15} color='#28C76F' />
-							<span>More books read</span>
-						</div>
-						<p className='month'>{mostBooksReadMonth}</p>
-					</CharData>
-					<CharData>
-						<div>
-							<GoTriangleDown size={15} color='#EA5455' />
-							<span>Less books read</span>
-						</div>
-						<p className='month'>{leastBooksReadMonth}</p>
-					</CharData>
-				</ChartDataWrapper>
+			{chartData[0].label && (
+				<div className='chart-container'>
+					<ChartDataWrapper>
+						<CharData>
+							<div>
+								<GoTriangleUp size={15} color='#28C76F' />
+								<span>More books read</span>
+							</div>
+							<p className='month'>{mostBooksReadMonth}</p>
+						</CharData>
+						<CharData>
+							<div>
+								<GoTriangleDown size={15} color='#EA5455' />
+								<span>Less books read</span>
+							</div>
+							<p className='month'>{leastBooksReadMonth}</p>
+						</CharData>
+					</ChartDataWrapper>
 
-				<ChartComponent>
-					<ResponsiveContainer width='100%' height='100%'>
-						<BarChart width={450} height={250} data={chartData}>
-							<XAxis dataKey='label' />
-							<Bar
-								dataKey='quantity'
-								fill='#1677ff'
-								barSize={20}
-								radius={[20, 20, 0, 0]}
-								minPointSize={2}
-								maxBarSize={30}
-							/>
-							<Tooltip
-								content={CustomTooltip}
-								cursor={{ fill: 'transparent' }}
-							/>
-						</BarChart>
-					</ResponsiveContainer>
-				</ChartComponent>
-			</div>
+					<ChartComponent>
+						<ResponsiveContainer width='100%' height='100%'>
+							<BarChart width={450} height={250} data={chartData}>
+								<XAxis dataKey='label' />
+								<Bar
+									dataKey='quantity'
+									fill='#1677ff'
+									barSize={20}
+									radius={[20, 20, 0, 0]}
+									minPointSize={2}
+									maxBarSize={30}
+								/>
+								<Tooltip
+									content={CustomTooltip}
+									cursor={{ fill: 'transparent' }}
+								/>
+							</BarChart>
+						</ResponsiveContainer>
+					</ChartComponent>
+				</div>
+			)}
 		</YearlyChartWrapper>
 	);
 };

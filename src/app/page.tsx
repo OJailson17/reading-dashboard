@@ -102,7 +102,7 @@ export default async function Home() {
 				/>
 
 				{/* Yearly Graph */}
-				<YearlyChart finished_books={finished_books} />
+				{finished_books && <YearlyChart finished_books={finished_books} />}
 
 				<Footer />
 			</>
