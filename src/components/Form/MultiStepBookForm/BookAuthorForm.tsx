@@ -10,7 +10,6 @@ import { useMultiForm } from '@/context/MultiFormContext';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { InputComponent } from '../InputComponent';
-import { StepFormComponentProps } from './BookTitleForm';
 import { MultiFormWrapper } from './MultiFormWrapper';
 import { FormStepsAction } from './StepsAction';
 
@@ -20,10 +19,7 @@ const bookAuthorSchema = yup.object({
 	author: yup.string().trim().required('author is required'),
 }) as ObjectSchema<Partial<CreateBook>>;
 
-export const BookAuthorForm = ({
-	formStep,
-	nextFormStep,
-}: StepFormComponentProps) => {
+export const BookAuthorForm = () => {
 	const { formData, onHandleNext, onSetFormData, onHandleBack, step } =
 		useMultiForm();
 
@@ -43,7 +39,6 @@ export const BookAuthorForm = ({
 
 	return (
 		<>
-			{/* {formStep === 1 && ( */}
 			<form onSubmit={handleSubmit(handleSaveBookAuthor)} autoComplete='off'>
 				<MultiFormWrapper title='Author'>
 					<InputComponent

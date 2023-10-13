@@ -11,7 +11,6 @@ import { useMultiForm } from '@/context/MultiFormContext';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { InputComponent } from '../InputComponent';
-import { StepFormComponentProps } from './BookTitleForm';
 import { MultiFormWrapper } from './MultiFormWrapper';
 import { FormStepsAction } from './StepsAction';
 
@@ -40,19 +39,11 @@ const bookGenresSchema = yup.object({
 		.required('genre is required'),
 }) as ObjectSchema<Partial<CreateBook>>;
 
-export const BookGenresForm = ({
-	formStep,
-	nextFormStep,
-}: StepFormComponentProps) => {
+export const BookGenresForm = () => {
 	const { formData, onSetFormData, step, onHandleBack, onHandleNext } =
 		useMultiForm();
 
-	const {
-		handleSubmit,
-		register,
-		control,
-		formState: { errors },
-	} = useForm<BookGenres>({
+	const { handleSubmit, control } = useForm<BookGenres>({
 		defaultValues: formData,
 		resolver: yupResolver(bookGenresSchema),
 	});

@@ -88,9 +88,7 @@ export const BookReviewForm = ({ database_id }: BookReviewForm) => {
 
 	const {
 		handleSubmit,
-		register,
 		control,
-		watch,
 		formState: { errors },
 	} = useForm<BookReview>({
 		defaultValues: formData,

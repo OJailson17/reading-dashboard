@@ -12,7 +12,6 @@ import { localStorageStrings } from '@/utils/constants/storageStrings';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { InputComponent } from '../InputComponent';
-import { StepFormComponentProps } from './BookTitleForm';
 import { MultiFormWrapper } from './MultiFormWrapper';
 import { FormStepsAction } from './StepsAction';
 
@@ -29,18 +28,13 @@ const bookStatusLanguageSchema = yup.object({
 		.required('language is required'),
 }) as ObjectSchema<Partial<CreateBook>>;
 
-export const BookStatusLanguageForm = ({
-	formStep,
-	nextFormStep,
-}: StepFormComponentProps) => {
+export const BookStatusLanguageForm = () => {
 	const { formData, onHandleNext, onHandleBack, step, onSetFormData } =
 		useMultiForm();
 
 	const {
 		handleSubmit,
-		register,
 		control,
-		watch,
 		formState: { errors },
 	} = useForm<BookStatusLanguage>({
 		defaultValues: formData,

@@ -3,7 +3,7 @@
 import { DatePicker } from 'antd';
 import { format } from 'date-fns';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useController, useForm } from 'react-hook-form';
 import { ToastContainer, toast } from 'react-toastify';
 import * as yup from 'yup';
@@ -53,14 +53,10 @@ const bookDatesSchema = yup.object({
 		}),
 }) as ObjectSchema<Partial<CreateBook>>;
 
-export const BookDatesFormComponent = ({
-	watchBookStatus,
-	database_id,
-}: BookDatesFormProps) => {
+export const BookDatesFormComponent = ({ database_id }: BookDatesFormProps) => {
 	const [rangedDatePicked, setRangeDatePicked] = useState<GetBookDatesProps>();
 
-	const { formData, onSetFormData, step, onHandleBack, onResetSteps } =
-		useMultiForm();
+	const { formData, step, onHandleBack } = useMultiForm();
 
 	const {
 		handleSubmit,

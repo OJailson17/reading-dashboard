@@ -10,7 +10,6 @@ import { useMultiForm } from '@/context/MultiFormContext';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { InputComponent } from '../InputComponent';
-import { StepFormComponentProps } from './BookTitleForm';
 import { MultiFormWrapper } from './MultiFormWrapper';
 import { FormStepsAction } from './StepsAction';
 
@@ -29,10 +28,7 @@ const bookPagesSchema = yup.object({
 		.typeError('current page needs to be a number'),
 }) as ObjectSchema<Partial<CreateBook>>;
 
-export const BookPagesForm = ({
-	formStep,
-	nextFormStep,
-}: StepFormComponentProps) => {
+export const BookPagesForm = () => {
 	const { formData, onSetFormData, onHandleNext, step, onHandleBack } =
 		useMultiForm();
 

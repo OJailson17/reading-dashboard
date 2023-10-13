@@ -10,7 +10,6 @@ import { useMultiForm } from '@/context/MultiFormContext';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { InputComponent } from '../InputComponent';
-import { StepFormComponentProps } from './BookTitleForm';
 import { MultiFormWrapper } from './MultiFormWrapper';
 import { FormStepsAction } from './StepsAction';
 
@@ -20,10 +19,7 @@ const bookCoverSchema = yup.object({
 	icon_url: yup.string().trim().optional(),
 }) as ObjectSchema<Partial<CreateBook>>;
 
-export const BookCoverForm = ({
-	formStep,
-	nextFormStep,
-}: StepFormComponentProps) => {
+export const BookCoverForm = () => {
 	const { onHandleNext, onSetFormData, formData, step, onHandleBack } =
 		useMultiForm();
 

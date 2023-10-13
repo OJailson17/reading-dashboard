@@ -24,10 +24,7 @@ const bookTitleSchema = yup.object({
 	name: yup.string().trim().required('name is required'),
 }) as ObjectSchema<Partial<CreateBook>>;
 
-export const BookTitleForm = ({
-	formStep,
-	nextFormStep,
-}: StepFormComponentProps) => {
+export const BookTitleForm = () => {
 	const { onHandleNext, onSetFormData, formData, step } = useMultiForm();
 
 	const {
