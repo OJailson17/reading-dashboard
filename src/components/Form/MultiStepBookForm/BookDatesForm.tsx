@@ -121,7 +121,6 @@ export const BookDatesFormComponent = ({ database_id }: BookDatesFormProps) => {
 
 			setTimeout(async () => {
 				return await Promise.resolve(router.push('/library'));
-				// alert('Created');
 			}, 2500);
 		} catch (error) {
 			toast('An error ocurred', {
@@ -135,8 +134,6 @@ export const BookDatesFormComponent = ({ database_id }: BookDatesFormProps) => {
 	};
 
 	const handleSaveDates = async (data: BookDates) => {
-		// setIsSubmitting(true);
-		// const { book } = onSetFormData(data);
 		const formattedBook = formatBookData({ bookData: data });
 
 		await handleCreateBook(formattedBook);
@@ -151,7 +148,7 @@ export const BookDatesFormComponent = ({ database_id }: BookDatesFormProps) => {
 			<ToastContainer />
 			<form autoComplete='off'>
 				{getBookStatus === 'To read' && (
-					<p>
+					<p style={{ marginTop: '2rem' }}>
 						Data filled, click on <strong>Create</strong> to confirm
 					</p>
 				)}
@@ -163,7 +160,6 @@ export const BookDatesFormComponent = ({ database_id }: BookDatesFormProps) => {
 							label='Started & Finished Dates'
 							error={errors.finished_date}
 							isCustom
-							// required
 						>
 							<DatePicker.RangePicker
 								placement='bottomRight'
