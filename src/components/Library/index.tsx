@@ -10,6 +10,7 @@ import { useBook } from '@/context/BookContext';
 import { useMultiForm } from '@/context/MultiFormContext';
 import { localStorageStrings } from '@/utils/constants/storageStrings';
 
+import { SearchBar } from '../SearchBar';
 import { BookSlideComponent } from './BookSlide';
 import {
 	BookSlide,
@@ -87,6 +88,15 @@ export const Library = ({
 		}
 	}, [onResetSteps, onSetFormData, onResetForm]);
 
+	const searchBook = () => {
+		const booksConcatenated = to_read_books?.concat(
+			reading_books,
+			finished_books,
+		);
+
+		console.log(booksConcatenated);
+	};
+
 	const items = [
 		{
 			key: '1',
@@ -126,6 +136,8 @@ export const Library = ({
 					<p className='library-component-title'>Library</p>
 
 					<div className='library-actions'>
+						<SearchBar />
+
 						<Dropdown menu={{ items }} overlayStyle={{ background: '#292738' }}>
 							<a onClick={e => e.preventDefault()}>More</a>
 						</Dropdown>

@@ -1,3 +1,4 @@
+// import { result } from 'fakeData';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
@@ -56,10 +57,15 @@ export default async function LibraryPage() {
 			// Assign books array with the api response
 			books = bookList;
 
+			console.log(JSON.stringify(bookList, null, 2));
+
 			// Call the filter function to fill the data
 			filterBooks();
 		})
 		.catch(err => console.log(err));
+
+	// books = result;
+	// filterBooks();
 
 	return (
 		<>

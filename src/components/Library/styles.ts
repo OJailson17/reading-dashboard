@@ -40,6 +40,11 @@ export const LibraryComponent = styled.div`
 			position: absolute;
 			right: 0;
 
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 1rem;
+
 			&:hover {
 				cursor: pointer;
 			}
