@@ -23,7 +23,7 @@ import {
 interface LibraryBooks {
 	reading_books: Book[];
 	finished_books: Book[];
-	to_read_books: Book[];
+	to_read_books?: Book[];
 }
 
 export const Library = ({
@@ -96,8 +96,8 @@ export const Library = ({
 	}, [onResetSteps, onSetFormData, onResetForm]);
 
 	const searchBook = (bookTitle: string) => {
-		const booksConcatenated = to_read_books?.concat(
-			reading_books,
+		const booksConcatenated = reading_books.concat(
+			to_read_books || [],
 			finished_books,
 		);
 
@@ -111,8 +111,6 @@ export const Library = ({
 		if (books_filtered >= booksConcatenated) return setFilteredBooks([]);
 
 		setFilteredBooks(() => books_filtered);
-
-		console.log(books_filtered);
 	};
 
 	const items = [
@@ -146,8 +144,6 @@ export const Library = ({
 			),
 		},
 	];
-
-	console.log({ filteredBooks });
 
 	return (
 		<LibraryComponentWrapper>
@@ -187,16 +183,18 @@ export const Library = ({
 					</div>
 				)}
 
-				{filteredBooks.length <= 0 && to_read_books.length > 0 && (
-					<div>
-						<p className='library-component-subtitle'>
-							TBR ({allBooks.to_read_books.length || 0})
-						</p>
-						<BookSlide>
-							<BookSlideComponent books={allBooks.to_read_books || []} />
-						</BookSlide>
-					</div>
-				)}
+				{filteredBooks.length <= 0 &&
+					to_read_books &&
+					to_read_books.length > 0 && (
+						<div>
+							<p className='library-component-subtitle'>
+								TBR ({allBooks.to_read_books?.length || 0})
+							</p>
+							<BookSlide>
+								<BookSlideComponent books={allBooks.to_read_books || []} />
+							</BookSlide>
+						</div>
+					)}
 
 				{filteredBooks.length <= 0 && allBooks.reading_books.length > 0 && (
 					<div>

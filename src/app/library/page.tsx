@@ -1,4 +1,4 @@
-import { result } from 'fakeData';
+// import { result } from 'fakeData';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
@@ -51,21 +51,19 @@ export default async function LibraryPage() {
 	};
 
 	// Fetch books data from api
-	// await fetch(`${process.env.API_BASE_URL}/book?db=${databaseId}`)
-	// 	.then(res => res.json())
-	// 	.then(bookList => {
-	// 		// Assign books array with the api response
-	// 		books = bookList;
+	await fetch(`${process.env.API_BASE_URL}/book?db=${databaseId}`)
+		.then(res => res.json())
+		.then(bookList => {
+			// Assign books array with the api response
+			books = bookList;
 
-	// 		console.log(JSON.stringify(bookList, null, 2));
+			// Call the filter function to fill the data
+			filterBooks();
+		})
+		.catch(err => console.log(err));
 
-	// 		// Call the filter function to fill the data
-	// 		filterBooks();
-	// 	})
-	// 	.catch(err => console.log(err));
-
-	books = result;
-	filterBooks();
+	// books = result;
+	// filterBooks();
 
 	return (
 		<>
