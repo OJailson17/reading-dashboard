@@ -2,6 +2,7 @@
 
 import { Dropdown } from 'antd';
 import React, { useEffect, useState } from 'react';
+import { AiOutlineSearch } from 'react-icons/ai';
 import { BiSolidBookAdd } from 'react-icons/bi';
 import { ImBooks, ImHome } from 'react-icons/im';
 
@@ -22,7 +23,7 @@ import {
 interface LibraryBooks {
 	reading_books: Book[];
 	finished_books: Book[];
-	to_read_books?: Book[];
+	to_read_books: Book[];
 }
 
 export const Library = ({
@@ -35,9 +36,15 @@ export const Library = ({
 		finished_books,
 		to_read_books,
 	});
+	const [isOpen, setIsOpen] = useState(false);
+	const [filteredBooks, setFilteredBooks] = useState<Book[]>([]);
 
 	const { books } = useBook();
 	const { onResetSteps, onSetFormData, onResetForm } = useMultiForm();
+
+	const toggleSearch = () => {
+		setIsOpen(!isOpen);
+	};
 
 	useEffect(() => {
 		const filterBooks = () => {
@@ -88,13 +95,24 @@ export const Library = ({
 		}
 	}, [onResetSteps, onSetFormData, onResetForm]);
 
-	const searchBook = () => {
+	const searchBook = (bookTitle: string) => {
 		const booksConcatenated = to_read_books?.concat(
 			reading_books,
 			finished_books,
 		);
 
-		console.log(booksConcatenated);
+		const books_filtered = booksConcatenated?.filter(
+			book =>
+				book.properties.Name.title[0].plain_text
+					.toLowerCase()
+					.includes(bookTitle.toLowerCase()) === true,
+		);
+
+		if (books_filtered >= booksConcatenated) return setFilteredBooks([]);
+
+		setFilteredBooks(() => books_filtered);
+
+		console.log(books_filtered);
 	};
 
 	const items = [
@@ -129,6 +147,8 @@ export const Library = ({
 		},
 	];
 
+	console.log({ filteredBooks });
+
 	return (
 		<LibraryComponentWrapper>
 			<LibraryComponent>
@@ -136,7 +156,9 @@ export const Library = ({
 					<p className='library-component-title'>Library</p>
 
 					<div className='library-actions'>
-						<SearchBar />
+						<div onClick={toggleSearch}>
+							<AiOutlineSearch />
+						</div>
 
 						<Dropdown menu={{ items }} overlayStyle={{ background: '#292738' }}>
 							<a onClick={e => e.preventDefault()}>More</a>
@@ -144,11 +166,31 @@ export const Library = ({
 					</div>
 				</header>
 
-				{to_read_books && (
+				<div className='search-bar'>
+					<SearchBar
+						isOpen={isOpen}
+						to_read_books={to_read_books}
+						reading_books={reading_books}
+						finished_books={finished_books}
+						onSearchBook={searchBook}
+					/>
+				</div>
+
+				{filteredBooks.length > 0 && (
 					<div>
 						<p className='library-component-subtitle'>
-							TBR (
-							{(allBooks.to_read_books && allBooks.to_read_books.length) || 0})
+							Search ({filteredBooks.length || 0})
+						</p>
+						<BookSlide>
+							<BookSlideComponent books={filteredBooks || []} />
+						</BookSlide>
+					</div>
+				)}
+
+				{filteredBooks.length <= 0 && to_read_books.length > 0 && (
+					<div>
+						<p className='library-component-subtitle'>
+							TBR ({allBooks.to_read_books.length || 0})
 						</p>
 						<BookSlide>
 							<BookSlideComponent books={allBooks.to_read_books || []} />
@@ -156,7 +198,7 @@ export const Library = ({
 					</div>
 				)}
 
-				{allBooks.reading_books.length > 0 && (
+				{filteredBooks.length <= 0 && allBooks.reading_books.length > 0 && (
 					<div>
 						<p className='library-component-subtitle'>
 							Reading ({allBooks.reading_books.length || 0})
@@ -167,14 +209,16 @@ export const Library = ({
 					</div>
 				)}
 
-				<div>
-					<p className='library-component-subtitle'>
-						Finished ({allBooks.finished_books.length || 0})
-					</p>
-					<BookSlide>
-						<BookSlideComponent books={allBooks.finished_books} />
-					</BookSlide>
-				</div>
+				{filteredBooks.length <= 0 && allBooks.finished_books.length > 0 && (
+					<div>
+						<p className='library-component-subtitle'>
+							Finished ({allBooks.finished_books.length || 0})
+						</p>
+						<BookSlide>
+							<BookSlideComponent books={allBooks.finished_books} />
+						</BookSlide>
+					</div>
+				)}
 			</LibraryComponent>
 		</LibraryComponentWrapper>
 	);

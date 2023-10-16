@@ -19,6 +19,7 @@ export const LibraryComponent = styled.div`
 	width: 100%;
 	padding: 2rem 1.5rem;
 	margin: 0 auto;
+	position: relative;
 
 	background-color: #363447;
 	border-radius: 16px;
@@ -49,6 +50,15 @@ export const LibraryComponent = styled.div`
 				cursor: pointer;
 			}
 		}
+	}
+
+	.search-bar {
+		width: 100%;
+		margin-top: 1rem;
+
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
 	}
 
 	.library-component-subtitle {

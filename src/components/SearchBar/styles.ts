@@ -11,34 +11,37 @@ const fadeIn = keyframes`
   }
 `;
 
-export const SearchBarContainer = styled.div`
-	position: relative;
-	width: 200px;
-	background: red;
-`;
-
-export const SearchIcon = styled.div`
-	position: absolute;
-	top: 50%;
-	right: 0;
-	transform: translateY(-50%);
-	cursor: pointer;
-	z-index: 2;
-`;
-
-type SearchInputProps = {
+type SearchProps = {
 	isOpen: boolean;
 };
 
-export const SearchInput = styled.input<SearchInputProps>`
+export const SearchBarContainer = styled.form<SearchProps>`
+	position: relative;
+	width: 100%;
+	max-width: 300px;
+	min-height: 30px;
+
+	& div:last-child {
+		display: ${props => (props.isOpen ? 'block' : 'none')};
+
+		width: 100%;
+		height: 1px;
+		background: #fff;
+
+		position: absolute;
+		bottom: 0;
+
+		animation: ${fadeIn} 0.3s ease;
+	}
+`;
+
+export const SearchInput = styled.input<SearchProps>`
 	background: transparent;
 	color: white;
 	padding: 8px 0 8px 8px;
 	width: 100%;
-	border: 1px solid #ccc;
-	border-top: none;
-	border-left: none;
-	border-right: none;
+	border: none;
+	/* border-bottom: 1px solid white; */
 	border-radius: 5px;
 	outline: none;
 	position: absolute;
@@ -48,4 +51,8 @@ export const SearchInput = styled.input<SearchInputProps>`
 	z-index: 1;
 	animation: ${fadeIn} 0.3s ease;
 	display: ${props => (props.isOpen ? 'block' : 'none')};
+
+	&::placeholder {
+		color: #494949;
+	}
 `;
