@@ -3,6 +3,8 @@
 import Link from 'next/link';
 import styled from 'styled-components';
 
+import { device, size } from '@/styles/endpoints';
+
 export const LibraryComponentWrapper = styled.div`
 	width: 90%;
 	margin: 0 auto;
@@ -48,6 +50,20 @@ export const LibraryComponent = styled.div`
 
 			&:hover {
 				cursor: pointer;
+			}
+
+			@media ${device.mobileS} and (max-width: ${size.tablet}) {
+				gap: 0.5rem;
+
+				&:hover {
+					cursor: default;
+				}
+			}
+
+			@media (max-width: 319px) {
+				& div:first-child {
+					display: none;
+				}
 			}
 		}
 	}

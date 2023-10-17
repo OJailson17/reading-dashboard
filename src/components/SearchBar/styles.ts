@@ -33,6 +33,10 @@ export const SearchBarContainer = styled.form<SearchProps>`
 
 		animation: ${fadeIn} 0.3s ease;
 	}
+
+	&:focus-within div:nth-child(2) {
+		background-color: #1677ff;
+	}
 `;
 
 export const SearchInput = styled.input<SearchProps>`
@@ -41,18 +45,16 @@ export const SearchInput = styled.input<SearchProps>`
 	padding: 8px 0 8px 8px;
 	width: 100%;
 	border: none;
-	/* border-bottom: 1px solid white; */
 	border-radius: 5px;
 	outline: none;
 	position: absolute;
 	top: 50%;
-	/* right: 10px; */
 	transform: translateY(-50%);
 	z-index: 1;
 	animation: ${fadeIn} 0.3s ease;
 	display: ${props => (props.isOpen ? 'block' : 'none')};
 
 	&::placeholder {
-		color: #494949;
+		color: #c4c4c4;
 	}
 `;

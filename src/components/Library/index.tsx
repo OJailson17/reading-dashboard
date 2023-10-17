@@ -95,7 +95,7 @@ export const Library = ({
 		}
 	}, [onResetSteps, onSetFormData, onResetForm]);
 
-	const searchBook = (bookTitle: string) => {
+	const handleSearchBook = (bookTitle: string) => {
 		const booksConcatenated = reading_books.concat(
 			to_read_books || [],
 			finished_books,
@@ -168,7 +168,7 @@ export const Library = ({
 						to_read_books={to_read_books}
 						reading_books={reading_books}
 						finished_books={finished_books}
-						onSearchBook={searchBook}
+						onSearchBook={handleSearchBook}
 					/>
 				</div>
 

@@ -16,12 +16,14 @@ interface SearchBarProps {
 	onSearchBook: (bookTitle: string) => void;
 }
 
+interface SearchBookProps {
+	'book-title': string;
+}
+
 export const SearchBar = (props: SearchBarProps) => {
-	const { register, handleSubmit } = useForm();
+	const { register, handleSubmit } = useForm<SearchBookProps>();
 
-	const handleSearchBook = (data: any) => {
-		console.log(data);
-
+	const handleSearchBook = (data: SearchBookProps) => {
 		props.onSearchBook(data['book-title']);
 	};
 
@@ -29,6 +31,7 @@ export const SearchBar = (props: SearchBarProps) => {
 		<SearchBarContainer
 			isOpen={props.isOpen}
 			onSubmit={handleSubmit(handleSearchBook)}
+			autoComplete='off'
 		>
 			<div>
 				<SearchInput
