@@ -1,3 +1,4 @@
+// import { result } from 'fakeData';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
@@ -60,6 +61,9 @@ export default async function LibraryPage() {
 			filterBooks();
 		})
 		.catch(err => console.log(err));
+
+	// books = result;
+	// filterBooks();
 
 	return (
 		<>

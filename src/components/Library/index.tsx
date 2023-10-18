@@ -149,13 +149,13 @@ export const Library = ({
 		<LibraryComponentWrapper>
 			<LibraryComponent>
 				<header>
+					<div onClick={toggleSearch}>
+						<AiOutlineSearch size={18} />
+					</div>
+
 					<p className='library-component-title'>Library</p>
 
 					<div className='library-actions'>
-						<div onClick={toggleSearch}>
-							<AiOutlineSearch />
-						</div>
-
 						<Dropdown menu={{ items }} overlayStyle={{ background: '#292738' }}>
 							<a onClick={e => e.preventDefault()}>More</a>
 						</Dropdown>

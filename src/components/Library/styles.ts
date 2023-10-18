@@ -32,7 +32,7 @@ export const LibraryComponent = styled.div`
 		position: relative;
 		display: flex;
 		align-items: center;
-		justify-content: center;
+		justify-content: space-between;
 
 		.library-component-title {
 			font-size: 1.5rem;
@@ -40,13 +40,9 @@ export const LibraryComponent = styled.div`
 		}
 
 		.library-actions {
-			position: absolute;
-			right: 0;
-
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			gap: 1rem;
 
 			&:hover {
 				cursor: pointer;
@@ -59,11 +55,11 @@ export const LibraryComponent = styled.div`
 					cursor: default;
 				}
 			}
+		}
 
-			@media (max-width: 319px) {
-				& div:first-child {
-					display: none;
-				}
+		@media ${device.tablet} {
+			& div:first-child {
+				cursor: pointer;
 			}
 		}
 	}
@@ -74,7 +70,6 @@ export const LibraryComponent = styled.div`
 
 		display: flex;
 		align-items: center;
-		justify-content: flex-end;
 	}
 
 	.library-component-subtitle {

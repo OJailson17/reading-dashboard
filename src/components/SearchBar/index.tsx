@@ -1,8 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
-import { AiOutlineSearch } from 'react-icons/ai';
 
 import { Book } from '@/@types/bookTypes';
 
@@ -21,11 +20,17 @@ interface SearchBookProps {
 }
 
 export const SearchBar = (props: SearchBarProps) => {
-	const { register, handleSubmit } = useForm<SearchBookProps>();
+	const { register, handleSubmit, setFocus } = useForm<SearchBookProps>();
 
 	const handleSearchBook = (data: SearchBookProps) => {
-		props.onSearchBook(data['book-title']);
+		props.onSearchBook(data['book-title'] || '');
 	};
+
+	useEffect(() => {
+		if (props.isOpen) {
+			setFocus('book-title');
+		}
+	}, [props.isOpen, setFocus]);
 
 	return (
 		<SearchBarContainer
