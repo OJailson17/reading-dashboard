@@ -1,6 +1,6 @@
 {
 	"name": "reading-dashboard",
-	"version": "1.5.3",
+	"version": "1.5.4",
 	"author": "Jailson de Oliveira",
 	"description": "Book Management application. The application is used to manage the reading progress of the user",
 	"repository": "https://github.com/OJailson17/reading-dashboard",
