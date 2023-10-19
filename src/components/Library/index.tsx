@@ -183,6 +183,17 @@ export const Library = ({
 					</div>
 				)}
 
+				{filteredBooks.length <= 0 && allBooks.reading_books.length > 0 && (
+					<div>
+						<p className='library-component-subtitle'>
+							Reading ({allBooks.reading_books.length || 0})
+						</p>
+						<BookSlide>
+							<BookSlideComponent books={allBooks.reading_books} />
+						</BookSlide>
+					</div>
+				)}
+
 				{filteredBooks.length <= 0 &&
 					to_read_books &&
 					to_read_books.length > 0 && (
@@ -195,17 +206,6 @@ export const Library = ({
 							</BookSlide>
 						</div>
 					)}
-
-				{filteredBooks.length <= 0 && allBooks.reading_books.length > 0 && (
-					<div>
-						<p className='library-component-subtitle'>
-							Reading ({allBooks.reading_books.length || 0})
-						</p>
-						<BookSlide>
-							<BookSlideComponent books={allBooks.reading_books} />
-						</BookSlide>
-					</div>
-				)}
 
 				{filteredBooks.length <= 0 && allBooks.finished_books.length > 0 && (
 					<div>
