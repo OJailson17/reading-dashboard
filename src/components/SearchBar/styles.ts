@@ -50,7 +50,6 @@ export const SearchInput = styled.input<SearchProps>`
 	position: absolute;
 	top: 50%;
 	transform: translateY(-50%);
-	z-index: 1;
 	animation: ${fadeIn} 0.3s ease;
 	display: ${props => (props.isOpen ? 'block' : 'none')};
 
