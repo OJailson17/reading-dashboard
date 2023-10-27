@@ -3,13 +3,16 @@
 
 import { useRouter } from 'next/navigation';
 import { parseCookies } from 'nookies';
-import { SyntheticEvent, useEffect, useRef, useState } from 'react';
+import { SyntheticEvent, useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { Rings } from 'react-loading-icons';
 import { toast, ToastContainer } from 'react-toastify';
+import * as yup from 'yup';
 
 import { Book, ReadingStatus } from '@/@types/bookTypes';
 import { useBook } from '@/context/BookContext';
 import { api } from '@/lib/axios';
+import { yupResolver } from '@hookform/resolvers/yup';
 import bookCoverPlaceholder from '@public/book-cover-placeholder.png';
 import * as Dialog from '@radix-ui/react-dialog';
 
@@ -38,11 +41,35 @@ interface UpdateStatusProps {
 	status: 'reading' | 'finished' | 'tbr';
 }
 
+interface FormProps {
+	current_page: number;
+}
+
+const formSchema = yup.object({
+	current_page: yup
+		.number()
+		.default(0)
+		.required()
+		.typeError('it needs to be a number'),
+});
+
 export const BookDialog = ({ book }: BookDialogProps) => {
-	const [currentPage, setCurrentPage] = useState<number>(-1);
 	const [showSaveButton, setShowSaveButton] = useState(false);
 	const [isPageInputDisable, setIsPageInputDisable] = useState(true);
 	const [readingStatus, setReadingStatus] = useState<ReadingStatus>('To read');
+
+	const {
+		register,
+		handleSubmit,
+		setValue,
+		setFocus,
+		formState: { errors },
+	} = useForm<FormProps>({
+		resolver: yupResolver(formSchema),
+		defaultValues: {
+			current_page: 0,
+		},
+	});
 
 	const router = useRouter();
 
@@ -53,14 +80,6 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 	const { '@reading_dashboard:token': token } = parseCookies();
 	// Get database id from cookies
 	const { '@reading_dashboard:database_id': databaseId } = parseCookies();
-
-	const currentPageInputRef = useRef<HTMLInputElement>(null);
-
-	const handleAddFocusToInput = () => {
-		if (currentPageInputRef.current) {
-			currentPageInputRef.current.focus();
-		}
-	};
 
 	const updateStatus = async ({ current_page, status }: UpdateStatusProps) => {
 		try {
@@ -79,7 +98,7 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 	};
 
 	// Update current page value
-	const updatePages = async () => {
+	const updatePages = async ({ current_page }: FormProps) => {
 		// Disable input
 		setIsPageInputDisable(true);
 
@@ -103,7 +122,7 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 		const totalPages = book?.properties['Qtd. Pages'].number;
 
 		// Update the status to finish
-		if (totalPages && currentPage >= totalPages) {
+		if (totalPages && current_page >= totalPages) {
 			const newCurrentPage = totalPages;
 
 			await updateStatus({
@@ -124,7 +143,7 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 			// Make the api call to passing the new value
 			const response = await api
 				.patch('/book/update/page', {
-					current_page: currentPage,
+					current_page: current_page,
 					page_id: book?.id,
 				})
 				.finally(() => {
@@ -132,11 +151,11 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 					setShowSaveButton(false);
 				});
 
-			// Add type to the response result data
+			// 	// Add type to the response result data
 			const updatedBook = response.data as Book;
 
 			// Set current page with the updated value
-			setCurrentPage(updatedBook.properties['Current Page'].number);
+			setValue('current_page', updatedBook.properties['Current Page'].number);
 
 			// Update the books data
 			await onGetBooks({ databaseId, token });
@@ -149,7 +168,7 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 
 	// Reset states after close modal
 	const onCloseModal = () => {
-		setCurrentPage(-1);
+		setValue('current_page', 0);
 		setShowSaveButton(false);
 		setIsPageInputDisable(true);
 	};
@@ -208,20 +227,20 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 	useEffect(() => {
 		if (!isPageInputDisable) {
 			setShowSaveButton(true);
-			handleAddFocusToInput();
+			setFocus('current_page');
 		}
-	}, [isPageInputDisable]);
+	}, [isPageInputDisable, setFocus]);
 
 	// Set the current page api value to state
 	useEffect(() => {
 		if (book?.properties['Current Page'].number) {
-			setCurrentPage(Number(book?.properties['Current Page'].number));
+			setValue('current_page', Number(book?.properties['Current Page'].number));
 		}
 
 		if (book?.properties.Status.select.name) {
 			setReadingStatus(book.properties.Status.select.name);
 		}
-	}, [book]);
+	}, [book, setValue]);
 
 	return (
 		<>
@@ -335,26 +354,26 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 
 							{/* Current Page */}
 							{readingStatus === 'Reading' && (
-								<div>
+								<form onSubmit={handleSubmit(updatePages)}>
 									<span>Current Page:</span>
 
 									{/* If the state value is less than 0, show default value */}
 									<input
-										type='number'
-										value={
-											currentPage < 0
-												? book?.properties['Current Page'].number || 0
-												: currentPage
-										}
-										onChange={e => setCurrentPage(Number(e.target.value))}
 										disabled={isPageInputDisable}
-										ref={currentPageInputRef}
+										{...register('current_page', {
+											valueAsNumber: true,
+										})}
+										placeholder={String(
+											book?.properties['Current Page'].number,
+										)}
+										className={errors.current_page?.message ? 'error' : ''}
 									/>
 
 									{/* Show save or edit button depending on the showSaveButton state */}
 									{!showSaveButton && (
 										<button
 											className='book-btn'
+											type='button'
 											onClick={() => {
 												setIsPageInputDisable(false);
 											}}
@@ -366,7 +385,7 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 									{showSaveButton && (
 										<button
 											className='book-btn'
-											onClick={updatePages}
+											type='submit'
 											disabled={isPageInputDisable}
 										>
 											{isPageInputDisable ? (
@@ -376,7 +395,7 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 											)}
 										</button>
 									)}
-								</div>
+								</form>
 							)}
 
 							{/* Goodreads review */}

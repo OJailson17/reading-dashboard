@@ -117,7 +117,8 @@ export const DialogContentBookInfo = styled.div`
 	flex-direction: column;
 	gap: 0.8rem;
 
-	div {
+	div,
+	form {
 		width: 100%;
 		display: flex;
 		gap: 0.5rem;
@@ -167,6 +168,10 @@ export const DialogContentBookInfo = styled.div`
 		&[type='number'] {
 			-moz-appearance: textfield;
 		}
+	}
+
+	input.error {
+		border: 1px solid red;
 	}
 
 	.book-btn {
