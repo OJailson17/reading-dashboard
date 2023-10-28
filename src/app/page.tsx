@@ -74,9 +74,6 @@ export default async function Home() {
 		})
 		.catch(err => console.log(err));
 
-	// books = result;
-	// filterBooks();
-
 	return (
 		<>
 			<header>

@@ -3,7 +3,7 @@
 
 import { useRouter } from 'next/navigation';
 import { parseCookies } from 'nookies';
-import { SyntheticEvent, useEffect, useState } from 'react';
+import { SyntheticEvent, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Rings } from 'react-loading-icons';
 import { toast, ToastContainer } from 'react-toastify';
@@ -168,7 +168,9 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 
 	// Reset states after close modal
 	const onCloseModal = () => {
-		setValue('current_page', 0);
+		setValue('current_page', book?.properties['Current Page'].number || 0, {
+			shouldValidate: true,
+		});
 		setShowSaveButton(false);
 		setIsPageInputDisable(true);
 	};
@@ -247,7 +249,17 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 			<ToastContainer />
 			<Dialog.Portal>
 				<DialogOverlay />
-				<DialogContent>
+				{/* <div
+					className='overlay-content'
+					style={{
+						width: '100%',
+						height: '100%',
+						background: 'red',
+						position: 'absolute',
+						inset: '0',
+					}}
+				> */}
+				<DialogContent onInteractOutside={onCloseModal}>
 					<DialogTitle>{book?.properties.Name.title[0].plain_text}</DialogTitle>
 					<DialogContentContainer>
 						{/* Book Cover */}
@@ -354,7 +366,7 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 
 							{/* Current Page */}
 							{readingStatus === 'Reading' && (
-								<form onSubmit={handleSubmit(updatePages)}>
+								<form onSubmit={handleSubmit(updatePages)} autoComplete='off'>
 									<span>Current Page:</span>
 
 									{/* If the state value is less than 0, show default value */}
@@ -411,6 +423,7 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 					</DialogContentContainer>
 					<DialogClose onClick={onCloseModal}>Save & Close</DialogClose>
 				</DialogContent>
+				{/* </div> */}
 			</Dialog.Portal>
 		</>
 	);
