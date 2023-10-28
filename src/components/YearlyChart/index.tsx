@@ -111,6 +111,13 @@ export const YearlyChart = ({ finished_books }: YearlyChartProps) => {
 		quantity: monthsBooksQtd[label].quantity,
 	}));
 
+	// Remove warnings logs from the chart
+	const error = console.error;
+	console.error = (...args: any) => {
+		if (/defaultProps/.test(args[0])) return;
+		error(...args);
+	};
+
 	return (
 		<YearlyChartWrapper>
 			<ChartTitle>Books Read by Month</ChartTitle>

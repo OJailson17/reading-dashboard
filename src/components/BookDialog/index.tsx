@@ -291,7 +291,7 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 							{/* Status */}
 							<div>
 								<span>Status:</span>
-								<Dialog.Root>
+								<Dialog.Root key={Math.random() * 39899}>
 									<Dialog.Trigger
 										className={`status ${
 											readingStatus === 'To read' ? 'tbr' : readingStatus

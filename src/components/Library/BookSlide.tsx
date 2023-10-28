@@ -47,7 +47,7 @@ export const BookSlideComponent = ({ books }: BookSlideComponentProps) => {
 	};
 
 	return (
-		<Dialog.Root>
+		<Dialog.Root key={Math.random() * 39899}>
 			{books.map((book, i) => (
 				<Dialog.Trigger
 					key={book.id}

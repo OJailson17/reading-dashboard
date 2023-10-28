@@ -1,4 +1,3 @@
-// import { result } from 'fakeData';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
