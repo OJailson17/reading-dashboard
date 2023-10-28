@@ -379,6 +379,8 @@ export const BookDialog = ({ book }: BookDialogProps) => {
 											book?.properties['Current Page'].number,
 										)}
 										className={errors.current_page?.message ? 'error' : ''}
+										// pattern='[0-9]*'
+										inputMode='numeric'
 									/>
 
 									{/* Show save or edit button depending on the showSaveButton state */}
