@@ -25,7 +25,7 @@ export const FormStepsAction = ({
 			)}
 			<MultiStepActionButton type='button' onClick={onHandleSubmit}>
 				{!isLoading ? (
-					step >= 8 ? (
+					step >= 9 ? (
 						'Create'
 					) : (
 						'Next'

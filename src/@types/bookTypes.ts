@@ -78,4 +78,5 @@ export type CreateBook = {
 	current_page: number;
 	goodreads_review: string;
 	book_review: string;
+	book_price?: string | null;
 };

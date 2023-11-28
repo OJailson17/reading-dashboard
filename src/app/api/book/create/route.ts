@@ -21,6 +21,7 @@ type CreateBookDTO = {
 	started_date?: string;
 	finished_date?: string;
 	book_review?: string;
+	book_price?: string;
 };
 
 export async function POST(req: NextRequest, res: NextResponse) {
@@ -129,6 +130,10 @@ export async function POST(req: NextRequest, res: NextResponse) {
 							id: `${process.env.NOTION_READING_SUMMARY_ID}`,
 						},
 					],
+				},
+				'Book Price': {
+					type: 'number',
+					number: Number(createBookBody.book_price) || null,
 				},
 			},
 		});

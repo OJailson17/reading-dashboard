@@ -26,6 +26,7 @@ export const formatBookData = ({ bookData }: FormatDataProps) => {
 		book_review: bookData?.book_review || '',
 		started_date: bookData?.started_date,
 		finished_date: bookData?.finished_date,
+		book_price: bookData?.book_price || null,
 	};
 
 	if (

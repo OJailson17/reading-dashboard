@@ -10,6 +10,7 @@ import { BookCoverForm } from './BookCoverForm';
 import { BookDatesForm } from './BookDatesForm';
 import { BookGenresForm } from './BookGenresForm';
 import { BookPagesForm } from './BookPagesForm';
+import { BookPriceForm } from './BookPriceForm';
 import { BookReviewForm } from './BookReviewForm';
 import { BookStatusLanguageForm } from './BookStatusLanguageForm';
 import { BookTitleForm } from './BookTitleForm';
@@ -39,6 +40,8 @@ export const MultiStepBookForm = ({ database_id }: MultiStepBookFormProps) => {
 			case 7:
 				return <BookReviewForm database_id={database_id} />;
 			case 8:
+				return <BookPriceForm />;
+			case 9:
 				return <BookDatesForm database_id={database_id} />;
 			default:
 				return null;
@@ -50,7 +53,7 @@ export const MultiStepBookForm = ({ database_id }: MultiStepBookFormProps) => {
 		onResetSteps();
 	};
 
-	const totalNumberOfSteps = 8;
+	const totalNumberOfSteps = 9;
 
 	return (
 		<>
