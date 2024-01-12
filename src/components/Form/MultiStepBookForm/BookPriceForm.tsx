@@ -1,10 +1,11 @@
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
 import { CreateBook } from '@/@types/bookTypes';
 import { useBook } from '@/context/BookContext';
 import { useMultiForm } from '@/context/MultiFormContext';
 import { formatBookData } from '@/utils/functions/formatBookData';
+import { formatPrice } from '@/utils/functions/formatPrice';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { InputComponent } from '../InputComponent';
@@ -24,6 +25,7 @@ export const BookPriceForm = () => {
 	const {
 		handleSubmit,
 		register,
+		control,
 		formState: { errors },
 	} = useForm<BookPrice>({
 		defaultValues: formData,
@@ -41,15 +43,28 @@ export const BookPriceForm = () => {
 			<form onSubmit={handleSubmit(handleSaveBookPrice)} autoComplete='off'>
 				<MultiFormWrapper title='Book Price'>
 					<InputComponent
-						{...register('book_price', {
-							required: 'Campo obrigatório',
-						})}
 						error={errors.book_price}
 						label=''
 						id='book-price'
-						placeholder=''
-						autoFocus
-					/>
+						isCustom
+					>
+						<Controller
+							control={control}
+							name='book_price'
+							render={({ field, formState: { errors } }) => (
+								<>
+									<input
+										onChange={e => {
+											e.target.value = formatPrice(e.target.value);
+											field.onChange(e);
+										}}
+										defaultValue={formatPrice('0')}
+										autoFocus
+									/>
+								</>
+							)}
+						/>
+					</InputComponent>
 				</MultiFormWrapper>
 
 				<FormStepsAction

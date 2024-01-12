@@ -16,6 +16,7 @@ import { useMultiForm } from '@/context/MultiFormContext';
 import { api } from '@/lib/axios';
 import { localStorageStrings } from '@/utils/constants/storageStrings';
 import { formatBookData } from '@/utils/functions/formatBookData';
+import { removePriceFormat } from '@/utils/functions/formatPrice';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { InputComponent } from '../InputComponent';
@@ -116,7 +117,10 @@ export const BookDatesFormComponent = ({ database_id }: BookDatesFormProps) => {
 	const handleSaveDates = async (data: BookDates) => {
 		const formattedBook = formatBookData({ bookData: data });
 
-		// console.log(formattedBook);
+		formattedBook.book_price = removePriceFormat(
+			formattedBook.book_price || '0',
+		);
+
 		await handleCreateBook(formattedBook);
 	};
 
