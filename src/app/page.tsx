@@ -23,8 +23,6 @@ export default async function Home() {
 		redirect('/login');
 	}
 
-	// const { books, onGetBooks } = useBook();
-
 	let books: Book[] = [];
 
 	let total_books = 0;
@@ -34,7 +32,6 @@ export default async function Home() {
 	let allBooksReadAndReading: Book[] = [];
 
 	const filterBooks = () => {
-		// if (books.length > 0) {
 		// Get the amount of total books
 		total_books = Number(books?.length);
 
@@ -65,8 +62,6 @@ export default async function Home() {
 		.then(bookList => {
 			// Assign books array with the api response
 			books = bookList;
-
-			// console.log(bookList[0].properties);
 
 			// Call the filter function to fill the data
 			filterBooks();
@@ -106,9 +101,6 @@ export default async function Home() {
 
 				<Footer />
 			</>
-			{/* ) : (
-				<LoadingScreen />
-			)} */}
 		</>
 	);
 }

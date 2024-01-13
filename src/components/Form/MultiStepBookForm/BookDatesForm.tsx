@@ -2,19 +2,19 @@
 
 import { DatePicker } from 'antd';
 import { format } from 'date-fns';
-import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { useController, useForm } from 'react-hook-form';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import * as yup from 'yup';
 import 'react-toastify/dist/ReactToastify.css';
 import { ObjectSchema } from 'yup';
 
 import { CreateBook } from '@/@types/bookTypes';
+import { useBook } from '@/context/BookContext';
 import { useMultiForm } from '@/context/MultiFormContext';
-import { api } from '@/lib/axios';
 import { localStorageStrings } from '@/utils/constants/storageStrings';
 import { formatBookData } from '@/utils/functions/formatBookData';
+import { removePriceFormat } from '@/utils/functions/formatPrice';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { InputComponent } from '../InputComponent';
@@ -56,7 +56,9 @@ const bookDatesSchema = yup.object({
 export const BookDatesFormComponent = ({ database_id }: BookDatesFormProps) => {
 	const [rangedDatePicked, setRangeDatePicked] = useState<GetBookDatesProps>();
 
-	const { formData, step, onHandleBack } = useMultiForm();
+	const { formData, step, onHandleBack, onSetFormData, onHandleNext } =
+		useMultiForm();
+	const { onCreateBook } = useBook();
 
 	const {
 		handleSubmit,
@@ -101,40 +103,21 @@ export const BookDatesFormComponent = ({ database_id }: BookDatesFormProps) => {
 		});
 	};
 
-	const router = useRouter();
+	// const router = useRouter();
 
 	const handleCreateBook = async (book: Partial<CreateBook>) => {
-		try {
-			await api.post(`/book/create?db=${database_id}`, book, {
-				timeout: 30000,
-				timeoutErrorMessage: 'It took too long, try again.',
-			});
-
-			toast('Book Created', {
-				position: 'top-center',
-				autoClose: 1500,
-				theme: 'dark',
-				type: 'success',
-			});
-
-			localStorage.setItem(localStorageStrings.CREATE_BOOK_SOURCE, 'true');
-
-			setTimeout(async () => {
-				return await Promise.resolve(router.push('/library'));
-			}, 2500);
-		} catch (error) {
-			toast('An error ocurred', {
-				position: 'top-center',
-				autoClose: 1500,
-				theme: 'dark',
-				type: 'error',
-			});
-			console.log({ error });
-		}
+		await onCreateBook({
+			book,
+			database_id,
+		});
 	};
 
 	const handleSaveDates = async (data: BookDates) => {
 		const formattedBook = formatBookData({ bookData: data });
+
+		formattedBook.book_price = removePriceFormat(
+			formattedBook.book_price || '0',
+		);
 
 		await handleCreateBook(formattedBook);
 	};

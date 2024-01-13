@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import React, {
 	createContext,
 	ReactNode,
@@ -7,9 +8,11 @@ import React, {
 	useContext,
 	useState,
 } from 'react';
+import { toast } from 'react-toastify';
 
-import { Book } from '@/@types/bookTypes';
+import { Book, CreateBook } from '@/@types/bookTypes';
 import { api } from '@/lib/axios';
+import { localStorageStrings } from '@/utils/constants/storageStrings';
 
 type BookProviderProps = {
 	children: ReactNode;
@@ -20,17 +23,23 @@ type onGetBooksProps = {
 	token: string;
 };
 
+type onCreateBookProps = {
+	database_id: string;
+	book: Partial<CreateBook>;
+};
+
 type BookContextProps = {
 	books: Book[] | null;
 	onGetBooks: (props: onGetBooksProps) => Promise<void>;
+	onCreateBook: (props: onCreateBookProps) => Promise<void>;
 };
-
-type onCreateBookProps = {};
 
 export const BookContext = createContext({} as BookContextProps);
 
 export const BookContextProvider = ({ children }: BookProviderProps) => {
 	const [books, setBooks] = useState<Book[] | null>([]);
+
+	const router = useRouter();
 
 	// Make api call to get books data
 	const getBooks = useCallback(async (databaseId: string) => {
@@ -54,19 +63,38 @@ export const BookContextProvider = ({ children }: BookProviderProps) => {
 		}
 	};
 
-	// const onCreateBook = async () => {
-	// 	try {
-	// 		await api.post(`/book/create?db=${database_id}`, createBookBody, {
-	// 			timeout: 15000,
-	// 			timeoutErrorMessage: 'It took too long, try again.',
-	// 		});
-	// 	} catch (error) {
+	const onCreateBook = async ({ book, database_id }: onCreateBookProps) => {
+		try {
+			await api.post(`/book/create?db=${database_id}`, book, {
+				timeout: 30000,
+				timeoutErrorMessage: 'It took too long, try again.',
+			});
 
-	// 	}
-	// }
+			toast('Book Created', {
+				position: 'top-center',
+				autoClose: 1500,
+				theme: 'dark',
+				type: 'success',
+			});
+
+			localStorage.setItem(localStorageStrings.CREATE_BOOK_SOURCE, 'true');
+
+			setTimeout(async () => {
+				return await Promise.resolve(router.push('/library'));
+			}, 2500);
+		} catch (error) {
+			toast('An error ocurred', {
+				position: 'top-center',
+				autoClose: 1500,
+				theme: 'dark',
+				type: 'error',
+			});
+			console.log({ error });
+		}
+	};
 
 	return (
-		<BookContext.Provider value={{ books, onGetBooks }}>
+		<BookContext.Provider value={{ books, onGetBooks, onCreateBook }}>
 			{children}
 		</BookContext.Provider>
 	);

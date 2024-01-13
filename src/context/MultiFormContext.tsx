@@ -43,6 +43,7 @@ export default function MultiFormProvider({
 	const onResetForm = () => {
 		onSetFormData({
 			author: '',
+			book_price: '',
 			book_review: '',
 			current_page: 0,
 			finished_date: undefined,

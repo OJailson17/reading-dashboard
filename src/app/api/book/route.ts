@@ -18,10 +18,20 @@ export async function GET(req: NextRequest, res: NextResponse) {
 		const response = await notion.databases.query({
 			database_id: databaseIdCookie || '',
 			filter: {
-				property: 'Status',
-				select: {
-					does_not_equal: 'Abandoned',
-				},
+				and: [
+					{
+						property: 'Status',
+						select: {
+							does_not_equal: 'Abandoned',
+						},
+					},
+					{
+						property: 'Is From This Year',
+						checkbox: {
+							equals: true,
+						},
+					},
+				],
 			},
 			sorts: [
 				{
