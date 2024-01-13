@@ -2,9 +2,7 @@ import { Controller, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
 import { CreateBook } from '@/@types/bookTypes';
-import { useBook } from '@/context/BookContext';
 import { useMultiForm } from '@/context/MultiFormContext';
-import { formatBookData } from '@/utils/functions/formatBookData';
 import { formatPrice } from '@/utils/functions/formatPrice';
 import { yupResolver } from '@hookform/resolvers/yup';
 
