@@ -22,7 +22,6 @@ export const BookPriceForm = () => {
 
 	const {
 		handleSubmit,
-		register,
 		control,
 		formState: { errors },
 	} = useForm<BookPrice>({
@@ -49,14 +48,14 @@ export const BookPriceForm = () => {
 						<Controller
 							control={control}
 							name='book_price'
-							render={({ field, formState: { errors } }) => (
+							render={({ field }) => (
 								<>
 									<input
 										onChange={e => {
 											e.target.value = formatPrice(e.target.value);
 											field.onChange(e);
 										}}
-										defaultValue={formatPrice('0')}
+										defaultValue={formatPrice(field.value || '0')}
 										autoFocus
 									/>
 								</>
