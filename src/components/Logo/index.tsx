@@ -1,4 +1,4 @@
-import { aclonica } from '@/app/layout';
+import { aclonica } from '@/utils/fonts';
 import Link from 'next/link';
 
 export const Logo = () => {

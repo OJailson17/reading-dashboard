@@ -1,5 +1,5 @@
 import { Logo } from '@/components/Logo';
-import { aclonica } from '../layout';
+import { aclonica } from '@/utils/fonts';
 
 export default function Login() {
 	return (
