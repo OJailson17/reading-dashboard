@@ -2,7 +2,7 @@ import { Logo } from '../Logo';
 
 export const Header = () => {
 	return (
-		<header className='w-full px-24 mt-14 flex items-center justify-between'>
+		<header className='w-full mt-14 flex items-center justify-between'>
 			<Logo />
 
 			<div className='w-full max-w-56 flex items-center justify-center gap-4 bg'>

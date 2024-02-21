@@ -4,7 +4,7 @@ import { aclonica } from '../layout';
 export default function Login() {
 	return (
 		<>
-			<header className='w-full px-24 mt-14 '>
+			<header className='w-full mt-14'>
 				<Logo />
 			</header>
 
