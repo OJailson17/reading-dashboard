@@ -1,14 +1,11 @@
+import { Logo } from '@/components/Logo';
 import { aclonica } from '../layout';
 
 export default function Login() {
 	return (
 		<>
 			<header className='w-full px-24 mt-14 '>
-				<h1
-					className={`bg-gradient-primary inline-block text-transparent bg-clip-text text-4xl ${aclonica.className}`}
-				>
-					Reading Dashboard
-				</h1>
+				<Logo />
 			</header>
 
 			<main className='w-full flex items-center justify-center mt-20 font-poppins'>
