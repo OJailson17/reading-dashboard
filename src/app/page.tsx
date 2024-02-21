@@ -2,13 +2,14 @@ import { Header } from '@/components/Header';
 import Link from 'next/link';
 import { IoIosSearch } from 'react-icons/io';
 import { GiBookshelf } from 'react-icons/gi';
+import { FinishedStatisticCard } from '@/components/FinishedStatisticsCard';
 
 export default function Home() {
 	return (
 		<>
 			<Header />
 
-			<div className='w-full max-w-[864px] mt-14 flex items-end justify-between'>
+			<div className='w-2/3 max-w-[864px] mt-14 flex items-end justify-between'>
 				<div className='w-96 h-10 bg-secondary-background flex items-center justify-center gap-3 pl-5 rounded-full'>
 					<IoIosSearch size={25} />
 					<input
@@ -23,6 +24,19 @@ export default function Home() {
 					<span className='font-medium text-lg'>Bookshelf</span>
 				</Link>
 			</div>
+
+			<main className='w-full my-14 flex gap-8'>
+				<section className='w-2/3 grid grid-cols-2 gap-x-8 gap-y-6'>
+					<FinishedStatisticCard books={{ current: 8, total: 10 }} />
+					<FinishedStatisticCard
+						card='year'
+						books={{ current: 28, total: 50 }}
+					/>
+				</section>
+				<section className='flex-1 bg-orange-400'>
+					<p>Coluna 2</p>
+				</section>
+			</main>
 		</>
 	);
 }
