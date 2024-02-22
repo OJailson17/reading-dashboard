@@ -4,6 +4,7 @@ import { IoIosSearch } from 'react-icons/io';
 import { GiBookshelf } from 'react-icons/gi';
 import { FinishedStatisticCard } from '@/components/FinishedStatisticsCard';
 import { ReadingCard } from '@/components/ReadingCard';
+import { TBRCard } from '@/components/TBRCard';
 
 export default function Home() {
 	return (
@@ -34,6 +35,7 @@ export default function Home() {
 						books={{ current: 28, total: 50 }}
 					/>
 					<ReadingCard />
+					<TBRCard />
 				</section>
 				<section className='flex-1 bg-orange-400'>
 					<p>Coluna 2</p>
