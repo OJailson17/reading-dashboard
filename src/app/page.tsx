@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { IoIosSearch } from 'react-icons/io';
 import { GiBookshelf } from 'react-icons/gi';
 import { FinishedStatisticCard } from '@/components/FinishedStatisticsCard';
+import { ReadingCard } from '@/components/ReadingCard';
 
 export default function Home() {
 	return (
@@ -32,6 +33,7 @@ export default function Home() {
 						card='year'
 						books={{ current: 28, total: 50 }}
 					/>
+					<ReadingCard />
 				</section>
 				<section className='flex-1 bg-orange-400'>
 					<p>Coluna 2</p>

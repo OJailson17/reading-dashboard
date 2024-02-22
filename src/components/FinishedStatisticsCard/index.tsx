@@ -1,20 +1,24 @@
+import { calculatePercentage } from '@/utils/calculatePercentage';
 import { CircularProgressBar } from '../CircularProgressBar';
+
+interface Book {
+	total: number;
+	current: number;
+}
 
 interface FinishedStatisticCardProps {
 	card?: 'month' | 'year';
-	books: {
-		total: number;
-		current: number;
-	};
+	books: Book;
 }
 
 export const FinishedStatisticCard = ({
 	card = 'month',
 	books,
 }: FinishedStatisticCardProps) => {
-	const booksPercentage = Math.round((books.current / books.total) * 100);
-
-	console.log();
+	const booksPercentage = calculatePercentage({
+		value: books.current,
+		total: books.total,
+	});
 
 	return (
 		<div className='max-w-[403px] min-h-48 px-8 bg-secondary-background flex items-center justify-center gap-6 rounded-2xl'>
