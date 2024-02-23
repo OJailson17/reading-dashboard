@@ -6,13 +6,14 @@ import { FinishedStatisticCard } from '@/components/FinishedStatisticsCard';
 import { ReadingCard } from '@/components/ReadingCard';
 import { TBRCard } from '@/components/TBRCard';
 import { FinishedCard } from '@/components/FinishedCard';
+import { GoalsCard } from '@/components/GoalsCard';
 
 export default function Home() {
 	return (
 		<>
 			<Header />
 
-			<div className='w-2/3 max-w-[864px] mt-14 flex items-end justify-between'>
+			<div className='w-2/3 max-w-[853px] mt-14 flex items-end  justify-between '>
 				<div className='w-96 h-10 bg-secondary-background flex items-center justify-center gap-3 pl-5 rounded-full'>
 					<IoIosSearch size={25} />
 					<input
@@ -28,7 +29,7 @@ export default function Home() {
 				</Link>
 			</div>
 
-			<main className='w-full my-14 flex gap-8'>
+			<main className='w-full max-w-7xl my-14 flex gap-8'>
 				<section className='w-2/3 grid grid-cols-2 gap-x-8 gap-y-6'>
 					<FinishedStatisticCard books={{ current: 8, total: 10 }} />
 					<FinishedStatisticCard
@@ -38,8 +39,9 @@ export default function Home() {
 					<ReadingCard />
 					<TBRCard />
 				</section>
-				<section className='flex-1'>
+				<section className='flex-1 flex flex-col gap-6'>
 					<FinishedCard />
+					<GoalsCard />
 				</section>
 			</main>
 		</>
