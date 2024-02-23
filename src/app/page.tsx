@@ -5,6 +5,7 @@ import { GiBookshelf } from 'react-icons/gi';
 import { FinishedStatisticCard } from '@/components/FinishedStatisticsCard';
 import { ReadingCard } from '@/components/ReadingCard';
 import { TBRCard } from '@/components/TBRCard';
+import { FinishedCard } from '@/components/FinishedCard';
 
 export default function Home() {
 	return (
@@ -37,8 +38,8 @@ export default function Home() {
 					<ReadingCard />
 					<TBRCard />
 				</section>
-				<section className='flex-1 bg-orange-400'>
-					<p>Coluna 2</p>
+				<section className='flex-1'>
+					<FinishedCard />
 				</section>
 			</main>
 		</>
