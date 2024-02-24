@@ -11,7 +11,7 @@ export const FinishedCard = () => {
 				</Link>
 			</header>
 
-			<div className='w-[320px] h-full mt-10 px-1 pb-6 pt-1 flex gap-6 white overflow-x-scroll overflow-y-hidden books-container'>
+			<div className='w-[320px] mt-10 px-1 pb-6 pt-1 flex gap-6 white overflow-x-scroll overflow-y-hidden books-container'>
 				{[...new Array(4)].map((el, i) => (
 					<button
 						key={`${el}-${i}`}

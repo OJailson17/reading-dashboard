@@ -13,7 +13,7 @@ export default function Home() {
 		<>
 			<Header />
 
-			<div className='w-2/3 max-w-[853px] mt-14 flex items-end  justify-between '>
+			<section className='w-2/3 max-w-[853px] mt-14 flex items-end  justify-between '>
 				<div className='w-96 h-10 bg-secondary-background flex items-center justify-center gap-3 pl-5 rounded-full'>
 					<IoIosSearch size={25} />
 					<input
@@ -27,7 +27,7 @@ export default function Home() {
 					<GiBookshelf size={20} />
 					<span className='font-medium text-lg'>Bookshelf</span>
 				</Link>
-			</div>
+			</section>
 
 			<main className='w-full max-w-7xl my-14 flex gap-8'>
 				<section className='w-2/3 grid grid-cols-2 gap-x-8 gap-y-6'>
