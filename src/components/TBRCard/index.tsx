@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { TBRBookStats } from './TBRBookStats';
-import { Dialog, DialogTrigger } from '../ui/dialog';
-import { TBRDialog } from './TBRDialog';
+import { Dialog } from '../ui/dialog';
+import { BookDialog } from '../BookDialog';
 
 export const TBRCard = () => {
 	return (
@@ -17,7 +17,7 @@ export const TBRCard = () => {
 				{[...new Array(6)].map((el, i) => (
 					<Dialog key={`${el}-${i}`}>
 						<TBRBookStats />
-						<TBRDialog />
+						<BookDialog />
 					</Dialog>
 				))}
 			</div>

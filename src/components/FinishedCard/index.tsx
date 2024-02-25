@@ -1,5 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { Dialog, DialogTrigger } from '../ui/dialog';
+import { BookDialog } from '../BookDialog';
 
 export const FinishedCard = () => {
 	return (
@@ -13,21 +15,21 @@ export const FinishedCard = () => {
 
 			<div className='w-[320px] mt-10 px-1 pb-6 pt-1 flex gap-6 white overflow-x-scroll overflow-y-hidden books-container'>
 				{[...new Array(4)].map((el, i) => (
-					<button
-						key={`${el}-${i}`}
-						className='min-w-28 h-40 rounded-md p-1.5 bg-purple'
-					>
-						<div className='w-full h-full relative'>
-							<Image
-								src={
-									'https://m.media-amazon.com/images/I/51M9IbBqxCL._AC_UF1000,1000_QL80_.jpg'
-								}
-								alt='book cover'
-								fill
-								className='object-contain'
-							/>
-						</div>
-					</button>
+					<Dialog key={`${el}-${i}`}>
+						<DialogTrigger className='min-w-28 h-40 rounded-md p-1.5 bg-purple'>
+							<div className='w-full h-full relative'>
+								<Image
+									src={
+										'https://m.media-amazon.com/images/I/51M9IbBqxCL._AC_UF1000,1000_QL80_.jpg'
+									}
+									alt='book cover'
+									fill
+									className='object-contain'
+								/>
+							</div>
+						</DialogTrigger>
+						<BookDialog type='finished' />
+					</Dialog>
 				))}
 			</div>
 		</div>
