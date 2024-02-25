@@ -1,12 +1,4 @@
-import {
-	Dialog,
-	DialogContent,
-	DialogDescription,
-	DialogHeader,
-	DialogTitle,
-	DialogTrigger,
-} from '../ui/dialog';
-import { TBRDialog } from './TBRDialog';
+import { DialogTrigger } from '../ui/dialog';
 
 export const TBRBookStats = () => {
 	return (
