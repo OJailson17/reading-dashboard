@@ -8,6 +8,8 @@ export const CircularProgressBar = ({
 	const pi = Math.PI;
 	const radius = 45;
 	const circumference = Math.round(2 * pi * radius);
+	const strokeDashOffset =
+		circumference - (circumference * bar_percentage) / 100;
 
 	// todo add a gradient
 	return (
@@ -26,7 +28,7 @@ export const CircularProgressBar = ({
 					</linearGradient>
 				</defs>
 				<circle
-					className='text-gray-200 stroke-current'
+					className='text-background stroke-current'
 					strokeWidth='7'
 					cx='50'
 					cy='50'
@@ -41,15 +43,15 @@ export const CircularProgressBar = ({
 					cy='50'
 					r={radius}
 					fill='none'
-					stroke={`url(#gradient`} // Apply gradient to stroke property
+					stroke={`url(#gradient`}
 					strokeDasharray='280'
-					strokeDashoffset={`calc(${circumference} - (${circumference} * ${bar_percentage} / 100))`}
+					strokeDashoffset={strokeDashOffset}
 				></circle>
 				<text
 					x='50'
 					y='50'
 					textAnchor='middle'
-					alignmentBaseline='middle'
+					dominantBaseline='middle'
 					fill='white'
 				>
 					{bar_percentage}%

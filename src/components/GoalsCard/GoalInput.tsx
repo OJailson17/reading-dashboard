@@ -13,7 +13,7 @@ export const GoalInput = ({ label, onSetGoal }: GoalInputProps) => {
 				<input
 					type='text'
 					placeholder='0'
-					className='w-full max-w-52 px-3 bg-background placeholder:text-placeholder'
+					className='w-full max-w-52 px-3 bg-background placeholder:text-placeholder rounded-md'
 				/>
 				<button
 					type='button'
