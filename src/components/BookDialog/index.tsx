@@ -74,7 +74,6 @@ export const BookDialog = ({ type = 'tbr' }: BookDialogProps) => {
 								onSelect={e =>
 									handleSetDate({ date: e || new Date(), date_type: 'started' })
 								}
-								initialFocus
 								disabled={date =>
 									date > new Date() || date < new Date('1900-01-01')
 								}
@@ -103,7 +102,6 @@ export const BookDialog = ({ type = 'tbr' }: BookDialogProps) => {
 										date_type: 'finished',
 									})
 								}
-								initialFocus
 								disabled={date =>
 									date > new Date() || date < new Date('1900-01-01')
 								}
