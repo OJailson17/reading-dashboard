@@ -9,6 +9,8 @@ import { useState } from 'react';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
+type BookStatus = 'to read' | 'reading' | 'finished';
+
 interface BookDialogProps {
 	type?: 'tbr' | 'finished';
 }
@@ -18,9 +20,16 @@ interface HandleDateProps {
 	date_type: 'started' | 'finished';
 }
 
+const bookStatusColor = {
+	'to read': 'border-placeholder',
+	reading: 'border-yellow-500',
+	finished: 'border-light-green',
+};
+
 export const BookDialog = ({ type = 'tbr' }: BookDialogProps) => {
 	const [startedDate, setStartedDate] = useState<Date>();
 	const [finishedDate, setFinishedDate] = useState<Date>();
+	const [bookStatus, setBookStatus] = useState<BookStatus>('to read');
 
 	const handleSetDate = ({ date, date_type }: HandleDateProps) => {
 		if (date_type === 'started') {
@@ -123,9 +132,57 @@ export const BookDialog = ({ type = 'tbr' }: BookDialogProps) => {
 				</div>
 				<div className='space-x-3'>
 					<p className='inline-block'>Status:</p>
-					<button className='font-light text-span border-green-500 border-[1px] px-2 rounded-md'>
-						Finished
-					</button>
+					<Popover>
+						<PopoverTrigger
+							className={`font-light text-span ${bookStatusColor[bookStatus]} border-[1px] px-2 rounded-md`}
+						>
+							{bookStatus.toUpperCase()}
+						</PopoverTrigger>
+						<PopoverContent
+							// onInteractOutside={() => console.log('closed')}
+							className='w-80 flex items-center justify-center gap-5 bg-secondary-background'
+						>
+							<div className='flex items-center justify-center gap-2 cursor-pointer'>
+								<input
+									type='radio'
+									id='to-read-status'
+									name='status'
+									value='to read'
+									checked={bookStatus === 'to read'}
+									onChange={() => setBookStatus('to read')}
+								/>
+								<label htmlFor='to-read-status' className='text-sm text-span'>
+									To Read
+								</label>
+							</div>
+							<div className='flex items-center justify-center gap-2 cursor-pointer'>
+								<input
+									type='radio'
+									id='reading-status'
+									name='status'
+									value='reading'
+									checked={bookStatus === 'reading'}
+									onChange={() => setBookStatus('reading')}
+								/>
+								<label htmlFor='reading-status' className='text-sm text-span'>
+									Reading
+								</label>
+							</div>
+							<div className='flex items-center justify-center gap-2 cursor-pointer'>
+								<input
+									type='radio'
+									id='finished-status'
+									name='status'
+									value='finished'
+									checked={bookStatus === 'finished'}
+									onChange={() => setBookStatus('finished')}
+								/>
+								<label htmlFor='finished-status' className='text-sm text-span'>
+									Finished
+								</label>
+							</div>
+						</PopoverContent>
+					</Popover>
 				</div>
 				<div className='space-x-3'>
 					{type === 'tbr' && <p className='inline-block'>Goodreads:</p>}
