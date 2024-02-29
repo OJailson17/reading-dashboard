@@ -4,7 +4,7 @@ import { UpdateReadingDialog } from './UpdateReadingDialog';
 
 export const ReadingCard = () => {
 	return (
-		<div className='w-full max-w-[403px] min-h-[384px] px-7 py-6 bg-secondary-background rounded-2xl'>
+		<div className='w-full max-w-[403px] h-96 px-7 py-6 bg-secondary-background rounded-2xl'>
 			<header className='flex items-end justify-between'>
 				<h2 className='font-bold text-xl'>currently reading</h2>
 				{/* <Link href={'/'} className='text-span text-sm hover:underline'>

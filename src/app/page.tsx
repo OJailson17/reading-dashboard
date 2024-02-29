@@ -7,6 +7,7 @@ import { ReadingCard } from '@/components/ReadingCard';
 import { TBRCard } from '@/components/TBRCard';
 import { FinishedCard } from '@/components/FinishedCard';
 import { GoalsCard } from '@/components/GoalsCard';
+import { GenreStatisticsChart } from '@/components/Charts/GenreStatisticChart';
 
 export default function Home() {
 	return (
@@ -29,7 +30,7 @@ export default function Home() {
 				</Link>
 			</section>
 
-			<main className='w-full max-w-7xl my-14 flex gap-8'>
+			<main className='w-full max-w-7xl my-14 flex items-start gap-8'>
 				<section className='w-2/3 grid grid-cols-2 gap-x-8 gap-y-6'>
 					<FinishedStatisticCard books={{ current: 8, total: 10 }} />
 					<FinishedStatisticCard
@@ -42,6 +43,7 @@ export default function Home() {
 				<section className='flex-1 flex flex-col gap-6'>
 					<FinishedCard />
 					<GoalsCard />
+					<GenreStatisticsChart />
 				</section>
 			</main>
 		</>
