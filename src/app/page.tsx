@@ -8,6 +8,7 @@ import { TBRCard } from '@/components/TBRCard';
 import { FinishedCard } from '@/components/FinishedCard';
 import { GoalsCard } from '@/components/GoalsCard';
 import { GenreStatisticsChart } from '@/components/Charts/GenreStatisticChart';
+import { YearlyChart } from '@/components/Charts/YearlyChart';
 
 export default function Home() {
 	return (
@@ -39,6 +40,7 @@ export default function Home() {
 					/>
 					<ReadingCard />
 					<TBRCard />
+					<YearlyChart />
 				</section>
 				<section className='flex-1 flex flex-col gap-6'>
 					<FinishedCard />

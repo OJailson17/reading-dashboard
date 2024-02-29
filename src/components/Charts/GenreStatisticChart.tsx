@@ -43,7 +43,7 @@ const style = {
 
 export const GenreStatisticsChart = () => {
 	return (
-		<div className='w-full min-h-[314px] px-7 py-6 bg-secondary-background rounded-2xl'>
+		<div className='w-full min-h-64 px-7 pt-6 bg-secondary-background rounded-2xl'>
 			<h2 className='font-bold text-xl'>Most Reading Genres</h2>
 
 			{/* chart */}
