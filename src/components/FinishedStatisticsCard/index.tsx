@@ -21,10 +21,10 @@ export const FinishedStatisticCard = ({
 	});
 
 	return (
-		<div className='max-w-[403px] h-48 px-8 bg-secondary-background flex items-center justify-center gap-6 rounded-2xl'>
+		<div className='max-w-[403px] h-48 px-8 lg:px-3 xl:px-8 bg-secondary-background flex items-center justify-center gap-6 rounded-2xl'>
 			<CircularProgressBar bar_percentage={booksPercentage} />
 
-			<div className='text-span flex-1'>
+			<div className='text-span flex-1 lg:text-sm xl:text-base'>
 				<p>
 					<span className='font-bold'>{books.current}</span>/{books.total}
 				</p>

@@ -5,9 +5,9 @@ import { BookDialog } from '../BookDialog';
 
 export const TBRCard = () => {
 	return (
-		<div className='w-full max-w-[403px] h-96 px-7 py-6 bg-secondary-background rounded-2xl'>
+		<div className='w-full max-w-[403px] h-96 xs:px-4 sm:px-7 py-6 bg-secondary-background rounded-2xl'>
 			<header className='flex items-center justify-between'>
-				<h2 className='font-bold text-xl'>want to read</h2>
+				<h2 className='font-bold text-xl'>Want to Read</h2>
 				<Link href={'/'} className='text-span text-sm hover:underline'>
 					see all
 				</Link>

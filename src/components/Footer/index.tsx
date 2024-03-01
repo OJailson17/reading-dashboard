@@ -3,7 +3,7 @@ import { Logo } from '../Logo';
 
 export const Footer = () => {
 	return (
-		<footer className='w-full flex items-center justify-between py-14'>
+		<footer className='w-full max-w-7xl flex flex-col-reverse gap-4 md:flex-row items-center justify-between py-14'>
 			<Logo variant='footer' />
 			<p>
 				developed by 💜

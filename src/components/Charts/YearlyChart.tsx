@@ -63,7 +63,7 @@ const data = [
 
 export const YearlyChart = () => {
 	return (
-		<div className='w-full col-span-2 h-80 px-7 py-6 bg-secondary-background rounded-2xl'>
+		<div className='w-full sm:col-span-2 h-80 px-4 xl:px-7 py-6 bg-secondary-background rounded-2xl'>
 			<header className='flex items-center justify-between'>
 				<h2 className='font-bold text-xl'>Reading Activity</h2>
 				{/* <Select defaultValue='2024'>
@@ -89,8 +89,8 @@ export const YearlyChart = () => {
 						data={data}
 						margin={{
 							top: 5,
-							right: 30,
-							left: 0,
+							right: 0,
+							left: -30,
 							bottom: 5,
 						}}
 					>

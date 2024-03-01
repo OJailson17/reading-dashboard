@@ -46,7 +46,6 @@ export const UpdateReadingDialog = () => {
 						type='text'
 						placeholder='200'
 						className='bg-background w-60 h-9 rounded-md px-4'
-						autoFocus
 					/>
 				</div>
 				<div className='flex flex-col gap-1 justify-center text-span'>

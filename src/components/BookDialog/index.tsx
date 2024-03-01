@@ -46,7 +46,7 @@ export const BookDialog = ({ type = 'tbr' }: BookDialogProps) => {
 	};
 
 	return (
-		<DialogContent className='bg-background max-w-[450px] rounded-3xl border-none px-9 py-6 flex items-center justify-center flex-col'>
+		<DialogContent className='bg-background w-[90%] max-w-[450px] rounded-3xl border-none xs:px-6 px-9 py-6 flex items-center justify-center flex-col'>
 			<DialogTitle className='text-center font-semibold text-lg mt-5'>
 				Fluent Forever
 			</DialogTitle>

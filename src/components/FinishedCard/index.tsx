@@ -5,7 +5,7 @@ import { BookDialog } from '../BookDialog';
 
 export const FinishedCard = () => {
 	return (
-		<div className='w-full min-h-[314px] px-7 py-6 bg-secondary-background rounded-2xl'>
+		<div className='w-full min-h-[314px] xs:px-4 sm:px-7 py-6 bg-secondary-background rounded-2xl sm:col-span-2'>
 			<header className='flex items-center justify-between'>
 				<h2 className='font-bold text-xl'>Just Finished</h2>
 				<Link href={'/'} className='text-span text-sm hover:underline'>
@@ -13,7 +13,7 @@ export const FinishedCard = () => {
 				</Link>
 			</header>
 
-			<div className='w-[320px] mt-10 px-1 pb-6 pt-1 flex gap-6 white overflow-x-scroll overflow-y-hidden books-container'>
+			<div className='sm:w-full lg:max-w-[320px] mt-10 px-1 pb-6 pt-1 flex gap-6 white overflow-x-auto overflow-y-hidden books-container'>
 				{[...new Array(4)].map((el, i) => (
 					<Dialog key={`${el}-${i}`}>
 						<DialogTrigger className='min-w-28 h-40 rounded-md p-1.5 bg-purple'>
