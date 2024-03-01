@@ -1,10 +1,11 @@
+import { Footer } from '@/components/Footer';
 import { Logo } from '@/components/Logo';
 import { aclonica } from '@/utils/fonts';
 
 export default function Login() {
 	return (
 		<>
-			<header className='w-full mt-14'>
+			<header className='w-full pt-14'>
 				<Logo />
 			</header>
 

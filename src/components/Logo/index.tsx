@@ -1,12 +1,26 @@
 import { aclonica } from '@/utils/fonts';
+import { cva } from 'class-variance-authority';
 import Link from 'next/link';
 
-export const Logo = () => {
+interface LogoProps {
+	variant?: 'default' | 'footer';
+}
+
+const logoVariants = cva(
+	`bg-gradient-primary inline-block text-transparent bg-clip-text ${aclonica.className}`,
+	{
+		variants: {
+			variant: {
+				default: 'text-4xl',
+				footer: 'text-3xl opacity-30',
+			},
+		},
+	},
+);
+
+export const Logo = ({ variant = 'default' }: LogoProps) => {
 	return (
-		<Link
-			href={'/'}
-			className={`bg-gradient-primary inline-block text-transparent bg-clip-text text-4xl ${aclonica.className}`}
-		>
+		<Link href={'/'} className={logoVariants({ variant })}>
 			Reading Dashboard
 		</Link>
 	);
