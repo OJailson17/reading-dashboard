@@ -1,3 +1,5 @@
+'use client';
+
 import Image from 'next/image';
 import { DrawerContent, DrawerHeader } from '../ui/drawer';
 import {
@@ -10,28 +12,44 @@ import {
 } from '../ui/select';
 import { Dialog, DialogTrigger } from '../ui/dialog';
 import { BookDialog } from '../BookDialog';
+import { useState } from 'react';
 
-export const UpdateReadingDialog = () => {
+interface Book {
+	id: string;
+	title: string;
+	author: string;
+	total_pages: number;
+	current_page: number;
+	cover_url: string;
+	status: string;
+}
+
+interface UpdateReadingDialog {
+	book: Book;
+}
+
+export const UpdateReadingDialog = ({ book }: UpdateReadingDialog) => {
+	const [currentPageValue, setCurrentPageValue] = useState('');
+
 	return (
 		<DrawerContent className='bg-secondary-background border-none'>
 			<DrawerHeader className='w-full h-ful relative'>
 				<div className='w-28 absolute h-40 -top-20 left-1/2 -translate-x-1/2 rounded-2xl'>
 					<Image
-						src={
-							'https://m.media-amazon.com/images/I/51M9IbBqxCL._AC_UF1000,1000_QL80_.jpg'
-						}
+						src={book.cover_url}
 						alt='book cover'
 						fill
 						className='object-contain rounded-2xl'
+						priority
 					/>
 				</div>
 				<div className='mt-20 flex items-center justify-center gap-4'>
-					<span className='font-light text-span'>300 p</span>
+					<span className='font-light text-span'>{book.total_pages} p</span>
 					<Dialog>
 						<DialogTrigger className='text-blue font-light cursor-pointer'>
 							details
 						</DialogTrigger>
-						<BookDialog />
+						<BookDialog book={book} />
 					</Dialog>
 				</div>
 			</DrawerHeader>
@@ -44,13 +62,15 @@ export const UpdateReadingDialog = () => {
 					<label htmlFor='current-page'>current page:</label>
 					<input
 						type='text'
-						placeholder='200'
+						placeholder={String(book.current_page)}
 						className='bg-background w-60 h-9 rounded-md px-4'
+						value={currentPageValue}
+						onChange={e => setCurrentPageValue(e.target.value)}
 					/>
 				</div>
 				<div className='flex flex-col gap-1 justify-center text-span'>
 					<label htmlFor='current-page'>status:</label>
-					<Select defaultValue='reading'>
+					<Select defaultValue={book.status}>
 						<SelectTrigger className='w-60'>
 							<SelectValue placeholder='Select status' />
 						</SelectTrigger>
@@ -58,9 +78,9 @@ export const UpdateReadingDialog = () => {
 						<SelectContent className='bg-background'>
 							<SelectGroup className='bg-background text-span'>
 								{/* <SelectLabel>Status</SelectLabel> */}
-								<SelectItem value='to read'>To read</SelectItem>
-								<SelectItem value='reading'>Reading</SelectItem>
-								<SelectItem value='finished'>Finished</SelectItem>
+								<SelectItem value='To read'>To read</SelectItem>
+								<SelectItem value='Reading'>Reading</SelectItem>
+								<SelectItem value='Finished'>Finished</SelectItem>
 							</SelectGroup>
 						</SelectContent>
 					</Select>

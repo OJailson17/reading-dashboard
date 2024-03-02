@@ -1,14 +1,23 @@
 import { DialogTrigger } from '../ui/dialog';
 
-export const TBRBookStats = () => {
+interface Book {
+	title: string;
+	author: string;
+}
+
+interface TBRBookStats {
+	book: Book;
+}
+
+export const TBRBookStats = ({ book }: TBRBookStats) => {
 	return (
 		<>
 			<DialogTrigger className='w-full text-left bg-transparent'>
 				<div className='w-full flex justify-between'>
 					<div>
-						<p className='font-light text-span'>O Sol é Para Todos</p>
+						<p className='font-light text-span'>{book.title}</p>
 						<span className='font-light text-placeholder text-sm'>
-							Harper Lee
+							{book.author}
 						</span>
 					</div>
 				</div>

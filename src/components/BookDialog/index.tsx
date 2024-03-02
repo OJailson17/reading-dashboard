@@ -11,8 +11,17 @@ import { ptBR } from 'date-fns/locale';
 
 type BookStatus = 'to read' | 'reading' | 'finished';
 
+interface Book {
+	title: string;
+	author: string;
+	total_pages: number;
+	status: string;
+	cover_url: string;
+}
+
 interface BookDialogProps {
 	type?: 'tbr' | 'finished';
+	book: Book;
 }
 
 interface HandleDateProps {
@@ -26,7 +35,7 @@ const bookStatusColor = {
 	finished: 'border-light-green',
 };
 
-export const BookDialog = ({ type = 'tbr' }: BookDialogProps) => {
+export const BookDialog = ({ type = 'tbr', book }: BookDialogProps) => {
 	const [startedDate, setStartedDate] = useState<Date>();
 	const [finishedDate, setFinishedDate] = useState<Date>();
 	const [bookStatus, setBookStatus] = useState<BookStatus>('to read');
@@ -48,15 +57,13 @@ export const BookDialog = ({ type = 'tbr' }: BookDialogProps) => {
 	return (
 		<DialogContent className='bg-background w-[90%] max-w-[450px] rounded-3xl border-none xs:px-6 px-9 py-6 flex items-center justify-center flex-col'>
 			<DialogTitle className='text-center font-semibold text-lg mt-5'>
-				Fluent Forever
+				{book.title}
 			</DialogTitle>
 
 			<div className='w-full max-w-28 h-40 rounded-md p-1.5 mt-4 bg-purple'>
 				<div className='h-full relative'>
 					<Image
-						src={
-							'https://m.media-amazon.com/images/I/51M9IbBqxCL._AC_UF1000,1000_QL80_.jpg'
-						}
+						src={book.cover_url}
 						alt='book cover'
 						fill
 						className='object-contain'
@@ -124,11 +131,11 @@ export const BookDialog = ({ type = 'tbr' }: BookDialogProps) => {
 			<div className='w-full flex flex-col mt-4 space-y-3'>
 				<div className='space-x-3'>
 					<p className='inline-block'>Author:</p>
-					<span className='font-light text-span'>Gabriel Wyner</span>
+					<span className='font-light text-span'>{book.author}</span>
 				</div>
 				<div className='space-x-3'>
 					<p className='inline-block'>Pages:</p>
-					<span className='font-light text-span'>300</span>
+					<span className='font-light text-span'>{book.total_pages}</span>
 				</div>
 				<div className='space-x-3'>
 					<p className='inline-block'>Status:</p>

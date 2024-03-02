@@ -11,7 +11,94 @@ import { GenreStatisticsChart } from '@/components/Charts/GenreStatisticChart';
 import { YearlyChart } from '@/components/Charts/YearlyChart';
 import { Footer } from '@/components/Footer';
 
-export default function Home() {
+interface BookProperties {
+	Author: {
+		rich_text: [
+			{
+				plain_text: string;
+			},
+		];
+	};
+	Name: {
+		title: [
+			{
+				plain_text: string;
+			},
+		];
+	};
+	'Qtd. Pages': {
+		number: number;
+	};
+	'Current Page': {
+		number: number;
+	};
+	Status: {
+		select: {
+			name: string;
+		};
+	};
+}
+
+interface NotionBookProps {
+	id: string;
+	icon: {
+		external: {
+			url: string;
+		};
+	};
+	properties: BookProperties;
+}
+interface Book {
+	id: string;
+	author: string;
+	title: string;
+	current_page: number;
+	total_pages: number;
+	status: string;
+}
+
+export default async function Home() {
+	const formatBooks = (books: NotionBookProps[]) => {
+		const formattedBooks = books.map(book => {
+			const properties = book.properties;
+
+			return {
+				id: book.id,
+				author: properties.Author.rich_text[0].plain_text,
+				title: properties.Name.title[0].plain_text,
+				current_page: properties['Current Page'].number,
+				total_pages: properties['Qtd. Pages'].number,
+				status: properties.Status.select.name,
+				cover_url: book.icon.external.url,
+			};
+		});
+
+		return formattedBooks;
+	};
+
+	const fetchBooks = async () => {
+		try {
+			const response = await fetch('http://localhost:8082/books', {
+				next: {
+					revalidate: false,
+					tags: ['fetch-books'],
+				},
+			});
+
+			if (!response.ok) {
+				throw new Error('Failed to fetch data');
+			}
+
+			const books = await response.json();
+
+			return formatBooks(books);
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
+	const books = (await fetchBooks()) || [];
+
 	return (
 		<>
 			<Header />
@@ -39,12 +126,12 @@ export default function Home() {
 						card='year'
 						books={{ current: 28, total: 50 }}
 					/>
-					<ReadingCard />
-					<TBRCard />
+					<ReadingCard books={books} />
+					<TBRCard books={books} />
 					<YearlyChart />
 				</section>
 				<section className='w-full gap-6 lg:max-[1200px]:gap-4 xs:flex xs:flex-col sm:max-[1023px]:grid sm:max-[1023px]:grid-cols-2 xl:w-max-max flex-1'>
-					<FinishedCard />
+					<FinishedCard books={books} />
 					<GoalsCard />
 					<GenreStatisticsChart />
 				</section>

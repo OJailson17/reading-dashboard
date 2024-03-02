@@ -3,7 +3,22 @@ import Link from 'next/link';
 import { Dialog, DialogTrigger } from '../ui/dialog';
 import { BookDialog } from '../BookDialog';
 
-export const FinishedCard = () => {
+interface Book {
+	id: string;
+	title: string;
+	author: string;
+	total_pages: number;
+	status: string;
+	cover_url: string;
+}
+
+interface FinishedCardProps {
+	books: Book[];
+}
+
+export const FinishedCard = ({ books }: FinishedCardProps) => {
+	const finishedBooks = books.filter(book => book.status === 'Finished');
+
 	return (
 		<div className='w-full min-h-[314px] xs:px-4 sm:px-7 py-6 bg-secondary-background rounded-2xl sm:col-span-2'>
 			<header className='flex items-center justify-between'>
@@ -14,21 +29,19 @@ export const FinishedCard = () => {
 			</header>
 
 			<div className='sm:w-full lg:max-w-[320px] mt-10 px-1 pb-6 pt-1 flex gap-6 white overflow-x-auto overflow-y-hidden books-container'>
-				{[...new Array(4)].map((el, i) => (
-					<Dialog key={`${el}-${i}`}>
+				{finishedBooks.map(book => (
+					<Dialog key={book.id}>
 						<DialogTrigger className='min-w-28 h-40 rounded-md p-1.5 bg-purple'>
 							<div className='w-full h-full relative'>
 								<Image
-									src={
-										'https://m.media-amazon.com/images/I/51M9IbBqxCL._AC_UF1000,1000_QL80_.jpg'
-									}
+									src={book.cover_url}
 									alt='book cover'
 									fill
 									className='object-contain'
 								/>
 							</div>
 						</DialogTrigger>
-						<BookDialog type='finished' />
+						<BookDialog type='finished' book={book} />
 					</Dialog>
 				))}
 			</div>
