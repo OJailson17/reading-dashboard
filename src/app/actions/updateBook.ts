@@ -1,5 +1,6 @@
 'use server';
 
+import { BookStatus } from '@/components/BookDialog';
 import { revalidateTag } from 'next/cache';
 
 type Book = {
@@ -9,7 +10,7 @@ type Book = {
 	total_pages: number;
 	current_page: number;
 	cover_url: string;
-	status: string;
+	status: BookStatus;
 };
 
 export const updateBook = async (book: Book) => {

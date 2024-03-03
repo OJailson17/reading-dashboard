@@ -1,3 +1,6 @@
+'use server';
+
+import { BookStatus } from '@/components/BookDialog';
 import { cache } from 'react';
 
 type BookProperties = {
@@ -23,7 +26,7 @@ type BookProperties = {
 	};
 	Status: {
 		select: {
-			name: string;
+			name: BookStatus;
 		};
 	};
 };

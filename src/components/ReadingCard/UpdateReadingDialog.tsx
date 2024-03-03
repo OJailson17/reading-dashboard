@@ -11,7 +11,7 @@ import {
 	SelectValue,
 } from '../ui/select';
 import { Dialog, DialogTrigger } from '../ui/dialog';
-import { BookDialog } from '../BookDialog';
+import { BookDialog, BookStatus } from '../BookDialog';
 import { useState } from 'react';
 import { updateBook } from '@/app/actions/updateBook';
 
@@ -22,7 +22,7 @@ interface Book {
 	total_pages: number;
 	current_page: number;
 	cover_url: string;
-	status: string;
+	status: BookStatus;
 }
 
 interface UpdateReadingDialog {
@@ -35,6 +35,14 @@ export const UpdateReadingDialog = ({ book }: UpdateReadingDialog) => {
 
 	const fetchData = async () => {
 		setCurrentPageValue('');
+
+		if (bookStatus === 'Finished') {
+			return updateBook({
+				...book,
+				current_page: book.total_pages,
+				status: bookStatus,
+			});
+		}
 
 		updateBook({
 			...book,
@@ -85,7 +93,7 @@ export const UpdateReadingDialog = ({ book }: UpdateReadingDialog) => {
 					<label htmlFor='current-page'>status:</label>
 					<Select
 						defaultValue={book.status}
-						onValueChange={e => setBookStatus(e)}
+						onValueChange={(status: BookStatus) => setBookStatus(status)}
 					>
 						<SelectTrigger className='w-60'>
 							<SelectValue placeholder='Select status' />

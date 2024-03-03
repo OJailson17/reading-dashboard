@@ -1,15 +1,15 @@
 import Link from 'next/link';
 import { TBRBookStats } from './TBRBookStats';
 import { Dialog } from '../ui/dialog';
-import { BookDialog } from '../BookDialog';
-import { fetchBooks } from '@/app/books/fetchBooks';
+import { BookDialog, BookStatus } from '../BookDialog';
+import { fetchBooks } from '@/app/actions/fetchBooks';
 
 interface Book {
 	id: string;
 	title: string;
 	author: string;
 	total_pages: number;
-	status: string;
+	status: BookStatus;
 	cover_url: string;
 }
 

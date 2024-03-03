@@ -1,7 +1,8 @@
 import { ReadingBookStats } from './ReadingBookStats';
 import { Drawer } from '../ui/drawer';
 import { UpdateReadingDialog } from './UpdateReadingDialog';
-import { fetchBooks } from '@/app/books/fetchBooks';
+import { fetchBooks } from '@/app/actions/fetchBooks';
+import { BookStatus } from '../BookDialog';
 
 interface Book {
 	id: string;
@@ -9,7 +10,7 @@ interface Book {
 	author: string;
 	total_pages: number;
 	current_page: number;
-	status: string;
+	status: BookStatus;
 	cover_url: string;
 }
 

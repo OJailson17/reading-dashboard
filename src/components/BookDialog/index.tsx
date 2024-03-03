@@ -8,14 +8,17 @@ import { Calendar } from '../ui/calendar';
 import { useState } from 'react';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import { updateBook } from '@/app/actions/updateBook';
 
-type BookStatus = 'to read' | 'reading' | 'finished';
+export type BookStatus = 'To read' | 'Reading' | 'Finished';
 
 interface Book {
+	id: string;
 	title: string;
 	author: string;
 	total_pages: number;
-	status: string;
+	current_page: number;
+	status: BookStatus;
 	cover_url: string;
 }
 
@@ -30,15 +33,15 @@ interface HandleDateProps {
 }
 
 const bookStatusColor = {
-	'to read': 'border-placeholder',
-	reading: 'border-yellow-500',
-	finished: 'border-light-green',
+	'To read': 'border-placeholder',
+	Reading: 'border-yellow-500',
+	Finished: 'border-light-green',
 };
 
 export const BookDialog = ({ type = 'tbr', book }: BookDialogProps) => {
 	const [startedDate, setStartedDate] = useState<Date>();
 	const [finishedDate, setFinishedDate] = useState<Date>();
-	const [bookStatus, setBookStatus] = useState<BookStatus>('to read');
+	const [bookStatus, setBookStatus] = useState<BookStatus>(book.status);
 
 	const handleSetDate = ({ date, date_type }: HandleDateProps) => {
 		if (date_type === 'started') {
@@ -52,6 +55,23 @@ export const BookDialog = ({ type = 'tbr', book }: BookDialogProps) => {
 		return format(date, 'dd/MM/yyy', {
 			locale: ptBR,
 		});
+	};
+
+	const handleUpdateStatus = (isModalOpen: boolean) => {
+		if (!isModalOpen && bookStatus !== book.status) {
+			if (bookStatus === 'Finished') {
+				return updateBook({
+					...book,
+					status: bookStatus,
+					current_page: book.total_pages,
+				});
+			}
+
+			updateBook({
+				...book,
+				status: bookStatus,
+			});
+		}
 	};
 
 	return (
@@ -139,14 +159,14 @@ export const BookDialog = ({ type = 'tbr', book }: BookDialogProps) => {
 				</div>
 				<div className='space-x-3'>
 					<p className='inline-block'>Status:</p>
-					<Popover>
+					<Popover onOpenChange={e => handleUpdateStatus(e)}>
 						<PopoverTrigger
 							className={`font-light text-span ${bookStatusColor[bookStatus]} border-[1px] px-2 rounded-md`}
 						>
 							{bookStatus.toUpperCase()}
 						</PopoverTrigger>
 						<PopoverContent
-							// onInteractOutside={() => console.log('closed')}
+							// onInteractOutside={handleUpdateStatus}
 							className='w-80 flex items-center justify-center gap-5 bg-secondary-background'
 						>
 							<div className='flex items-center justify-center gap-2 cursor-pointer'>
@@ -154,9 +174,9 @@ export const BookDialog = ({ type = 'tbr', book }: BookDialogProps) => {
 									type='radio'
 									id='to-read-status'
 									name='status'
-									value='to read'
-									checked={bookStatus === 'to read'}
-									onChange={() => setBookStatus('to read')}
+									value='To read'
+									checked={bookStatus === 'To read'}
+									onChange={() => setBookStatus('To read')}
 								/>
 								<label htmlFor='to-read-status' className='text-sm text-span'>
 									To Read
@@ -167,9 +187,9 @@ export const BookDialog = ({ type = 'tbr', book }: BookDialogProps) => {
 									type='radio'
 									id='reading-status'
 									name='status'
-									value='reading'
-									checked={bookStatus === 'reading'}
-									onChange={() => setBookStatus('reading')}
+									value='Reading'
+									checked={bookStatus === 'Reading'}
+									onChange={() => setBookStatus('Reading')}
 								/>
 								<label htmlFor='reading-status' className='text-sm text-span'>
 									Reading
@@ -180,9 +200,9 @@ export const BookDialog = ({ type = 'tbr', book }: BookDialogProps) => {
 									type='radio'
 									id='finished-status'
 									name='status'
-									value='finished'
-									checked={bookStatus === 'finished'}
-									onChange={() => setBookStatus('finished')}
+									value='Finished'
+									checked={bookStatus === 'Finished'}
+									onChange={() => setBookStatus('Finished')}
 								/>
 								<label htmlFor='finished-status' className='text-sm text-span'>
 									Finished
