@@ -10,17 +10,11 @@ import { GoalsCard } from '@/components/GoalsCard';
 import { GenreStatisticsChart } from '@/components/Charts/GenreStatisticChart';
 import { YearlyChart } from '@/components/Charts/YearlyChart';
 import { Footer } from '@/components/Footer';
-
-interface Book {
-	id: string;
-	author: string;
-	title: string;
-	current_page: number;
-	total_pages: number;
-	status: string;
-}
+import { fetchBooks } from './actions/fetchBooks';
 
 export default async function Home() {
+	const books = (await fetchBooks()) || [];
+
 	return (
 		<>
 			<Header />
@@ -50,7 +44,7 @@ export default async function Home() {
 					/>
 					<ReadingCard />
 					<TBRCard />
-					<YearlyChart />
+					<YearlyChart books={books} />
 				</section>
 				<section className='w-full gap-6 lg:max-[1200px]:gap-4 xs:flex xs:flex-col sm:max-[1023px]:grid sm:max-[1023px]:grid-cols-2 xl:w-max-max flex-1'>
 					<FinishedCard />

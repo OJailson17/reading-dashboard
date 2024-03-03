@@ -11,24 +11,16 @@ import {
 	SelectValue,
 } from '../ui/select';
 import { Dialog, DialogTrigger } from '../ui/dialog';
-import { BookDialog, BookStatus } from '../BookDialog';
+import { BookDialog } from '../BookDialog';
 import { useState } from 'react';
 import { updateBook } from '@/app/actions/updateBook';
-
-interface Book {
-	id: string;
-	title: string;
-	author: string;
-	total_pages: number;
-	current_page: number;
-	cover_url: string;
-	status: BookStatus;
-}
+import { Book, BookStatus } from '@/@types/book';
 
 interface UpdateReadingDialog {
 	book: Book;
 }
 
+// todo change the dates depending on the status
 export const UpdateReadingDialog = ({ book }: UpdateReadingDialog) => {
 	const [currentPageValue, setCurrentPageValue] = useState('');
 	const [bookStatus, setBookStatus] = useState(book.status);

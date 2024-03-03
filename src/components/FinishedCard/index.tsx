@@ -1,18 +1,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Dialog, DialogTrigger } from '../ui/dialog';
-import { BookDialog, BookStatus } from '../BookDialog';
+import { BookDialog } from '../BookDialog';
 import { fetchBooks } from '@/app/actions/fetchBooks';
-
-interface Book {
-	id: string;
-	title: string;
-	author: string;
-	total_pages: number;
-	status: BookStatus;
-	cover_url: string;
-	current_page: number;
-}
+import { Book } from '@/@types/book';
 
 interface FinishedCardProps {
 	books: Book[];

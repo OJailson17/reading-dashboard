@@ -2,17 +2,7 @@ import { ReadingBookStats } from './ReadingBookStats';
 import { Drawer } from '../ui/drawer';
 import { UpdateReadingDialog } from './UpdateReadingDialog';
 import { fetchBooks } from '@/app/actions/fetchBooks';
-import { BookStatus } from '../BookDialog';
-
-interface Book {
-	id: string;
-	title: string;
-	author: string;
-	total_pages: number;
-	current_page: number;
-	status: BookStatus;
-	cover_url: string;
-}
+import { Book } from '@/@types/book';
 
 interface ReadingCardProps {
 	books: Book[];

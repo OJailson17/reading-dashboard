@@ -1,17 +1,9 @@
 import Link from 'next/link';
 import { TBRBookStats } from './TBRBookStats';
 import { Dialog } from '../ui/dialog';
-import { BookDialog, BookStatus } from '../BookDialog';
+import { BookDialog } from '../BookDialog';
 import { fetchBooks } from '@/app/actions/fetchBooks';
-
-interface Book {
-	id: string;
-	title: string;
-	author: string;
-	total_pages: number;
-	status: BookStatus;
-	cover_url: string;
-}
+import { Book } from '@/@types/book';
 
 interface TBRCardProps {
 	books: Book[];

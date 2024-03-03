@@ -1,6 +1,6 @@
 'use server';
 
-import { BookStatus } from '@/components/BookDialog';
+import { BookStatus } from '@/@types/book';
 import { cache } from 'react';
 
 type BookProperties = {
@@ -29,6 +29,16 @@ type BookProperties = {
 			name: BookStatus;
 		};
 	};
+	'Finished Date': {
+		date: {
+			start: string;
+		} | null;
+	};
+	'Started Date': {
+		date: {
+			start: string;
+		} | null;
+	};
 };
 
 type NotionBookProps = {
@@ -53,6 +63,8 @@ const formatBooks = (books: NotionBookProps[]) => {
 			total_pages: properties['Qtd. Pages'].number,
 			status: properties.Status.select.name,
 			cover_url: book.icon.external.url,
+			started_date: properties['Started Date'].date?.start || null,
+			finished_date: properties['Finished Date'].date?.start || null,
 		};
 	});
 

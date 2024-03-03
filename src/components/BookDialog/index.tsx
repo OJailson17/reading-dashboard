@@ -9,18 +9,7 @@ import { useState } from 'react';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { updateBook } from '@/app/actions/updateBook';
-
-export type BookStatus = 'To read' | 'Reading' | 'Finished';
-
-interface Book {
-	id: string;
-	title: string;
-	author: string;
-	total_pages: number;
-	current_page: number;
-	status: BookStatus;
-	cover_url: string;
-}
+import { Book, BookStatus } from '@/@types/book';
 
 interface BookDialogProps {
 	type?: 'tbr' | 'finished';
@@ -39,8 +28,12 @@ const bookStatusColor = {
 };
 
 export const BookDialog = ({ type = 'tbr', book }: BookDialogProps) => {
-	const [startedDate, setStartedDate] = useState<Date>();
-	const [finishedDate, setFinishedDate] = useState<Date>();
+	const [startedDate, setStartedDate] = useState<Date>(
+		new Date(book.started_date || ''),
+	);
+	const [finishedDate, setFinishedDate] = useState<Date>(
+		new Date(book.finished_date || ''),
+	);
 	const [bookStatus, setBookStatus] = useState<BookStatus>(book.status);
 
 	const handleSetDate = ({ date, date_type }: HandleDateProps) => {
@@ -51,26 +44,48 @@ export const BookDialog = ({ type = 'tbr', book }: BookDialogProps) => {
 		setFinishedDate(date);
 	};
 
-	const handleFormatDate = (date: Date) => {
+	const handleFormatDate = (date: Date, locale: 'br' | 'utc' = 'br') => {
+		if (locale === 'utc') {
+			return format(date, 'yyyy-MM-dd');
+		}
+
 		return format(date, 'dd/MM/yyy', {
 			locale: ptBR,
 		});
 	};
 
-	const handleUpdateStatus = (isModalOpen: boolean) => {
-		if (!isModalOpen && bookStatus !== book.status) {
+	// todo change the dates depending on the status
+	const handleUpdateStatus = async (isStatusModalOpen: boolean) => {
+		if (!isStatusModalOpen && bookStatus !== book.status) {
 			if (bookStatus === 'Finished') {
-				return updateBook({
+				return await updateBook({
 					...book,
 					status: bookStatus,
 					current_page: book.total_pages,
 				});
 			}
 
-			updateBook({
+			await updateBook({
 				...book,
 				status: bookStatus,
 			});
+		}
+	};
+
+	const handleUpdateDates = async (isDatePickerOpen: boolean) => {
+		if (!isDatePickerOpen) {
+			if (
+				handleFormatDate(startedDate) !==
+					handleFormatDate(new Date(book.started_date || '')) ||
+				handleFormatDate(finishedDate) !==
+					handleFormatDate(new Date(book.finished_date || ''))
+			) {
+				await updateBook({
+					...book,
+					started_date: handleFormatDate(startedDate, 'utc'),
+					finished_date: handleFormatDate(finishedDate, 'utc'),
+				});
+			}
 		}
 	};
 
@@ -93,7 +108,7 @@ export const BookDialog = ({ type = 'tbr', book }: BookDialogProps) => {
 
 			{type === 'finished' && (
 				<div className='w-full flex items-center justify-center gap-7 mt-3'>
-					<Popover>
+					<Popover onOpenChange={handleUpdateDates}>
 						<PopoverTrigger className='flex items-center justify-center gap-2'>
 							<IoMdCalendar size={18} />
 							<span className='font-light text-sm text-span'>
@@ -108,17 +123,21 @@ export const BookDialog = ({ type = 'tbr', book }: BookDialogProps) => {
 								mode='single'
 								selected={startedDate}
 								onSelect={e =>
-									handleSetDate({ date: e || new Date(), date_type: 'started' })
+									handleSetDate({
+										date: e || new Date(book.started_date || ''),
+										date_type: 'started',
+									})
 								}
 								disabled={date =>
 									date > new Date() || date < new Date('1900-01-01')
 								}
+								defaultMonth={new Date(book.started_date || '')}
 								className='bg-secondary-background border-none text-span '
 							/>
 						</PopoverContent>
 					</Popover>
 
-					<Popover>
+					<Popover onOpenChange={handleUpdateDates}>
 						<PopoverTrigger className='flex items-center justify-center gap-2'>
 							<IoMdCheckbox size={18} />
 							<span className='font-light text-sm text-span'>
@@ -138,6 +157,7 @@ export const BookDialog = ({ type = 'tbr', book }: BookDialogProps) => {
 										date_type: 'finished',
 									})
 								}
+								defaultMonth={new Date(book.finished_date || '')}
 								disabled={date =>
 									date > new Date() || date < new Date('1900-01-01')
 								}
@@ -159,7 +179,7 @@ export const BookDialog = ({ type = 'tbr', book }: BookDialogProps) => {
 				</div>
 				<div className='space-x-3'>
 					<p className='inline-block'>Status:</p>
-					<Popover onOpenChange={e => handleUpdateStatus(e)}>
+					<Popover onOpenChange={handleUpdateStatus}>
 						<PopoverTrigger
 							className={`font-light text-span ${bookStatusColor[bookStatus]} border-[1px] px-2 rounded-md`}
 						>
