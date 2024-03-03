@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Dialog, DialogTrigger } from '../ui/dialog';
 import { BookDialog } from '../BookDialog';
+import { fetchBooks } from '@/app/books/fetchBooks';
 
 interface Book {
 	id: string;
@@ -16,7 +17,9 @@ interface FinishedCardProps {
 	books: Book[];
 }
 
-export const FinishedCard = ({ books }: FinishedCardProps) => {
+export const FinishedCard = async () => {
+	const books = (await fetchBooks()) || [];
+
 	const finishedBooks = books.filter(book => book.status === 'Finished');
 
 	return (

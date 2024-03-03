@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { TBRBookStats } from './TBRBookStats';
 import { Dialog } from '../ui/dialog';
 import { BookDialog } from '../BookDialog';
+import { fetchBooks } from '@/app/books/fetchBooks';
 
 interface Book {
 	id: string;
@@ -16,7 +17,9 @@ interface TBRCardProps {
 	books: Book[];
 }
 
-export const TBRCard = ({ books }: TBRCardProps) => {
+export const TBRCard = async () => {
+	const books = (await fetchBooks()) || [];
+
 	const TBRBooks = books.filter(book => book.status === 'To read');
 
 	return (

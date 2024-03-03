@@ -13,6 +13,7 @@ import {
 import { Dialog, DialogTrigger } from '../ui/dialog';
 import { BookDialog } from '../BookDialog';
 import { useState } from 'react';
+import { updateBook } from '@/app/actions/updateBook';
 
 interface Book {
 	id: string;
@@ -30,6 +31,17 @@ interface UpdateReadingDialog {
 
 export const UpdateReadingDialog = ({ book }: UpdateReadingDialog) => {
 	const [currentPageValue, setCurrentPageValue] = useState('');
+	const [bookStatus, setBookStatus] = useState(book.status);
+
+	const fetchData = async () => {
+		setCurrentPageValue('');
+
+		updateBook({
+			...book,
+			current_page: Number(currentPageValue) || book.current_page,
+			status: bookStatus,
+		});
+	};
 
 	return (
 		<DrawerContent className='bg-secondary-background border-none'>
@@ -57,6 +69,7 @@ export const UpdateReadingDialog = ({ book }: UpdateReadingDialog) => {
 			<form
 				className='mt-4 mb-6 flex flex-col gap-6 items-center justify-center'
 				autoComplete='off'
+				action={fetchData}
 			>
 				<div className='flex flex-col gap-1 justify-center text-span'>
 					<label htmlFor='current-page'>current page:</label>
@@ -70,7 +83,10 @@ export const UpdateReadingDialog = ({ book }: UpdateReadingDialog) => {
 				</div>
 				<div className='flex flex-col gap-1 justify-center text-span'>
 					<label htmlFor='current-page'>status:</label>
-					<Select defaultValue={book.status}>
+					<Select
+						defaultValue={book.status}
+						onValueChange={e => setBookStatus(e)}
+					>
 						<SelectTrigger className='w-60'>
 							<SelectValue placeholder='Select status' />
 						</SelectTrigger>
