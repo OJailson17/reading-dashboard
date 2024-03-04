@@ -12,39 +12,75 @@ import {
 } from '../ui/select';
 import { Dialog, DialogTrigger } from '../ui/dialog';
 import { BookDialog } from '../BookDialog';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { updateBook } from '@/app/actions/updateBook';
 import { Book, BookStatus } from '@/@types/book';
+import { handleFormatDate } from '@/utils/formatDate';
+import { ImSpinner2 } from 'react-icons/im';
 
 interface UpdateReadingDialog {
 	book: Book;
 }
 
-// todo change the dates depending on the status
 export const UpdateReadingDialog = ({ book }: UpdateReadingDialog) => {
 	const [currentPageValue, setCurrentPageValue] = useState('');
 	const [bookStatus, setBookStatus] = useState(book.status);
+	const [isUpdatingBook, setIsUpdatingBook] = useState(false);
 
-	const fetchData = async () => {
-		setCurrentPageValue('');
+	const pageInputRef = useRef<HTMLInputElement | null>(null);
 
-		if (bookStatus === 'Finished') {
+	// Update book status and current page
+	const handleUpdateBook = async () => {
+		// just return if page and status didn't change
+		if (
+			Number(currentPageValue) === book.current_page &&
+			bookStatus === book.status
+		) {
+			return;
+		}
+
+		setIsUpdatingBook(true);
+
+		if (bookStatus === 'To read') {
+			book.started_date = null;
+			book.finished_date = null;
+			book.current_page = 0;
+		}
+
+		// define as finished if status is finished or current page is more than total pages
+		if (
+			bookStatus === 'Finished' ||
+			Number(currentPageValue) >= book.total_pages
+		) {
+			book.finished_date = handleFormatDate(new Date(), 'utc');
+			book.started_date = !book.started_date
+				? handleFormatDate(new Date(), 'utc')
+				: book.started_date;
+			book.current_page = book.total_pages;
+		}
+
+		if (Number(currentPageValue) >= book.total_pages) {
 			return updateBook({
 				...book,
-				current_page: book.total_pages,
-				status: bookStatus,
+				status: 'Finished',
 			});
 		}
 
-		updateBook({
+		await updateBook({
 			...book,
 			current_page: Number(currentPageValue) || book.current_page,
 			status: bookStatus,
 		});
+
+		pageInputRef.current?.blur();
+		setIsUpdatingBook(false);
 	};
 
 	return (
-		<DrawerContent className='bg-secondary-background border-none'>
+		<DrawerContent
+			onInteractOutside={() => setCurrentPageValue('')}
+			className='bg-secondary-background border-none outline-none'
+		>
 			<DrawerHeader className='w-full h-ful relative'>
 				<div className='w-28 absolute h-40 -top-20 left-1/2 -translate-x-1/2 rounded-2xl'>
 					<Image
@@ -69,7 +105,7 @@ export const UpdateReadingDialog = ({ book }: UpdateReadingDialog) => {
 			<form
 				className='mt-4 mb-6 flex flex-col gap-6 items-center justify-center'
 				autoComplete='off'
-				action={fetchData}
+				action={handleUpdateBook}
 			>
 				<div className='flex flex-col gap-1 justify-center text-span'>
 					<label htmlFor='current-page'>current page:</label>
@@ -79,6 +115,7 @@ export const UpdateReadingDialog = ({ book }: UpdateReadingDialog) => {
 						className='bg-background w-60 h-9 rounded-md px-4'
 						value={currentPageValue}
 						onChange={e => setCurrentPageValue(e.target.value)}
+						ref={pageInputRef}
 					/>
 				</div>
 				<div className='flex flex-col gap-1 justify-center text-span'>
@@ -102,8 +139,15 @@ export const UpdateReadingDialog = ({ book }: UpdateReadingDialog) => {
 					</Select>
 				</div>
 
-				<button className='w-60 h-9 bg-purple rounded-md font-medium text-sm'>
-					Save
+				<button
+					className='w-60 h-9 bg-purple rounded-md font-medium text-sm flex items-center justify-center'
+					disabled={isUpdatingBook}
+				>
+					{isUpdatingBook ? (
+						<ImSpinner2 className='text-white animate-spin' />
+					) : (
+						<p>save</p>
+					)}
 				</button>
 			</form>
 		</DrawerContent>

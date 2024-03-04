@@ -10,6 +10,7 @@ import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { updateBook } from '@/app/actions/updateBook';
 import { Book, BookStatus } from '@/@types/book';
+import { handleFormatDate, handleRemoveZeroDigit } from '@/utils/formatDate';
 
 interface BookDialogProps {
 	type?: 'tbr' | 'finished';
@@ -27,12 +28,14 @@ const bookStatusColor = {
 	Finished: 'border-light-green',
 };
 
+const today = format(new Date(), 'yyyy-MM-dd');
+
 export const BookDialog = ({ type = 'tbr', book }: BookDialogProps) => {
 	const [startedDate, setStartedDate] = useState<Date>(
-		new Date(book.started_date || ''),
+		new Date(handleRemoveZeroDigit(book.started_date || today)),
 	);
 	const [finishedDate, setFinishedDate] = useState<Date>(
-		new Date(book.finished_date || ''),
+		new Date(handleRemoveZeroDigit(book.finished_date || today)),
 	);
 	const [bookStatus, setBookStatus] = useState<BookStatus>(book.status);
 
@@ -44,28 +47,26 @@ export const BookDialog = ({ type = 'tbr', book }: BookDialogProps) => {
 		setFinishedDate(date);
 	};
 
-	const handleFormatDate = (date: Date, locale: 'br' | 'utc' = 'br') => {
-		if (locale === 'utc') {
-			return format(date, 'yyyy-MM-dd');
-		}
-
-		return format(date, 'dd/MM/yyy', {
-			locale: ptBR,
-		});
-	};
-
-	// todo change the dates depending on the status
 	const handleUpdateStatus = async (isStatusModalOpen: boolean) => {
 		if (!isStatusModalOpen && bookStatus !== book.status) {
-			if (bookStatus === 'Finished') {
-				return await updateBook({
-					...book,
-					status: bookStatus,
-					current_page: book.total_pages,
-				});
+			// if it's reading set started date to today
+			if (bookStatus === 'To read') {
+				book.started_date = null;
+				book.finished_date = null;
 			}
 
-			await updateBook({
+			// if it's reading set started date to today
+			if (bookStatus === 'Reading') {
+				book.started_date = handleFormatDate(new Date(), 'utc');
+				book.finished_date = null;
+			}
+
+			// if it's finished set finished date to today
+			if (bookStatus === 'Finished') {
+				book.finished_date = handleFormatDate(new Date(), 'utc');
+			}
+
+			return await updateBook({
 				...book,
 				status: bookStatus,
 			});
@@ -76,9 +77,9 @@ export const BookDialog = ({ type = 'tbr', book }: BookDialogProps) => {
 		if (!isDatePickerOpen) {
 			if (
 				handleFormatDate(startedDate) !==
-					handleFormatDate(new Date(book.started_date || '')) ||
+					handleFormatDate(new Date(book.started_date || today)) ||
 				handleFormatDate(finishedDate) !==
-					handleFormatDate(new Date(book.finished_date || ''))
+					handleFormatDate(new Date(book.finished_date || today))
 			) {
 				await updateBook({
 					...book,
@@ -124,14 +125,14 @@ export const BookDialog = ({ type = 'tbr', book }: BookDialogProps) => {
 								selected={startedDate}
 								onSelect={e =>
 									handleSetDate({
-										date: e || new Date(book.started_date || ''),
+										date: e || new Date(book.started_date || today),
 										date_type: 'started',
 									})
 								}
 								disabled={date =>
 									date > new Date() || date < new Date('1900-01-01')
 								}
-								defaultMonth={new Date(book.started_date || '')}
+								defaultMonth={new Date(book.started_date || today)}
 								className='bg-secondary-background border-none text-span '
 							/>
 						</PopoverContent>
@@ -157,7 +158,7 @@ export const BookDialog = ({ type = 'tbr', book }: BookDialogProps) => {
 										date_type: 'finished',
 									})
 								}
-								defaultMonth={new Date(book.finished_date || '')}
+								defaultMonth={new Date(book.finished_date || today)}
 								disabled={date =>
 									date > new Date() || date < new Date('1900-01-01')
 								}

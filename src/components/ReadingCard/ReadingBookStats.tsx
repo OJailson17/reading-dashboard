@@ -18,7 +18,7 @@ export const ReadingBookStats = ({ book }: ReadingBooksStatsProps) => {
 		<>
 			<DrawerTrigger className='w-full text-left bg-transparent'>
 				<div className='w-full flex justify-between'>
-					<div>
+					<div className='max-w-[85%]'>
 						<p className='font-light text-span'>{book.title}</p>
 						<span className='font-light text-placeholder text-sm'>
 							{book.author}
