@@ -11,6 +11,7 @@ import { ptBR } from 'date-fns/locale';
 import { updateBook } from '@/app/actions/updateBook';
 import { Book, BookStatus } from '@/@types/book';
 import { handleFormatDate, handleRemoveZeroDigit } from '@/utils/formatDate';
+import { useToast } from '../ui/use-toast';
 
 interface BookDialogProps {
 	type?: 'tbr' | 'finished';
@@ -39,6 +40,8 @@ export const BookDialog = ({ type = 'tbr', book }: BookDialogProps) => {
 	);
 	const [bookStatus, setBookStatus] = useState<BookStatus>(book.status);
 
+	const { toast } = useToast();
+
 	const handleSetDate = ({ date, date_type }: HandleDateProps) => {
 		if (date_type === 'started') {
 			return setStartedDate(date);
@@ -66,9 +69,14 @@ export const BookDialog = ({ type = 'tbr', book }: BookDialogProps) => {
 				book.finished_date = handleFormatDate(new Date(), 'utc');
 			}
 
-			return await updateBook({
+			await updateBook({
 				...book,
 				status: bookStatus,
+			});
+
+			toast({
+				description: 'Book updated!',
+				variant: 'success',
 			});
 		}
 	};
@@ -85,6 +93,11 @@ export const BookDialog = ({ type = 'tbr', book }: BookDialogProps) => {
 					...book,
 					started_date: handleFormatDate(startedDate, 'utc'),
 					finished_date: handleFormatDate(finishedDate, 'utc'),
+				});
+
+				toast({
+					description: 'Book updated!',
+					variant: 'success',
 				});
 			}
 		}

@@ -17,6 +17,7 @@ import { updateBook } from '@/app/actions/updateBook';
 import { Book, BookStatus } from '@/@types/book';
 import { handleFormatDate } from '@/utils/formatDate';
 import { ImSpinner2 } from 'react-icons/im';
+import { useToast } from '../ui/use-toast';
 
 interface UpdateReadingDialog {
 	book: Book;
@@ -28,6 +29,8 @@ export const UpdateReadingDialog = ({ book }: UpdateReadingDialog) => {
 	const [isUpdatingBook, setIsUpdatingBook] = useState(false);
 
 	const pageInputRef = useRef<HTMLInputElement | null>(null);
+
+	const { toast } = useToast();
 
 	// Update book status and current page
 	const handleUpdateBook = async () => {
@@ -72,6 +75,11 @@ export const UpdateReadingDialog = ({ book }: UpdateReadingDialog) => {
 			status: bookStatus,
 		});
 
+		toast({
+			description: 'Book updated!',
+			variant: 'success',
+		});
+
 		pageInputRef.current?.blur();
 		setIsUpdatingBook(false);
 	};
@@ -112,7 +120,7 @@ export const UpdateReadingDialog = ({ book }: UpdateReadingDialog) => {
 					<input
 						type='text'
 						placeholder={String(book.current_page)}
-						className='bg-background w-60 h-9 rounded-md px-4'
+						className='bg-background w-60 h-9 max-sm:h-11 max-sm:w-72 rounded-md px-4'
 						value={currentPageValue}
 						onChange={e => setCurrentPageValue(e.target.value)}
 						ref={pageInputRef}
@@ -124,23 +132,29 @@ export const UpdateReadingDialog = ({ book }: UpdateReadingDialog) => {
 						defaultValue={book.status}
 						onValueChange={(status: BookStatus) => setBookStatus(status)}
 					>
-						<SelectTrigger className='w-60'>
+						<SelectTrigger className='w-60 max-sm:h-11 max-sm:w-72'>
 							<SelectValue placeholder='Select status' />
 						</SelectTrigger>
 
 						<SelectContent className='bg-background'>
 							<SelectGroup className='bg-background text-span'>
 								{/* <SelectLabel>Status</SelectLabel> */}
-								<SelectItem value='To read'>To read</SelectItem>
-								<SelectItem value='Reading'>Reading</SelectItem>
-								<SelectItem value='Finished'>Finished</SelectItem>
+								<SelectItem value='To read' className='max-sm:h-11'>
+									To read
+								</SelectItem>
+								<SelectItem value='Reading' className='max-sm:h-11'>
+									Reading
+								</SelectItem>
+								<SelectItem value='Finished' className='max-sm:h-11'>
+									Finished
+								</SelectItem>
 							</SelectGroup>
 						</SelectContent>
 					</Select>
 				</div>
 
 				<button
-					className='w-60 h-9 bg-purple rounded-md font-medium text-sm flex items-center justify-center'
+					className='w-60 h-9 max-sm:h-11 max-sm:w-72 bg-purple rounded-md font-medium text-sm flex items-center justify-center'
 					disabled={isUpdatingBook}
 				>
 					{isUpdatingBook ? (

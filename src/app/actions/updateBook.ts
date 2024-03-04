@@ -1,11 +1,10 @@
 'use server';
 
 import { revalidateTag } from 'next/cache';
-import { format } from 'date-fns';
 import { Book } from '@/@types/book';
 
 export const updateBook = async (book: Book) => {
-	fetch(`http://localhost:8082/books/${book.id}`, {
+	await fetch(`http://192.168.0.105:8082/books/${book.id}`, {
 		method: 'PATCH',
 		body: JSON.stringify({
 			icon: {

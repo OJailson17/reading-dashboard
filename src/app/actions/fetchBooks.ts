@@ -73,7 +73,7 @@ const formatBooks = (books: NotionBookProps[]) => {
 
 export const fetchBooks = cache(async () => {
 	try {
-		const response = await fetch('http://localhost:8082/books', {
+		const response = await fetch('http://192.168.0.105:8082/books', {
 			next: {
 				revalidate: false,
 				tags: ['fetch-books'],
