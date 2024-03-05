@@ -11,9 +11,10 @@ export const GoalInput = ({ label, onSetGoal }: GoalInputProps) => {
 			</label>
 			<form className='w-full mt-2 flex gap-2'>
 				<input
-					type='text'
+					type='number'
 					placeholder='0'
 					className='w-full max-w-52 px-3 bg-background placeholder:text-placeholder rounded-md'
+					min={0}
 				/>
 				<button
 					type='button'

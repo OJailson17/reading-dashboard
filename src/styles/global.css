@@ -49,3 +49,11 @@ html::-webkit-scrollbar-thumb {
 	background-color: #b6b7c2;
 	outline: 1px solid #0e102e;
 }
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	margin: 0;
+}

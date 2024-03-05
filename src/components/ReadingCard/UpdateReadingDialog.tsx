@@ -118,10 +118,12 @@ export const UpdateReadingDialog = ({ book }: UpdateReadingDialog) => {
 				<div className='flex flex-col gap-1 justify-center text-span'>
 					<label htmlFor='current-page'>current page:</label>
 					<input
-						type='text'
+						type='number'
 						placeholder={String(book.current_page)}
 						className='bg-background w-60 h-9 max-sm:h-11 max-sm:w-72 rounded-md px-4'
 						value={currentPageValue}
+						max={book.total_pages}
+						min={0}
 						onChange={e => setCurrentPageValue(e.target.value)}
 						ref={pageInputRef}
 					/>
