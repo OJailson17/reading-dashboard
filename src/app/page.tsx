@@ -15,6 +15,8 @@ import { fetchBooks } from './actions/fetchBooks';
 export default async function Home() {
 	const books = (await fetchBooks()) || [];
 
+	const finishedBooks = books.filter(book => book.status === 'Finished');
+
 	return (
 		<>
 			<Header />
@@ -37,10 +39,10 @@ export default async function Home() {
 
 			<main className='w-full max-w-7xl my-14 flex flex-col lg:flex-row items-start gap-8 lg:max-[1200px]:gap-4 xl:gap-8'>
 				<section className='w-full grid grid-cols-1 lg:w-[70%] sm:grid-cols-2 lg:max-[1200px]:gap-x-4 gap-x-8 lg:max-[1200px]:gap-y-4 gap-y-6'>
-					<FinishedStatisticCard books={{ current: 8, total: 10 }} />
+					<FinishedStatisticCard books={{ current: finishedBooks.length }} />
 					<FinishedStatisticCard
 						card='year'
-						books={{ current: 28, total: 50 }}
+						books={{ current: finishedBooks.length }}
 					/>
 					<ReadingCard />
 					<TBRCard />
