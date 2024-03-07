@@ -1,7 +1,16 @@
+import { LoginForm } from '@/components/Forms/LoginForm';
 import { Logo } from '@/components/Logo';
 import { aclonica } from '@/utils/fonts';
+import { getUser } from '../actions/getUser';
+import { redirect } from 'next/navigation';
 
-export default function Login() {
+export default async function Login() {
+	const user = await getUser();
+
+	if (user.token && user.user_database) {
+		redirect('/');
+	}
+
 	return (
 		<>
 			<header className='w-full pt-14 text-center'>
@@ -16,25 +25,7 @@ export default function Login() {
 						Login
 					</h2>
 
-					<form className='mt-9 w-full flex items-center justify-center flex-col px-6 sm:px-20'>
-						<div className='w-full'>
-							<label htmlFor='username' className='text-span block'>
-								use{' '}
-								<span className='bg-gradient-primary inline-block text-transparent bg-clip-text font-bold'>
-									demo_user
-								</span>
-							</label>
-							<input
-								type='text'
-								placeholder='username'
-								className='w-full h-12 mt-1 bg-background text-span placeholder:text-placeholder px-6 rounded-md'
-							/>
-						</div>
-
-						<button className='w-36 h-10 font-semibold text-sm bg-purple mt-5 rounded-md text-white'>
-							enter
-						</button>
-					</form>
+					<LoginForm />
 				</div>
 			</main>
 		</>

@@ -11,14 +11,24 @@ import { GenreStatisticsChart } from '@/components/Charts/GenreStatisticChart';
 import { YearlyChart } from '@/components/Charts/YearlyChart';
 import { Footer } from '@/components/Footer';
 import { fetchBooks } from './actions/fetchBooks';
+import { getUser } from './actions/getUser';
+import { redirect } from 'next/navigation';
+import { Suspense } from 'react';
+import LoadingScreen from './loading';
 
 export default async function Home() {
+	const user = await getUser();
+
+	if (!user.token || !user.user_database) {
+		redirect('/login');
+	}
+
 	const books = (await fetchBooks()) || [];
 
 	const finishedBooks = books.filter(book => book.status === 'Finished');
 
 	return (
-		<>
+		<Suspense fallback={<LoadingScreen />}>
 			<Header />
 
 			<section className='w-full lg:w-2/3 max-w-[853px] mt-14 flex flex-col sm:flex-row items-end sm:justify-between'>
@@ -56,6 +66,6 @@ export default async function Home() {
 			</main>
 
 			<Footer />
-		</>
+		</Suspense>
 	);
 }

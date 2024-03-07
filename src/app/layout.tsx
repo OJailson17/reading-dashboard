@@ -23,7 +23,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang='en' className={`${poppins.className}`}>
-			<body className={`bg-background text-white`}>
+			<body className={`bg-background text-white overflow-x-hidden`}>
 				<div id='app' className='px-6 xl:px-24 flex flex-col w-screen mx-auto'>
 					<BookContextProvider>{children}</BookContextProvider>
 				</div>

@@ -41,7 +41,6 @@ export const FinishedStatisticCard = ({
 		});
 
 		setGoalPercentage(finishedPercentage);
-		console.log('rendered');
 	}, [bookGoals, books, booksTotalGoal, card]);
 
 	return (
