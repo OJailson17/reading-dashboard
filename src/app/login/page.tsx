@@ -1,23 +1,22 @@
-import { Footer } from '@/components/Footer';
 import { Logo } from '@/components/Logo';
 import { aclonica } from '@/utils/fonts';
 
 export default function Login() {
 	return (
 		<>
-			<header className='w-full pt-14'>
+			<header className='w-full pt-14 text-center'>
 				<Logo />
 			</header>
 
-			<main className='w-full flex items-center justify-center mt-20 font-poppins'>
-				<div className='w-full max-w-[685px] flex flex-col items-center justify-center bg-secondary-background rounded-2xl py-9'>
+			<main className='w-full max-w-[550px] mx-auto flex items-center justify-center mt-20 font-poppins'>
+				<div className='w-full max-w-[685px] flex flex-col items-center justify-center bg-secondary-background  rounded-2xl py-9'>
 					<h2
-						className={`bg-gradient-primary inline-block text-transparent bg-clip-text text-3xl ${aclonica.className}`}
+						className={`bg-gradient-primary inline-block text-transparent bg-clip-text text-3xl ${aclonica.className} `}
 					>
 						Login
 					</h2>
 
-					<form className='mt-9 w-full max-w-[362px] flex items-center justify-center flex-col'>
+					<form className='mt-9 w-full flex items-center justify-center flex-col px-6 sm:px-20'>
 						<div className='w-full'>
 							<label htmlFor='username' className='text-span block'>
 								use{' '}
