@@ -3,7 +3,6 @@
 import { calculatePercentage } from '@/utils/calculatePercentage';
 import { CircularProgressBar } from '../CircularProgressBar';
 import { useEffect, useState } from 'react';
-import { localStorageStrings } from '@/utils/constants/localStorageStrings';
 import { useBook } from '@/context/BookContext';
 
 interface Book {

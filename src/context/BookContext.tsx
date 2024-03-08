@@ -1,6 +1,6 @@
 'use client';
 
-import { localStorageStrings } from '@/utils/constants/localStorageStrings';
+import { storageStrings } from '@/utils/constants/storageStrings';
 import {
 	ReactNode,
 	createContext,
@@ -34,7 +34,7 @@ export const BookContextProvider = ({ children }: BookContextProviderProps) => {
 	const handleSetBookGoals = (goal: string, period: 'month' | 'year') => {
 		if (period === 'month') {
 			localStorage.setItem(
-				localStorageStrings.goals,
+				storageStrings.goals,
 				JSON.stringify({
 					...bookGoals,
 					month: goal,
@@ -50,7 +50,7 @@ export const BookContextProvider = ({ children }: BookContextProviderProps) => {
 		}
 
 		localStorage.setItem(
-			localStorageStrings.goals,
+			storageStrings.goals,
 			JSON.stringify({
 				...bookGoals,
 				year: goal,
@@ -66,7 +66,7 @@ export const BookContextProvider = ({ children }: BookContextProviderProps) => {
 
 	useEffect(() => {
 		if (typeof window !== 'undefined') {
-			const goals = localStorage.getItem(localStorageStrings.goals);
+			const goals = localStorage.getItem(storageStrings.goals);
 
 			if (goals) {
 				setBookGoals(JSON.parse(goals));

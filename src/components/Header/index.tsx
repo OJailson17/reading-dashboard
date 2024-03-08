@@ -2,11 +2,27 @@
 
 import { onSignOut } from '@/app/actions/signOut';
 import { Logo } from '../Logo';
+import { useEffect, useState } from 'react';
+import { storageStrings } from '@/utils/constants/storageStrings';
 
 export const Header = () => {
+	const [username, setUsername] = useState('demo');
+
 	const handleSignOut = async () => {
+		localStorage.clear();
+
 		await onSignOut();
 	};
+
+	useEffect(() => {
+		if (typeof window !== undefined) {
+			const username = localStorage.getItem(storageStrings.username);
+
+			if (username) {
+				setUsername(username);
+			}
+		}
+	}, []);
 
 	return (
 		<header className='w-full max-w-7xl pt-14 flex items-center justify-between'>
@@ -19,7 +35,7 @@ export const Header = () => {
 				<div className='w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-span' />
 				<div className='hidden md:block flex-1 overflow-hidden '>
 					<p className='font-semibold '>Jailson de Oliveira</p>
-					<span className='text-span'>@ojailson17</span>
+					<span className='text-span'>@{username}</span>
 				</div>
 			</button>
 		</header>
