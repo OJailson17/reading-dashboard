@@ -26,7 +26,7 @@ const setStatusToFinished = async ({
 	book_id,
 	current_page,
 }: FinishedStatusProps) => {
-	await fetch(`http://192.168.0.105:3000/api/book/update/status/finished`, {
+	await fetch(`${process.env.API_BASE_URL}/book/update/status/finished`, {
 		method: 'PATCH',
 		body: JSON.stringify({
 			page_id: book_id,

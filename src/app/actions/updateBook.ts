@@ -4,7 +4,7 @@ import { revalidateTag } from 'next/cache';
 import { Book } from '@/@types/book';
 
 export const updateBook = async (book: Book) => {
-	await fetch(`http://192.168.0.105:8082/books/${book.id}`, {
+	await fetch(`${process.env.API_BASE_URL}/books/${book.id}`, {
 		method: 'PATCH',
 		body: JSON.stringify({
 			icon: {

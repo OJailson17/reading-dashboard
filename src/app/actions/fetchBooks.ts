@@ -79,7 +79,7 @@ export const fetchBooks = cache(
 	async ({ database_id }: UpdateFetchBooksProps) => {
 		try {
 			const response = await fetch(
-				`http://192.168.0.105:3000/api/book?db=${database_id}`,
+				`${process.env.API_BASE_URL}/book?db=${database_id}`,
 				{
 					next: {
 						revalidate: 1,
