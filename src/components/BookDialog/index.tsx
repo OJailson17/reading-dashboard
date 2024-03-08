@@ -7,11 +7,11 @@ import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { Calendar } from '../ui/calendar';
 import { useState } from 'react';
 import { format } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
 import { updateBook } from '@/app/actions/updateBook';
 import { Book, BookStatus } from '@/@types/book';
 import { handleFormatDate, handleRemoveZeroDigit } from '@/utils/formatDate';
 import { useToast } from '../ui/use-toast';
+import { updateBookStatus } from '@/app/actions/updateBookStatus';
 
 interface BookDialogProps {
 	type?: 'tbr' | 'finished';
@@ -67,12 +67,15 @@ export const BookDialog = ({ type = 'tbr', book }: BookDialogProps) => {
 			// if it's finished set finished date to today
 			if (bookStatus === 'Finished') {
 				book.finished_date = handleFormatDate(new Date(), 'utc');
-			}
 
-			await updateBook({
-				...book,
-				status: bookStatus,
-			});
+				await updateBookStatus({
+					status: 'Finished',
+					book: {
+						id: book.id,
+						current_page: book.total_pages,
+					},
+				});
+			}
 
 			toast({
 				description: 'Book updated!',
