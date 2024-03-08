@@ -16,14 +16,16 @@ type ResultResponse = {
 	id: string;
 	properties: {
 		username: {
-			id: string;
-			type: string;
 			title: TitleProperty[];
 		};
 		database_id: {
-			id: string;
-			object: string;
 			rich_text: DatabaseIdProperty[];
+		};
+		monthly_goal: {
+			number: number;
+		};
+		yearly_goal: {
+			number: number;
 		};
 	};
 };
@@ -70,6 +72,9 @@ export async function GET(req: NextRequest, res: NextResponse) {
 			token,
 			username,
 			database_id: user_database_id,
+			monthly_goal: getUsername.properties.monthly_goal.number,
+			yearly_goal: getUsername.properties.yearly_goal.number,
+			user_id: getUsername.id,
 		});
 	} else {
 		return NextResponse.json(

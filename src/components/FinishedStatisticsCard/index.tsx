@@ -3,7 +3,7 @@
 import { calculatePercentage } from '@/utils/calculatePercentage';
 import { CircularProgressBar } from '../CircularProgressBar';
 import { useEffect, useState } from 'react';
-import { useBook } from '@/context/BookContext';
+import { useGoal } from '@/context/GoalContext';
 
 interface Book {
 	current: number;
@@ -21,7 +21,7 @@ export const FinishedStatisticCard = ({
 	const [booksTotalGoal, setBooksTotalGoal] = useState('0');
 	const [goalPercentage, setGoalPercentage] = useState(0);
 
-	const { bookGoals } = useBook();
+	const { bookGoals } = useGoal();
 
 	useEffect(() => {
 		if (card === 'month') {

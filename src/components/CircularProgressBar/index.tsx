@@ -8,8 +8,9 @@ export const CircularProgressBar = ({
 	const pi = Math.PI;
 	const radius = 45;
 	const circumference = Math.round(2 * pi * radius);
-	const strokeDashOffset =
-		circumference - (circumference * bar_percentage) / 100;
+	const percentage = bar_percentage > 100 ? 100 : bar_percentage;
+
+	const strokeDashOffset = circumference - (circumference * percentage) / 100;
 
 	// todo add a gradient
 	return (

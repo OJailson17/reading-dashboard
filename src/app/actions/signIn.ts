@@ -6,6 +6,9 @@ type Response = {
 	token: string;
 	username: string;
 	database_id: string;
+	monthly_goal: number | null;
+	yearly_goal: number | null;
+	user_id: string;
 };
 
 type ResponseError = {

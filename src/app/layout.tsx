@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Poppins } from 'next/font/google';
 import '@/styles/global.css';
 import { Toaster } from '@/components/ui/toaster';
-import { BookContextProvider } from '@/context/BookContext';
+import { GoalContextProvider } from '@/context/GoalContext';
 
 const poppins = Poppins({
 	subsets: ['latin'],
@@ -25,7 +25,7 @@ export default function RootLayout({
 		<html lang='en' className={`${poppins.className}`}>
 			<body className={`bg-background text-white overflow-x-hidden h-screen`}>
 				<div id='app' className='px-6 xl:px-24 flex flex-col w-screen mx-auto'>
-					<BookContextProvider>{children}</BookContextProvider>
+					<GoalContextProvider>{children}</GoalContextProvider>
 				</div>
 				<Toaster />
 			</body>

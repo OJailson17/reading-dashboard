@@ -112,6 +112,13 @@ export const YearlyChart = ({ books }: YearlyChartProps) => {
 	// 	amount: monthsBooksQtd[label].quantity,
 	// }));
 
+	// hide the default props warning
+	const error = console.error;
+	console.error = (...args: any) => {
+		if (/defaultProps/.test(args[0])) return;
+		error(...args);
+	};
+
 	return (
 		<div className='w-full sm:col-span-2 h-80 px-4 xl:px-7 py-6 bg-secondary-background rounded-2xl'>
 			<header className='flex items-center justify-between'>

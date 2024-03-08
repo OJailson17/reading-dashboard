@@ -1,17 +1,17 @@
 'use client';
 
 import { GoalInput } from './GoalInput';
-import { useBook } from '@/context/BookContext';
+import { useGoal } from '@/context/GoalContext';
 
 export const GoalsCard = () => {
-	const { onSetGoal } = useBook();
+	const { onSetGoal, bookGoals } = useGoal();
 
-	const handleSetMonthlyGoal = (goal: string) => {
-		onSetGoal(goal, 'month');
+	const handleSetMonthlyGoal = async (goal: string) => {
+		await onSetGoal(goal, 'month');
 	};
 
-	const handleSetYearlyGoal = (goal: string) => {
-		onSetGoal(goal, 'year');
+	const handleSetYearlyGoal = async (goal: string) => {
+		await onSetGoal(goal, 'year');
 	};
 
 	return (
@@ -19,8 +19,16 @@ export const GoalsCard = () => {
 			<h2 className='font-bold text-xl'>Goals</h2>
 
 			<div className='mt-8 space-y-6'>
-				<GoalInput label='month goal' onSetGoal={handleSetMonthlyGoal} />
-				<GoalInput label='year goal' onSetGoal={handleSetYearlyGoal} />
+				<GoalInput
+					label='month goal'
+					onSetGoal={handleSetMonthlyGoal}
+					placeholder={bookGoals.month}
+				/>
+				<GoalInput
+					label='year goal'
+					onSetGoal={handleSetYearlyGoal}
+					placeholder={bookGoals.year}
+				/>
 			</div>
 		</div>
 	);

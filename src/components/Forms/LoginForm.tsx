@@ -5,11 +5,15 @@ import { storageStrings } from '@/utils/constants/storageStrings';
 import { useForm } from 'react-hook-form';
 import { ImSpinner2 } from 'react-icons/im';
 import { toast } from '../ui/use-toast';
+import { useGoal } from '@/context/GoalContext';
 
 interface Response {
 	token: string;
 	username: string;
 	database_id: string;
+	monthly_goal: number | null;
+	yearly_goal: number | null;
+	user_id: string;
 }
 
 interface ResponseError {
@@ -23,6 +27,8 @@ export const LoginForm = () => {
 		formState: { isSubmitting },
 	} = useForm();
 
+	const { onSetInitialGoals } = useGoal();
+
 	const handleLogin = async (data: any) => {
 		const signInResponse = (await onSignIn(data.username)) as
 			| Response
@@ -34,7 +40,14 @@ export const LoginForm = () => {
 				variant: 'destructive',
 			});
 		}
+
+		onSetInitialGoals({
+			month: String(signInResponse.monthly_goal || '0'),
+			year: String(signInResponse.yearly_goal || '0'),
+		});
+
 		localStorage.setItem(storageStrings.username, signInResponse.username);
+		localStorage.setItem(storageStrings.user_id, signInResponse.user_id);
 	};
 
 	return (
