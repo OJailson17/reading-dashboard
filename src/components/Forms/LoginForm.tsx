@@ -1,18 +1,40 @@
 'use client';
 
 import { onSignIn } from '@/app/actions/signIn';
+import { storageStrings } from '@/utils/constants/storageStrings';
 import { useForm } from 'react-hook-form';
 import { ImSpinner2 } from 'react-icons/im';
+import { toast } from '../ui/use-toast';
+
+interface Response {
+	token: string;
+	username: string;
+	database_id: string;
+}
+
+interface ResponseError {
+	error: string;
+}
 
 export const LoginForm = () => {
 	const {
 		register,
 		handleSubmit,
-		formState: { isSubmitting, isLoading },
+		formState: { isSubmitting },
 	} = useForm();
 
 	const handleLogin = async (data: any) => {
-		const user = await onSignIn(data.username);
+		const signInResponse = (await onSignIn(data.username)) as
+			| Response
+			| ResponseError;
+
+		if ('error' in signInResponse) {
+			return toast({
+				description: signInResponse.error,
+				variant: 'destructive',
+			});
+		}
+		localStorage.setItem(storageStrings.username, signInResponse.username);
 	};
 
 	return (

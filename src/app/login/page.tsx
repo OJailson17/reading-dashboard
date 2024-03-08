@@ -3,6 +3,7 @@ import { Logo } from '@/components/Logo';
 import { aclonica } from '@/utils/fonts';
 import { getUser } from '../actions/getUser';
 import { redirect } from 'next/navigation';
+import { Toaster } from '@/components/ui/toaster';
 
 export default async function Login() {
 	const user = await getUser();
@@ -13,6 +14,7 @@ export default async function Login() {
 
 	return (
 		<>
+			<Toaster />
 			<header className='w-full pt-14 text-center'>
 				<Logo />
 			</header>

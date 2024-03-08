@@ -2,6 +2,16 @@
 
 import { cookies } from 'next/headers';
 
+type Response = {
+	token: string;
+	username: string;
+	database_id: string;
+};
+
+type ResponseError = {
+	error: string;
+};
+
 export const onSignIn = async (username: string) => {
 	const response = await fetch(
 		`${process.env.API_BASE_URL}/auth/?username=${username}`,
@@ -13,10 +23,12 @@ export const onSignIn = async (username: string) => {
 		},
 	);
 
-	const data = await response.json();
+	const user = (await response.json()) as Response | ResponseError;
 
-	if (data.error) {
-		return { data };
+	if ('error' in user) {
+		return {
+			error: user.error,
+		};
 	}
 
 	const today = Date.now();
@@ -24,7 +36,7 @@ export const onSignIn = async (username: string) => {
 
 	cookies().set({
 		name: 'token',
-		value: data.token,
+		value: user.token,
 		httpOnly: true,
 		path: '/',
 		expires: today + oneDay,
@@ -32,11 +44,11 @@ export const onSignIn = async (username: string) => {
 
 	cookies().set({
 		name: 'user_database_id',
-		value: data.token,
+		value: user.token,
 		httpOnly: true,
 		path: '/',
 		expires: today + oneDay,
 	});
 
-	return { data };
+	return user;
 };
