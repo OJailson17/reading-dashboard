@@ -3,13 +3,17 @@ import { Drawer } from '../ui/drawer';
 import { UpdateReadingDialog } from './UpdateReadingDialog';
 import { fetchBooks } from '@/app/actions/fetchBooks';
 import { Book } from '@/@types/book';
+import { getUser } from '@/app/actions/getUser';
 
 interface ReadingCardProps {
 	books: Book[];
 }
 
 export const ReadingCard = async () => {
-	const books = (await fetchBooks()) || [];
+	const user = await getUser();
+
+	const books =
+		(await fetchBooks({ database_id: user.user_database || '' })) || [];
 
 	const readingBooks = books.filter(book => book.status === 'Reading');
 

@@ -51,6 +51,10 @@ type NotionBookProps = {
 	properties: BookProperties;
 };
 
+type UpdateFetchBooksProps = {
+	database_id: string;
+};
+
 const formatBooks = (books: NotionBookProps[]) => {
 	const formattedBooks = books.map(book => {
 		const properties = book.properties;
@@ -71,23 +75,28 @@ const formatBooks = (books: NotionBookProps[]) => {
 	return formattedBooks;
 };
 
-export const fetchBooks = cache(async () => {
-	try {
-		const response = await fetch('http://192.168.0.105:8082/books', {
-			next: {
-				revalidate: false,
-				tags: ['fetch-books'],
-			},
-		});
+export const fetchBooks = cache(
+	async ({ database_id }: UpdateFetchBooksProps) => {
+		try {
+			const response = await fetch(
+				`http://192.168.0.105:3000/api/book?db=${database_id}`,
+				{
+					next: {
+						revalidate: false,
+						tags: ['fetch-books'],
+					},
+				},
+			);
 
-		if (!response.ok) {
-			throw new Error('Failed to fetch data');
+			if (!response.ok) {
+				throw new Error('Failed to fetch data');
+			}
+
+			const books = await response.json();
+
+			return formatBooks(books);
+		} catch (err) {
+			console.log(err);
 		}
-
-		const books = await response.json();
-
-		return formatBooks(books);
-	} catch (err) {
-		console.log(err);
-	}
-});
+	},
+);

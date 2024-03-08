@@ -23,7 +23,7 @@ export default async function Home() {
 		redirect('/login');
 	}
 
-	const books = (await fetchBooks()) || [];
+	const books = (await fetchBooks({ database_id: user.user_database })) || [];
 
 	const finishedBooks = books.filter(book => book.status === 'Finished');
 

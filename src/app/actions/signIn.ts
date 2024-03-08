@@ -47,7 +47,7 @@ export const onSignIn = async (username: string) => {
 
 	cookies().set({
 		name: 'user_database_id',
-		value: user.token,
+		value: user.database_id,
 		httpOnly: true,
 		path: '/',
 		expires: today + oneDay,
