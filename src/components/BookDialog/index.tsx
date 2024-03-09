@@ -12,6 +12,7 @@ import { Book, BookStatus } from '@/@types/book';
 import { handleFormatDate, handleRemoveZeroDigit } from '@/utils/formatDate';
 import { useToast } from '../ui/use-toast';
 import { updateBookStatus } from '@/app/actions/updateBookStatus';
+import { ImSpinner2 } from 'react-icons/im';
 
 interface BookDialogProps {
 	type?: 'tbr' | 'finished';
@@ -39,6 +40,7 @@ export const BookDialog = ({ type = 'tbr', book }: BookDialogProps) => {
 		new Date(handleRemoveZeroDigit(book.finished_date || today)),
 	);
 	const [bookStatus, setBookStatus] = useState<BookStatus>(book.status);
+	const [isStatusUpdating, setIsStatusUpdating] = useState(false);
 
 	const { toast } = useToast();
 
@@ -52,6 +54,8 @@ export const BookDialog = ({ type = 'tbr', book }: BookDialogProps) => {
 
 	const handleUpdateStatus = async (isStatusModalOpen: boolean) => {
 		if (!isStatusModalOpen && bookStatus !== book.status) {
+			setIsStatusUpdating(true);
+
 			// if it's reading set started date to today
 			if (bookStatus === 'To read') {
 				await updateBookStatus({
@@ -83,6 +87,7 @@ export const BookDialog = ({ type = 'tbr', book }: BookDialogProps) => {
 				description: 'Book updated!',
 				variant: 'success',
 			});
+			setIsStatusUpdating(false);
 		}
 	};
 
@@ -196,13 +201,17 @@ export const BookDialog = ({ type = 'tbr', book }: BookDialogProps) => {
 					<p className='inline-block'>Pages:</p>
 					<span className='font-light text-span'>{book.total_pages}</span>
 				</div>
-				<div className='space-x-3'>
+				<div className='space-x-3 flex items-center'>
 					<p className='inline-block'>Status:</p>
 					<Popover onOpenChange={handleUpdateStatus}>
 						<PopoverTrigger
-							className={`font-light text-span ${bookStatusColor[bookStatus]} border-[1px] px-2 rounded-md`}
+							className={`font-light text-span ${bookStatusColor[bookStatus]} border-[1px] px-2 rounded-md min-w-20 min-h-6 text-center flex items-center justify-center`}
 						>
-							{bookStatus.toUpperCase()}
+							{isStatusUpdating ? (
+								<ImSpinner2 className='animate-spin' />
+							) : (
+								bookStatus.toUpperCase()
+							)}
 						</PopoverTrigger>
 						<PopoverContent
 							// onInteractOutside={handleUpdateStatus}
