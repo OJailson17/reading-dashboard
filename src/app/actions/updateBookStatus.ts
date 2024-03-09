@@ -3,7 +3,7 @@
 import { revalidateTag } from 'next/cache';
 import { Book, BookStatus } from '@/@types/book';
 
-type FinishedStatusProps = {
+type UpdateStatusProps = {
 	book_id: string;
 	current_page: number;
 };
@@ -20,13 +20,37 @@ export const updateBookStatus = async ({ book, status }: UpdateBookStatus) => {
 			current_page: book.current_page || 0,
 		});
 	}
+
+	if (status === 'Reading') {
+		await setStatusToReading({
+			book_id: book.id || '',
+			current_page: book.current_page || 0,
+		});
+	}
 };
 
 const setStatusToFinished = async ({
 	book_id,
 	current_page,
-}: FinishedStatusProps) => {
+}: UpdateStatusProps) => {
 	await fetch(`${process.env.API_BASE_URL}/book/update/status/finished`, {
+		method: 'PATCH',
+		body: JSON.stringify({
+			page_id: book_id,
+			current_page,
+		}),
+	})
+		.then(res => res.json())
+		.catch(err => console.log(err));
+
+	revalidateTag('fetch-books');
+};
+
+const setStatusToReading = async ({
+	book_id,
+	current_page,
+}: UpdateStatusProps) => {
+	await fetch(`${process.env.API_BASE_URL}/book/update/status/reading`, {
 		method: 'PATCH',
 		body: JSON.stringify({
 			page_id: book_id,

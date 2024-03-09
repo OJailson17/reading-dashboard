@@ -1,4 +1,3 @@
-import { format } from 'date-fns';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { notion } from '@/lib/notion';
@@ -7,12 +6,13 @@ import {
 	ClientErrorCode,
 	isNotionClientError,
 } from '@notionhq/client';
+import { handleFormatDate } from '@/utils/formatDate';
 
 // Update the status of the book to reading
 export async function PATCH(req: NextRequest, res: NextResponse) {
 	const { page_id, current_page } = await req.json();
 
-	const today = format(new Date(), 'yyyy-MM-dd');
+	const today = handleFormatDate(new Date(), 'utc');
 
 	try {
 		const response = await notion.pages.update({

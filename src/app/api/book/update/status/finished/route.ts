@@ -7,16 +7,13 @@ import {
 	ClientErrorCode,
 	isNotionClientError,
 } from '@notionhq/client';
-import { revalidateTag } from 'next/cache';
+import { handleFormatDate } from '@/utils/formatDate';
 
 // Update the status of the book to finished, update the page and set the finished date to today
 export async function PATCH(req: NextRequest, res: NextResponse) {
 	const { page_id, current_page } = await req.json();
 
-	// revalidateTag('fetch-books')
-	// return NextResponse.json({});
-
-	const today = format(new Date(), 'yyyy-MM-dd');
+	const today = handleFormatDate(new Date(), 'utc');
 
 	try {
 		const response = await notion.pages.update({

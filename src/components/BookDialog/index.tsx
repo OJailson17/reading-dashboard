@@ -60,8 +60,13 @@ export const BookDialog = ({ type = 'tbr', book }: BookDialogProps) => {
 
 			// if it's reading set started date to today
 			if (bookStatus === 'Reading') {
-				book.started_date = handleFormatDate(new Date(), 'utc');
-				book.finished_date = null;
+				await updateBookStatus({
+					status: 'Reading',
+					book: {
+						id: book.id,
+						current_page: book.current_page,
+					},
+				});
 			}
 
 			// if it's finished set finished date to today
