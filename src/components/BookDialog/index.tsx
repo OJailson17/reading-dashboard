@@ -56,9 +56,7 @@ export const BookDialog = ({ type = 'tbr', book }: BookDialogProps) => {
 			if (bookStatus === 'To read') {
 				await updateBookStatus({
 					status: 'To read',
-					book: {
-						id: book.id,
-					},
+					book,
 				});
 			}
 
@@ -66,21 +64,16 @@ export const BookDialog = ({ type = 'tbr', book }: BookDialogProps) => {
 			if (bookStatus === 'Reading') {
 				await updateBookStatus({
 					status: 'Reading',
-					book: {
-						id: book.id,
-						current_page: book.current_page,
-					},
+					book,
 				});
 			}
 
 			// if it's finished set finished date to today
 			if (bookStatus === 'Finished') {
-				book.finished_date = handleFormatDate(new Date(), 'utc');
-
 				await updateBookStatus({
 					status: 'Finished',
 					book: {
-						id: book.id,
+						...book,
 						current_page: book.total_pages,
 					},
 				});

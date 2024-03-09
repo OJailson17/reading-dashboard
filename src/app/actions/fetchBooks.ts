@@ -82,7 +82,7 @@ export const fetchBooks = cache(
 				`${process.env.API_BASE_URL}/book?db=${database_id}`,
 				{
 					next: {
-						revalidate: 1,
+						revalidate: false,
 						tags: ['fetch-books'],
 					},
 				},

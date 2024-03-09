@@ -18,61 +18,66 @@ import { Book, BookStatus } from '@/@types/book';
 import { handleFormatDate } from '@/utils/formatDate';
 import { ImSpinner2 } from 'react-icons/im';
 import { useToast } from '../ui/use-toast';
+import { updateBookStatus } from '@/app/actions/updateBookStatus';
+import { updateBookPage } from '@/app/actions/updateBookPage';
+import { Controller, useForm } from 'react-hook-form';
 
 interface UpdateReadingDialog {
 	book: Book;
 }
 
-export const UpdateReadingDialog = ({ book }: UpdateReadingDialog) => {
-	const [currentPageValue, setCurrentPageValue] = useState('');
-	const [bookStatus, setBookStatus] = useState(book.status);
-	const [isUpdatingBook, setIsUpdatingBook] = useState(false);
+interface UpdateReadingForm {
+	current_page: number;
+	status: BookStatus;
+}
 
-	const pageInputRef = useRef<HTMLInputElement | null>(null);
+export const UpdateReadingDialog = ({ book }: UpdateReadingDialog) => {
+	// const [bookStatus, setBookStatus] = useState(book.status);
+
+	const {
+		register,
+		handleSubmit,
+		control,
+		resetField,
+		formState: { isSubmitting },
+	} = useForm<UpdateReadingForm>();
 
 	const { toast } = useToast();
 
 	// Update book status and current page
-	const handleUpdateBook = async () => {
+	const handleUpdateBook = async ({
+		current_page,
+		status,
+	}: UpdateReadingForm) => {
 		// just return if page and status didn't change
-		if (
-			Number(currentPageValue) === book.current_page &&
-			bookStatus === book.status
-		) {
+		if (current_page === book.current_page && status === book.status) {
 			return;
 		}
 
-		setIsUpdatingBook(true);
+		const activeElement = document.activeElement as HTMLInputElement;
+		activeElement.blur();
 
-		if (bookStatus === 'To read') {
-			book.started_date = null;
-			book.finished_date = null;
-			book.current_page = 0;
-		}
-
-		// define as finished if status is finished or current page is more than total pages
-		if (
-			bookStatus === 'Finished' ||
-			Number(currentPageValue) >= book.total_pages
-		) {
-			book.finished_date = handleFormatDate(new Date(), 'utc');
-			book.started_date = !book.started_date
-				? handleFormatDate(new Date(), 'utc')
-				: book.started_date;
-			book.current_page = book.total_pages;
-		}
-
-		if (Number(currentPageValue) >= book.total_pages) {
-			return updateBook({
-				...book,
-				status: 'Finished',
+		if (status === 'To read') {
+			return await updateBookStatus({
+				status: 'To read',
+				book,
 			});
 		}
 
-		await updateBook({
-			...book,
-			current_page: Number(currentPageValue) || book.current_page,
-			status: bookStatus,
+		// define as finished if status is finished or current page is more than total pages
+		if (status === 'Finished' || current_page >= book.total_pages) {
+			return await updateBookStatus({
+				status: 'Finished',
+				book: {
+					...book,
+					current_page: book.total_pages,
+				},
+			});
+		}
+
+		await updateBookPage({
+			book_id: book.id,
+			current_page: current_page || book.current_page,
 		});
 
 		toast({
@@ -80,13 +85,12 @@ export const UpdateReadingDialog = ({ book }: UpdateReadingDialog) => {
 			variant: 'success',
 		});
 
-		pageInputRef.current?.blur();
-		setIsUpdatingBook(false);
+		resetField('current_page');
 	};
 
 	return (
 		<DrawerContent
-			onInteractOutside={() => setCurrentPageValue('')}
+			onInteractOutside={() => resetField('current_page')}
 			className='bg-secondary-background border-none outline-none'
 		>
 			<DrawerHeader className='w-full h-ful relative'>
@@ -113,7 +117,7 @@ export const UpdateReadingDialog = ({ book }: UpdateReadingDialog) => {
 			<form
 				className='mt-4 mb-6 flex flex-col gap-6 items-center justify-center'
 				autoComplete='off'
-				action={handleUpdateBook}
+				onSubmit={handleSubmit(handleUpdateBook)}
 			>
 				<div className='flex flex-col gap-1 justify-center text-span'>
 					<label htmlFor='current-page'>current page:</label>
@@ -121,45 +125,51 @@ export const UpdateReadingDialog = ({ book }: UpdateReadingDialog) => {
 						type='number'
 						placeholder={String(book.current_page)}
 						className='bg-background w-60 h-9 max-sm:h-11 max-sm:w-72 rounded-md px-4'
-						value={currentPageValue}
-						max={book.total_pages}
+						// value={currentPageValue}
+						// max={book.total_pages}
 						min={0}
-						onChange={e => setCurrentPageValue(e.target.value)}
-						ref={pageInputRef}
+						// onChange={e => setCurrentPageValue(e.target.value)}
+						{...register('current_page', {
+							valueAsNumber: true,
+						})}
 					/>
 				</div>
 				<div className='flex flex-col gap-1 justify-center text-span'>
 					<label htmlFor='current-page'>status:</label>
-					<Select
+					<Controller
+						name='status'
+						control={control}
 						defaultValue={book.status}
-						onValueChange={(status: BookStatus) => setBookStatus(status)}
-					>
-						<SelectTrigger className='w-60 max-sm:h-11 max-sm:w-72'>
-							<SelectValue placeholder='Select status' />
-						</SelectTrigger>
+						render={({ field: { ref, ...rest } }) => (
+							<Select onValueChange={rest.onChange} {...rest}>
+								<SelectTrigger className='w-60 max-sm:h-11 max-sm:w-72'>
+									<SelectValue placeholder='Select status' />
+								</SelectTrigger>
 
-						<SelectContent className='bg-background'>
-							<SelectGroup className='bg-background text-span'>
-								{/* <SelectLabel>Status</SelectLabel> */}
-								<SelectItem value='To read' className='max-sm:h-11'>
-									To read
-								</SelectItem>
-								<SelectItem value='Reading' className='max-sm:h-11'>
-									Reading
-								</SelectItem>
-								<SelectItem value='Finished' className='max-sm:h-11'>
-									Finished
-								</SelectItem>
-							</SelectGroup>
-						</SelectContent>
-					</Select>
+								<SelectContent className='bg-background'>
+									<SelectGroup className='bg-background text-span'>
+										{/* <SelectLabel>Status</SelectLabel> */}
+										<SelectItem value='To read' className='max-sm:h-11'>
+											To read
+										</SelectItem>
+										<SelectItem value='Reading' className='max-sm:h-11'>
+											Reading
+										</SelectItem>
+										<SelectItem value='Finished' className='max-sm:h-11'>
+											Finished
+										</SelectItem>
+									</SelectGroup>
+								</SelectContent>
+							</Select>
+						)}
+					/>
 				</div>
 
 				<button
 					className='w-60 h-9 max-sm:h-11 max-sm:w-72 bg-purple rounded-md font-medium text-sm flex items-center justify-center'
-					disabled={isUpdatingBook}
+					disabled={isSubmitting}
 				>
-					{isUpdatingBook ? (
+					{isSubmitting ? (
 						<ImSpinner2 className='text-white animate-spin' />
 					) : (
 						<p>save</p>
