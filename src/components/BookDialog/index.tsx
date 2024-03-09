@@ -54,8 +54,12 @@ export const BookDialog = ({ type = 'tbr', book }: BookDialogProps) => {
 		if (!isStatusModalOpen && bookStatus !== book.status) {
 			// if it's reading set started date to today
 			if (bookStatus === 'To read') {
-				book.started_date = null;
-				book.finished_date = null;
+				await updateBookStatus({
+					status: 'To read',
+					book: {
+						id: book.id,
+					},
+				});
 			}
 
 			// if it's reading set started date to today
