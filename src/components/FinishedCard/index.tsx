@@ -3,12 +3,7 @@ import Link from 'next/link';
 import { Dialog, DialogTrigger } from '../ui/dialog';
 import { BookDialog } from '../BookDialog';
 import { fetchBooks } from '@/app/actions/fetchBooks';
-import { Book } from '@/@types/book';
 import { getUser } from '@/app/actions/getUser';
-
-interface FinishedCardProps {
-	books: Book[];
-}
 
 export const FinishedCard = async () => {
 	const user = await getUser();
@@ -16,7 +11,9 @@ export const FinishedCard = async () => {
 	const books =
 		(await fetchBooks({ database_id: user.user_database || '' })) || [];
 
-	const finishedBooks = books.filter(book => book.status === 'Finished');
+	const finishedBooks = books
+		.filter(book => book.status === 'Finished')
+		.slice(0, 5);
 
 	return (
 		<div className='w-full min-h-[314px] xs:px-4 sm:px-7 py-6 bg-secondary-background rounded-2xl sm:col-span-2'>
