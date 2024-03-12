@@ -93,12 +93,12 @@ export const UpdateReadingDialog = ({ book }: UpdateReadingDialog) => {
 			variant: 'success',
 		});
 
-		resetField('current_page');
+		// resetField('current_page');
 	};
 
 	return (
 		<DrawerContent
-			onInteractOutside={() => resetField('current_page')}
+			// onInteractOutside={() => resetField('current_page')}
 			className='bg-secondary-background border-none outline-none'
 		>
 			<DrawerHeader className='w-full h-ful relative'>
