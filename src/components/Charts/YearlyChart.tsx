@@ -10,11 +10,9 @@ import {
 } from 'recharts';
 import { CustomTooltip } from './CustomTooltip';
 import { MonthLabel } from '@/@types/chart';
-import { fetchBooks } from '@/app/actions/fetchBooks';
 import isSameMonth from '@/utils/isSameMonth';
 import { Book } from '@/@types/book';
-import { handleFormatDate, handleRemoveZeroDigit } from '@/utils/formatDate';
-import { useCallback, useEffect, useMemo } from 'react';
+import { handleRemoveZeroDigit } from '@/utils/formatDate';
 import { monthsBooksQtd } from '@/utils/yearlyChartData';
 import { resetYearlyChart } from '@/utils/resetYearlyChart';
 
@@ -35,57 +33,6 @@ const monthsLabels: MonthLabel[] = [
 	'Oct',
 	'Nov',
 	'Dec',
-];
-
-const data = [
-	{
-		month: 'Jan',
-		amount: 3,
-	},
-	{
-		month: 'Feb',
-		amount: 0,
-	},
-	{
-		month: 'Mar',
-		amount: 2,
-	},
-	{
-		month: 'Apr',
-		amount: 4,
-	},
-	{
-		month: 'May',
-		amount: 2,
-	},
-	{
-		month: 'Jun',
-		amount: 3,
-	},
-	{
-		month: 'Jul',
-		amount: 4,
-	},
-	{
-		month: 'Aug',
-		amount: 1,
-	},
-	{
-		month: 'Sep',
-		amount: 5,
-	},
-	{
-		month: 'Oct',
-		amount: 3,
-	},
-	{
-		month: 'Nov',
-		amount: 4,
-	},
-	{
-		month: 'Dec',
-		amount: 3,
-	},
 ];
 
 const getBookMonths = ({ finishedBooks }: { finishedBooks: Book[] }) => {

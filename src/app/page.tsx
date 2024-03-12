@@ -15,6 +15,25 @@ import { getUser } from './actions/getUser';
 import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
 import LoadingScreen from './loading';
+import { Book } from '@/@types/book';
+import isSameMonth from '@/utils/isSameMonth';
+import { handleRemoveZeroDigit } from '@/utils/formatDate';
+
+const finishedBooksFromThisMonth = (books: Book[]) => {
+	const currentYear = new Date().getUTCFullYear(); // 2024
+	const currentMonth = new Date().getUTCMonth() + 1;
+
+	return books.filter(book => {
+		const isFromThisMonth = isSameMonth({
+			monthDate: new Date(`${currentYear}-${currentMonth}-1`),
+			bookDate: new Date(handleRemoveZeroDigit(book.finished_date || '')),
+		});
+
+		if (isFromThisMonth) {
+			return book;
+		}
+	});
+};
 
 export default async function Home() {
 	const user = await getUser();
@@ -26,6 +45,9 @@ export default async function Home() {
 	const books = (await fetchBooks({ database_id: user.user_database })) || [];
 
 	const finishedBooks = books.filter(book => book.status === 'Finished');
+
+	const booksFinishedThisMonth =
+		finishedBooksFromThisMonth(finishedBooks).length;
 
 	return (
 		<Suspense fallback={<LoadingScreen />}>
@@ -49,7 +71,7 @@ export default async function Home() {
 
 			<main className='w-full max-w-7xl my-14 flex flex-col lg:flex-row items-start gap-8 lg:max-[1200px]:gap-4 xl:gap-8'>
 				<section className='w-full grid grid-cols-1 lg:w-[70%] sm:grid-cols-2 lg:max-[1200px]:gap-x-4 gap-x-8 lg:max-[1200px]:gap-y-4 gap-y-6'>
-					<FinishedStatisticCard books={{ current: finishedBooks.length }} />
+					<FinishedStatisticCard books={{ current: booksFinishedThisMonth }} />
 					<FinishedStatisticCard
 						card='year'
 						books={{ current: finishedBooks.length }}
