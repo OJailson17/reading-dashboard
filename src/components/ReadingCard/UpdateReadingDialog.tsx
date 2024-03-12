@@ -135,7 +135,7 @@ export const UpdateReadingDialog = ({ book }: UpdateReadingDialog) => {
 						className='bg-background w-60 h-9 max-sm:h-11 max-sm:w-72 rounded-md px-4'
 						{...register('current_page', {
 							valueAsNumber: true,
-							value: book.current_page,
+							value: book.current_page || 0,
 						})}
 					/>
 					<span className='text-red-400 text-sm mt-1'>

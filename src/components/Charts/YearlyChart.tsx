@@ -13,6 +13,10 @@ import { MonthLabel } from '@/@types/chart';
 import { fetchBooks } from '@/app/actions/fetchBooks';
 import isSameMonth from '@/utils/isSameMonth';
 import { Book } from '@/@types/book';
+import { handleFormatDate, handleRemoveZeroDigit } from '@/utils/formatDate';
+import { useCallback, useEffect, useMemo } from 'react';
+import { monthsBooksQtd } from '@/utils/yearlyChartData';
+import { resetYearlyChart } from '@/utils/resetYearlyChart';
 
 interface YearlyChartProps {
 	books: Book[];
@@ -84,33 +88,40 @@ const data = [
 	},
 ];
 
+const getBookMonths = ({ finishedBooks }: { finishedBooks: Book[] }) => {
+	const currentYear = new Date().getUTCFullYear(); // 2024
+
+	for (let i = 0; i < finishedBooks.length; i++) {
+		monthsLabels.map(month => {
+			const isFromSameMonth = isSameMonth({
+				monthDate: new Date(`${month}, 1, ${currentYear}`),
+				bookDate: new Date(
+					handleRemoveZeroDigit(finishedBooks[i].finished_date || ''),
+				),
+			});
+
+			if (isFromSameMonth) {
+				monthsBooksQtd[month].amount += 1;
+			}
+		});
+	}
+
+	// console.log({ monthsBooksQtd });
+};
+
 export const YearlyChart = ({ books }: YearlyChartProps) => {
 	const finishedBooks = books.filter(book => book.status === 'Finished');
 
-	const currentYear = new Date().getUTCFullYear(); // 2024
+	// Reset the quantity of books on each month
+	resetYearlyChart();
 
 	// Got through the book list and check which month the book was finished
-	// for (let i = 0; i < finishedBooks.length; i++) {
-	// 	monthsLabels.map(label => {
-	// 		// Check if the books is from the same month as the current label
-	// 		const isMonth = isSameMonth({
-	// 			monthDate: new Date(`${label}, 1, ${currentYear}`),
-	// 			bookDate: new Date(
-	// 				finishedBooks[i]?.properties['Finished Date']?.date?.start,
-	// 			),
-	// 		});
+	getBookMonths({ finishedBooks });
 
-	// 		// If the finished date is the same month as the label, add 1 to the books quantity on that month
-	// 		if (isMonth) {
-	// 			monthsBooksQtd[label].quantity += 1;
-	// 		}
-	// 	});
-	// }
-
-	// const chartData = monthsLabels.map(label => ({
-	// 	month: monthsBooksQtd[label].name,
-	// 	amount: monthsBooksQtd[label].quantity,
-	// }));
+	const chartData = monthsLabels.map(month => ({
+		month: monthsBooksQtd[month].month,
+		amount: monthsBooksQtd[month].amount,
+	}));
 
 	// hide the default props warning
 	const error = console.error;
@@ -143,7 +154,7 @@ export const YearlyChart = ({ books }: YearlyChartProps) => {
 					<LineChart
 						width={500}
 						height={300}
-						data={data}
+						data={chartData}
 						margin={{
 							top: 5,
 							right: 0,
