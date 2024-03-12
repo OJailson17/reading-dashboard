@@ -40,9 +40,9 @@ export const LoginForm = () => {
 	const { onSetInitialGoals } = useGoal();
 
 	const handleLogin = async ({ username }: InputFormDataProps) => {
-		const signInResponse = (await onSignIn(username)) as
-			| Response
-			| ResponseError;
+		const signInResponse = (await onSignIn(
+			username.trim().toLocaleLowerCase(),
+		)) as Response | ResponseError;
 
 		if ('error' in signInResponse) {
 			return toast({
