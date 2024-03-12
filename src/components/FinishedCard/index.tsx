@@ -13,7 +13,7 @@ export const FinishedCard = async () => {
 
 	const finishedBooks = books
 		.filter(book => book.status === 'Finished')
-		.slice(0, 5);
+		.slice(0, 100);
 
 	return (
 		<div className='w-full min-h-[314px] xs:px-4 sm:px-7 py-6 bg-secondary-background rounded-2xl sm:col-span-2'>

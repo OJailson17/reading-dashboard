@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { DialogContent, DialogTitle } from '../ui/dialog';
+import { DialogClose, DialogContent, DialogTitle } from '../ui/dialog';
 import { IoMdCalendar, IoMdCheckbox } from 'react-icons/io';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { Calendar } from '../ui/calendar';
@@ -13,6 +13,7 @@ import { handleFormatDate, handleRemoveZeroDigit } from '@/utils/formatDate';
 import { useToast } from '../ui/use-toast';
 import { updateBookStatus } from '@/app/actions/updateBookStatus';
 import { ImSpinner2 } from 'react-icons/im';
+import { updateBookDates } from '@/app/actions/updateBookDates';
 
 interface BookDialogProps {
 	type?: 'tbr' | 'finished';
@@ -40,7 +41,8 @@ export const BookDialog = ({ type = 'tbr', book }: BookDialogProps) => {
 		new Date(handleRemoveZeroDigit(book.finished_date || today)),
 	);
 	const [bookStatus, setBookStatus] = useState<BookStatus>(book.status);
-	const [isStatusUpdating, setIsStatusUpdating] = useState(false);
+	const [isBookStatusUpdating, setIsBookStatusUpdating] = useState(false);
+	const [isDateUpdating, setIsDateUpdating] = useState(false);
 
 	const { toast } = useToast();
 
@@ -54,7 +56,7 @@ export const BookDialog = ({ type = 'tbr', book }: BookDialogProps) => {
 
 	const handleUpdateStatus = async (isStatusModalOpen: boolean) => {
 		if (!isStatusModalOpen && bookStatus !== book.status) {
-			setIsStatusUpdating(true);
+			setIsBookStatusUpdating(true);
 
 			// if it's reading set started date to today
 			if (bookStatus === 'To read') {
@@ -87,11 +89,12 @@ export const BookDialog = ({ type = 'tbr', book }: BookDialogProps) => {
 				description: 'Book updated!',
 				variant: 'success',
 			});
-			setIsStatusUpdating(false);
+			setIsBookStatusUpdating(false);
 		}
 	};
 
 	const handleUpdateDates = async (isDatePickerOpen: boolean) => {
+		// update the date if date picker is closed and a different date was chosen
 		if (!isDatePickerOpen) {
 			if (
 				handleFormatDate(startedDate) !==
@@ -99,11 +102,15 @@ export const BookDialog = ({ type = 'tbr', book }: BookDialogProps) => {
 				handleFormatDate(finishedDate) !==
 					handleFormatDate(new Date(book.finished_date || today))
 			) {
-				await updateBook({
-					...book,
+				setIsDateUpdating(true);
+
+				await updateBookDates({
+					book_id: book.id,
 					started_date: handleFormatDate(startedDate, 'utc'),
 					finished_date: handleFormatDate(finishedDate, 'utc'),
 				});
+
+				setIsDateUpdating(false);
 
 				toast({
 					description: 'Book updated!',
@@ -131,7 +138,7 @@ export const BookDialog = ({ type = 'tbr', book }: BookDialogProps) => {
 			</div>
 
 			{type === 'finished' && (
-				<div className='w-full flex items-center justify-center gap-7 mt-3'>
+				<div className='w-full flex items-center justify-center gap-7 mt-3 relative'>
 					<Popover onOpenChange={handleUpdateDates}>
 						<PopoverTrigger className='flex items-center justify-center gap-2'>
 							<IoMdCalendar size={18} />
@@ -189,6 +196,10 @@ export const BookDialog = ({ type = 'tbr', book }: BookDialogProps) => {
 							/>
 						</PopoverContent>
 					</Popover>
+
+					{isDateUpdating && (
+						<ImSpinner2 className='animate-spin absolute right-1' />
+					)}
 				</div>
 			)}
 
@@ -207,7 +218,7 @@ export const BookDialog = ({ type = 'tbr', book }: BookDialogProps) => {
 						<PopoverTrigger
 							className={`font-light text-span ${bookStatusColor[bookStatus]} border-[1px] px-2 rounded-md min-w-20 min-h-6 text-center flex items-center justify-center`}
 						>
-							{isStatusUpdating ? (
+							{isBookStatusUpdating ? (
 								<ImSpinner2 className='animate-spin' />
 							) : (
 								bookStatus.toUpperCase()

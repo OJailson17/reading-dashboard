@@ -11,7 +11,7 @@ export const TBRCard = async () => {
 	const books =
 		(await fetchBooks({ database_id: user.user_database || '' })) || [];
 
-	const TBRBooks = books.filter(book => book.status === 'To read').slice(0, 5);
+	const TBRBooks = books.filter(book => book.status === 'To read').slice(0, 50);
 
 	return (
 		<div className='w-full max-w-[403px] h-96 xs:px-4 sm:px-7 py-6 bg-secondary-background rounded-2xl'>
