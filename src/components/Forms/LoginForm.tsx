@@ -6,6 +6,8 @@ import { useForm } from 'react-hook-form';
 import { ImSpinner2 } from 'react-icons/im';
 import { toast } from '../ui/use-toast';
 import { useGoal } from '@/context/GoalContext';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 interface Response {
 	token: string;
@@ -20,17 +22,25 @@ interface ResponseError {
 	error: string;
 }
 
+const loginSchemaValidation = yup.object({
+	username: yup.string().trim().required('field required!'),
+});
+
+type InputFormDataProps = yup.InferType<typeof loginSchemaValidation>;
+
 export const LoginForm = () => {
 	const {
 		register,
 		handleSubmit,
-		formState: { isSubmitting },
-	} = useForm();
+		formState: { isSubmitting, errors },
+	} = useForm<InputFormDataProps>({
+		resolver: yupResolver(loginSchemaValidation),
+	});
 
 	const { onSetInitialGoals } = useGoal();
 
-	const handleLogin = async (data: any) => {
-		const signInResponse = (await onSignIn(data.username)) as
+	const handleLogin = async ({ username }: InputFormDataProps) => {
+		const signInResponse = (await onSignIn(username)) as
 			| Response
 			| ResponseError;
 
@@ -69,6 +79,9 @@ export const LoginForm = () => {
 					className='w-full h-12 mt-1 bg-background text-span placeholder:text-placeholder px-6 rounded-md'
 					{...register('username')}
 				/>
+				<span className='text-red-400 text-sm mt-1'>
+					{errors.username?.message}
+				</span>
 			</div>
 
 			<button

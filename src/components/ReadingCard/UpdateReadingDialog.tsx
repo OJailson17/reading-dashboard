@@ -12,35 +12,43 @@ import {
 } from '../ui/select';
 import { Dialog, DialogTrigger } from '../ui/dialog';
 import { BookDialog } from '../BookDialog';
-import { useRef, useState } from 'react';
-import { updateBook } from '@/app/actions/updateBook';
-import { Book, BookStatus } from '@/@types/book';
-import { handleFormatDate } from '@/utils/formatDate';
+import { Book } from '@/@types/book';
 import { ImSpinner2 } from 'react-icons/im';
 import { useToast } from '../ui/use-toast';
 import { updateBookStatus } from '@/app/actions/updateBookStatus';
 import { updateBookPage } from '@/app/actions/updateBookPage';
 import { Controller, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
 interface UpdateReadingDialog {
 	book: Book;
 }
 
-interface UpdateReadingForm {
-	current_page: number;
-	status: BookStatus;
-}
+const readingFormSchema = yup.object({
+	current_page: yup
+		.number()
+		.min(0, 'it needs to be 0 or more')
+		.required('field required!')
+		.typeError('value needs to be a number'),
+	status: yup
+		.string()
+		.oneOf(['To read', 'Reading', 'Finished'])
+		.required('field required!'),
+});
+
+type UpdateReadingFormProps = yup.InferType<typeof readingFormSchema>;
 
 export const UpdateReadingDialog = ({ book }: UpdateReadingDialog) => {
-	// const [bookStatus, setBookStatus] = useState(book.status);
-
 	const {
 		register,
 		handleSubmit,
 		control,
 		resetField,
-		formState: { isSubmitting },
-	} = useForm<UpdateReadingForm>();
+		formState: { isSubmitting, errors },
+	} = useForm<UpdateReadingFormProps>({
+		resolver: yupResolver(readingFormSchema),
+	});
 
 	const { toast } = useToast();
 
@@ -48,7 +56,7 @@ export const UpdateReadingDialog = ({ book }: UpdateReadingDialog) => {
 	const handleUpdateBook = async ({
 		current_page,
 		status,
-	}: UpdateReadingForm) => {
+	}: UpdateReadingFormProps) => {
 		// just return if page and status didn't change
 		if (current_page === book.current_page && status === book.status) {
 			return;
@@ -125,14 +133,14 @@ export const UpdateReadingDialog = ({ book }: UpdateReadingDialog) => {
 						type='number'
 						placeholder={String(book.current_page)}
 						className='bg-background w-60 h-9 max-sm:h-11 max-sm:w-72 rounded-md px-4'
-						// value={currentPageValue}
-						// max={book.total_pages}
-						min={0}
-						// onChange={e => setCurrentPageValue(e.target.value)}
 						{...register('current_page', {
 							valueAsNumber: true,
+							value: book.current_page,
 						})}
 					/>
+					<span className='text-red-400 text-sm mt-1'>
+						{errors.current_page?.message}
+					</span>
 				</div>
 				<div className='flex flex-col gap-1 justify-center text-span'>
 					<label htmlFor='current-page'>status:</label>
@@ -148,7 +156,6 @@ export const UpdateReadingDialog = ({ book }: UpdateReadingDialog) => {
 
 								<SelectContent className='bg-background'>
 									<SelectGroup className='bg-background text-span'>
-										{/* <SelectLabel>Status</SelectLabel> */}
 										<SelectItem value='To read' className='max-sm:h-11'>
 											To read
 										</SelectItem>
