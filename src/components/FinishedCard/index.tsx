@@ -37,7 +37,7 @@ export const FinishedCard = async () => {
 								/>
 							</div>
 						</DialogTrigger>
-						<BookDialog type='finished' book={book} />
+						<BookDialog type='Finished' book={book} />
 					</Dialog>
 				))}
 			</div>

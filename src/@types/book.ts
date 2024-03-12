@@ -10,4 +10,6 @@ export type Book = {
 	current_page: number;
 	started_date: string | null;
 	finished_date: string | null;
+	review?: string;
+	goodreads?: string;
 };

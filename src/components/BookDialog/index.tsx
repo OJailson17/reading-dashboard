@@ -1,13 +1,12 @@
 'use client';
 
 import Image from 'next/image';
-import { DialogClose, DialogContent, DialogTitle } from '../ui/dialog';
+import { DialogContent, DialogTitle } from '../ui/dialog';
 import { IoMdCalendar, IoMdCheckbox } from 'react-icons/io';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { Calendar } from '../ui/calendar';
 import { useState } from 'react';
 import { format } from 'date-fns';
-import { updateBook } from '@/app/actions/updateBook';
 import { Book, BookStatus } from '@/@types/book';
 import { handleFormatDate, handleRemoveZeroDigit } from '@/utils/formatDate';
 import { useToast } from '../ui/use-toast';
@@ -16,7 +15,7 @@ import { ImSpinner2 } from 'react-icons/im';
 import { updateBookDates } from '@/app/actions/updateBookDates';
 
 interface BookDialogProps {
-	type?: 'tbr' | 'finished';
+	type: BookStatus;
 	book: Book;
 }
 
@@ -33,7 +32,7 @@ const bookStatusColor = {
 
 const today = format(new Date(), 'yyyy-MM-dd');
 
-export const BookDialog = ({ type = 'tbr', book }: BookDialogProps) => {
+export const BookDialog = ({ type = 'To read', book }: BookDialogProps) => {
 	const [startedDate, setStartedDate] = useState<Date>(
 		new Date(handleRemoveZeroDigit(book.started_date || today)),
 	);
@@ -74,7 +73,7 @@ export const BookDialog = ({ type = 'tbr', book }: BookDialogProps) => {
 				});
 			}
 
-			// if it's finished set finished date to today
+			// if it's Finished set Finished date to today
 			if (bookStatus === 'Finished') {
 				await updateBookStatus({
 					status: 'Finished',
@@ -137,7 +136,7 @@ export const BookDialog = ({ type = 'tbr', book }: BookDialogProps) => {
 				</div>
 			</div>
 
-			{type === 'finished' && (
+			{type === 'Finished' && (
 				<div className='w-full flex items-center justify-center gap-7 mt-3 relative'>
 					<Popover onOpenChange={handleUpdateDates}>
 						<PopoverTrigger className='flex items-center justify-center gap-2'>
@@ -257,13 +256,13 @@ export const BookDialog = ({ type = 'tbr', book }: BookDialogProps) => {
 							<div className='flex items-center justify-center gap-2 cursor-pointer'>
 								<input
 									type='radio'
-									id='finished-status'
+									id='Finished-status'
 									name='status'
 									value='Finished'
 									checked={bookStatus === 'Finished'}
 									onChange={() => setBookStatus('Finished')}
 								/>
-								<label htmlFor='finished-status' className='text-sm text-span'>
+								<label htmlFor='Finished-status' className='text-sm text-span'>
 									Finished
 								</label>
 							</div>
@@ -271,9 +270,17 @@ export const BookDialog = ({ type = 'tbr', book }: BookDialogProps) => {
 					</Popover>
 				</div>
 				<div className='space-x-3'>
-					{type === 'tbr' && <p className='inline-block'>Goodreads:</p>}
-					{type === 'finished' && <p className='inline-block'>Review:</p>}
-					<span className='font-light text-span'>⭐⭐⭐⭐</span>
+					{type === 'To read' || type === 'Reading' ? (
+						<>
+							<p className='inline-block'>Goodreads:</p>
+							<span className='font-light text-span'>{book?.goodreads}</span>
+						</>
+					) : (
+						<>
+							<p className='inline-block'>Review:</p>
+							<span className='font-light text-span'>{book?.review}</span>
+						</>
+					)}
 				</div>
 			</div>
 		</DialogContent>

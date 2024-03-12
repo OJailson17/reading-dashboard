@@ -39,6 +39,16 @@ type BookProperties = {
 			start: string;
 		} | null;
 	};
+	Rating: {
+		select: {
+			name: string;
+		} | null;
+	};
+	Goodreads: {
+		select: {
+			name: string;
+		} | null;
+	};
 };
 
 type NotionBookProps = {
@@ -69,6 +79,8 @@ const formatBooks = (books: NotionBookProps[]) => {
 			cover_url: book.icon.external.url,
 			started_date: properties['Started Date'].date?.start || null,
 			finished_date: properties['Finished Date'].date?.start || null,
+			review: properties.Rating.select?.name || 'none',
+			goodreads: properties.Goodreads.select?.name || 'none',
 		};
 	});
 

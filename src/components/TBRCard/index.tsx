@@ -26,7 +26,7 @@ export const TBRCard = async () => {
 				{TBRBooks.map(book => (
 					<Dialog key={book.id}>
 						<TBRBookStats book={book} />
-						<BookDialog book={book} />
+						<BookDialog type='To read' book={book} />
 					</Dialog>
 				))}
 			</div>

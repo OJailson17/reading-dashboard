@@ -117,7 +117,7 @@ export const UpdateReadingDialog = ({ book }: UpdateReadingDialog) => {
 						<DialogTrigger className='text-blue font-light cursor-pointer'>
 							details
 						</DialogTrigger>
-						<BookDialog book={book} />
+						<BookDialog type='Reading' book={book} />
 					</Dialog>
 				</div>
 			</DrawerHeader>
