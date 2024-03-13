@@ -1,5 +1,10 @@
 export type BookStatus = 'To read' | 'Reading' | 'Finished';
 
+export type Genre = {
+	name: string;
+	color: string;
+};
+
 export type Book = {
 	id: string;
 	title: string;
@@ -12,4 +17,5 @@ export type Book = {
 	finished_date: string | null;
 	review?: string;
 	goodreads?: string;
+	genres: Genre[];
 };

@@ -1,38 +1,12 @@
 'use client';
 
+import { Book, Genre } from '@/@types/book';
 import {
 	Legend,
 	RadialBar,
 	RadialBarChart,
 	ResponsiveContainer,
 } from 'recharts';
-
-const data = [
-	{
-		name: 'Fantasy',
-		uv: 31.47,
-		pv: 2400,
-		fill: '#5E3A91',
-	},
-	{
-		name: 'Non Fiction',
-		uv: 26.69,
-		pv: 4567,
-		fill: '#739DDC',
-	},
-	{
-		name: 'Adventure',
-		uv: 15.69,
-		pv: 1398,
-		fill: '#739DDC',
-	},
-	{
-		name: 'History',
-		uv: 15,
-		pv: 1398,
-		fill: 'orange',
-	},
-];
 
 const style = {
 	top: '50%',
@@ -41,7 +15,53 @@ const style = {
 	lineHeight: '1.5',
 };
 
-export const GenreStatisticsChart = () => {
+interface GenreStatisticsChartProps {
+	books: Book[];
+}
+
+interface GenreFrequency {
+	name: string;
+	color: string;
+	frequency: number;
+}
+
+function genreFrequencyList(
+	arr: { name: string; color: string }[],
+): GenreFrequency[] {
+	let frequency: Record<string, number> = {};
+
+	// Count frequencies
+	for (let i = 0; i < arr.length; i++) {
+		let currentName = arr[i].name;
+		frequency[currentName] = (frequency[currentName] || 0) + 1;
+	}
+
+	// Convert to array of objects with name, color, and frequency
+	const genreFrequencyList: GenreFrequency[] = Object.keys(frequency).map(
+		name => ({
+			name: name,
+			color: arr.find(genre => genre.name === name)?.color || '', // Get color corresponding to the genre name
+			frequency: frequency[name],
+		}),
+	);
+
+	// Sort by frequency
+	genreFrequencyList.sort((a, b) => b.frequency - a.frequency);
+
+	return genreFrequencyList;
+}
+
+export const GenreStatisticsChart = ({ books }: GenreStatisticsChartProps) => {
+	const genres = books.flatMap(book => book.genres);
+
+	const mostFrequentGenres = genreFrequencyList(genres)
+		.slice(0, 4)
+		.map(genre => ({
+			name: genre.name,
+			fill: genre.color === 'default' ? '#739DDC' : genre.color,
+			frequency: genre.frequency,
+		}));
+
 	return (
 		<div className='w-full min-h-64 xs:px-4 sm:px-7 pt-6 bg-secondary-background rounded-2xl'>
 			<h2 className='font-bold text-xl'>Most Reading Genres</h2>
@@ -55,9 +75,9 @@ export const GenreStatisticsChart = () => {
 						innerRadius='10%'
 						outerRadius='50%'
 						barSize={5}
-						data={data}
+						data={mostFrequentGenres}
 					>
-						<RadialBar background={{ fill: '#0E102E' }} dataKey='uv' />
+						<RadialBar background={{ fill: '#0E102E' }} dataKey='frequency' />
 						<Legend
 							iconSize={10}
 							layout='vertical'

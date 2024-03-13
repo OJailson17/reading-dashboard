@@ -83,7 +83,7 @@ export default async function Home() {
 				<section className='w-full gap-6 lg:max-[1200px]:gap-4 xs:flex xs:flex-col sm:max-[1023px]:grid sm:max-[1023px]:grid-cols-2 xl:w-max-max flex-1'>
 					<FinishedCard />
 					<GoalsCard />
-					<GenreStatisticsChart />
+					<GenreStatisticsChart books={finishedBooks} />
 				</section>
 			</main>
 

@@ -49,6 +49,12 @@ type BookProperties = {
 			name: string;
 		} | null;
 	};
+	Genre: {
+		multi_select: {
+			name: string;
+			color: string;
+		}[];
+	};
 };
 
 type NotionBookProps = {
@@ -81,6 +87,10 @@ const formatBooks = (books: NotionBookProps[]) => {
 			finished_date: properties['Finished Date'].date?.start || null,
 			review: properties.Rating.select?.name || 'none',
 			goodreads: properties.Goodreads.select?.name || 'none',
+			genres: properties.Genre.multi_select.map(genre => ({
+				name: genre.name,
+				color: genre.color,
+			})),
 		};
 	});
 
