@@ -10,7 +10,7 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
-		"server": " json-server db.json --port 8082"
+		"server": "json-server db.json --port 8082"
 	},
 	"dependencies": {
 		"@hookform/resolvers": "^3.3.4",

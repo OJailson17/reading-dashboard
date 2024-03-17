@@ -13,10 +13,6 @@ export const updateBookDates = async ({
 	started_date,
 	finished_date,
 }: UpdateDatesProps) => {
-	console.log({
-		started_date,
-		finished_date,
-	});
 	await fetch(`${process.env.API_BASE_URL}/book/update/dates`, {
 		method: 'PATCH',
 		body: JSON.stringify({

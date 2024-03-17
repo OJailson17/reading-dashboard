@@ -18,6 +18,7 @@ import LoadingScreen from './loading';
 import { Book } from '@/@types/book';
 import isSameMonth from '@/utils/isSameMonth';
 import { handleRemoveZeroDigit } from '@/utils/formatDate';
+import { SearchBar } from '@/components/Forms/SearchBarForm';
 
 const finishedBooksFromThisMonth = (books: Book[]) => {
 	const currentYear = new Date().getUTCFullYear(); // 2024
@@ -54,14 +55,7 @@ export default async function Home() {
 			<Header />
 
 			<section className='w-full lg:w-2/3 max-w-[853px] mt-14 flex flex-col sm:flex-row items-end sm:justify-between'>
-				<form className='w-full xs:max-[500px]:h-12 sm:w-96 h-10 bg-secondary-background flex items-center justify-center gap-3 pl-5 rounded-full'>
-					<IoIosSearch size={25} />
-					<input
-						type='text'
-						placeholder='Search books'
-						className='w-full h-full bg-transparent rounded-tr-full rounded-br-full px-3 placeholder:text-placeholder placeholder:text-sm outline-none'
-					/>
-				</form>
+				<SearchBar books={books} />
 
 				<Link href={'/'} className='flex gap-2 mt-8 sm:mt-0 hover:underline'>
 					<GiBookshelf size={20} />
