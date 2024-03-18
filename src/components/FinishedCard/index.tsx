@@ -27,13 +27,14 @@ export const FinishedCard = async () => {
 			<div className='sm:w-full lg:max-w-[320px] mt-10 px-1 pb-6 pt-1 flex gap-6 white overflow-x-auto overflow-y-hidden books-container'>
 				{finishedBooks.map(book => (
 					<Dialog key={book.id}>
-						<DialogTrigger className='min-w-28 h-40 rounded-md p-1.5 bg-purple'>
+						<DialogTrigger className='min-w-28 h-40 rounded-md'>
 							<div className='w-full h-full relative'>
 								<Image
 									src={book.cover_url}
-									alt='book cover'
+									alt={`${book.title} cover`}
 									fill
-									className='object-contain'
+									priority
+									className='object-cover rounded-md'
 								/>
 							</div>
 						</DialogTrigger>

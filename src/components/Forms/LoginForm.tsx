@@ -12,6 +12,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 interface Response {
 	token: string;
 	username: string;
+	name: string;
 	database_id: string;
 	monthly_goal: number | null;
 	yearly_goal: number | null;
@@ -58,6 +59,7 @@ export const LoginForm = () => {
 
 		localStorage.setItem(storageStrings.username, signInResponse.username);
 		localStorage.setItem(storageStrings.user_id, signInResponse.user_id);
+		localStorage.setItem(storageStrings.name, signInResponse.name);
 	};
 
 	return (

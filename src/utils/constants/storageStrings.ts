@@ -5,4 +5,5 @@ export const storageStrings = {
 	auth_token: `${baseString}:auth_token`,
 	username: `${baseString}:username`,
 	user_id: `${baseString}:user_id`,
+	name: `${baseString}:name`,
 };

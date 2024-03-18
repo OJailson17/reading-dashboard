@@ -7,7 +7,7 @@ type TitleProperty = {
 	plain_text: string;
 };
 
-type DatabaseIdProperty = {
+type TextProperty = {
 	plain_text: string;
 };
 
@@ -18,8 +18,11 @@ type ResultResponse = {
 		username: {
 			title: TitleProperty[];
 		};
+		name: {
+			rich_text: TextProperty[];
+		};
 		database_id: {
-			rich_text: DatabaseIdProperty[];
+			rich_text: TextProperty[];
 		};
 		monthly_goal: {
 			number: number;
@@ -71,6 +74,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
 		return NextResponse.json({
 			token,
 			username,
+			name: getUsername.properties.name.rich_text[0].plain_text,
 			database_id: user_database_id,
 			monthly_goal: getUsername.properties.monthly_goal.number,
 			yearly_goal: getUsername.properties.yearly_goal.number,

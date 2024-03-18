@@ -125,13 +125,14 @@ export const BookDialog = ({ type = 'To read', book }: BookDialogProps) => {
 				{book.title}
 			</DialogTitle>
 
-			<div className='w-full max-w-28 h-40 rounded-md p-1.5 mt-4 bg-purple'>
+			<div className='w-full max-w-28 h-40 rounded-md mt-4'>
 				<div className='h-full relative'>
 					<Image
 						src={book.cover_url}
 						alt='book cover'
 						fill
-						className='object-contain'
+						className='object-cover rounded-md'
+						priority
 					/>
 				</div>
 			</div>

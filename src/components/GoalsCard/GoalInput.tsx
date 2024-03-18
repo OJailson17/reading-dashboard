@@ -31,6 +31,7 @@ export const GoalInput = ({
 	const {
 		register,
 		handleSubmit,
+		resetField,
 		formState: { errors, isSubmitting },
 	} = useForm<GoalFormProps>({
 		resolver: yupResolver(goalInputValidation),
@@ -38,6 +39,7 @@ export const GoalInput = ({
 
 	const handleSetGoal = async ({ goal }: GoalFormProps) => {
 		await onSetGoal(String(goal));
+		resetField('goal');
 	};
 
 	useEffect(() => {
