@@ -29,7 +29,10 @@ export const ReadingBookStats = ({ book }: ReadingBooksStatsProps) => {
 				</div>
 
 				<div className='mt-2 relative bg-background w-full h-2 rounded-full'>
-					<div className={`w-1/2 h-2 bg-gradient-primary rounded-full`} />
+					<div
+						style={{ width: `${bookProgress}%` }}
+						className={`h-2 bg-gradient-primary rounded-full`}
+					/>
 				</div>
 			</DrawerTrigger>
 		</>
