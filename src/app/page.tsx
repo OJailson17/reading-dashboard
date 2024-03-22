@@ -57,7 +57,10 @@ export default async function Home() {
 			<section className='w-full lg:w-2/3 max-w-[853px] mt-14 flex flex-col sm:flex-row items-end sm:justify-between'>
 				<SearchBar books={books} />
 
-				<Link href={'/'} className='flex gap-2 mt-8 sm:mt-0 hover:underline'>
+				<Link
+					href={'/bookshelf'}
+					className='flex gap-2 mt-8 sm:mt-0 hover:underline'
+				>
 					<GiBookshelf size={20} />
 					<span className='font-medium text-lg'>Bookshelf</span>
 				</Link>

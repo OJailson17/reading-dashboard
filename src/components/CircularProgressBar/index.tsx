@@ -17,15 +17,16 @@ export const CircularProgressBar = ({
 		<div className='relative w-20 h-20'>
 			<svg className='w-full h-full' viewBox='0 0 100 100'>
 				<defs>
-					<linearGradient id='gradient' x1='0%' y1='0%' x2='100%' y2='100%'>
-						<stop
-							offset='0%'
-							style={{ stopColor: '#ff0000', stopOpacity: 1 }}
-						/>
-						<stop
-							offset='100%'
-							style={{ stopColor: '#0000ff', stopOpacity: 1 }}
-						/>
+					<linearGradient
+						id='gradient'
+						x1={-1.44144}
+						y1={79.9997}
+						x2={78.0781}
+						y2={79.9997}
+						gradientUnits='userSpaceOnUse'
+					>
+						<stop offset={0.0810894} stopColor='#BAA3DB' />
+						<stop offset={0.722851} stopColor='#9467D3' />
 					</linearGradient>
 				</defs>
 				<circle
