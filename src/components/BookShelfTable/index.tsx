@@ -4,16 +4,14 @@ import { useState } from 'react';
 import { BookDialog } from '../BookDialog';
 import { Dialog, DialogTrigger } from '../ui/dialog';
 import { BookTableRow } from './BookTableRow';
+import { Book } from '@/@types/book';
 
-export const BookShelfTable = () => {
-	// const [isBookDialogOpen, setIsBookDialogOpen] = useState(false);
+interface BookShelfTableProps {
+	books: Book[];
+}
 
-	// const handleOpenBookDialog = () => {
-	// 	setIsBookDialogOpen(true);
-	// };
-	// const handleCloseBookDialog = () => {
-	// 	setIsBookDialogOpen(false);
-	// };
+export const BookShelfTable = ({ books }: BookShelfTableProps) => {
+	console.log();
 
 	return (
 		<table className='w-full table-auto border-separate border-spacing-y-3 px-1'>
@@ -27,32 +25,12 @@ export const BookShelfTable = () => {
 				</tr>
 			</thead>
 			<tbody>
-				<Dialog>
-					<BookTableRow />
-					<BookTableRow />
-					<BookTableRow />
-					<BookTableRow />
-					<BookTableRow />
-					<BookTableRow />
-					<BookTableRow />
-					<BookTableRow />
-					<BookTableRow />
-					<BookDialog
-						type='Finished'
-						book={{
-							id: '',
-							author: '',
-							cover_url: 'https://github.com/ojailson17.png',
-							current_page: 0,
-							finished_date: '',
-							genres: [],
-							title: '',
-							started_date: '',
-							status: 'Finished',
-							total_pages: 0,
-						}}
-					/>
-				</Dialog>
+				{books.map(book => (
+					<Dialog key={book.id}>
+						<BookTableRow book={book} />
+						<BookDialog type={book.status} book={book} />
+					</Dialog>
+				))}
 			</tbody>
 		</table>
 	);

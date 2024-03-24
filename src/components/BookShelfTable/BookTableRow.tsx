@@ -1,36 +1,47 @@
 import Image from 'next/image';
 import { IoStar } from 'react-icons/io5';
 import { DialogTrigger } from '../ui/dialog';
+import { Book } from '@/@types/book';
+import { format } from 'date-fns';
+import { calculateAmountOfRatingStars } from '@/utils/calculateAmountOfStars';
 
-export const BookTableRow = () => {
-	const handleRowClick = (event: any) => {
-		// Handle row click event here
-		// openDialog();
-		alert('Row clicked');
-	};
+interface BookTableRowProps {
+	book: Book;
+}
 
-	const handleKeyPress = (event: any) => {
-		if (event.key === 'Enter' || event.key === ' ') {
-			// Handle key press event here
-			// openDialog();
-			alert('Row key pressed');
-		}
-	};
+const bookStatusColor = {
+	'To read': 'border-placeholder',
+	Reading: 'border-yellow-500',
+	Finished: 'border-light-green',
+};
+
+export const BookTableRow = ({ book }: BookTableRowProps) => {
+	const getFirstTwoGenres = book.genres.filter((_, i) => i <= 1);
+
+	let startedYear: string | null = null;
+	let finishedYear: string | null = null;
+
+	if (book.started_date) {
+		startedYear = book.started_date.split('-')[0];
+	}
+
+	if (book.finished_date) {
+		finishedYear = book.finished_date.split('-')[0];
+	}
+
+	const { amountOfGrayStars, amountOfYellowStars } =
+		calculateAmountOfRatingStars(
+			book.review && book.review !== 'none' ? book.review.length : 0,
+		);
 
 	return (
-		<tr
-		// tabIndex={0}
-		// onKeyDown={handleKeyPress}
-		// onClick={handleRowClick}
-		>
+		<tr>
 			{/* Details */}
 			<td>
 				<DialogTrigger className='flex items-center gap-4'>
 					<div className='min-w-16 h-24 rounded-md relative'>
 						<Image
-							src={
-								'https://reading-dashboard-git-v2-ojailson17.vercel.app/_next/image?url=https%3A%2F%2Fik.imagekit.io%2Fpanmac%2Ftr%3Af-auto%2Cdi-placeholder_portrait_aMjPtD9YZ.jpg%2Cw-270%2Fedition%2F9781529053869.jpg&w=1920&q=75'
-							}
+							src={book.cover_url}
 							alt={`cover`}
 							fill
 							priority
@@ -39,17 +50,20 @@ export const BookTableRow = () => {
 					</div>
 
 					<div className='flex flex-col gap-3'>
-						<div className='max-w-60 ellipsis-title'>
-							<p className='font-bold break-words'>Fluent Forever</p>
-							<span className='font-bold text-span text-xs'>Gabriel Wyner</span>
+						<div className='max-w-60 text-left'>
+							<p className='font-bold break-words ellipsis-title'>
+								{book.title}
+							</p>
+							<span className='font-bold text-span text-xs'>{book.author}</span>
 						</div>
 
 						<div className='flex items-center gap-1'>
-							<IoStar fill='yellow' />
-							<IoStar fill='yellow' />
-							<IoStar fill='yellow' />
-							<IoStar fill='yellow' />
-							<IoStar fill='gray' />
+							{[...new Array(amountOfYellowStars)].map((_, i) => (
+								<IoStar key={i} fill='yellow' />
+							))}
+							{[...new Array(amountOfGrayStars)].map((_, i) => (
+								<IoStar key={i} fill='gray' />
+							))}
 						</div>
 					</div>
 				</DialogTrigger>
@@ -57,34 +71,48 @@ export const BookTableRow = () => {
 
 			{/* Status */}
 			<td className='max-sm:hidden'>
-				<div className='font-light max-h-6 text-white border-[1.5px] border-light-green w-[90%] mx-auto max-w-40 px-2 rounded-md text-center text-sm py-3 flex items-center justify-center'>
-					Finished
+				<div
+					className={`font-light max-h-6 text-white border-[1.5px] ${
+						bookStatusColor[book.status]
+					} w-[90%] mx-auto max-w-40 px-2 rounded-md text-center text-sm py-3 flex items-center justify-center`}
+				>
+					{book.status}
 				</div>
 			</td>
 
 			{/* Genres */}
 			<td className='space-y-2 max-sm:hidden'>
-				<div className='font-light max-h-6 text-white border-[1.5px] border-purple w-[90%] mx-auto max-w-40 px-2 rounded-md text-center text-sm py-3 flex items-center justify-center'>
-					Non-fiction
-				</div>
-				<div className='font-light max-h-6 text-white border-[1.5px] border-purple w-[90%] mx-auto max-w-40 px-2 rounded-md text-center text-sm py-3 flex items-center justify-center'>
-					Self-help
-				</div>
+				{getFirstTwoGenres.map(genre => (
+					<div
+						key={genre.name}
+						className='font-light max-h-6 text-white border-[1.5px] border-purple w-[90%] mx-auto max-w-40 px-2 rounded-md text-center text-sm py-3 flex items-center justify-center'
+					>
+						{genre.name}
+					</div>
+				))}
 			</td>
 
 			{/* Started */}
 			<td className='max-sm:hidden'>
 				<div className='text-center'>
-					<p className='font-bold text-xs'>Jan 8</p>
-					<span className='font-bold text-span text-xs'>2024</span>
+					<p className='font-bold text-xs'>
+						{book.started_date
+							? format(book.started_date, 'MMM dd')
+							: 'Not Set'}
+					</p>
+					<span className='font-bold text-span text-xs'>{startedYear}</span>
 				</div>
 			</td>
 
 			{/* Finished */}
 			<td className='max-sm:hidden'>
 				<div className='text-center'>
-					<p className='font-bold text-xs'>Jan 30</p>
-					<span className='font-bold text-span text-xs'>2024</span>
+					<p className='font-bold text-xs'>
+						{book.finished_date
+							? format(book.finished_date, 'MMM dd')
+							: 'Not Set'}
+					</p>
+					<span className='font-bold text-span text-xs'>{finishedYear}</span>
 				</div>
 			</td>
 		</tr>

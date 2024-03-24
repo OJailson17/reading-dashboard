@@ -1,6 +1,5 @@
 import { Header } from '@/components/Header';
 import Link from 'next/link';
-import { IoIosSearch } from 'react-icons/io';
 import { GiBookshelf } from 'react-icons/gi';
 import { FinishedStatisticCard } from '@/components/FinishedStatisticsCard';
 import { ReadingCard } from '@/components/ReadingCard';
@@ -15,26 +14,8 @@ import { getUser } from './actions/getUser';
 import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
 import LoadingScreen from './loading';
-import { Book } from '@/@types/book';
-import isSameMonth from '@/utils/isSameMonth';
-import { handleRemoveZeroDigit } from '@/utils/formatDate';
 import { SearchBar } from '@/components/Forms/SearchBarForm';
-
-const finishedBooksFromThisMonth = (books: Book[]) => {
-	const currentYear = new Date().getUTCFullYear(); // 2024
-	const currentMonth = new Date().getUTCMonth() + 1;
-
-	return books.filter(book => {
-		const isFromThisMonth = isSameMonth({
-			monthDate: new Date(`${currentYear}-${currentMonth}-1`),
-			bookDate: new Date(handleRemoveZeroDigit(book.finished_date || '')),
-		});
-
-		if (isFromThisMonth) {
-			return book;
-		}
-	});
-};
+import { finishedBooksFromThisMonth } from '@/utils/calculateFinishedBooks';
 
 export default async function Home() {
 	const user = await getUser();

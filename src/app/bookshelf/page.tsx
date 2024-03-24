@@ -5,12 +5,30 @@ import { FinishedStatisticCard } from '@/components/FinishedStatisticsCard';
 import { FaPlus } from 'react-icons/fa6';
 import { StatisticSvg } from '@/components/StatsIcon';
 import { Footer } from '@/components/Footer';
-import Image from 'next/image';
-import { IoStar } from 'react-icons/io5';
 import { BookShelfTable } from '@/components/BookShelfTable';
 import { SelectFilter } from '@/components/SelectFilter';
+import { getUser } from '../actions/getUser';
+import { redirect } from 'next/navigation';
+import { fetchBooks } from '../actions/fetchBooks';
+import { finishedBooksFromThisMonth } from '@/utils/calculateFinishedBooks';
 
-export default function Bookshelf() {
+export default async function Bookshelf() {
+	const user = await getUser();
+
+	if (!user.token || !user.user_database) {
+		redirect('/login');
+	}
+
+	const books = (await fetchBooks({ database_id: user.user_database })) || [];
+
+	const toReadBooks = books.filter(book => book.status === 'To read');
+	const readingBooks = books.filter(book => book.status === 'Reading');
+	const finishedBooks = books.filter(book => book.status === 'Finished');
+	const toReviewBooks = books.filter(book => book.review === 'none');
+
+	const booksFinishedThisMonth =
+		finishedBooksFromThisMonth(finishedBooks).length;
+
 	return (
 		<Suspense fallback={<LoadingScreen />}>
 			<Header />
@@ -61,7 +79,10 @@ export default function Bookshelf() {
 
 					{/* Yearly Stats Card */}
 					<div className='hidden lg:block lg:w-full xl:w-auto'>
-						<FinishedStatisticCard card='year' books={{ current: 10 }} />
+						<FinishedStatisticCard
+							card='year'
+							books={{ current: booksFinishedThisMonth }}
+						/>
 					</div>
 				</section>
 
@@ -80,20 +101,20 @@ export default function Bookshelf() {
 							<div className='w-full h-full flex flex-col sm:max-lg:flex-row items-center justify-between	 text-sm lg:text-lg font-bold text-white max-sm:hidden'>
 								<button className='max-sm:w-40 rounded-lg'>
 									<p className='bg-gradient-primary text-transparent bg-clip-text'>
-										All Books (54)
+										All Books ({books.length})
 									</p>
 								</button>
 								<button className=' max-sm:w-40 rounded-lg'>
-									<p>To Read (30)</p>
+									<p>To Read ({toReadBooks.length})</p>
 								</button>
 								<button className=' max-sm:w-40 rounded-lg'>
-									<p>Reading (3)</p>
+									<p>Reading ({readingBooks.length})</p>
 								</button>
 								<button className=' max-sm:w-40 rounded-lg'>
-									<p>Finished (18)</p>
+									<p>Finished ({finishedBooks.length})</p>
 								</button>
 								<button className=' max-sm:w-40 rounded-lg'>
-									<p>To Review (3)</p>
+									<p>To Review ({toReviewBooks.length})</p>
 								</button>
 							</div>
 
@@ -110,7 +131,7 @@ export default function Bookshelf() {
 						</div>
 
 						<div className='w-full  h-[500px] mt-4 overflow-y-auto overflow-x-hidden books-container'>
-							<BookShelfTable />
+							<BookShelfTable books={books} />
 							{/* <p className='text-span font-bold text-center text-lg'>
 								There is nothing here :(
 							</p> */}
