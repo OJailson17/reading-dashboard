@@ -6,28 +6,83 @@ import { FaPlus } from 'react-icons/fa6';
 import { StatisticSvg } from '@/components/StatsIcon';
 import { Footer } from '@/components/Footer';
 import { BookShelfTable } from '@/components/BookShelfTable';
-import { SelectFilter } from '@/components/SelectFilter';
+import { SelectTabFilter } from '@/components/SelectFilter';
 import { getUser } from '../actions/getUser';
 import { redirect } from 'next/navigation';
 import { fetchBooks } from '../actions/fetchBooks';
 import { finishedBooksFromThisMonth } from '@/utils/calculateFinishedBooks';
+import { GeneralStats } from '@/components/GeneralStats';
+import { BookshelfNav } from '@/components/BookshelfNav';
 
-export default async function Bookshelf() {
+export type Tab = 'all' | 'tbr' | 'reading' | 'finished' | 'review';
+
+interface BookshelfRequestProps {
+	searchParams: {
+		tab: Tab;
+	};
+}
+
+export default async function Bookshelf({
+	searchParams,
+}: BookshelfRequestProps) {
 	const user = await getUser();
 
 	if (!user.token || !user.user_database) {
 		redirect('/login');
 	}
 
+	// If the tab param doesn't match with one of the options, select all as default
+	const tabValues: Tab[] = ['all', 'tbr', 'reading', 'finished', 'review'];
+
+	if (!searchParams.tab || !tabValues.includes(searchParams.tab)) {
+		redirect('/bookshelf/?tab=all');
+	}
+
+	// Get all books
 	const books = (await fetchBooks({ database_id: user.user_database })) || [];
 
+	// Filter books for each status
 	const toReadBooks = books.filter(book => book.status === 'To read');
 	const readingBooks = books.filter(book => book.status === 'Reading');
 	const finishedBooks = books.filter(book => book.status === 'Finished');
-	const toReviewBooks = books.filter(book => book.review === 'none');
+	const toReviewBooks = books.filter(
+		book => book.status === 'Finished' && book.review === 'none',
+	);
 
 	const booksFinishedThisMonth =
 		finishedBooksFromThisMonth(finishedBooks).length;
+
+	// Get the amount of books from each status
+	const booksAmount = {
+		amountOfAllBooks: books.length,
+		amountOfToReadBooks: toReadBooks.length,
+		amountOfReadingBooks: readingBooks.length,
+		amountOfFinishedBooks: finishedBooks.length,
+		amountOfToReviewBooks: toReviewBooks.length,
+	};
+
+	const tabsOptions = {
+		all: {
+			list: books,
+			name: 'All Books',
+		},
+		tbr: {
+			list: toReadBooks,
+			name: 'To Read',
+		},
+		reading: {
+			list: readingBooks,
+			name: 'Reading',
+		},
+		finished: {
+			list: finishedBooks,
+			name: 'Finished',
+		},
+		review: {
+			list: toReviewBooks,
+			name: 'To Review',
+		},
+	};
 
 	return (
 		<Suspense fallback={<LoadingScreen />}>
@@ -57,24 +112,10 @@ export default async function Bookshelf() {
 					{/* General Stats Card */}
 					<div className='w-full max-w-[490px] h-full p-4 sm:p-6 bg-secondary-background rounded-2xl'>
 						<p className='text-span font-medium text-lg'>Year in Books</p>
-						<div className='w-full flex items-center justify-between mt-8'>
-							<div className='text-center'>
-								<p className='text-2xl font-bold'>22</p>
-								<span className='text-sm text-span'>Books Read</span>
-							</div>
-							<div className='text-center'>
-								<p className='text-2xl font-bold'>7,562</p>
-								<span className='text-sm text-span'>Pages Read</span>
-							</div>
-							<div className='text-center'>
-								<p className='text-2xl font-bold'>342</p>
-								<span className='text-sm text-span'>Average Pages</span>
-							</div>
-							<div className='text-center max-xs:hidden'>
-								<p className='text-2xl font-bold'>30</p>
-								<span className='text-sm text-span'>Average Days</span>
-							</div>
-						</div>
+						<GeneralStats
+							finishedBooks={finishedBooks}
+							readingBooks={readingBooks}
+						/>
 					</div>
 
 					{/* Yearly Stats Card */}
@@ -98,43 +139,31 @@ export default async function Bookshelf() {
 						</div>
 
 						<div className='sm:w-80 flex-1 w-full h-full bg-secondary-background rounded-2xl py-8 px-4 gap-9 flex items-center justify-center flex-col'>
-							<div className='w-full h-full flex flex-col sm:max-lg:flex-row items-center justify-between	 text-sm lg:text-lg font-bold text-white max-sm:hidden'>
-								<button className='max-sm:w-40 rounded-lg'>
-									<p className='bg-gradient-primary text-transparent bg-clip-text'>
-										All Books ({books.length})
-									</p>
-								</button>
-								<button className=' max-sm:w-40 rounded-lg'>
-									<p>To Read ({toReadBooks.length})</p>
-								</button>
-								<button className=' max-sm:w-40 rounded-lg'>
-									<p>Reading ({readingBooks.length})</p>
-								</button>
-								<button className=' max-sm:w-40 rounded-lg'>
-									<p>Finished ({finishedBooks.length})</p>
-								</button>
-								<button className=' max-sm:w-40 rounded-lg'>
-									<p>To Review ({toReviewBooks.length})</p>
-								</button>
-							</div>
+							<BookshelfNav
+								booksAmount={booksAmount}
+								currentTab={searchParams.tab}
+							/>
 
 							<h3 className='font-bold text-xl sm:hidden self-start'>Filter</h3>
 
-							<SelectFilter />
+							<SelectTabFilter
+								currentTab={searchParams.tab}
+								tabName={tabsOptions[searchParams.tab].name}
+								booksAmount={booksAmount}
+							/>
 						</div>
 					</div>
 
 					{/* Books Result */}
 					<div className='flex-1 h-full max-h-[622px] bg-secondary-background rounded-2xl py-8 px-4 sm:px-6 '>
 						<div className='w-full flex items-center justify-between'>
-							<h3 className='font-bold text-xl'>All Books</h3>
+							<h3 className='font-bold text-xl'>
+								{tabsOptions[searchParams.tab].name}
+							</h3>
 						</div>
 
 						<div className='w-full  h-[500px] mt-4 overflow-y-auto overflow-x-hidden books-container'>
-							<BookShelfTable books={books} />
-							{/* <p className='text-span font-bold text-center text-lg'>
-								There is nothing here :(
-							</p> */}
+							<BookShelfTable books={tabsOptions[searchParams.tab].list} />
 						</div>
 					</div>
 				</section>

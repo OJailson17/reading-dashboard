@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import {
 	Select,
 	SelectContent,
@@ -8,28 +9,61 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '../ui/select';
+import { MouseEvent } from 'react';
+import { Tab } from '@/app/bookshelf/page';
 
-export const SelectFilter = () => {
+interface Amounts {
+	amountOfAllBooks: number;
+	amountOfToReadBooks: number;
+	amountOfReadingBooks: number;
+	amountOfFinishedBooks: number;
+	amountOfToReviewBooks: number;
+}
+
+interface SelectTabFilterProps {
+	currentTab: Tab;
+	tabName: string;
+	booksAmount: Amounts;
+}
+
+export const SelectTabFilter = ({
+	currentTab,
+	tabName,
+	booksAmount,
+}: SelectTabFilterProps) => {
+	const router = useRouter();
+
+	const handleChangeTab = (selectedTab: string) => {
+		if (selectedTab !== currentTab) {
+			router.push(`/bookshelf/?tab=${selectedTab}`, {
+				scroll: false,
+			});
+		}
+	};
+
 	return (
 		<div className='w-full flex flex-col gap-1 justify-center sm:hidden'>
-			<Select onValueChange={e => console.log(e)}>
+			<Select onValueChange={handleChangeTab}>
 				<SelectTrigger className='w-full max-sm:h-11'>
-					<SelectValue placeholder='All Books' />
+					<SelectValue placeholder={tabName} />
 				</SelectTrigger>
 
 				<SelectContent className='bg-background'>
 					<SelectGroup className='bg-background text-span'>
-						<SelectItem value='All Books' className='max-sm:h-11'>
-							All Books
+						<SelectItem value='all' className='max-sm:h-11'>
+							All Books ({booksAmount.amountOfAllBooks})
 						</SelectItem>
-						<SelectItem value='Reading' className='max-sm:h-11'>
-							Reading
+						<SelectItem value='tbr' className='max-sm:h-11'>
+							To Read ({booksAmount.amountOfToReadBooks})
 						</SelectItem>
-						<SelectItem value='Finished' className='max-sm:h-11'>
-							Finished
+						<SelectItem value='reading' className='max-sm:h-11'>
+							Reading ({booksAmount.amountOfReadingBooks})
 						</SelectItem>
-						<SelectItem value='To Review' className='max-sm:h-11'>
-							To Review
+						<SelectItem value='finished' className='max-sm:h-11'>
+							Finished ({booksAmount.amountOfFinishedBooks})
+						</SelectItem>
+						<SelectItem value='review' className='max-sm:h-11'>
+							To Review ({booksAmount.amountOfToReviewBooks})
 						</SelectItem>
 					</SelectGroup>
 				</SelectContent>

@@ -11,7 +11,13 @@ interface BookShelfTableProps {
 }
 
 export const BookShelfTable = ({ books }: BookShelfTableProps) => {
-	console.log();
+	if (books.length <= 0) {
+		return (
+			<p className='text-span font-bold text-center text-lg'>
+				There is nothing here
+			</p>
+		);
+	}
 
 	return (
 		<table className='w-full table-auto border-separate border-spacing-y-3 px-1'>

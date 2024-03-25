@@ -17,7 +17,10 @@ export const TBRCard = async () => {
 		<div className='w-full max-w-[403px] h-96 xs:px-4 sm:px-7 py-6 bg-secondary-background rounded-2xl'>
 			<header className='flex items-center justify-between'>
 				<h2 className='font-bold text-xl'>Want to Read</h2>
-				<Link href={'/bookshelf'} className='text-span text-sm hover:underline'>
+				<Link
+					href={'/bookshelf/?tab=tbr'}
+					className='text-span text-sm hover:underline'
+				>
 					see all
 				</Link>
 			</header>

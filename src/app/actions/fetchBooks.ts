@@ -1,6 +1,6 @@
 'use server';
 
-import { BookStatus } from '@/@types/book';
+import { Book, BookStatus } from '@/@types/book';
 import { cache } from 'react';
 
 type BookProperties = {
@@ -55,6 +55,11 @@ type BookProperties = {
 			color: string;
 		}[];
 	};
+	'Qtd. Days': {
+		formula: {
+			number: number;
+		};
+	};
 };
 
 type NotionBookProps = {
@@ -71,7 +76,7 @@ type UpdateFetchBooksProps = {
 	database_id: string;
 };
 
-const formatBooks = (books: NotionBookProps[]) => {
+const formatBooks = (books: NotionBookProps[]): Book[] => {
 	const formattedBooks = books.map(book => {
 		const properties = book.properties;
 
@@ -91,6 +96,7 @@ const formatBooks = (books: NotionBookProps[]) => {
 				name: genre.name,
 				color: genre.color,
 			})),
+			qtd_days: properties['Qtd. Days'].formula.number,
 		};
 	});
 

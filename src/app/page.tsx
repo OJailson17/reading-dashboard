@@ -39,7 +39,7 @@ export default async function Home() {
 				<SearchBar books={books} />
 
 				<Link
-					href={'/bookshelf'}
+					href={'/bookshelf/?tab=all'}
 					className='flex gap-2 mt-8 sm:mt-0 hover:underline'
 				>
 					<GiBookshelf size={20} />

@@ -18,4 +18,5 @@ export type Book = {
 	review?: string;
 	goodreads?: string;
 	genres: Genre[];
+	qtd_days: number;
 };
