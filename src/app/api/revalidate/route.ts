@@ -7,28 +7,24 @@ export async function POST(req: NextRequest, res: NextResponse) {
 		password: string;
 	};
 
-	if (password === process.env.NOTION_USERS_DATABASE_ID) {
-		console.log(process.env.API_REVALIDATE_PASSWORD_HASH);
+	const doesPasswordMatch = await bcryptjs.compare(
+		password,
+		`${process.env.API_REVALIDATE_PASSWORD_HASH}`,
+	);
+
+	if (!doesPasswordMatch) {
+		return NextResponse.json(
+			{
+				error: 'Not allowed',
+			},
+			{
+				status: 401,
+			},
+		);
 	}
 
-	// const doesPasswordMatch = await bcryptjs.compare(
-	// 	password,
-	// 	`${process.env.API_REVALIDATE_PASSWORD_HASH}`,
-	// );
-
-	// if (!doesPasswordMatch) {
-	// 	return NextResponse.json(
-	// 		{
-	// 			error: 'Not allowed',
-	// 		},
-	// 		{
-	// 			status: 401,
-	// 		},
-	// 	);
-	// }
-
-	// revalidateTag('fetch-books');
-	// revalidateTag('sign-in');
+	revalidateTag('fetch-books');
+	revalidateTag('sign-in');
 
 	return NextResponse.json(
 		{
