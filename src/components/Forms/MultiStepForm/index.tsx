@@ -1,6 +1,7 @@
 'use client';
 
 import { useMultiForm } from '@/context/MultiFormContext';
+import { BookTitleForm } from './BookTitleForm';
 
 export const MultiStepForm = () => {
 	const { step } = useMultiForm();
@@ -8,7 +9,7 @@ export const MultiStepForm = () => {
 	const ActiveStepFormComponent = () => {
 		switch (step) {
 			case 1:
-				return <h1>Hello Title</h1>;
+				return <BookTitleForm />;
 			case 2:
 				return <h1>Hello Author</h1>;
 			case 3:
