@@ -1,6 +1,6 @@
 'use server';
 
-import { Book, BookStatus } from '@/@types/book';
+import { Book, BookLanguages, BookStatus } from '@/@types/book';
 import { cache } from 'react';
 
 type BookProperties = {
@@ -60,6 +60,14 @@ type BookProperties = {
 			number: number;
 		};
 	};
+	Language: {
+		select: {
+			name: BookLanguages;
+		};
+	};
+	'Book Price': {
+		number: number | null;
+	};
 };
 
 type NotionBookProps = {
@@ -97,6 +105,8 @@ const formatBooks = (books: NotionBookProps[]): Book[] => {
 				color: genre.color,
 			})),
 			qtd_days: properties['Qtd. Days'].formula.number,
+			book_price: String(properties['Book Price'].number),
+			language: properties.Language.select.name,
 		};
 	});
 

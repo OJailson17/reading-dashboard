@@ -1,5 +1,7 @@
 export type BookStatus = 'To read' | 'Reading' | 'Finished';
 
+export type BookLanguages = 'Portuguese' | 'English' | 'Spanish';
+
 export type Genre = {
 	name: string;
 	color: string;
@@ -19,4 +21,6 @@ export type Book = {
 	goodreads?: string;
 	genres: Genre[];
 	qtd_days: number;
+	book_price?: string | null;
+	language: BookLanguages;
 };

@@ -3,6 +3,7 @@ import { Poppins } from 'next/font/google';
 import '@/styles/global.css';
 import { Toaster } from '@/components/ui/toaster';
 import { GoalContextProvider } from '@/context/GoalContext';
+import MultiFormProvider from '@/context/MultiFormContext';
 
 const poppins = Poppins({
 	subsets: ['latin'],
@@ -25,7 +26,9 @@ export default function RootLayout({
 		<html lang='en' className={`${poppins.className}`}>
 			<body className={`bg-background text-white overflow-x-hidden h-screen`}>
 				<div id='app' className='px-6 xl:px-24 flex flex-col w-screen mx-auto'>
-					<GoalContextProvider>{children}</GoalContextProvider>
+					<MultiFormProvider>
+						<GoalContextProvider>{children}</GoalContextProvider>
+					</MultiFormProvider>
 				</div>
 				<Toaster />
 			</body>
