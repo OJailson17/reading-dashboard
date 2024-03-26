@@ -5,6 +5,7 @@ import { BookTitleForm } from './BookTitleForm';
 import { BookAuthorForm } from './BookAuthorForm';
 import { BookCoverForm } from './BookCoverForm';
 import { BookPagesForm } from './BookPagesForm';
+import { BookStatusLanguageForm } from './BookStatusLanguageForm';
 
 export const MultiStepForm = () => {
 	const { step } = useMultiForm();
@@ -20,7 +21,7 @@ export const MultiStepForm = () => {
 			case 4:
 				return <BookPagesForm />;
 			case 5:
-				return <h1>Hello Status and Language</h1>;
+				return <BookStatusLanguageForm />;
 			case 6:
 				return <h1>Hello Genres</h1>;
 			case 7:
