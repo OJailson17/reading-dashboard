@@ -20,7 +20,8 @@ export const InputComponent = forwardRef<HTMLInputElement, InputComponentProps>(
 				</label>
 				<input
 					type='text'
-					className='py-3 px-2 bg-background rounded-md text-white placeholder:text-placeholder placeholder:text-sm'
+					className='py-3 px-4 bg-background rounded-md text-white placeholder:text-placeholder placeholder:text-sm'
+					defaultValue={props.type === 'number' ? 0 : ''}
 					ref={ref}
 					{...rest}
 				/>
