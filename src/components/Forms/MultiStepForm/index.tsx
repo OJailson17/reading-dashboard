@@ -2,6 +2,7 @@
 
 import { useMultiForm } from '@/context/MultiFormContext';
 import { BookTitleForm } from './BookTitleForm';
+import { BookAuthorForm } from './BookAuthorForm';
 
 export const MultiStepForm = () => {
 	const { step } = useMultiForm();
@@ -11,7 +12,7 @@ export const MultiStepForm = () => {
 			case 1:
 				return <BookTitleForm />;
 			case 2:
-				return <h1>Hello Author</h1>;
+				return <BookAuthorForm />;
 			case 3:
 				return <h1>Hello Cover</h1>;
 			case 4:

@@ -9,11 +9,11 @@ import { Book } from '@/@types/book';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { MultiStepFormActions } from './MultiStepFormActions';
 
-const bookTitleSchema = yup.object({
-	title: yup.string().trim().required('title is required'),
+const bookAuthorSchema = yup.object({
+	author: yup.string().trim().required('author is required'),
 }) as ObjectSchema<Partial<Book>>;
 
-export const BookTitleForm = () => {
+export const BookAuthorForm = () => {
 	const { formData, onSetFormData, onHandleNext } = useMultiForm();
 
 	const {
@@ -22,10 +22,10 @@ export const BookTitleForm = () => {
 		formState: { errors },
 	} = useForm({
 		defaultValues: formData,
-		resolver: yupResolver(bookTitleSchema),
+		resolver: yupResolver(bookAuthorSchema),
 	});
 
-	const handleSaveBookTitle = (data: Partial<Book>) => {
+	const handleSaveBookAuthor = (data: Partial<Book>) => {
 		onSetFormData(data);
 		onHandleNext();
 	};
@@ -33,19 +33,19 @@ export const BookTitleForm = () => {
 	return (
 		<form
 			autoComplete='off'
-			onSubmit={handleSubmit(handleSaveBookTitle)}
+			onSubmit={handleSubmit(handleSaveBookAuthor)}
 			className='flex justify-center flex-col gap-12'
 		>
 			<InputComponent
-				{...register('title')}
-				error={errors.title}
-				label='Title'
-				id='book-title'
-				placeholder='Ex: Harry Potter'
+				{...register('author')}
+				error={errors.author}
+				label='Author'
+				id='book-author'
+				placeholder='Ex: J. K. Rowling'
 				autoFocus
 			/>
 			<MultiStepFormActions
-				onHandleSubmit={handleSubmit(handleSaveBookTitle)}
+				onHandleSubmit={handleSubmit(handleSaveBookAuthor)}
 			/>
 		</form>
 	);
