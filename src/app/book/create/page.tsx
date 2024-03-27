@@ -35,7 +35,7 @@ export default async function CreateBook() {
 					</div>
 				</div>
 
-				<MultiStepFormWrapper />
+				<MultiStepFormWrapper user_database_id={user.user_database} />
 			</main>
 
 			<Footer />

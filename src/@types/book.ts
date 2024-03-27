@@ -4,7 +4,7 @@ export type BookLanguages = 'Portuguese' | 'English' | 'Spanish';
 
 export type Genre = {
 	name: string;
-	color: string;
+	color?: string;
 };
 
 export type Book = {

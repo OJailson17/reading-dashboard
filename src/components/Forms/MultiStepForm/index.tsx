@@ -7,6 +7,7 @@ import { BookCoverForm } from './BookCoverForm';
 import { BookPagesForm } from './BookPagesForm';
 import { BookStatusLanguageForm } from './BookStatusLanguageForm';
 import { BookReviewForm } from './BookReviewForm';
+import { BookGenresForm } from './BookGenresForm';
 
 interface MultiStepFormProps {
 	user_database_id: string;
@@ -28,9 +29,9 @@ export const MultiStepForm = ({ user_database_id }: MultiStepFormProps) => {
 			case 5:
 				return <BookStatusLanguageForm />;
 			case 6:
-				return <BookReviewForm user_database_id={user_database_id} />;
+				return <BookGenresForm />;
 			case 7:
-				return <h1>Hello Review</h1>;
+				return <BookReviewForm user_database_id={user_database_id} />;
 			case 8:
 				return <h1>Hello Price</h1>;
 			case 9:

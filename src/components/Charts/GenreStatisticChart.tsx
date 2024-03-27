@@ -26,7 +26,7 @@ interface GenreFrequency {
 }
 
 function genreFrequencyList(
-	arr: { name: string; color: string }[],
+	arr: { name: string; color?: string }[],
 ): GenreFrequency[] {
 	let frequency: Record<string, number> = {};
 
