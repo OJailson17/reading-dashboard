@@ -10,7 +10,7 @@ export const MultiStepFormWrapper = () => {
 	const totalNumberOfSteps = 9;
 
 	return (
-		<div className='flex-1 w-full max-w-3xl bg-secondary-background min-h-80 rounded-2xl px-9 py-6'>
+		<div className='flex-1 w-full max-w-3xl bg-secondary-background min-h-80 rounded-2xl px-8 sm:px-9 py-6'>
 			<header className='w-full flex items-center justify-between'>
 				<Link href={'/'} className='font-medium underline'>
 					Cancel

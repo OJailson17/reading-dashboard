@@ -16,6 +16,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 
 const bookStatusLanguageSchema = yup.object({
 	status: yup
@@ -54,76 +55,116 @@ export const BookStatusLanguageForm = () => {
 			onSubmit={handleSubmit(handleSaveStatusLanguage)}
 			className='flex justify-center flex-col gap-12'
 		>
-			<div className='w-full flex justify-between'>
-				<InputComponent
-					{...register('status')}
-					error={errors.status}
-					label='Status'
-					id='book-status'
-					isCustom
-				>
-					<Controller
-						name='status'
-						control={control}
-						defaultValue={'To read'}
-						render={({ field: { ref, ...rest } }) => (
-							<Select onValueChange={rest.onChange} {...rest}>
-								<SelectTrigger className='w-60 max-sm:h-11 max-sm:w-72'>
-									<SelectValue placeholder='Select status' />
-								</SelectTrigger>
-
-								<SelectContent className='bg-background'>
-									<SelectGroup className='bg-background text-span'>
-										<SelectItem value='To read' className='max-sm:h-11'>
+			<div className='w-full flex items-center justify-between'>
+				<div className='w-1/2'>
+					<InputComponent
+						{...register('status')}
+						error={errors.status}
+						label='Status'
+						id='book-status'
+						isCustom
+					>
+						<Controller
+							name='status'
+							control={control}
+							defaultValue={'To read'}
+							render={({ field: { ref, ...rest } }) => (
+								<RadioGroup
+									defaultValue='To read'
+									onValueChange={rest.onChange}
+									{...rest}
+									className='flex items-start justify-start gap-4 max-sm:flex-col'
+								>
+									<div className='flex items-center justify-center gap-2'>
+										<RadioGroupItem
+											className='text-white border-white'
+											value='To read'
+											id='To read'
+										/>
+										<label className='cursor-pointer' htmlFor='To read'>
 											To read
-										</SelectItem>
-										<SelectItem value='Reading' className='max-sm:h-11'>
+										</label>
+									</div>
+									<div className='flex items-center justify-center gap-2'>
+										<RadioGroupItem
+											className='text-white border-white'
+											value='Reading'
+											id='Reading'
+										/>
+										<label className='cursor-pointer' htmlFor='Reading'>
 											Reading
-										</SelectItem>
-										<SelectItem value='Finished' className='max-sm:h-11'>
+										</label>
+									</div>
+									<div className='flex items-center justify-center gap-2'>
+										<RadioGroupItem
+											className='text-white border-white'
+											value='Finished'
+											id='Finished'
+										/>
+										<label className='cursor-pointer' htmlFor='Finished'>
 											Finished
-										</SelectItem>
-									</SelectGroup>
-								</SelectContent>
-							</Select>
-						)}
-					/>
-				</InputComponent>
+										</label>
+									</div>
+								</RadioGroup>
+							)}
+						/>
+					</InputComponent>
+				</div>
 
-				<InputComponent
-					{...register('language')}
-					error={errors.language}
-					label='Language'
-					id='book-language'
-					isCustom
-				>
-					<Controller
-						name='language'
-						control={control}
-						defaultValue={'Portuguese'}
-						render={({ field: { ref, ...rest } }) => (
-							<Select onValueChange={rest.onChange} {...rest}>
-								<SelectTrigger className='w-60 max-sm:h-11 max-sm:w-72'>
-									<SelectValue placeholder='Select Language' />
-								</SelectTrigger>
-
-								<SelectContent className='bg-background'>
-									<SelectGroup className='bg-background text-span'>
-										<SelectItem value='Portuguese' className='max-sm:h-11'>
+				<div className='1/2'>
+					<InputComponent
+						{...register('language')}
+						error={errors.language}
+						label='Language'
+						id='book-language'
+						isCustom
+					>
+						<Controller
+							name='language'
+							control={control}
+							defaultValue={'Portuguese'}
+							render={({ field: { ref, ...rest } }) => (
+								<RadioGroup
+									defaultValue='Portuguese'
+									onValueChange={rest.onChange}
+									{...rest}
+									className='flex items-start justify-start gap-4 max-sm:flex-col'
+								>
+									<div className='flex items-center justify-center gap-2'>
+										<RadioGroupItem
+											className='text-white border-white'
+											value='Portuguese'
+											id='Portuguese'
+										/>
+										<label className='cursor-pointer' htmlFor='Portuguese'>
 											Portuguese
-										</SelectItem>
-										<SelectItem value='English' className='max-sm:h-11'>
+										</label>
+									</div>
+									<div className='flex items-center justify-center gap-2'>
+										<RadioGroupItem
+											className='text-white border-white'
+											value='English'
+											id='English'
+										/>
+										<label className='cursor-pointer' htmlFor='English'>
 											English
-										</SelectItem>
-										<SelectItem value='Spanish' className='max-sm:h-11'>
+										</label>
+									</div>
+									<div className='flex items-center justify-center gap-2'>
+										<RadioGroupItem
+											className='text-white border-white'
+											value='Spanish'
+											id='Spanish'
+										/>
+										<label className='cursor-pointer' htmlFor='Spanish'>
 											Spanish
-										</SelectItem>
-									</SelectGroup>
-								</SelectContent>
-							</Select>
-						)}
-					/>
-				</InputComponent>
+										</label>
+									</div>
+								</RadioGroup>
+							)}
+						/>
+					</InputComponent>
+				</div>
 			</div>
 
 			<MultiStepFormActions

@@ -45,7 +45,7 @@ export const BookPagesForm = () => {
 			onSubmit={handleSubmit(handleSavePages)}
 			className='flex justify-center flex-col gap-12'
 		>
-			<div className='w-full flex justify-between'>
+			<div className='w-full flex flex-col max-sm:gap-6 sm:flex-row justify-between'>
 				<InputComponent
 					{...register('total_pages', {
 						valueAsNumber: true,
