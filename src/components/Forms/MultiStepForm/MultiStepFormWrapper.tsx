@@ -4,7 +4,13 @@ import Link from 'next/link';
 import { MultiStepForm } from '.';
 import { useMultiForm } from '@/context/MultiFormContext';
 
-export const MultiStepFormWrapper = () => {
+interface MultiStepFormWrapperProps {
+	user_database_id: string;
+}
+
+export const MultiStepFormWrapper = ({
+	user_database_id,
+}: MultiStepFormWrapperProps) => {
 	const { step } = useMultiForm();
 
 	const totalNumberOfSteps = 9;
@@ -23,7 +29,7 @@ export const MultiStepFormWrapper = () => {
 				</p>
 			</header>
 
-			<MultiStepForm />
+			<MultiStepForm user_database_id={user_database_id} />
 		</div>
 	);
 };

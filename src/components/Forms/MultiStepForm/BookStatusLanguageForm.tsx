@@ -73,7 +73,7 @@ export const BookStatusLanguageForm = () => {
 									defaultValue='To read'
 									onValueChange={rest.onChange}
 									{...rest}
-									className='flex items-start justify-start gap-4 max-sm:flex-col'
+									className='flex items-start justify-start gap-4 flex-col lg:flex-row'
 								>
 									<div className='flex items-center justify-center gap-2'>
 										<RadioGroupItem
@@ -128,7 +128,7 @@ export const BookStatusLanguageForm = () => {
 									defaultValue='Portuguese'
 									onValueChange={rest.onChange}
 									{...rest}
-									className='flex items-start justify-start gap-4 max-sm:flex-col'
+									className='flex items-start justify-start gap-4 flex-col lg:flex-row'
 								>
 									<div className='flex items-center justify-center gap-2'>
 										<RadioGroupItem
