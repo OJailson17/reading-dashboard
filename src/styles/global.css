@@ -69,3 +69,34 @@ table thead tr {
 	-webkit-line-clamp: 2; /* start showing ellipsis when 3rd line is reached */
 	white-space: pre-wrap; /* let the text wrap preserving spaces */
 }
+
+.rs-tag {
+	background: #5e3a91;
+	color: white;
+	height: 1.75rem;
+	font-size: 1rem;
+}
+
+.rs-picker-tag .rs-picker-toggle.rs-btn ~ .rs-picker-textbox .rs-tag {
+	padding: 0 12px;
+}
+
+.rs-tag-md .rs-tag-icon-close {
+	position: relative;
+}
+
+.rs-picker-textbox {
+	background: #0e102e;
+}
+.rs-checkbox-checker {
+	background: #0e102e;
+}
+
+.rs-picker-textbox {
+	height: 100%;
+	border-radius: 8px;
+}
+
+.rs-picker-input.rs-picker-tag .rs-picker-toggle.rs-btn {
+	background-color: #0e102e !important;
+}

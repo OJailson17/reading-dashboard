@@ -1,17 +1,12 @@
 'use client';
 
 import { useMultiForm } from '@/context/MultiFormContext';
-import * as yup from 'yup';
-import { ObjectSchema } from 'yup';
-import { Book, Genre } from '@/@types/book';
+import { Book } from '@/@types/book';
 import { MultiStepFormActions } from './MultiStepFormActions';
-import CreatableSelect from 'react-select/creatable';
-import { useState } from 'react';
-
-const bookGenresSchema = yup.object({
-	genres: yup.array().ensure().of(yup.string().trim().required()),
-	// .required('genre is required'),
-}) as ObjectSchema<Partial<Book>>;
+import { TagPicker } from 'rsuite';
+import { InputComponent } from '../InputComponent';
+import { Controller, useForm } from 'react-hook-form';
+import { useEffect, useState } from 'react';
 
 const genreOptions = [
 	{
@@ -28,43 +23,55 @@ const genreOptions = [
 	},
 ];
 
-interface Genres extends Genre {}
-
 export const BookGenresForm = () => {
-	const [selectedGenres, setSelectedGenres] = useState<Genres[]>([]);
-
 	const { formData, onSetFormData, onHandleNext } = useMultiForm();
 
-	const handleSaveGenres = () => {
-		onSetFormData({
-			...formData,
-			genres: selectedGenres,
-		});
+	const { register, handleSubmit, control } = useForm({
+		defaultValues: formData,
+	});
+
+	const handleSaveGenres = (data: Partial<Book>) => {
+		data.genres = data?.genres || [];
+
+		onSetFormData(data);
 		onHandleNext();
 	};
 
-	const handleSelectGenres = (genres: any) => {
-		const cleanGenres = genres.map((genre: any) => {
-			return {
-				name: genre.value,
-			};
-		});
-
-		setSelectedGenres(cleanGenres);
-	};
-
 	return (
-		<form autoComplete='off' className='flex justify-center flex-col gap-12'>
+		<form
+			autoComplete='off'
+			onSubmit={handleSubmit(handleSaveGenres)}
+			className='flex justify-center flex-col gap-12'
+		>
 			<div className='w-full flex items-center justify-between'>
-				<CreatableSelect
-					isMulti
-					options={genreOptions}
-					onChange={handleSelectGenres}
-					className='w-full max-w-80'
-				/>
+				<InputComponent
+					{...register('genres')}
+					label='Genres'
+					id='book-genres'
+					isCustom
+				>
+					<Controller
+						name='genres'
+						control={control}
+						render={({ field: { ref, ...rest } }) => (
+							<TagPicker
+								creatable
+								data={genreOptions}
+								style={{
+									background: '#0e102e',
+									border: 'none',
+									borderRadius: '8px',
+								}}
+								menuStyle={{ background: '#0E102E' }}
+								className='w-full max-w-80 text-base min-h-12'
+								{...rest}
+							/>
+						)}
+					/>
+				</InputComponent>
 			</div>
 
-			<MultiStepFormActions onHandleSubmit={handleSaveGenres} />
+			<MultiStepFormActions onHandleSubmit={handleSubmit(handleSaveGenres)} />
 		</form>
 	);
 };
