@@ -4,6 +4,7 @@ import { DialogTrigger } from '../ui/dialog';
 import { Book } from '@/@types/book';
 import { format } from 'date-fns';
 import { calculateAmountOfRatingStars } from '@/utils/calculateAmountOfStars';
+import { handleRemoveZeroDigit } from '@/utils/formatDate';
 
 interface BookTableRowProps {
 	book: Book;
@@ -97,7 +98,10 @@ export const BookTableRow = ({ book }: BookTableRowProps) => {
 				<div className='text-center'>
 					<p className='font-bold text-xs'>
 						{book.started_date
-							? format(book.started_date, 'MMM dd')
+							? format(
+									new Date(handleRemoveZeroDigit(book.started_date)),
+									'MMM dd',
+							  )
 							: 'Not Set'}
 					</p>
 					<span className='font-bold text-span text-xs'>{startedYear}</span>
@@ -109,7 +113,10 @@ export const BookTableRow = ({ book }: BookTableRowProps) => {
 				<div className='text-center'>
 					<p className='font-bold text-xs'>
 						{book.finished_date
-							? format(book.finished_date, 'MMM dd')
+							? format(
+									new Date(handleRemoveZeroDigit(book.finished_date)),
+									'MMM dd',
+							  )
 							: 'Not Set'}
 					</p>
 					<span className='font-bold text-span text-xs'>{finishedYear}</span>
