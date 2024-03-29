@@ -9,6 +9,7 @@ import { BookStatusLanguageForm } from './BookStatusLanguageForm';
 import { BookReviewForm } from './BookReviewForm';
 import { BookGenresForm } from './BookGenresForm';
 import { BookPriceForm } from './BookPriceForm';
+import { BookDatesForm } from './BookDatesForm';
 
 interface MultiStepFormProps {
 	user_database_id: string;
@@ -36,7 +37,7 @@ export const MultiStepForm = ({ user_database_id }: MultiStepFormProps) => {
 			case 8:
 				return <BookPriceForm />;
 			case 9:
-				return <h1>Hello Dates</h1>;
+				return <BookDatesForm />;
 			default:
 				return null;
 		}

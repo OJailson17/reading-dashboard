@@ -20,7 +20,7 @@ export const BookShelfTable = ({ books }: BookShelfTableProps) => {
 	}
 
 	return (
-		<table className='w-full table-auto border-separate border-spacing-y-3 px-1'>
+		<table className='w-full table-auto border-separate border-spacing-y-3 px-1 bookshelf-table'>
 			<thead>
 				<tr className='text-center text-span'>
 					<th className='text-left'>Book Details</th>

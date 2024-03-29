@@ -163,7 +163,7 @@ export const BookDialog = ({ type = 'To read', book }: BookDialogProps) => {
 									date > new Date() || date < new Date('1900-01-01')
 								}
 								defaultMonth={new Date(book.started_date || today)}
-								className='bg-secondary-background border-none text-span '
+								className='bg-secondary-background border-none text-span'
 							/>
 						</PopoverContent>
 					</Popover>
