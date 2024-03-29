@@ -60,6 +60,10 @@ export const BookDatesForm = () => {
 	const handleFormatBook = (book: Partial<Book>) => {
 		book.book_price = removePriceFormat(book.book_price || '');
 
+		if (book.status === 'Finished') {
+			book.current_page = book.total_pages;
+		}
+
 		return book;
 	};
 

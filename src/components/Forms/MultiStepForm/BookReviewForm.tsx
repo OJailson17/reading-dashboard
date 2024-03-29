@@ -137,7 +137,7 @@ export const BookReviewForm = ({ user_database_id }: BookReviewForm) => {
 									{...rest}
 									onOpenChange={e => setIsReviewSelectOPen(e)}
 								>
-									<SelectTrigger className='w-60 max-sm:h-11 max-sm:w-72'>
+									<SelectTrigger className='h-12 bg-background rounded-md text-white w-80 border-none outline-none'>
 										<SelectValue placeholder='Make a review' />
 									</SelectTrigger>
 
@@ -191,7 +191,7 @@ export const BookReviewForm = ({ user_database_id }: BookReviewForm) => {
 										{...rest}
 										onOpenChange={e => setIsReviewSelectOPen(e)}
 									>
-										<SelectTrigger className='w-60 max-sm:h-11 max-sm:w-72'>
+										<SelectTrigger className='h-12 bg-background rounded-md text-white w-80 border-none outline-none'>
 											<SelectValue placeholder='Make a review' />
 										</SelectTrigger>
 
