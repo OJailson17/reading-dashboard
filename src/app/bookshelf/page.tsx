@@ -13,6 +13,7 @@ import { fetchBooks } from '../actions/fetchBooks';
 import { finishedBooksFromThisMonth } from '@/utils/calculateFinishedBooks';
 import { GeneralStats } from '@/components/GeneralStats';
 import { BookshelfNav } from '@/components/BookshelfNav';
+import Link from 'next/link';
 
 export type Tab = 'all' | 'tbr' | 'reading' | 'finished' | 'review';
 
@@ -132,10 +133,13 @@ export default async function Bookshelf({
 					<div className='flex flex-col items-center justify-center gap-9 sm:max-lg:gap-3 sm:max-lg:flex-row'>
 						<div className='w-full lg:w-80 sm:max-lg:w-48 bg-secondary-background p-6 rounded-2xl'>
 							<h3 className='font-bold text-xl sm:max-lg:hidden'>Bookshelf</h3>
-							<button className='w-full py-3 px-3 bg-purple mt-9 sm:max-lg:mt-0 flex items-center justify-center gap-3 font-medium text-lg rounded-lg'>
+							<Link
+								href={'/book/create'}
+								className='w-full py-3 px-3 bg-purple mt-9 sm:max-lg:mt-0 flex items-center justify-center gap-3 font-medium text-lg rounded-lg'
+							>
 								<FaPlus />
 								Add Book
-							</button>
+							</Link>
 						</div>
 
 						<div className='sm:w-80 flex-1 w-full h-full bg-secondary-background rounded-2xl py-8 px-4 gap-9 flex items-center justify-center flex-col'>

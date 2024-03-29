@@ -14,6 +14,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { MultiStepFormActions } from './MultiStepFormActions';
 import { handleFormatDate } from '@/utils/formatDate';
 import { removePriceFormat } from '@/utils/formatPrice';
+import { FaFaceSmileBeam } from 'react-icons/fa6';
 
 const bookDatesSchema = yup.object({
 	started_date: yup
@@ -74,6 +75,18 @@ export const BookDatesForm = () => {
 			className='flex justify-center flex-col gap-12'
 		>
 			<div className='w-full flex flex-col items-start max-lg:gap-6 lg:items-center justify-between lg:flex-row'>
+				{formData.status === 'To read' && (
+					<div className='space-y-4'>
+						<p className='flex gap-2 items-center justify-center'>
+							All the information was filled
+							<FaFaceSmileBeam />
+						</p>
+						<p>
+							Click on <strong>Create</strong> to confirm
+						</p>
+					</div>
+				)}
+
 				{formData.status === 'Reading' || formData.status === 'Finished' ? (
 					<div className='w-full'>
 						<InputComponent
