@@ -39,7 +39,7 @@ export const BookPriceForm = () => {
 		>
 			<InputComponent
 				error={errors.book_price}
-				label=''
+				label='Price'
 				id='book-price'
 				isCustom
 			>
