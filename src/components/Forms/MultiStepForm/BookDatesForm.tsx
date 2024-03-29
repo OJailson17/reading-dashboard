@@ -30,8 +30,7 @@ const bookDatesSchema = yup.object({
 		.trim()
 		.when('status', {
 			is: 'Finished',
-			then: schema =>
-				schema.required('started and finished dates are required'),
+			then: schema => schema.required('finished date is required'),
 			otherwise: schema => schema.nullable(),
 		}),
 }) as ObjectSchema<Partial<Book>>;

@@ -23,13 +23,18 @@ export const InputComponent = forwardRef<HTMLInputElement, InputComponentProps>(
 						>
 							{props.label}
 						</label>
-						<input
-							type='text'
-							className='py-3 px-4 bg-background rounded-md text-white placeholder:text-placeholder placeholder:text-sm outline-none'
-							defaultValue={props.type === 'number' ? 0 : ''}
-							ref={ref}
-							{...rest}
-						/>
+						<div className='w-full'>
+							<input
+								type='text'
+								className='w-full py-3 px-4 bg-background rounded-md text-white placeholder:text-placeholder placeholder:text-sm outline-none'
+								defaultValue={props.type === 'number' ? 0 : ''}
+								ref={ref}
+								{...rest}
+							/>
+							<span className='text-red-500 text-sm mt-1 inline-block'>
+								{props.error?.message}
+							</span>
+						</div>
 					</div>
 				)}
 
@@ -41,7 +46,12 @@ export const InputComponent = forwardRef<HTMLInputElement, InputComponentProps>(
 						>
 							{props.label}
 						</label>
-						{children}
+						<div className='w-full'>
+							{children}
+							<span className='text-red-500 text-sm mt-1 inline-block'>
+								{props.error?.message}
+							</span>
+						</div>
 					</div>
 				)}
 			</>
