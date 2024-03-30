@@ -40,15 +40,22 @@ export const BookTableRow = ({ book }: BookTableRowProps) => {
 			{/* Details */}
 			<td>
 				<DialogTrigger className='flex items-center gap-4'>
-					<div className='min-w-16 h-24 rounded-md relative'>
-						<Image
-							src={book.cover_url}
-							alt={`cover`}
-							fill
-							priority
-							className='object-cover rounded-md'
-						/>
-					</div>
+					{book.cover_url !== '' && (
+						<div className='min-w-16 h-24 rounded-md relative'>
+							<Image
+								src={book.cover_url}
+								alt={`cover`}
+								fill
+								priority
+								className='object-cover rounded-md'
+							/>
+						</div>
+					)}
+					{book.cover_url === '' && (
+						<div className='w-16 h-24 bg-background rounded-md flex items-center justify-center break-words text-center text-xs overflow-y-hidden p-px'>
+							{book.title}
+						</div>
+					)}
 
 					<div className='flex flex-col gap-3'>
 						<div className='max-w-60 text-left'>

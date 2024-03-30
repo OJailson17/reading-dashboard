@@ -126,15 +126,22 @@ export const BookDialog = ({ type = 'To read', book }: BookDialogProps) => {
 			</DialogTitle>
 
 			<div className='w-full max-w-28 h-40 rounded-md mt-4'>
-				<div className='h-full relative'>
-					<Image
-						src={book.cover_url}
-						alt='book cover'
-						fill
-						className='object-cover rounded-md'
-						priority
-					/>
-				</div>
+				{book.cover_url !== '' && (
+					<div className='h-full relative'>
+						<Image
+							src={book.cover_url}
+							alt='book cover'
+							fill
+							className='object-cover rounded-md'
+							priority
+						/>
+					</div>
+				)}
+				{book.cover_url === '' && (
+					<div className='w-full h-full bg-secondary-background rounded-2xl flex items-center justify-center break-words text-center text-xs overflow-y-hidden p-px'>
+						{book.title}
+					</div>
+				)}
 			</div>
 
 			{type === 'Finished' && (

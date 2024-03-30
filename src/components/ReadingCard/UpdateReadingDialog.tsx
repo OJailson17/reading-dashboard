@@ -103,13 +103,20 @@ export const UpdateReadingDialog = ({ book }: UpdateReadingDialog) => {
 		>
 			<DrawerHeader className='w-full h-ful relative'>
 				<div className='w-28 absolute h-40 -top-20 left-1/2 -translate-x-1/2 rounded-2xl'>
-					<Image
-						src={book.cover_url}
-						alt='book cover'
-						fill
-						className='object-contain rounded-2xl'
-						priority
-					/>
+					{book.cover_url !== '' && (
+						<Image
+							src={book.cover_url}
+							alt='book cover'
+							fill
+							className='object-contain rounded-2xl'
+							priority
+						/>
+					)}
+					{book.cover_url === '' && (
+						<div className='w-full h-full bg-background rounded-2xl flex items-center justify-center break-words text-center text-xs overflow-y-hidden p-px'>
+							{book.title}
+						</div>
+					)}
 				</div>
 				<div className='mt-20 flex items-center justify-center gap-4'>
 					<span className='font-light text-span'>{book.total_pages} p</span>
