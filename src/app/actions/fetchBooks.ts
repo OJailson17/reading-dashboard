@@ -95,7 +95,7 @@ const formatBooks = (books: NotionBookProps[]): Book[] => {
 			current_page: properties['Current Page'].number,
 			total_pages: properties['Qtd. Pages'].number,
 			status: properties.Status.select.name,
-			cover_url: book.icon.external.url,
+			cover_url: book.icon?.external?.url || '',
 			started_date: properties['Started Date'].date?.start || null,
 			finished_date: properties['Finished Date'].date?.start || null,
 			review: properties.Rating.select?.name || 'none',

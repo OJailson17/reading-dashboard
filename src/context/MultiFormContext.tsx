@@ -50,8 +50,6 @@ export default function MultiFormProvider({
 			started_date: undefined,
 			finished_date: undefined,
 			genres: [],
-			review: '',
-			goodreads: '',
 			book_price: '',
 			language: 'Portuguese',
 		});

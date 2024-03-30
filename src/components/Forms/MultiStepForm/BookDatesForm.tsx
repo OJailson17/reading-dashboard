@@ -15,6 +15,13 @@ import { MultiStepFormActions } from './MultiStepFormActions';
 import { handleFormatDate } from '@/utils/formatDate';
 import { removePriceFormat } from '@/utils/formatPrice';
 import { FaFaceSmileBeam } from 'react-icons/fa6';
+import { createBook } from '@/app/actions/createBook';
+import { toast } from '@/components/ui/use-toast';
+import { useRouter } from 'next/navigation';
+
+interface BookDatesProps {
+	user_database_id: string;
+}
 
 const bookDatesSchema = yup.object({
 	started_date: yup
@@ -35,21 +42,40 @@ const bookDatesSchema = yup.object({
 		}),
 }) as ObjectSchema<Partial<Book>>;
 
-export const BookDatesForm = () => {
-	const { formData } = useMultiForm();
+export const BookDatesForm = ({ user_database_id }: BookDatesProps) => {
+	const { formData, onResetForm, onResetSteps } = useMultiForm();
 
 	const {
 		handleSubmit,
 		control,
+		reset,
 		formState: { errors, isSubmitting },
 	} = useForm({
 		defaultValues: formData,
 		resolver: yupResolver(bookDatesSchema),
 	});
 
-	const handleSaveDates = (data: Partial<Book>) => {
+	const router = useRouter();
+
+	const handleCreateBook = async (data: Partial<Book>) => {
 		const book = handleFormatBook(data);
-		console.log({ book });
+		const createBookResponse = await createBook({
+			book,
+			database_id: user_database_id,
+		});
+
+		if (!createBookResponse.success) {
+			return toast({
+				description: 'Error: Book not created',
+				variant: 'destructive',
+			});
+		}
+
+		reset();
+
+		setTimeout(() => {
+			router.push('/bookshelf/?tab=all');
+		}, 500);
 	};
 
 	const handleSelectDate = (date: Date, onChange: any) => {
@@ -70,7 +96,7 @@ export const BookDatesForm = () => {
 	return (
 		<form
 			autoComplete='off'
-			onSubmit={handleSubmit(handleSaveDates)}
+			onSubmit={handleSubmit(handleCreateBook)}
 			className='flex justify-center flex-col gap-12'
 		>
 			<div className='w-full flex flex-col items-start max-lg:gap-6 lg:items-center justify-between lg:flex-row'>
@@ -166,7 +192,7 @@ export const BookDatesForm = () => {
 			</div>
 
 			<MultiStepFormActions
-				onHandleSubmit={handleSubmit(handleSaveDates)}
+				onHandleSubmit={handleSubmit(handleCreateBook)}
 				isLoading={isSubmitting}
 			/>
 		</form>

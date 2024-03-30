@@ -37,7 +37,7 @@ export const MultiStepForm = ({ user_database_id }: MultiStepFormProps) => {
 			case 8:
 				return <BookPriceForm />;
 			case 9:
-				return <BookDatesForm />;
+				return <BookDatesForm user_database_id={user_database_id} />;
 			default:
 				return null;
 		}
