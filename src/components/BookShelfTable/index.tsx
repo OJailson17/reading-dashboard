@@ -1,16 +1,25 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
-import { useState } from 'react';
+import { useEffect } from 'react';
 import { BookDialog } from '../BookDialog';
 import { Dialog, DialogTrigger } from '../ui/dialog';
 import { BookTableRow } from './BookTableRow';
 import { Book } from '@/@types/book';
+import { useMultiForm } from '@/context/MultiFormContext';
 
 interface BookShelfTableProps {
 	books: Book[];
 }
 
 export const BookShelfTable = ({ books }: BookShelfTableProps) => {
+	const { onResetForm } = useMultiForm();
+
+	// Reset create book form after being submitted
+	useEffect(() => {
+		onResetForm();
+	}, []);
+
 	if (books.length <= 0) {
 		return (
 			<p className='text-span font-bold text-center text-lg'>

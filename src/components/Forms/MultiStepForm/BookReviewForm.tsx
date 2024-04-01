@@ -138,7 +138,7 @@ export const BookReviewForm = ({ user_database_id }: BookReviewForm) => {
 									onOpenChange={e => setIsReviewSelectOPen(e)}
 								>
 									<SelectTrigger className='h-12 bg-background rounded-md text-white w-80 border-none outline-none'>
-										<SelectValue placeholder='Make a review' />
+										<SelectValue placeholder='Goodreads review' />
 									</SelectTrigger>
 
 									<SelectContent className='bg-background'>

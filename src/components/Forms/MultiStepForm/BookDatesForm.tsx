@@ -1,3 +1,5 @@
+'use client';
+
 import { Book } from '@/@types/book';
 import { useMultiForm } from '@/context/MultiFormContext';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -43,12 +45,11 @@ const bookDatesSchema = yup.object({
 }) as ObjectSchema<Partial<Book>>;
 
 export const BookDatesForm = ({ user_database_id }: BookDatesProps) => {
-	const { formData, onResetForm, onResetSteps } = useMultiForm();
+	const { formData } = useMultiForm();
 
 	const {
 		handleSubmit,
 		control,
-		reset,
 		formState: { errors, isSubmitting },
 	} = useForm({
 		defaultValues: formData,
@@ -71,7 +72,10 @@ export const BookDatesForm = ({ user_database_id }: BookDatesProps) => {
 			});
 		}
 
-		reset();
+		toast({
+			description: 'Book Created',
+			variant: 'success',
+		});
 
 		setTimeout(() => {
 			router.push('/bookshelf/?tab=all');
