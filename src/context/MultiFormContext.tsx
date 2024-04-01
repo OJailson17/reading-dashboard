@@ -44,8 +44,6 @@ export default function MultiFormProvider({
 	};
 
 	function onSetFormData(data: FormDataProps) {
-		console.log({ data });
-
 		setFormData((prev: Partial<Book>) => ({ ...prev, ...data }));
 
 		return {

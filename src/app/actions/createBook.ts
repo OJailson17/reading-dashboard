@@ -1,6 +1,7 @@
 'use server';
 
 import { Book } from '@/@types/book';
+import { handleFormatCoverURL } from '@/utils/formatCoverUrl';
 import { validateISBN } from '@/utils/validateISBN';
 import { validateURL } from '@/utils/validateUrl';
 import { revalidateTag } from 'next/cache';
@@ -39,7 +40,7 @@ const handleFormatBook = ({ book }: FormatBookProps) => {
 		}));
 	}
 
-	book.cover_url = handleFormatCover(book.cover_url || '');
+	book.cover_url = handleFormatCoverURL(book.cover_url || '');
 
 	return {
 		author: book.author || '',
@@ -56,18 +57,4 @@ const handleFormatBook = ({ book }: FormatBookProps) => {
 		goodreads: book.goodreads,
 		review: book.review,
 	};
-};
-
-const handleFormatCover = (cover_url: string) => {
-	const isCoverValidURL = validateURL(cover_url);
-	const isCoverValidISBN =
-		cover_url.trim() !== '' && validateISBN(Number(cover_url));
-
-	if (!isCoverValidURL && !isCoverValidISBN) cover_url = '';
-
-	if (isCoverValidURL) cover_url = cover_url;
-	if (isCoverValidISBN)
-		cover_url = `https://covers.openlibrary.org/b/isbn/${cover_url.trim()}-M.jpg`;
-
-	return cover_url;
 };
