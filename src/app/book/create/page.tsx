@@ -18,7 +18,7 @@ export default async function CreateBook() {
 			<Header />
 
 			<main className='w-full max-sm:max-w-md max-sm:mx-auto mt-20 max-w-7xl flex items-center justify-center gap-8 max-sm:flex-col'>
-				<div className='bg-secondary-background w-full min-h-80 max-w-96 rounded-2xl px-2 py-4 flex flex-col items-center justify-center gap-2'>
+				<div className='bg-secondary-background w-full min-h-80 max-w-96 sm:max-lg:w-80 rounded-2xl px-2 py-4 flex flex-col items-center justify-center gap-2'>
 					{/* Cover */}
 					<div className='w-28 h-40 bg-background rounded-md' />
 
