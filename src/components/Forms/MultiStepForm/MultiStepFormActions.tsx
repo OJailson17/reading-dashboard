@@ -46,7 +46,7 @@ export const MultiStepFormActions = (props: MultiStepFormActionsProps) => {
 				type='button'
 				onClick={onHandleSubmit}
 				style={{ pointerEvents: removeButtonEvents ? 'none' : 'auto' }}
-				className='px-8 py-2 bg-purple font-bold  text-white text-lg flex items-center justify-center rounded-md'
+				className='px-8 py-2 bg-purple font-bold min-h-11 min-w-32  text-white text-lg flex items-center justify-center rounded-md'
 			>
 				{!isLoading ? (
 					step >= 9 ? (
@@ -55,7 +55,7 @@ export const MultiStepFormActions = (props: MultiStepFormActionsProps) => {
 						'Next'
 					)
 				) : (
-					<ImSpinner2 className='text-white animate-spin' />
+					<ImSpinner2 className='text-white animate-spin' size={18} />
 				)}
 			</button>
 		</div>

@@ -44,6 +44,12 @@ const bookDatesSchema = yup.object({
 		}),
 }) as ObjectSchema<Partial<Book>>;
 
+const statusTab = {
+	'To read': 'tbr',
+	Reading: 'reading',
+	Finished: 'finished',
+};
+
 export const BookDatesForm = ({ user_database_id }: BookDatesProps) => {
 	const { formData } = useMultiForm();
 
@@ -78,7 +84,7 @@ export const BookDatesForm = ({ user_database_id }: BookDatesProps) => {
 		});
 
 		setTimeout(() => {
-			router.push('/bookshelf/?tab=all');
+			router.push(`/bookshelf/?tab=${statusTab[data.status || 'To read']}`);
 		}, 500);
 	};
 

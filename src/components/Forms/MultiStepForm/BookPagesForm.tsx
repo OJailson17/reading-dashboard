@@ -13,10 +13,12 @@ const bookPagesSchema = yup.object({
 	total_pages: yup
 		.number()
 		.min(1, 'it must be grater than 1 or equal to 1')
+		.max(10000, 'it could not be longer than 10.000 pages')
 		.required('total is required')
 		.typeError('total needs to be a number'),
 	current_page: yup
 		.number()
+		.max(10000, 'it could not be longer than 10.000 pages')
 		.default(0)
 		.required()
 		.typeError('current page needs to be a number'),

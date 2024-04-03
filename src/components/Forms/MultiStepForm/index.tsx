@@ -27,9 +27,9 @@ export const MultiStepForm = ({ user_database_id }: MultiStepFormProps) => {
 			case 3:
 				return <BookCoverForm />;
 			case 4:
-				return <BookPagesForm />;
-			case 5:
 				return <BookStatusLanguageForm />;
+			case 5:
+				return <BookPagesForm />;
 			case 6:
 				return <BookGenresForm />;
 			case 7:

@@ -16,7 +16,6 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useState } from 'react';
 
 interface BookReviewForm {
@@ -114,105 +113,101 @@ export const BookReviewForm = ({ user_database_id }: BookReviewForm) => {
 			onSubmit={handleSubmit(handleSaveReview)}
 			className='flex justify-center flex-col gap-12'
 		>
-			<div className='w-full flex flex-col items-start max-lg:gap-6 lg:items-center justify-between lg:flex-row'>
-				<div className='1/2'>
+			<div className='w-full flex flex-col items-start gap-6 lg:items-center justify-between lg:flex-row'>
+				<InputComponent
+					{...register('goodreads')}
+					error={errors.goodreads}
+					label='Goodreads'
+					id='book-goodreads'
+					isCustom
+				>
+					<Controller
+						name='goodreads'
+						control={control}
+						defaultValue={
+							IS_DEMO_VERSION
+								? ratingOptions[5].value
+								: goodreadsOptions[5].value
+						}
+						render={({ field: { ref, ...rest } }) => (
+							<Select
+								onValueChange={rest.onChange}
+								{...rest}
+								onOpenChange={e => setIsReviewSelectOPen(e)}
+							>
+								<SelectTrigger className='h-12 bg-background rounded-md text-white max-w-80 border-none outline-none'>
+									<SelectValue placeholder='Goodreads review' />
+								</SelectTrigger>
+
+								<SelectContent className='bg-background'>
+									<SelectGroup className='bg-background text-span'>
+										{IS_DEMO_VERSION &&
+											ratingOptions.map(review => (
+												<SelectItem
+													key={review.value}
+													value={review.value}
+													className='max-sm:h-11'
+												>
+													{review.label}
+												</SelectItem>
+											))}
+
+										{!IS_DEMO_VERSION &&
+											goodreadsOptions.map(review => (
+												<SelectItem
+													key={review.value}
+													value={review.value}
+													className='max-sm:h-11'
+												>
+													{review.label}
+												</SelectItem>
+											))}
+									</SelectGroup>
+								</SelectContent>
+							</Select>
+						)}
+					/>
+				</InputComponent>
+
+				{bookStatus === 'Finished' && (
 					<InputComponent
-						{...register('goodreads')}
-						error={errors.goodreads}
-						label='Goodreads'
-						id='book-goodreads'
+						{...register('review')}
+						error={errors.review}
+						label='Review'
+						id='book-review'
 						isCustom
 					>
 						<Controller
-							name='goodreads'
+							name='review'
 							control={control}
-							defaultValue={
-								IS_DEMO_VERSION
-									? ratingOptions[5].value
-									: goodreadsOptions[5].value
-							}
+							defaultValue={ratingOptions[5].value}
 							render={({ field: { ref, ...rest } }) => (
 								<Select
 									onValueChange={rest.onChange}
 									{...rest}
 									onOpenChange={e => setIsReviewSelectOPen(e)}
 								>
-									<SelectTrigger className='h-12 bg-background rounded-md text-white w-80 border-none outline-none'>
-										<SelectValue placeholder='Goodreads review' />
+									<SelectTrigger className='h-12 bg-background rounded-md text-white w-full max-w-80 border-none outline-none'>
+										<SelectValue placeholder='Make a review' />
 									</SelectTrigger>
 
 									<SelectContent className='bg-background'>
 										<SelectGroup className='bg-background text-span'>
-											{IS_DEMO_VERSION &&
-												ratingOptions.map(review => (
-													<SelectItem
-														key={review.value}
-														value={review.value}
-														className='max-sm:h-11'
-													>
-														{review.label}
-													</SelectItem>
-												))}
-
-											{!IS_DEMO_VERSION &&
-												goodreadsOptions.map(review => (
-													<SelectItem
-														key={review.value}
-														value={review.value}
-														className='max-sm:h-11'
-													>
-														{review.label}
-													</SelectItem>
-												))}
+											{ratingOptions.map(review => (
+												<SelectItem
+													key={review.value}
+													value={review.value}
+													className='max-sm:h-11 select-none'
+												>
+													{review.label}
+												</SelectItem>
+											))}
 										</SelectGroup>
 									</SelectContent>
 								</Select>
 							)}
 						/>
 					</InputComponent>
-				</div>
-
-				{bookStatus === 'Finished' && (
-					<div className='w-1/2'>
-						<InputComponent
-							{...register('review')}
-							error={errors.review}
-							label='Review'
-							id='book-review'
-							isCustom
-						>
-							<Controller
-								name='review'
-								control={control}
-								defaultValue={ratingOptions[5].value}
-								render={({ field: { ref, ...rest } }) => (
-									<Select
-										onValueChange={rest.onChange}
-										{...rest}
-										onOpenChange={e => setIsReviewSelectOPen(e)}
-									>
-										<SelectTrigger className='h-12 bg-background rounded-md text-white w-80 border-none outline-none'>
-											<SelectValue placeholder='Make a review' />
-										</SelectTrigger>
-
-										<SelectContent className='bg-background'>
-											<SelectGroup className='bg-background text-span'>
-												{ratingOptions.map(review => (
-													<SelectItem
-														key={review.value}
-														value={review.value}
-														className='max-sm:h-11 select-none'
-													>
-														{review.label}
-													</SelectItem>
-												))}
-											</SelectGroup>
-										</SelectContent>
-									</Select>
-								)}
-							/>
-						</InputComponent>
-					</div>
 				)}
 			</div>
 

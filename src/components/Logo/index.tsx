@@ -12,7 +12,7 @@ const logoVariants = cva(
 		variants: {
 			variant: {
 				default: 'text-2xl xl:text-4xl',
-				footer: 'text-2xl xl:text-3xl opacity-30',
+				footer: 'text-2xl xl:text-3xl opacity-30 pointer-events-none',
 			},
 		},
 	},

@@ -75,14 +75,14 @@ export const BookCreationPreview = () => {
 					<div className='bg-background w-full h-6 rounded-md' />
 				)}
 
-				{/* {book.review || book.goodreads ? (
-					<div className='w-16 h-6 flex items-center justify-center gap-1'>
-						<IoStar color='yellow' />
-						{book?.review || book?.goodreads}
+				{/* Totaç pages */}
+				{book.total_pages ? (
+					<div className='w-20 h-6 flex items-center justify-center gap-1'>
+						<p className='font-light text-span'>{book.total_pages} p</p>
 					</div>
-				) : ( */}
-				<div className='bg-background w-16 h-6 rounded-md' />
-				{/* )} */}
+				) : (
+					<div className='bg-background w-16 h-6 rounded-md' />
+				)}
 			</div>
 		</div>
 	);

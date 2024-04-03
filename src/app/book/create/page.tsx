@@ -18,7 +18,7 @@ export default async function CreateBook() {
 		<Suspense fallback={<LoadingScreen />}>
 			<Header />
 
-			<main className='w-full max-sm:max-w-md max-sm:mx-auto mt-20 max-w-7xl flex items-center justify-center gap-8 max-sm:flex-col'>
+			<main className='w-full max-sm:max-w-md max-sm:mx-auto mt-20 max-w-7xl flex sm:items-start items-center justify-center gap-8 max-sm:flex-col'>
 				<BookCreationPreview />
 
 				<MultiStepFormWrapper user_database_id={user.user_database} />

@@ -123,7 +123,7 @@ export default async function Bookshelf({
 					<div className='hidden lg:block lg:w-full xl:w-auto'>
 						<FinishedStatisticCard
 							card='year'
-							books={{ current: booksFinishedThisMonth }}
+							books={{ current: finishedBooks.length }}
 						/>
 					</div>
 				</section>
