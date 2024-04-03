@@ -1,9 +1,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { Dialog, DialogTrigger } from '../ui/dialog';
-import { BookDialog } from '../BookDialog';
+
 import { fetchBooks } from '@/app/actions/fetchBooks';
 import { getUser } from '@/app/actions/getUser';
+
+import { BookDialog } from '../BookDialog';
+import { Dialog, DialogTrigger } from '../ui/dialog';
 
 export const FinishedCard = async () => {
 	const user = await getUser();

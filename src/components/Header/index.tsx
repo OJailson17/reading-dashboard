@@ -1,9 +1,11 @@
 'use client';
 
-import { onSignOut } from '@/app/actions/signOut';
-import { Logo } from '../Logo';
 import { useEffect, useState } from 'react';
-import { storageStrings } from '@/utils/constants/storageStrings';
+
+import { onSignOut } from '@/app/actions/signOut';
+import { storageStrings } from '@/utils';
+
+import { Logo } from '../Logo';
 
 export const Header = () => {
 	const [username, setUsername] = useState('demo');

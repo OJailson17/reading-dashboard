@@ -1,10 +1,12 @@
+import { format } from 'date-fns';
 import Image from 'next/image';
 import { IoStar } from 'react-icons/io5';
-import { DialogTrigger } from '../ui/dialog';
+
 import { Book } from '@/@types/book';
-import { format } from 'date-fns';
-import { calculateAmountOfRatingStars } from '@/utils/calculateAmountOfStars';
-import { handleRemoveZeroDigit } from '@/utils/formatDate';
+import { handleRemoveZeroDigit } from '@/utils';
+import { calculateAmountOfRatingStars } from '@/utils';
+
+import { DialogTrigger } from '../ui/dialog';
 
 interface BookTableRowProps {
 	book: Book;

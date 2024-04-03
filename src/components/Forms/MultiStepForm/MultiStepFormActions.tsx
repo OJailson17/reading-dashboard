@@ -1,8 +1,9 @@
 'use client';
 
-import { useMultiForm } from '@/context/MultiFormContext';
 import { useEffect, useState } from 'react';
 import { ImSpinner2 } from 'react-icons/im';
+
+import { useMultiForm } from '@/context/MultiFormContext';
 
 interface MultiStepFormActionsProps {
 	onHandleBack?: () => void;

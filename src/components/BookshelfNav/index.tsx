@@ -1,8 +1,9 @@
 'use client';
 
-import { Tab } from '@/app/bookshelf/page';
 import { useRouter } from 'next/navigation';
 import { MouseEvent } from 'react';
+
+import { Tab } from '@/app/bookshelf/page';
 
 interface Amounts {
 	amountOfAllBooks: number;
@@ -41,7 +42,7 @@ export const BookshelfNav = ({
 	return (
 		<div className='w-full h-full flex flex-col sm:max-lg:flex-row items-center justify-between	 text-sm lg:text-lg font-bold text-white max-sm:hidden'>
 			<button
-				className='max-sm:w-40 rounded-lg'
+				className='max-sm:w-40 rounded-sm'
 				data-tab='all'
 				onClick={handleChangeTab}
 			>
@@ -58,7 +59,7 @@ export const BookshelfNav = ({
 			<button
 				data-tab='tbr'
 				onClick={handleChangeTab}
-				className=' max-sm:w-40 rounded-lg'
+				className=' max-sm:w-40 rounded-sm'
 			>
 				<p
 					className={
@@ -73,7 +74,7 @@ export const BookshelfNav = ({
 			<button
 				data-tab='reading'
 				onClick={handleChangeTab}
-				className=' max-sm:w-40 rounded-lg'
+				className=' max-sm:w-40 rounded-sm'
 			>
 				<p
 					className={
@@ -88,7 +89,7 @@ export const BookshelfNav = ({
 			<button
 				data-tab='finished'
 				onClick={handleChangeTab}
-				className=' max-sm:w-40 rounded-lg'
+				className=' max-sm:w-40 rounded-sm'
 			>
 				<p
 					className={
@@ -103,7 +104,7 @@ export const BookshelfNav = ({
 			<button
 				data-tab='review'
 				onClick={handleChangeTab}
-				className=' max-sm:w-40 rounded-lg'
+				className=' max-sm:w-40 rounded-sm'
 			>
 				<p
 					className={

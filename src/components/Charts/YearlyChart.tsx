@@ -8,13 +8,14 @@ import {
 	XAxis,
 	YAxis,
 } from 'recharts';
-import { CustomTooltip } from './CustomTooltip';
-import { MonthLabel } from '@/@types/chart';
-import isSameMonth from '@/utils/isSameMonth';
+
 import { Book } from '@/@types/book';
-import { handleRemoveZeroDigit } from '@/utils/formatDate';
-import { monthsBooksQtd } from '@/utils/yearlyChartData';
-import { resetYearlyChart } from '@/utils/resetYearlyChart';
+import { MonthLabel } from '@/@types/chart';
+import { monthsBooksQtd, resetYearlyChart } from '@/utils';
+import { handleRemoveZeroDigit } from '@/utils/formatting/formatDate';
+import { isSameMonth } from '@/utils/validations/validateIsSameMonth';
+
+import { CustomTooltip } from './CustomTooltip';
 
 interface YearlyChartProps {
 	books: Book[];

@@ -1,9 +1,11 @@
+import { redirect } from 'next/navigation';
+
 import { LoginForm } from '@/components/Forms/LoginForm';
 import { Logo } from '@/components/Logo';
-import { aclonica } from '@/utils/fonts';
-import { getUser } from '../actions/getUser';
-import { redirect } from 'next/navigation';
 import { Toaster } from '@/components/ui/toaster';
+import { aclonica } from '@/utils';
+
+import { getUser } from '../actions/getUser';
 
 export default async function Login() {
 	const user = await getUser();

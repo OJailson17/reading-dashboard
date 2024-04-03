@@ -1,7 +1,8 @@
 'use client';
 
-import { GoalInput } from './GoalInput';
 import { useGoal } from '@/context/GoalContext';
+
+import { GoalInput } from './GoalInput';
 
 export const GoalsCard = () => {
 	const { onSetGoal, bookGoals } = useGoal();

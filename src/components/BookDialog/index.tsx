@@ -1,18 +1,20 @@
 'use client';
 
-import Image from 'next/image';
-import { DialogContent, DialogTitle } from '../ui/dialog';
-import { IoMdCalendar, IoMdCheckbox } from 'react-icons/io';
-import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
-import { Calendar } from '../ui/calendar';
-import { useState } from 'react';
 import { format } from 'date-fns';
-import { Book, BookStatus } from '@/@types/book';
-import { handleFormatDate, handleRemoveZeroDigit } from '@/utils/formatDate';
-import { useToast } from '../ui/use-toast';
-import { updateBookStatus } from '@/app/actions/updateBookStatus';
+import Image from 'next/image';
+import { useState } from 'react';
 import { ImSpinner2 } from 'react-icons/im';
+import { IoMdCalendar, IoMdCheckbox } from 'react-icons/io';
+
+import { Book, BookStatus } from '@/@types/book';
 import { updateBookDates } from '@/app/actions/updateBookDates';
+import { updateBookStatus } from '@/app/actions/updateBookStatus';
+import { handleFormatDate, handleRemoveZeroDigit } from '@/utils';
+
+import { Calendar } from '../ui/calendar';
+import { DialogContent, DialogTitle } from '../ui/dialog';
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
+import { useToast } from '../ui/use-toast';
 
 interface BookDialogProps {
 	type: BookStatus;

@@ -1,5 +1,4 @@
-import { validateISBN } from './validateISBN';
-import { validateURL } from './validateUrl';
+import { validateISBN, validateURL } from '..';
 
 export const handleFormatCoverURL = (cover_url: string) => {
 	const isCoverValidURL = validateURL(cover_url);

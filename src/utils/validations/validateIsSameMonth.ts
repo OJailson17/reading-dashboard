@@ -3,10 +3,7 @@ type IsSameMonth = {
 	bookDate: Date;
 };
 
-export default function isSameMonth({
-	bookDate,
-	monthDate,
-}: IsSameMonth): boolean {
+export function isSameMonth({ bookDate, monthDate }: IsSameMonth): boolean {
 	return (
 		monthDate.getFullYear() === bookDate.getFullYear() &&
 		monthDate.getUTCMonth() === bookDate.getUTCMonth()

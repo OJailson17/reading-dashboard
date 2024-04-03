@@ -1,6 +1,7 @@
-import { aclonica } from '@/utils/fonts';
 import { cva } from 'class-variance-authority';
 import Link from 'next/link';
+
+import { aclonica } from '@/utils/helpers/fonts';
 
 interface LogoProps {
 	variant?: 'default' | 'footer';

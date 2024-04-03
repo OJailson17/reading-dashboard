@@ -1,6 +1,6 @@
 import { Book } from '@/@types/book';
-import isSameMonth from './isSameMonth';
-import { handleRemoveZeroDigit } from './formatDate';
+import { handleRemoveZeroDigit } from '@/utils';
+import { isSameMonth } from '@/utils/validations/validateIsSameMonth';
 
 export const finishedBooksFromThisMonth = (books: Book[]) => {
 	const currentYear = new Date().getUTCFullYear(); // 2024

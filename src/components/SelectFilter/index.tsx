@@ -1,6 +1,10 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { MouseEvent } from 'react';
+
+import { Tab } from '@/app/bookshelf/page';
+
 import {
 	Select,
 	SelectContent,
@@ -9,8 +13,6 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '../ui/select';
-import { MouseEvent } from 'react';
-import { Tab } from '@/app/bookshelf/page';
 
 interface Amounts {
 	amountOfAllBooks: number;

@@ -1,12 +1,13 @@
 'use server';
 
+import { revalidateTag } from 'next/cache';
+
 import { notion } from '@/lib/notion';
 import {
 	APIErrorCode,
 	ClientErrorCode,
 	isNotionClientError,
 } from '@notionhq/client';
-import { revalidateTag } from 'next/cache';
 
 type ResultResponse = {
 	id: string;

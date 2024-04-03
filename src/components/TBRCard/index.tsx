@@ -1,9 +1,11 @@
 import Link from 'next/link';
-import { TBRBookStats } from './TBRBookStats';
-import { Dialog } from '../ui/dialog';
-import { BookDialog } from '../BookDialog';
+
 import { fetchBooks } from '@/app/actions/fetchBooks';
 import { getUser } from '@/app/actions/getUser';
+
+import { BookDialog } from '../BookDialog';
+import { Dialog } from '../ui/dialog';
+import { TBRBookStats } from './TBRBookStats';
 
 export const TBRCard = async () => {
 	const user = await getUser();

@@ -1,13 +1,12 @@
-import { format } from 'date-fns';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { notion } from '@/lib/notion';
+import { handleFormatDate } from '@/utils/formatting/formatDate';
 import {
 	APIErrorCode,
 	ClientErrorCode,
 	isNotionClientError,
 } from '@notionhq/client';
-import { handleFormatDate } from '@/utils/formatDate';
 
 // Update the status of the book to finished, update the page and set the finished date to today
 export async function PATCH(req: NextRequest, res: NextResponse) {

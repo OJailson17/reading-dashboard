@@ -1,9 +1,11 @@
-import { ReadingBookStats } from './ReadingBookStats';
-import { Drawer } from '../ui/drawer';
-import { UpdateReadingDialog } from './UpdateReadingDialog';
-import { fetchBooks } from '@/app/actions/fetchBooks';
 import { Book } from '@/@types/book';
+import { fetchBooks } from '@/app/actions/fetchBooks';
 import { getUser } from '@/app/actions/getUser';
+
+import { Drawer } from '../ui/drawer';
+import { ReadingBookStats } from './ReadingBookStats';
+import { UpdateReadingDialog } from './UpdateReadingDialog';
+
 
 interface ReadingCardProps {
 	books: Book[];

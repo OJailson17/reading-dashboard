@@ -1,9 +1,11 @@
 'use client';
 
-import { calculatePercentage } from '@/utils/calculatePercentage';
-import { CircularProgressBar } from '../CircularProgressBar';
 import { useEffect, useState } from 'react';
+
 import { useGoal } from '@/context/GoalContext';
+import { calculatePercentage } from '@/utils';
+
+import { CircularProgressBar } from '../CircularProgressBar';
 
 interface Book {
 	current: number;

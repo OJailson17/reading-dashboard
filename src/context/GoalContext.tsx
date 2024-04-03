@@ -1,10 +1,5 @@
 'use client';
 
-import { onSignOut } from '@/app/actions/signOut';
-import { updateGoals } from '@/app/actions/updateGoals';
-import { toast } from '@/components/ui/use-toast';
-import { storageStrings } from '@/utils/constants/storageStrings';
-import { useRouter } from 'next/navigation';
 import {
 	ReactNode,
 	createContext,
@@ -12,6 +7,11 @@ import {
 	useEffect,
 	useState,
 } from 'react';
+
+import { onSignOut } from '@/app/actions/signOut';
+import { updateGoals } from '@/app/actions/updateGoals';
+import { toast } from '@/components/ui/use-toast';
+import { storageStrings } from '@/utils';
 
 interface GoalContextProviderProps {
 	children: ReactNode;

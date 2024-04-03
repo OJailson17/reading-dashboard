@@ -1,11 +1,12 @@
+import { redirect } from 'next/navigation';
+import { Suspense } from 'react';
+
 import { getUser } from '@/app/actions/getUser';
 import LoadingScreen from '@/app/loading';
 import { BookCreationPreview } from '@/components/BookCreationPreview';
 import { Footer } from '@/components/Footer';
 import { MultiStepFormWrapper } from '@/components/Forms/MultiStepForm/MultiStepFormWrapper';
 import { Header } from '@/components/Header';
-import { redirect } from 'next/navigation';
-import { Suspense } from 'react';
 
 export default async function CreateBook() {
 	const user = await getUser();

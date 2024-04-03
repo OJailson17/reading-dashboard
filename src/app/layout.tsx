@@ -3,6 +3,7 @@ import { Poppins } from 'next/font/google';
 import '@/styles/global.css';
 import 'rsuite/dist/rsuite-no-reset.min.css';
 import { CustomProvider } from 'rsuite';
+
 import { Toaster } from '@/components/ui/toaster';
 import { GoalContextProvider } from '@/context/GoalContext';
 import MultiFormProvider from '@/context/MultiFormContext';

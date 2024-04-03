@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+import { Book } from '@/@types/book';
 import { notion } from '@/lib/notion';
 import {
 	APIErrorCode,
 	ClientErrorCode,
 	isNotionClientError,
 } from '@notionhq/client';
-import { Book } from '@/@types/book';
 
 export async function POST(req: NextRequest, res: NextResponse) {
 	const { searchParams } = new URL(req.url);

@@ -1,21 +1,23 @@
-import { Header } from '@/components/Header';
 import Link from 'next/link';
-import { GiBookshelf } from 'react-icons/gi';
-import { FinishedStatisticCard } from '@/components/FinishedStatisticsCard';
-import { ReadingCard } from '@/components/ReadingCard';
-import { TBRCard } from '@/components/TBRCard';
-import { FinishedCard } from '@/components/FinishedCard';
-import { GoalsCard } from '@/components/GoalsCard';
-import { GenreStatisticsChart } from '@/components/Charts/GenreStatisticChart';
-import { YearlyChart } from '@/components/Charts/YearlyChart';
-import { Footer } from '@/components/Footer';
-import { fetchBooks } from './actions/fetchBooks';
-import { getUser } from './actions/getUser';
 import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
-import LoadingScreen from './loading';
+import { GiBookshelf } from 'react-icons/gi';
+
+import { GenreStatisticsChart } from '@/components/Charts/GenreStatisticChart';
+import { YearlyChart } from '@/components/Charts/YearlyChart';
+import { FinishedCard } from '@/components/FinishedCard';
+import { FinishedStatisticCard } from '@/components/FinishedStatisticsCard';
+import { Footer } from '@/components/Footer';
 import { SearchBar } from '@/components/Forms/SearchBarForm';
-import { finishedBooksFromThisMonth } from '@/utils/calculateFinishedBooks';
+import { GoalsCard } from '@/components/GoalsCard';
+import { Header } from '@/components/Header';
+import { ReadingCard } from '@/components/ReadingCard';
+import { TBRCard } from '@/components/TBRCard';
+import { finishedBooksFromThisMonth } from '@/utils';
+
+import { fetchBooks } from './actions/fetchBooks';
+import { getUser } from './actions/getUser';
+import LoadingScreen from './loading';
 
 export default async function Home() {
 	const user = await getUser();

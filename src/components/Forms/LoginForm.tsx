@@ -1,13 +1,15 @@
 'use client';
 
-import { onSignIn } from '@/app/actions/signIn';
-import { storageStrings } from '@/utils/constants/storageStrings';
 import { useForm } from 'react-hook-form';
 import { ImSpinner2 } from 'react-icons/im';
-import { toast } from '../ui/use-toast';
-import { useGoal } from '@/context/GoalContext';
 import * as yup from 'yup';
+
+import { onSignIn } from '@/app/actions/signIn';
+import { useGoal } from '@/context/GoalContext';
+import { storageStrings } from '@/utils';
 import { yupResolver } from '@hookform/resolvers/yup';
+
+import { toast } from '../ui/use-toast';
 
 interface Response {
 	token: string;

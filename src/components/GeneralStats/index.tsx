@@ -1,11 +1,14 @@
 'use client';
 
-import { Book } from '@/@types/book';
-import { calculateAmountOfDaysToFinish } from '@/utils/calculateAmountOfDaysToFinish';
-import { calculateAmountOfReadPages } from '@/utils/calculateAmountOfReadPages';
-import { calculateAverageDaysToFinish } from '@/utils/calculateAverageDaysToFinish';
-import { calculateAveragePages } from '@/utils/calculateAveragePagesRead';
 import { useMemo } from 'react';
+
+import { Book } from '@/@types/book';
+import {
+	calculateAmountOfDaysToFinish,
+	calculateAmountOfReadPages,
+	calculateAverageDaysToFinish,
+	calculateAveragePages,
+} from '@/utils';
 
 interface GeneralStatsProps {
 	readingBooks: Book[];

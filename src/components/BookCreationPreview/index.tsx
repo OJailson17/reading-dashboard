@@ -1,9 +1,10 @@
 'use client';
 
-import { useMultiForm } from '@/context/MultiFormContext';
-import { handleFormatCoverURL } from '@/utils/formatCoverUrl';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
+
+import { useMultiForm } from '@/context/MultiFormContext';
+import { handleFormatCoverURL } from '@/utils';
 
 const bookStatusColor = {
 	'To read': 'border-placeholder',

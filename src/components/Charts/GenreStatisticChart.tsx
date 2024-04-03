@@ -1,12 +1,13 @@
 'use client';
 
-import { Book, Genre } from '@/@types/book';
 import {
 	Legend,
 	RadialBar,
 	RadialBarChart,
 	ResponsiveContainer,
 } from 'recharts';
+
+import { Book } from '@/@types/book';
 
 const style = {
 	top: '50%',

@@ -1,19 +1,21 @@
-import { Suspense } from 'react';
-import LoadingScreen from '../loading';
-import { Header } from '@/components/Header';
-import { FinishedStatisticCard } from '@/components/FinishedStatisticsCard';
-import { FaPlus } from 'react-icons/fa6';
-import { StatisticSvg } from '@/components/StatsIcon';
-import { Footer } from '@/components/Footer';
-import { BookShelfTable } from '@/components/BookShelfTable';
-import { SelectTabFilter } from '@/components/SelectFilter';
-import { getUser } from '../actions/getUser';
-import { redirect } from 'next/navigation';
-import { fetchBooks } from '../actions/fetchBooks';
-import { finishedBooksFromThisMonth } from '@/utils/calculateFinishedBooks';
-import { GeneralStats } from '@/components/GeneralStats';
-import { BookshelfNav } from '@/components/BookshelfNav';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
+import { Suspense } from 'react';
+import { FaPlus } from 'react-icons/fa6';
+
+import { BookShelfTable } from '@/components/BookShelfTable';
+import { BookshelfNav } from '@/components/BookshelfNav';
+import { FinishedStatisticCard } from '@/components/FinishedStatisticsCard';
+import { Footer } from '@/components/Footer';
+import { GeneralStats } from '@/components/GeneralStats';
+import { Header } from '@/components/Header';
+import { SelectTabFilter } from '@/components/SelectFilter';
+import { StatisticSvg } from '@/components/StatsIcon';
+import { finishedBooksFromThisMonth } from '@/utils/calculations/calculateFinishedBooks';
+
+import { fetchBooks } from '../actions/fetchBooks';
+import { getUser } from '../actions/getUser';
+import LoadingScreen from '../loading';
 
 export type Tab = 'all' | 'tbr' | 'reading' | 'finished' | 'review';
 
@@ -160,13 +162,13 @@ export default async function Bookshelf({
 
 					{/* Books Result */}
 					<div className='flex-1 h-full max-h-[622px] bg-secondary-background rounded-2xl py-8 px-4 sm:px-6 '>
-						<div className='w-full flex items-center justify-between'>
+						<div className='w-full flex flex-col sm:flex-row items-start max-sm:gap-4 justify-between'>
 							<h3 className='font-bold text-xl'>
 								{tabsOptions[searchParams.tab].name}
 							</h3>
 						</div>
 
-						<div className='w-full  h-[500px] mt-4 overflow-y-auto overflow-x-hidden books-container'>
+						<div className='w-full h-[500px] mt-4 overflow-y-auto overflow-x-hidden books-container'>
 							<BookShelfTable books={tabsOptions[searchParams.tab].list} />
 						</div>
 					</div>

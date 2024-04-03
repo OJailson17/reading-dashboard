@@ -1,6 +1,6 @@
+import bcryptjs from 'bcryptjs';
 import { revalidateTag } from 'next/cache';
 import { NextRequest, NextResponse } from 'next/server';
-import bcryptjs from 'bcryptjs';
 
 export async function POST(req: NextRequest, res: NextResponse) {
 	const { password } = (await req.json()) as {

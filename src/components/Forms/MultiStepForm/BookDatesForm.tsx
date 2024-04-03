@@ -1,25 +1,27 @@
 'use client';
 
-import { Book } from '@/@types/book';
-import { useMultiForm } from '@/context/MultiFormContext';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { useRouter } from 'next/navigation';
 import { Controller, useForm } from 'react-hook-form';
+import { FaFaceSmileBeam } from 'react-icons/fa6';
 import * as yup from 'yup';
 import { ObjectSchema } from 'yup';
-import { InputComponent } from '../InputComponent';
+
+import { Book } from '@/@types/book';
+import { createBook } from '@/app/actions/createBook';
+import { Calendar } from '@/components/ui/calendar';
 import {
 	Popover,
 	PopoverContent,
 	PopoverTrigger,
 } from '@/components/ui/popover';
-import { Calendar } from '@/components/ui/calendar';
-import { MultiStepFormActions } from './MultiStepFormActions';
-import { handleFormatDate } from '@/utils/formatDate';
-import { removePriceFormat } from '@/utils/formatPrice';
-import { FaFaceSmileBeam } from 'react-icons/fa6';
-import { createBook } from '@/app/actions/createBook';
 import { toast } from '@/components/ui/use-toast';
-import { useRouter } from 'next/navigation';
+import { useMultiForm } from '@/context/MultiFormContext';
+import { removePriceFormat } from '@/utils';
+import { handleFormatDate } from '@/utils/formatting/formatDate';
+import { yupResolver } from '@hookform/resolvers/yup';
+
+import { InputComponent } from '../InputComponent';
+import { MultiStepFormActions } from './MultiStepFormActions';
 
 interface BookDatesProps {
 	user_database_id: string;

@@ -1,12 +1,14 @@
 'use client';
 
-import { useMultiForm } from '@/context/MultiFormContext';
-import { Book } from '@/@types/book';
-import { MultiStepFormActions } from './MultiStepFormActions';
-import { TagPicker } from 'rsuite';
-import { InputComponent } from '../InputComponent';
-import { Controller, useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { TagPicker } from 'rsuite';
+
+import { Book } from '@/@types/book';
+import { useMultiForm } from '@/context/MultiFormContext';
+
+import { InputComponent } from '../InputComponent';
+import { MultiStepFormActions } from './MultiStepFormActions';
 
 const genreOptions = [
 	{

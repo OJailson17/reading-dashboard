@@ -1,16 +1,18 @@
 'use client';
 
-import { Book } from '@/@types/book';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { IoIosSearch, IoMdClose } from 'react-icons/io';
 import * as yup from 'yup';
-import { toast } from '../ui/use-toast';
-import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
-import { Dialog } from '../ui/dialog';
-import { TBRBookStats } from '../TBRCard/TBRBookStats';
+
+import { Book } from '@/@types/book';
+import { yupResolver } from '@hookform/resolvers/yup';
+
 import { BookDialog } from '../BookDialog';
+import { TBRBookStats } from '../TBRCard/TBRBookStats';
+import { Dialog } from '../ui/dialog';
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
+import { toast } from '../ui/use-toast';
 
 interface SearchBarProps {
 	books: Book[];
