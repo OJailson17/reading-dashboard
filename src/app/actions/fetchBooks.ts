@@ -83,6 +83,7 @@ type NotionBookProps = {
 
 type UpdateFetchBooksProps = {
 	database_id: string;
+	query?: string;
 };
 
 const formatBooks = (books: NotionBookProps[]): Book[] => {
@@ -115,10 +116,12 @@ const formatBooks = (books: NotionBookProps[]): Book[] => {
 };
 
 export const fetchBooks = cache(
-	async ({ database_id }: UpdateFetchBooksProps) => {
+	async ({ database_id, query }: UpdateFetchBooksProps) => {
 		try {
 			const response = await fetch(
-				`${process.env.API_BASE_URL}/book?db=${database_id}`,
+				`${process.env.API_BASE_URL}/book?db=${database_id}&period=${
+					query ? 'all_time' : 'this_year'
+				}`,
 				{
 					next: {
 						revalidate: false,
@@ -133,7 +136,21 @@ export const fetchBooks = cache(
 
 			const books = await response.json();
 
-			return formatBooks(books);
+			const formattedBooks = formatBooks(books);
+
+			if (query) {
+				const findBooks = formattedBooks.filter(book =>
+					book.title.toLowerCase().includes(query.toLowerCase()),
+				);
+
+				if (findBooks.length <= 0) {
+					return [];
+				}
+
+				return findBooks;
+			}
+
+			return formattedBooks;
 		} catch (err) {
 			console.log(err);
 		}

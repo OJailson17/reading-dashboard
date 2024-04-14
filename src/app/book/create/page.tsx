@@ -12,7 +12,7 @@ export default async function CreateBook() {
 	const user = await getUser();
 
 	if (!user.token || !user.user_database) {
-		redirect('/login');
+		return redirect('/login');
 	}
 
 	return (

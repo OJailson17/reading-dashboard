@@ -23,7 +23,7 @@ export default async function Home() {
 	const user = await getUser();
 
 	if (!user.token || !user.user_database) {
-		redirect('/login');
+		return redirect('/login');
 	}
 
 	const books = (await fetchBooks({ database_id: user.user_database })) || [];

@@ -11,7 +11,7 @@ export default async function Login() {
 	const user = await getUser();
 
 	if (user.token && user.user_database) {
-		redirect('/');
+		return redirect('/');
 	}
 
 	return (

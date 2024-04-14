@@ -5,6 +5,7 @@ import { FaPlus } from 'react-icons/fa6';
 
 import { BookShelfTable } from '@/components/BookShelfTable';
 import { BookshelfNav } from '@/components/BookshelfNav';
+import { BookshelfSearch } from '@/components/BookshelfSearch';
 import { FinishedStatisticCard } from '@/components/FinishedStatisticsCard';
 import { Footer } from '@/components/Footer';
 import { GeneralStats } from '@/components/GeneralStats';
@@ -22,6 +23,7 @@ export type Tab = 'all' | 'tbr' | 'reading' | 'finished' | 'review';
 interface BookshelfRequestProps {
 	searchParams: {
 		tab: Tab;
+		q?: string;
 	};
 }
 
@@ -31,7 +33,7 @@ export default async function Bookshelf({
 	const user = await getUser();
 
 	if (!user.token || !user.user_database) {
-		redirect('/login');
+		return redirect('/login');
 	}
 
 	// If the tab param doesn't match with one of the options, select all as default
@@ -42,7 +44,11 @@ export default async function Bookshelf({
 	}
 
 	// Get all books
-	const books = (await fetchBooks({ database_id: user.user_database })) || [];
+	let books =
+		(await fetchBooks({
+			database_id: user.user_database,
+			query: searchParams.q,
+		})) || [];
 
 	// Filter books for each status
 	const toReadBooks = books.filter(book => book.status === 'To read');
@@ -166,9 +172,11 @@ export default async function Bookshelf({
 							<h3 className='font-bold text-xl'>
 								{tabsOptions[searchParams.tab].name}
 							</h3>
+
+							<BookshelfSearch />
 						</div>
 
-						<div className='w-full h-[500px] mt-4 overflow-y-auto overflow-x-hidden books-container'>
+						<div className='w-full h-[500px] max-sm:h-[470px] max-sm:mt-1 mt-4 overflow-y-auto overflow-x-hidden books-container'>
 							<BookShelfTable books={tabsOptions[searchParams.tab].list} />
 						</div>
 					</div>
