@@ -23,8 +23,6 @@ import {
 } from '../ui/select';
 import { useToast } from '../ui/use-toast';
 
-
-
 interface UpdateReadingDialog {
 	book: Book;
 }
@@ -48,7 +46,6 @@ export const UpdateReadingDialog = ({ book }: UpdateReadingDialog) => {
 		register,
 		handleSubmit,
 		control,
-		resetField,
 		formState: { isSubmitting, errors },
 	} = useForm<UpdateReadingFormProps>({
 		resolver: yupResolver(readingFormSchema),

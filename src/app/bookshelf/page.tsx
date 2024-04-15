@@ -12,7 +12,6 @@ import { GeneralStats } from '@/components/GeneralStats';
 import { Header } from '@/components/Header';
 import { SelectTabFilter } from '@/components/SelectFilter';
 import { StatisticSvg } from '@/components/StatsIcon';
-import { finishedBooksFromThisMonth } from '@/utils/calculations/calculateFinishedBooks';
 
 import { fetchBooks } from '../actions/fetchBooks';
 import { getUser } from '../actions/getUser';
@@ -44,7 +43,7 @@ export default async function Bookshelf({
 	}
 
 	// Get all books
-	let books =
+	const books =
 		(await fetchBooks({
 			database_id: user.user_database,
 			query: searchParams.q,
@@ -58,8 +57,8 @@ export default async function Bookshelf({
 		book => book.status === 'Finished' && book.review === 'none',
 	);
 
-	const booksFinishedThisMonth =
-		finishedBooksFromThisMonth(finishedBooks).length;
+	// const booksFinishedThisMonth =
+	// 	finishedBooksFromThisMonth(finishedBooks).length;
 
 	// Get the amount of books from each status
 	const booksAmount = {
@@ -154,6 +153,7 @@ export default async function Bookshelf({
 							<BookshelfNav
 								booksAmount={booksAmount}
 								currentTab={searchParams.tab}
+								query={searchParams.q || ''}
 							/>
 
 							<h3 className='font-bold text-xl sm:hidden self-start'>Filter</h3>
@@ -162,6 +162,7 @@ export default async function Bookshelf({
 								currentTab={searchParams.tab}
 								tabName={tabsOptions[searchParams.tab].name}
 								booksAmount={booksAmount}
+								query={searchParams.q || ''}
 							/>
 						</div>
 					</div>
@@ -176,7 +177,7 @@ export default async function Bookshelf({
 							<BookshelfSearch />
 						</div>
 
-						<div className='w-full h-[500px] max-sm:h-[470px] max-sm:mt-1 mt-4 overflow-y-auto overflow-x-hidden books-container'>
+						<div className='w-full h-[500px] max-sm:h-[470px] max-sm:mt-2 mt-4 overflow-y-auto overflow-x-hidden books-container'>
 							<BookShelfTable books={tabsOptions[searchParams.tab].list} />
 						</div>
 					</div>

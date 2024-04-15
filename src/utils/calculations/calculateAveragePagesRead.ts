@@ -7,5 +7,7 @@ export const calculateAveragePages = ({
 	amountOfBooks,
 	amountOfPages,
 }: CalculateAveragePagesProps) => {
-	return Math.round(amountOfPages / amountOfBooks);
+	const averagePages = Math.round(amountOfPages / amountOfBooks);
+
+	return isNaN(averagePages) ? 0 : averagePages;
 };

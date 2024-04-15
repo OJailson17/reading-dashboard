@@ -16,6 +16,7 @@ interface Amounts {
 interface BookshelfNavProps {
 	booksAmount: Amounts;
 	currentTab: Tab;
+	query: string;
 }
 
 const textStateStyle = {
@@ -26,6 +27,7 @@ const textStateStyle = {
 export const BookshelfNav = ({
 	booksAmount,
 	currentTab,
+	query,
 }: BookshelfNavProps) => {
 	const router = useRouter();
 
@@ -33,7 +35,13 @@ export const BookshelfNav = ({
 		const clickedTab = e.currentTarget.getAttribute('data-tab');
 
 		if (clickedTab && clickedTab !== currentTab) {
-			router.push(`/bookshelf/?tab=${clickedTab}`, {
+			if (query) {
+				return router.push(`/bookshelf/?tab=${clickedTab}&q=${query}`, {
+					scroll: false,
+				});
+			}
+
+			return router.push(`/bookshelf/?tab=${clickedTab}`, {
 				scroll: false,
 			});
 		}

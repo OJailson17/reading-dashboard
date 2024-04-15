@@ -6,4 +6,5 @@ export const storageStrings = {
 	username: `${baseString}:username`,
 	user_id: `${baseString}:user_id`,
 	name: `${baseString}:name`,
+	stats: `${baseString}:stats`,
 };

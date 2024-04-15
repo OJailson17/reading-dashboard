@@ -7,5 +7,6 @@ export const calculateAverageDaysToFinish = ({
 	amountOfBooks,
 	amountOfDays,
 }: CalculateAverageDaysToFinishProps) => {
-	return Math.round(amountOfDays / amountOfBooks);
+	const averageDays = Math.round(amountOfDays / amountOfBooks);
+	return isNaN(averageDays) ? 0 : averageDays;
 };

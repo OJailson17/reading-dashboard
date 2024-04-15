@@ -26,17 +26,24 @@ interface SelectTabFilterProps {
 	currentTab: Tab;
 	tabName: string;
 	booksAmount: Amounts;
+	query: string;
 }
 
 export const SelectTabFilter = ({
 	currentTab,
 	tabName,
 	booksAmount,
+	query,
 }: SelectTabFilterProps) => {
 	const router = useRouter();
 
 	const handleChangeTab = (selectedTab: string) => {
 		if (selectedTab !== currentTab) {
+			if (query) {
+				return router.push(`/bookshelf/?tab=${selectedTab}&q=${query}`, {
+					scroll: false,
+				});
+			}
 			router.push(`/bookshelf/?tab=${selectedTab}`, {
 				scroll: false,
 			});
