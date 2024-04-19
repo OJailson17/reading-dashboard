@@ -1,9 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
+import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import { useGoal } from '@/context/GoalContext';
-import { calculatePercentage } from '@/utils';
+import { calculatePercentage, storageStrings } from '@/utils';
 
 import { CircularProgressBar } from '../CircularProgressBar';
 
@@ -16,33 +18,60 @@ interface FinishedStatisticCardProps {
 	books: Book;
 }
 
+interface Stats {
+	amountOfPagesRead: number;
+	averagesPages: number;
+	averageDaysToFinish: number;
+	finishedBooks: number;
+}
+
 export const FinishedStatisticCard = ({
 	card = 'month',
 	books,
 }: FinishedStatisticCardProps) => {
-	const [booksTotalGoal, setBooksTotalGoal] = useState('0');
+	const searchParams = useSearchParams();
+	const query = searchParams.get('q');
+
+	const [bookStats, setBookStats] = useState({
+		goal: '0',
+		current: books.current,
+	});
 	const [goalPercentage, setGoalPercentage] = useState(0);
 
 	const { bookGoals } = useGoal();
 
 	useEffect(() => {
 		if (card === 'month') {
-			setBooksTotalGoal(bookGoals.month);
+			setBookStats({ ...bookStats, goal: bookGoals.month });
 		} else {
-			setBooksTotalGoal(bookGoals.year);
-		}
+			// if it's year card and it has search query, get the goals from local storage
+			const getStorageStats = localStorage.getItem(storageStrings.stats);
 
-		if (Number(booksTotalGoal) <= 0) {
+			if (query && getStorageStats) {
+				const convertStats = JSON.parse(getStorageStats) as Stats;
+
+				return setBookStats({
+					goal: bookGoals.year,
+					current: convertStats.finishedBooks,
+				});
+			}
+
+			setBookStats({ goal: bookGoals.year, current: books.current });
+		}
+	}, [bookGoals, books, card]);
+
+	useEffect(() => {
+		if (Number(bookStats.goal) <= 0) {
 			return setGoalPercentage(0);
 		}
 
 		const finishedPercentage = calculatePercentage({
-			total: Number(booksTotalGoal),
-			value: books.current,
+			total: Number(bookStats.goal),
+			value: bookStats.current,
 		});
 
 		setGoalPercentage(finishedPercentage);
-	}, [bookGoals, books, booksTotalGoal, card]);
+	}, [bookStats]);
 
 	return (
 		<div className='max-w-[403px] h-48 px-8 lg:px-3 xl:px-8 bg-secondary-background flex items-center justify-center gap-6 rounded-2xl'>
@@ -50,7 +79,8 @@ export const FinishedStatisticCard = ({
 
 			<div className='text-span flex-1 lg:text-sm xl:text-base'>
 				<p>
-					<span className='font-bold'>{books.current}</span>/{booksTotalGoal}
+					<span className='font-bold'>{bookStats.current}</span>/
+					{bookStats.goal}
 				</p>
 
 				{card === 'month' && <p>books read this month</p>}
