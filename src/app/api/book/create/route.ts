@@ -116,7 +116,9 @@ export async function POST(req: NextRequest, res: NextResponse) {
 			},
 		});
 
-		return NextResponse.json(response);
+		return NextResponse.json(response, {
+			status: 201,
+		});
 	} catch (error) {
 		if (isNotionClientError(error)) {
 			switch (error.code) {

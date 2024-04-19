@@ -15,15 +15,27 @@ type FormatBookProps = Omit<CreateBookProps, 'database_id'>;
 export const createBook = async ({ book, database_id }: CreateBookProps) => {
 	const formattedBook = handleFormatBook({ book });
 
-	await fetch(`${process.env.API_BASE_URL}/book/create/?db=${database_id}`, {
-		method: 'POST',
-		body: JSON.stringify(formattedBook),
-	})
-		.then(res => res.json())
-		.catch(error => {
-			console.log(error);
-			return { error };
-		});
+	const createResponse = await fetch(
+		`${process.env.API_BASE_URL}/book/create/?db=${database_id}`,
+		{
+			method: 'POST',
+			body: JSON.stringify(formattedBook),
+			headers: {
+				Accept: 'application/json; charset=utf-8',
+				'Content-Type': 'application/json',
+				'Content-Length': Buffer.byteLength(
+					JSON.stringify(formattedBook),
+				).toString(),
+			},
+		},
+	);
+
+	if (!createResponse.ok) {
+		console.log(createResponse.body);
+		return {
+			success: false,
+		};
+	}
 
 	revalidateTag('fetch-books');
 

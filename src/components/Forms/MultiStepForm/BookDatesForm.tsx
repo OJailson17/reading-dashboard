@@ -68,26 +68,36 @@ export const BookDatesForm = ({ user_database_id }: BookDatesProps) => {
 
 	const handleCreateBook = async (data: Partial<Book>) => {
 		const book = handleFormatBook(data);
-		const createBookResponse = await createBook({
+
+		await createBook({
 			book,
 			database_id: user_database_id,
-		});
+		})
+			.then(response => {
+				if (!response.success) {
+					console.log(response);
+					return toast({
+						description: 'Error: Book not created',
+						variant: 'destructive',
+					});
+				}
 
-		if (!createBookResponse.success) {
-			return toast({
-				description: 'Error: Book not created',
-				variant: 'destructive',
+				toast({
+					description: 'Book Created',
+					variant: 'success',
+				});
+
+				setTimeout(() => {
+					router.push(`/bookshelf/?tab=${statusTab[data.status || 'To read']}`);
+				}, 500);
+			})
+			.catch(err => {
+				console.log(err);
+				return toast({
+					description: 'Error: Book not created',
+					variant: 'destructive',
+				});
 			});
-		}
-
-		toast({
-			description: 'Book Created',
-			variant: 'success',
-		});
-
-		setTimeout(() => {
-			router.push(`/bookshelf/?tab=${statusTab[data.status || 'To read']}`);
-		}, 500);
 	};
 
 	const handleSelectDate = (date: Date, onChange: any) => {
