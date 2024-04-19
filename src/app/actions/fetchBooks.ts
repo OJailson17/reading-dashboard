@@ -120,7 +120,7 @@ export const fetchBooks = cache(
 		try {
 			const response = await fetch(
 				`${process.env.API_BASE_URL}/book?db=${database_id}&period=${
-					query ? 'all_time' : 'this_year'
+					query ? 'any_time' : 'this_year'
 				}`,
 				{
 					next: {

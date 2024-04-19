@@ -40,7 +40,7 @@ export const BookshelfSearch = () => {
 	};
 
 	const handleResetSearch = () => {
-		resetField('query');
+		// resetField('query');
 
 		router.push(`/bookshelf/?tab=all`, {
 			scroll: false,

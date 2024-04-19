@@ -25,14 +25,10 @@ const fetchFilter = {
 		],
 	},
 	any_time: {
-		and: [
-			{
-				property: 'Status',
-				select: {
-					does_not_equal: 'Abandoned',
-				},
-			},
-		],
+		property: 'Status',
+		select: {
+			does_not_equal: 'Abandoned',
+		},
 	},
 };
 
