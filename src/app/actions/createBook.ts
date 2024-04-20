@@ -21,14 +21,14 @@ export const createBook = async ({ book, database_id }: CreateBookProps) => {
 		formattedBook,
 	);
 
-	if (createResponse.status !== 201) {
+	if (createResponse.status !== 200) {
 		console.log(createResponse.data);
 		return {
 			success: false,
 		};
 	}
 
-	// revalidateTag('fetch-books');
+	revalidateTag('fetch-books');
 
 	return {
 		success: true,
