@@ -16,9 +16,9 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
 	console.log({ req });
 
-	const createBookBody = (await req.json()) as Book;
+	// const createBookBody = (await req.json()) as Book;
 
-	console.log({ createBookBody });
+	// console.log({ createBookBody });
 
 	return NextResponse.json(req, {
 		status: 201,
