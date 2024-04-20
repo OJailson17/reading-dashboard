@@ -14,9 +14,15 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
 	const databaseIdCookie = `${db}`;
 
+	console.log({ req });
+
 	const createBookBody = (await req.json()) as Book;
 
 	console.log({ createBookBody });
+
+	return NextResponse.json(createBookBody, {
+		status: 201,
+	});
 
 	// try {
 	// 	// Make a query to get the database data
