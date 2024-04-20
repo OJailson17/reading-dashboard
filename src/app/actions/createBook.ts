@@ -3,6 +3,7 @@
 import { revalidateTag } from 'next/cache';
 
 import { Book } from '@/@types/book';
+import { api } from '@/lib/axios';
 import { handleFormatCoverURL } from '@/utils/';
 
 type CreateBookProps = {
@@ -15,16 +16,13 @@ type FormatBookProps = Omit<CreateBookProps, 'database_id'>;
 export const createBook = async ({ book, database_id }: CreateBookProps) => {
 	const formattedBook = handleFormatBook({ book });
 
-	const createResponse = await fetch(
+	const createResponse = await api.post(
 		`${process.env.API_BASE_URL}/book/create/?db=${database_id}`,
-		{
-			method: 'POST',
-			body: JSON.stringify({ title: 'test', author: 'author' }),
-		},
+		formattedBook,
 	);
 
-	if (!createResponse.ok) {
-		console.log(createResponse.body);
+	if (createResponse.status !== 201) {
+		console.log(createResponse.data);
 		return {
 			success: false,
 		};
