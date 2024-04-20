@@ -141,7 +141,7 @@ export default async function Bookshelf({
 						<div className='w-full lg:w-80 sm:max-lg:w-48 bg-secondary-background p-6 rounded-2xl'>
 							<h3 className='font-bold text-xl sm:max-lg:hidden'>Bookshelf</h3>
 							<Link
-								href={'/book/create'}
+								href={'/books/create'}
 								className='w-full py-3 px-3 bg-purple mt-9 sm:max-lg:mt-0 flex items-center justify-center gap-3 font-medium text-lg rounded-lg'
 							>
 								<FaPlus />

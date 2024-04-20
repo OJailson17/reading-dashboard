@@ -20,13 +20,6 @@ export const createBook = async ({ book, database_id }: CreateBookProps) => {
 		{
 			method: 'POST',
 			body: JSON.stringify(formattedBook),
-			headers: {
-				Accept: 'application/json; charset=utf-8',
-				'Content-Type': 'application/json',
-				'Content-Length': Buffer.byteLength(
-					JSON.stringify(formattedBook),
-				).toString(),
-			},
 		},
 	);
 
