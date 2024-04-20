@@ -30,7 +30,7 @@ export const createBook = async ({ book, database_id }: CreateBookProps) => {
 		};
 	}
 
-	revalidateTag('fetch-books');
+	// revalidateTag('fetch-books');
 
 	return {
 		success: true,
