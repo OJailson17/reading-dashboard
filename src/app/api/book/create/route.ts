@@ -139,9 +139,12 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
 				default:
 					console.log(error);
-					return NextResponse.json(error, {
-						status: 400,
-					});
+					return NextResponse.json(
+						{ error },
+						{
+							status: 400,
+						},
+					);
 			}
 		}
 	}

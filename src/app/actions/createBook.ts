@@ -16,6 +16,7 @@ type FormatBookProps = Omit<CreateBookProps, 'database_id'>;
 export const createBook = async ({ book, database_id }: CreateBookProps) => {
 	const formattedBook = handleFormatBook({ book });
 
+	// using axios on this requesto because fetch api is causing errors
 	const createResponse = await api.post(
 		`${process.env.API_BASE_URL}/book/create/?db=${database_id}`,
 		formattedBook,
