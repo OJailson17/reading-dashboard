@@ -2,16 +2,16 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { fetchBooks } from '@/app/actions/fetchBooks';
-import { getUser } from '@/app/actions/getUser';
+import { getSession } from '@/app/actions/getSession';
 
 import { BookDialog } from '../BookDialog';
 import { Dialog, DialogTrigger } from '../ui/dialog';
 
 export const FinishedCard = async () => {
-	const user = await getUser();
+	const session = await getSession();
 
 	const books =
-		(await fetchBooks({ database_id: user.user_database || '' })) || [];
+		(await fetchBooks({ database_id: session?.database_id || '' })) || [];
 
 	const finishedBooks = books
 		.filter(book => book.status === 'Finished')

@@ -5,12 +5,12 @@ import { Logo } from '@/components/Logo';
 import { Toaster } from '@/components/ui/toaster';
 import { aclonica } from '@/utils';
 
-import { getUser } from '../actions/getUser';
+import { getSession } from '../actions/getSession';
 
 export default async function Login() {
-	const user = await getUser();
+	const session = await getSession();
 
-	if (user.token && user.user_database) {
+	if (session) {
 		return redirect('/');
 	}
 

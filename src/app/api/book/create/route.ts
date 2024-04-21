@@ -17,7 +17,6 @@ export async function POST(req: NextRequest, res: NextResponse) {
 	const createBookBody = (await req.json()) as Book;
 
 	try {
-		// Make a query to get the database data
 		const response = await notion.pages.create({
 			parent: {
 				database_id: databaseIdCookie,

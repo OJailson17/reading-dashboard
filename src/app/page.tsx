@@ -16,17 +16,17 @@ import { TBRCard } from '@/components/TBRCard';
 import { finishedBooksFromThisMonth } from '@/utils';
 
 import { fetchBooks } from './actions/fetchBooks';
-import { getUser } from './actions/getUser';
+import { getSession } from './actions/getSession';
 import LoadingScreen from './loading';
 
 export default async function Home() {
-	const user = await getUser();
+	const session = await getSession();
 
-	if (!user.token || !user.user_database) {
+	if (!session) {
 		return redirect('/login');
 	}
 
-	const books = (await fetchBooks({ database_id: user.user_database })) || [];
+	const books = (await fetchBooks({ database_id: session.database_id })) || [];
 
 	const finishedBooks = books.filter(book => book.status === 'Finished');
 

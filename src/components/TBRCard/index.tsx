@@ -1,17 +1,17 @@
 import Link from 'next/link';
 
 import { fetchBooks } from '@/app/actions/fetchBooks';
-import { getUser } from '@/app/actions/getUser';
+import { getSession } from '@/app/actions/getSession';
 
 import { BookDialog } from '../BookDialog';
 import { Dialog } from '../ui/dialog';
 import { TBRBookStats } from './TBRBookStats';
 
 export const TBRCard = async () => {
-	const user = await getUser();
+	const session = await getSession();
 
 	const books =
-		(await fetchBooks({ database_id: user.user_database || '' })) || [];
+		(await fetchBooks({ database_id: session?.database_id || '' })) || [];
 
 	const TBRBooks = books.filter(book => book.status === 'To read').slice(0, 5);
 

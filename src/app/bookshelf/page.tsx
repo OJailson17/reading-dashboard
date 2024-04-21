@@ -14,7 +14,7 @@ import { SelectTabFilter } from '@/components/SelectFilter';
 import { StatisticSvg } from '@/components/StatsIcon';
 
 import { fetchBooks } from '../actions/fetchBooks';
-import { getUser } from '../actions/getUser';
+import { getSession } from '../actions/getSession';
 import LoadingScreen from '../loading';
 
 export type Tab = 'all' | 'tbr' | 'reading' | 'finished' | 'review';
@@ -29,9 +29,9 @@ interface BookshelfRequestProps {
 export default async function Bookshelf({
 	searchParams,
 }: BookshelfRequestProps) {
-	const user = await getUser();
+	const session = await getSession();
 
-	if (!user.token || !user.user_database) {
+	if (!session) {
 		return redirect('/login');
 	}
 
@@ -45,7 +45,7 @@ export default async function Bookshelf({
 	// Get all books
 	const books =
 		(await fetchBooks({
-			database_id: user.user_database,
+			database_id: session.database_id,
 			query: searchParams.q,
 		})) || [];
 

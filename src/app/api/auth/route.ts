@@ -1,4 +1,3 @@
-import { sign } from 'jsonwebtoken';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { notion } from '@/lib/notion';
@@ -34,14 +33,6 @@ type ResultResponse = {
 };
 
 export async function GET(req: NextRequest, res: NextResponse) {
-	// if (process.env.NODE_ENV !== 'production') {
-	// 	return NextResponse.json({
-	// 		token: process.env.DEMO_JWT,
-	// 		username: 'demo',
-	// 		database_id: process.env.DEMO_DATABASE_ID,
-	// 	});
-	// }
-
 	const { searchParams } = new URL(req.url);
 	const username = searchParams.get('username');
 
@@ -63,22 +54,17 @@ export async function GET(req: NextRequest, res: NextResponse) {
 		const user_database_id =
 			getUsername.properties.database_id.rich_text[0].plain_text;
 
-		// Create the token
-		const token = sign(
-			{
-				user: username,
-			},
-			`${process.env.JWT_SECRET}`,
-		);
-
-		return NextResponse.json({
-			token,
+		const user = {
 			username,
 			name: getUsername.properties.name.rich_text[0].plain_text,
 			database_id: user_database_id,
 			monthly_goal: getUsername.properties.monthly_goal.number,
 			yearly_goal: getUsername.properties.yearly_goal.number,
 			user_id: getUsername.id,
+		};
+
+		return NextResponse.json({
+			user,
 		});
 	} else {
 		return NextResponse.json(

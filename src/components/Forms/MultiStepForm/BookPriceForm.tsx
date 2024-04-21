@@ -57,7 +57,7 @@ export const BookPriceForm = () => {
 								}}
 								defaultValue={formatPrice(field.value || '0')}
 								autoFocus
-								className='py-3 px-4 bg-background rounded-md text-white placeholder:text-placeholder placeholder:text-sm'
+								className='w-full py-3 px-4 bg-background rounded-md text-white placeholder:text-placeholder placeholder:text-sm'
 							/>
 						</>
 					)}

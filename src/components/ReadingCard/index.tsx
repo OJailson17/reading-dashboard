@@ -1,21 +1,20 @@
 import { Book } from '@/@types/book';
 import { fetchBooks } from '@/app/actions/fetchBooks';
-import { getUser } from '@/app/actions/getUser';
+import { getSession } from '@/app/actions/getSession';
 
 import { Drawer } from '../ui/drawer';
 import { ReadingBookStats } from './ReadingBookStats';
 import { UpdateReadingDialog } from './UpdateReadingDialog';
-
 
 interface ReadingCardProps {
 	books: Book[];
 }
 
 export const ReadingCard = async () => {
-	const user = await getUser();
+	const session = await getSession();
 
 	const books =
-		(await fetchBooks({ database_id: user.user_database || '' })) || [];
+		(await fetchBooks({ database_id: session?.database_id || '' })) || [];
 
 	const readingBooks = books.filter(book => book.status === 'Reading');
 

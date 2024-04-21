@@ -2,13 +2,16 @@
 
 import { cookies } from 'next/headers';
 
+import { encrypt } from '@/utils/auth/encrypt';
+
 type Response = {
-	token: string;
-	username: string;
-	database_id: string;
-	monthly_goal: number | null;
-	yearly_goal: number | null;
-	user_id: string;
+	user: {
+		username: string;
+		database_id: string;
+		monthly_goal: number | null;
+		yearly_goal: number | null;
+		user_id: string;
+	};
 };
 
 type ResponseError = {
@@ -26,32 +29,28 @@ export const onSignIn = async (username: string) => {
 		},
 	);
 
-	const user = (await response.json()) as Response | ResponseError;
+	const auth = (await response.json()) as Response | ResponseError;
 
-	if ('error' in user) {
+	if ('error' in auth) {
 		return {
-			error: user.error,
+			error: auth.error,
 		};
 	}
 
 	const today = Date.now();
 	const oneDay = 60 * 60 * 24 * 1000;
 
+	const encryptedSession = await encrypt({
+		database_id: auth.user.database_id,
+	});
+
 	cookies().set({
-		name: 'token',
-		value: user.token,
+		name: 'session',
+		value: encryptedSession,
 		httpOnly: true,
 		path: '/',
 		expires: today + oneDay,
 	});
 
-	cookies().set({
-		name: 'user_database_id',
-		value: user.database_id,
-		httpOnly: true,
-		path: '/',
-		expires: today + oneDay,
-	});
-
-	return user;
+	return auth.user;
 };
