@@ -37,6 +37,7 @@
 		"react-dom": "^18",
 		"react-hook-form": "^7.51.0",
 		"react-icons": "^5.0.1",
+		"react-nice-avatar": "^1.5.0",
 		"react-select": "^5.8.0",
 		"recharts": "^2.12.1",
 		"rsuite": "^5.57.0",
