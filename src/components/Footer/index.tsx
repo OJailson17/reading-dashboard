@@ -1,14 +1,17 @@
 import Link from 'next/link';
 
-import { FooterComponent } from './styles';
+import { Logo } from '../Logo';
 
 export const Footer = () => {
 	return (
-		<FooterComponent>
-			Developed by{' '}
-			<Link href={'https://jailsondeoliveira.vercel.app'} target={'_blank'}>
-				Jailson de Oliveira
-			</Link>
-		</FooterComponent>
+		<footer className='w-full max-w-7xl flex flex-col-reverse gap-4 md:flex-row items-center justify-between py-14'>
+			<Logo variant='footer' />
+			<p>
+				developed by 💜
+				<Link href={'/'} className='font-medium text-purple hover:underline'>
+					Jailson de Oliveira
+				</Link>
+			</p>
+		</footer>
 	);
 };

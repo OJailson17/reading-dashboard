@@ -1,5 +1,9 @@
-import { LoadingScreen } from '@/components/LoadingScreen';
+import { ImSpinner2 } from 'react-icons/im';
 
-export default function Loading() {
-	return <LoadingScreen />;
+export default function LoadingScreen() {
+	return (
+		<div className='w-full h-screen flex items-center justify-center'>
+			<ImSpinner2 className='animate-spin' />
+		</div>
+	);
 }

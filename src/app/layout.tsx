@@ -1,38 +1,41 @@
-import { Inter } from 'next/font/google';
+import type { Metadata } from 'next';
+import { Poppins } from 'next/font/google';
+import '@/styles/global.css';
+import 'rsuite/dist/rsuite-no-reset.min.css';
+import { CustomProvider } from 'rsuite';
 
-import { AuthContextProvider } from '@/context/AuthContext';
-import { BookContextProvider } from '@/context/BookContext';
+import { Toaster } from '@/components/ui/toaster';
+import { GoalContextProvider } from '@/context/GoalContext';
 import MultiFormProvider from '@/context/MultiFormContext';
-import StyledComponentsRegistry from '@/lib/registry';
-import { GlobalStyles } from '@/styles/global';
 
-const inter = Inter({
+const poppins = Poppins({
 	subsets: ['latin'],
-	weight: ['500', '600', '700'],
+	weight: ['300', '400', '500', '600', '700'],
+	variable: '--poppins',
+	display: 'swap',
 });
 
-export const metadata = {
-	title: 'Home | Reading Dashboard',
+export const metadata: Metadata = {
+	title: 'Reading Dashboard',
+	description: 'Reading Tracker',
 };
 
 export default function RootLayout({
-	// Layouts must accept a children prop.
-	// This will be populated with nested layouts or pages
 	children,
-}: {
+}: Readonly<{
 	children: React.ReactNode;
-}) {
+}>) {
 	return (
-		<html className={inter.className}>
-			<body>
-				<AuthContextProvider>
-					<MultiFormProvider>
-						<BookContextProvider>
-							<GlobalStyles />
-							<StyledComponentsRegistry>{children}</StyledComponentsRegistry>
-						</BookContextProvider>
-					</MultiFormProvider>
-				</AuthContextProvider>
+		<html lang='en' className={`${poppins.className}`}>
+			<body className={`bg-background text-white overflow-x-hidden h-screen`}>
+				<div id='app' className='px-6 xl:px-24 flex flex-col w-screen mx-auto'>
+					<CustomProvider theme='dark'>
+						<MultiFormProvider>
+							<GoalContextProvider>{children}</GoalContextProvider>
+						</MultiFormProvider>
+					</CustomProvider>
+				</div>
+				<Toaster />
 			</body>
 		</html>
 	);

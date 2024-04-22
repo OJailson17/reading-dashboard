@@ -1,0 +1,102 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html::-webkit-scrollbar {
+	width: 0.1rem;
+	height: 0.1rem;
+}
+
+@-moz-document url-prefix() {
+	html {
+		scrollbar-color: #b6b7c2 #0e102e;
+		scrollbar-width: thin;
+	}
+}
+
+html::-webkit-scrollbar-track {
+	box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+html::-webkit-scrollbar-thumb {
+	background-color: #b6b7c2;
+	outline: 1px solid #0e102e;
+}
+
+.progress-ring__circle {
+	transition: stroke-dashoffset 0.35s;
+	transform: rotate(-90deg);
+	transform-origin: 50% 50%;
+}
+
+@-moz-document url-prefix() {
+	.books-container {
+		scrollbar-color: #b6b7c2 #0e102e;
+		scrollbar-width: thin;
+	}
+}
+
+.books-container::-webkit-scrollbar {
+	width: 0.2rem;
+	height: 0.2rem;
+}
+
+.books-container::-webkit-scrollbar-track {
+	box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.books-container::-webkit-scrollbar-thumb {
+	background-color: #b6b7c2;
+	outline: 1px solid #0e102e;
+}
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	margin: 0;
+}
+
+.bookshelf-table thead tr {
+	height: 4rem;
+}
+
+.ellipsis-title {
+	overflow: hidden;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2; /* start showing ellipsis when 3rd line is reached */
+	white-space: pre-wrap; /* let the text wrap preserving spaces */
+}
+
+.rs-tag {
+	background: #5e3a91;
+	color: white;
+	height: 1.75rem;
+	font-size: 1rem;
+}
+
+.rs-picker-tag .rs-picker-toggle.rs-btn ~ .rs-picker-textbox .rs-tag {
+	padding: 0 12px;
+}
+
+.rs-tag-md .rs-tag-icon-close {
+	position: relative;
+}
+
+.rs-picker-textbox {
+	background: #0e102e;
+}
+.rs-checkbox-checker {
+	background: #0e102e;
+}
+
+.rs-picker-textbox {
+	height: 100%;
+	border-radius: 8px;
+}
+
+.rs-picker-input.rs-picker-tag .rs-picker-toggle.rs-btn {
+	background-color: #0e102e !important;
+}

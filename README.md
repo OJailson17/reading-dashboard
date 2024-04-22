@@ -1,36 +1,36 @@
-# Reading Dashboard
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-![demonstração da aplicação](/public/app-presentation.gif)
+## Getting Started
 
-A aplicação Reading Dashboard mostra os progresso de leitura no ano. Os dados do dashboard são consumidos através da API do Notion, de onde os dados estão vindo e onde existe um database contento todos os dados.
+First, run the development server:
 
-Essa aplicação é um projeto para uso pessoal, só uma maneira mais agradável de visualizar os dados contidos no Notion.
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-Utilizei como base o [layout no Figma](https://www.figma.com/community/file/1210217615683203825) do desafio 8 do #boraCodar.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Tecnologias
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
----
+This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-- NextJS 13
-- Typescript
-- Styled Components
-- Notion API
+## Learn More
 
-## Usage
+To learn more about Next.js, take a look at the following resources:
 
----
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-Para fins de demonstração, adicionei autenticação criando um usuário demo, com informações fictícias.
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-Para entrar basta utilizar o username:
+## Deploy on Vercel
 
-> Username: **demo_user**
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-## Demo
-
----
-
-[Página do Notion com a estrutura do database](https://ojailson17.notion.site/Reading-Dashboard-Demo-Page-ed01f1ac6ba645c0b3d82c5605ed7974)
-
-[Link de deploy](https://readingdashboard.vercel.app/)
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.

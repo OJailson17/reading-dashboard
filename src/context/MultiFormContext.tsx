@@ -2,20 +2,19 @@
 
 import { useState, createContext, useContext, ReactNode } from 'react';
 
-import { CreateBook } from '@/@types/bookTypes';
+import { Book } from '@/@types/book';
 
 type MultiFormProviderProps = {
 	children: ReactNode;
 };
 
-type FormDataProps = Partial<CreateBook>;
+type FormDataProps = Partial<Book>;
 
 type MultiFormContextProps = {
 	onHandleNext: () => void;
 	onHandleBack: () => void;
-	formData: Partial<CreateBook>;
+	formData: Partial<Book>;
 	step: number;
-	onResetSteps: () => void;
 	onSetFormData: (data: FormDataProps) => { book: FormDataProps };
 	onResetForm: () => void;
 };
@@ -41,25 +40,12 @@ export default function MultiFormProvider({
 	};
 
 	const onResetForm = () => {
-		onSetFormData({
-			author: '',
-			book_price: '',
-			book_review: '',
-			current_page: 0,
-			finished_date: undefined,
-			genres: [],
-			goodreads_review: '',
-			icon_url: '',
-			language: 'Portuguese',
-			name: '',
-			qtd_page: 0,
-			status: 'To read',
-			started_date: undefined,
-		});
+		setFormData({});
+		onResetSteps();
 	};
 
 	function onSetFormData(data: FormDataProps) {
-		setFormData((prev: any) => ({ ...prev, ...data }));
+		setFormData((prev: Partial<Book>) => ({ ...prev, ...data }));
 
 		return {
 			book: data,
@@ -74,7 +60,6 @@ export default function MultiFormProvider({
 				onHandleBack,
 				onHandleNext,
 				step,
-				onResetSteps,
 				onResetForm,
 			}}
 		>

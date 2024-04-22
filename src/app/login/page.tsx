@@ -1,30 +1,37 @@
-import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
-import { PageTitle } from '@/styles/common';
-import { cookiesStrings } from '@/utils/constants/storageStrings';
+import { LoginForm } from '@/components/Forms/LoginForm';
+import { Logo } from '@/components/Logo';
+import { Toaster } from '@/components/ui/toaster';
+import { aclonica } from '@/utils';
 
-import { FormComponent } from '../../components/Form/LoginForm';
+import { getSession } from '../actions/getSession';
 
-export const metadata = {
-	title: 'Login | Reading Dashboard',
-};
+export default async function Login() {
+	const session = await getSession();
 
-export default function Login() {
-	// Get token from cookies
-	const token = cookies().has(cookiesStrings.TOKEN);
-	// Get database id from cookies
-	const databaseIdCookie = cookies().has(cookiesStrings.DATABASE_ID);
-
-	// Redirect to login page if token already exists
-	if (token && databaseIdCookie) {
-		redirect('/');
+	if (session) {
+		return redirect('/');
 	}
 
 	return (
-		<div>
-			<PageTitle>Login</PageTitle>
-			<FormComponent />
-		</div>
+		<>
+			<Toaster />
+			<header className='w-full pt-14 text-center'>
+				<Logo />
+			</header>
+
+			<main className='w-full max-w-[550px] mx-auto flex items-center justify-center mt-20 font-poppins'>
+				<div className='w-full max-w-[685px] flex flex-col items-center justify-center bg-secondary-background  rounded-2xl py-9'>
+					<h2
+						className={`bg-gradient-primary inline-block text-transparent bg-clip-text text-3xl ${aclonica.className} `}
+					>
+						Login
+					</h2>
+
+					<LoginForm />
+				</div>
+			</main>
+		</>
 	);
 }

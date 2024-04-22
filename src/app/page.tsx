@@ -1,106 +1,73 @@
-import { cookies } from 'next/headers';
+import Link from 'next/link';
 import { redirect } from 'next/navigation';
+import { Suspense } from 'react';
+import { GiBookshelf } from 'react-icons/gi';
 
-import { Book } from '@/@types/bookTypes';
-import { BookStatus } from '@/components/BooksStatus';
+import { GenreStatisticsChart } from '@/components/Charts/GenreStatisticChart';
+import { YearlyChart } from '@/components/Charts/YearlyChart';
+import { FinishedCard } from '@/components/FinishedCard';
+import { FinishedStatisticCard } from '@/components/FinishedStatisticsCard';
 import { Footer } from '@/components/Footer';
-import { Library } from '@/components/Library';
-import { ReadingStatus } from '@/components/ReadingStatus';
-import { YearlyChart } from '@/components/YearlyChart';
-import { PageTitle } from '@/styles/common';
-import { cookiesStrings } from '@/utils/constants/storageStrings';
+import { SearchBar } from '@/components/Forms/SearchBarForm';
+import { GoalsCard } from '@/components/GoalsCard';
+import { Header } from '@/components/Header';
+import { ReadingCard } from '@/components/ReadingCard';
+import { TBRCard } from '@/components/TBRCard';
+import { finishedBooksFromThisMonth } from '@/utils';
 
-import { StatusComponent, StatusComponentWrapper } from './styles';
+import { fetchBooks } from './actions/fetchBooks';
+import { getSession } from './actions/getSession';
+import LoadingScreen from './loading';
 
 export default async function Home() {
-	// Get token from cookies
-	const token = cookies().get(cookiesStrings.TOKEN)?.value;
-	// Get database id from cookies
-	const databaseId = cookies().get(cookiesStrings.DATABASE_ID)?.value;
+	const session = await getSession();
 
-	// Redirect to login page if token does not exists
-	if (!token || !databaseId) {
-		redirect('/login');
+	if (!session) {
+		return redirect('/login');
 	}
 
-	let books: Book[] = [];
+	const books = (await fetchBooks({ database_id: session.database_id })) || [];
 
-	let total_books = 0;
-	let reading_books: Book[] = [];
-	let to_read_books = 0;
-	let finished_books: Book[] = [];
-	let allBooksReadAndReading: Book[] = [];
+	const finishedBooks = books.filter(book => book.status === 'Finished');
 
-	const filterBooks = () => {
-		// Get the amount of total books
-		total_books = Number(books?.length);
-
-		// Get the reading books
-		reading_books =
-			books?.filter(book => book.properties.Status.select.name === 'Reading') ||
-			[];
-
-		// Get the amount of books to read
-		to_read_books =
-			books?.filter(book => book.properties.Status.select.name === 'To read')
-				.length || 0;
-
-		// Get the finished books
-		finished_books =
-			books?.filter(
-				book => book.properties.Status.select.name === 'Finished',
-			) || [];
-
-		// All finished and reading books together
-		// allBooksReadAndReading = reading_books.concat(finished_books);
-		// }
-	};
-
-	// Fetch books data from api
-	await fetch(`${process.env.API_BASE_URL}/book?db=${databaseId}`)
-		.then(res => res.json())
-		.then(bookList => {
-			// Assign books array with the api response
-			books = bookList;
-
-			// Call the filter function to fill the data
-			filterBooks();
-		})
-		.catch(err => console.log(err));
+	const booksFinishedThisMonth =
+		finishedBooksFromThisMonth(finishedBooks).length;
 
 	return (
-		<>
-			<header>
-				<PageTitle>Reading Dashboard</PageTitle>
-			</header>
+		<Suspense fallback={<LoadingScreen />}>
+			<Header />
 
-			<>
-				<StatusComponentWrapper>
-					<StatusComponent>
-						<p className='status-component-title'>To Read</p>
+			<section className='w-full lg:w-2/3 max-w-[853px] mt-14 flex flex-col sm:flex-row items-end sm:justify-between'>
+				<SearchBar books={books} />
 
-						<div className='status-component-info'>
-							<p className='info-value'>{to_read_books}</p>
-							<p>Books</p>
-						</div>
-					</StatusComponent>
-					{reading_books.length > 0 && <ReadingStatus books={reading_books} />}
-					<BookStatus
-						amountOfBooks={total_books}
-						amountOfFinishedBooks={Number(finished_books.length)}
+				<Link
+					href={'/bookshelf/?tab=all'}
+					className='flex gap-2 mt-8 sm:mt-0 hover:underline'
+				>
+					<GiBookshelf size={20} />
+					<span className='font-medium text-lg'>Bookshelf</span>
+				</Link>
+			</section>
+
+			<main className='w-full max-w-7xl my-14 flex flex-col lg:flex-row items-start gap-8 lg:max-[1200px]:gap-4 xl:gap-8'>
+				<section className='w-full grid grid-cols-1 lg:w-[70%] sm:grid-cols-2 lg:max-[1200px]:gap-x-4 gap-x-8 lg:max-[1200px]:gap-y-4 gap-y-6'>
+					<FinishedStatisticCard books={{ current: booksFinishedThisMonth }} />
+					<FinishedStatisticCard
+						card='year'
+						books={{ current: finishedBooks.length }}
 					/>
-				</StatusComponentWrapper>
+					<ReadingCard />
+					<TBRCard />
+					<YearlyChart books={books} />
+				</section>
+				<section className='w-full gap-6 lg:max-[1200px]:gap-4 xs:flex xs:flex-col sm:max-[1023px]:grid sm:max-[1023px]:grid-cols-2 xl:w-max-max flex-1'>
+					<FinishedCard />
+					<GoalsCard />
+					<GenreStatisticsChart books={finishedBooks} />
+				</section>
+			</main>
 
-				<Library
-					reading_books={reading_books}
-					finished_books={finished_books}
-				/>
-
-				{/* Yearly Graph */}
-				{finished_books && <YearlyChart finished_books={finished_books} />}
-
-				<Footer />
-			</>
-		</>
+			<Footer />
+		</Suspense>
 	);
 }
