@@ -1,36 +1,36 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Reading Dashboard
 
-## Getting Started
+![application demo video](./public/presentation.mp4)
 
-First, run the development server:
+[Reading Dashboard](https://readingdashboard.vercel.app/) é uma aplicação que permite acompanhar o progresso de leitura e gerenciar alguns dados dos livros adicionados. Com esta aplicação é possível:
+
+- Visualizar o progresso de leitura de cada livro.
+- Modificar informações sobre os livros, como o número de páginas lidas, status de leitura, etc.
+- Adicionar novos livros à lista de leitura.
+- Visualizar dados referentes à leitura por meio de gráficos.
+
+Essa aplicação é de uso pessoal e todos os dados estão sendo recebidos do Notion. É apenas uma forma mais agradável de visualizar os dados contidos no database do Notion.
+
+## Tecnologias Utilizadas
+
+- **Next.js**
+- **TypeScript**
+- **Tailwind CSS**
+- **Notion API**
+- **Radix UI**
+
+## Usage
+
+Para fins de demonstração, adicionei autenticação criando um usuário demo, com **informações fictícias**.
+
+Para entrar basta utilizar o username:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+demo_user
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Demo
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+[Página do Notion com a estrutura do database](https://ojailson17.notion.site/Reading-Dashboard-Demo-Page-ed01f1ac6ba645c0b3d82c5605ed7974?pvs=4)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+[Link de deploy](https://readingdashboard.vercel.app/)
