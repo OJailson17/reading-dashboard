@@ -1,6 +1,6 @@
 # Reading Dashboard
 
-![application demo video](./public/presentation.mp4)
+![application demo video](./public/presentation.gif)
 
 [Reading Dashboard](https://readingdashboard.vercel.app/) é uma aplicação que permite acompanhar o progresso de leitura e gerenciar alguns dados dos livros adicionados. Com esta aplicação é possível:
 
