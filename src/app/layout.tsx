@@ -16,7 +16,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-	title: 'Reading Dashboard',
+	title: 'Home | Reading Dashboard',
 	description: 'Reading Tracker',
 };
 

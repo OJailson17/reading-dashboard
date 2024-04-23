@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
@@ -25,6 +26,10 @@ interface BookshelfRequestProps {
 		q?: string;
 	};
 }
+
+export const metadata: Metadata = {
+	title: 'Bookshelf | Reading Dashboard',
+};
 
 export default async function Bookshelf({
 	searchParams,

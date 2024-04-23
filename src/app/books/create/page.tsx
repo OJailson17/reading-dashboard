@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
 
@@ -7,6 +8,10 @@ import { BookCreationPreview } from '@/components/BookCreationPreview';
 import { Footer } from '@/components/Footer';
 import { MultiStepFormWrapper } from '@/components/Forms/MultiStepForm/MultiStepFormWrapper';
 import { Header } from '@/components/Header';
+
+export const metadata: Metadata = {
+	title: 'Create Book | Reading Dashboard',
+};
 
 export default async function CreateBook() {
 	const session = await getSession();

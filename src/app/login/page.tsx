@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 
 import { LoginForm } from '@/components/Forms/LoginForm';
@@ -6,6 +7,10 @@ import { Toaster } from '@/components/ui/toaster';
 import { aclonica } from '@/utils';
 
 import { getSession } from '../actions/getSession';
+
+export const metadata: Metadata = {
+	title: 'Login | Reading Dashboard',
+};
 
 export default async function Login() {
 	const session = await getSession();

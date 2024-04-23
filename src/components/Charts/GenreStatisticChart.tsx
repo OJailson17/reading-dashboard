@@ -31,13 +31,13 @@ function genreFrequencyList(
 ): GenreFrequency[] {
 	let frequency: Record<string, number> = {};
 
-	// Count frequencies
+	// Count genre frequencies
 	for (let i = 0; i < arr.length; i++) {
 		let currentName = arr[i].name;
 		frequency[currentName] = (frequency[currentName] || 0) + 1;
 	}
 
-	// Convert to array of objects with name, color, and frequency
+	// Convert to an array of objects with name, color, and frequency
 	const genreFrequencyList: GenreFrequency[] = Object.keys(frequency).map(
 		name => ({
 			name: name,
@@ -46,7 +46,7 @@ function genreFrequencyList(
 		}),
 	);
 
-	// Sort by frequency
+	// Sort by genre frequency
 	genreFrequencyList.sort((a, b) => b.frequency - a.frequency);
 
 	return genreFrequencyList;
