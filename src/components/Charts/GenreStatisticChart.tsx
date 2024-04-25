@@ -64,14 +64,14 @@ export const GenreStatisticsChart = ({ books }: GenreStatisticsChartProps) => {
 		}));
 
 	return (
-		<div className='w-full min-h-64 xs:px-4 sm:px-7 pt-6 bg-secondary-background rounded-2xl'>
+		<div className='w-full sm:max-w-80 min-h-64 xs:px-4 sm:px-7 pt-6 bg-secondary-background rounded-2xl'>
 			<h2 className='font-bold text-xl'>Most Reading Genres</h2>
 
 			{/* chart */}
-			<div className='w-11/12 h-64 flex mx-auto'>
+			<div className='w-full h-64 flex mx-auto'>
 				<ResponsiveContainer width='100%' height='100%'>
 					<RadialBarChart
-						cx='30%'
+						cx='25%'
 						cy='50%'
 						innerRadius='10%'
 						outerRadius='50%'
