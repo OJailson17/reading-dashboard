@@ -83,6 +83,13 @@ const data = [
 ];
 
 export const BooksPagesChart = () => {
+	// hide the default props warning
+	const error = console.error;
+	console.error = (...args: any) => {
+		if (/defaultProps/.test(args[0])) return;
+		error(...args);
+	};
+
 	return (
 		<div className='w-full flex-1 xs:px-4 sm:px-7 pt-6 pb-4 rounded-2xl bg-secondary-background'>
 			<h2 className='font-bold text-xl'>Amount of Books and Page</h2>

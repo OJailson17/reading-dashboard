@@ -9,41 +9,36 @@ import {
 	Tooltip,
 } from 'recharts';
 
-const data = [
-	{ name: 'Fiction', value: 10 },
-	{ name: 'Nonfiction', value: 15 },
-];
+import { Book } from '@/@types/book';
 
-const COLORS = ['#0088FE', '#FF8042'];
+import { RenderCustomizedLabel } from './PieChartCustomLabel';
 
-const RADIAN = Math.PI / 180;
-const renderCustomizedLabel = ({
-	cx,
-	cy,
-	midAngle,
-	innerRadius,
-	outerRadius,
-	percent,
-	index,
-}: any) => {
-	const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-	const x = cx + radius * Math.cos(-midAngle * RADIAN);
-	const y = cy + radius * Math.sin(-midAngle * RADIAN);
+interface FictionNonFictionChartProps {
+	books: Book[];
+}
 
-	return (
-		<text
-			x={x}
-			y={y}
-			fill='white'
-			textAnchor={x > cx ? 'start' : 'end'}
-			dominantBaseline='central'
-		>
-			{`${(percent * 100).toFixed(0)}%`}
-		</text>
-	);
+const COLORS = ['#FF8042', '#0088FE'];
+
+const calculateAmountOfBooksByGenre = (
+	books: Book[],
+	genreQuery: 'Fiction' | 'Non-fiction',
+) => {
+	return books.filter(book =>
+		book.genres.some(genre => genre.name === genreQuery),
+	).length;
 };
 
-export const FictionNonFictionChart = () => {
+export const FictionNonFictionChart = ({
+	books,
+}: FictionNonFictionChartProps) => {
+	const data = [
+		{ name: 'Fiction', value: calculateAmountOfBooksByGenre(books, 'Fiction') },
+		{
+			name: 'Nonfiction',
+			value: calculateAmountOfBooksByGenre(books, 'Non-fiction'),
+		},
+	];
+
 	return (
 		<div className='w-full sm:max-lg:hidden lg:max-w-80 min-h-64 xs:px-4 sm:px-7 pt-6 bg-secondary-background rounded-2xl'>
 			<h2 className='font-bold text-xl'>Fiction/Nonfiction</h2>
@@ -59,7 +54,7 @@ export const FictionNonFictionChart = () => {
 							cx='50%'
 							cy='50%'
 							labelLine={false}
-							label={renderCustomizedLabel}
+							label={RenderCustomizedLabel}
 							outerRadius={80}
 							fill='#8884d8'
 							dataKey='value'

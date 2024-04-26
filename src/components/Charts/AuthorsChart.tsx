@@ -9,26 +9,38 @@ import {
 	YAxis,
 } from 'recharts';
 
-const data = [
-	{
-		name: 'J. K. Rowling',
-		pv: 4,
-	},
-	{
-		name: 'John Green',
-		pv: 2,
-	},
-	{
-		name: 'Gabriel Wyner',
-		pv: 1,
-	},
-	{
-		name: 'Jessica Pan',
-		pv: 1,
-	},
-];
+import { Book } from '@/@types/book';
 
-export const AuthorsChart = () => {
+interface AuthorsChartProps {
+	books: Book[];
+}
+
+function authorsFrequencyList(authors: string[]) {
+	let frequency: Record<string, number> = {};
+
+	// Count genre frequencies
+	for (let i = 0; i < authors.length; i++) {
+		let currentName = authors[i];
+		frequency[currentName] = (frequency[currentName] || 0) + 1;
+	}
+
+	// Convert to an array of objects with name, color, and frequency
+	const genreFrequencyList = Object.keys(frequency).map(name => ({
+		author: name,
+		books: frequency[name],
+	}));
+
+	// Sort by genre frequency
+	genreFrequencyList.sort((a, b) => b.books - a.books);
+
+	return genreFrequencyList;
+}
+
+export const AuthorsChart = ({ books }: AuthorsChartProps) => {
+	const authorsList = books.map(book => book.author);
+
+	const authorsData = authorsFrequencyList(authorsList).slice(0, 4);
+
 	return (
 		<div className='w-full flex-1 xs:px-4 sm:px-7 pt-6 pb-4 rounded-2xl bg-secondary-background'>
 			<h2 className='font-bold text-xl'>Most Read Authors</h2>
@@ -39,7 +51,7 @@ export const AuthorsChart = () => {
 						layout='vertical'
 						width={550}
 						height={450}
-						data={data}
+						data={authorsData}
 						margin={{
 							top: 20,
 							right: 0,
@@ -49,14 +61,14 @@ export const AuthorsChart = () => {
 					>
 						<XAxis type='number' />
 						<YAxis
-							dataKey='name'
+							dataKey='author'
 							type='category'
 							scale='auto'
 							fontSize={14}
 							width={100}
 						/>
 						<Tooltip />
-						<Bar dataKey='pv' barSize={25} fill='#8884d8' />
+						<Bar dataKey='books' barSize={25} fill='#8884d8' />
 					</ComposedChart>
 				</ResponsiveContainer>
 			</div>
