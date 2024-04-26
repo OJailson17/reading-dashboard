@@ -27,7 +27,7 @@ const data = [
 
 export const LanguageChart = () => {
 	return (
-		<div className='w-full flex-1 px-9 pt-6 pb-4 rounded-2xl bg-secondary-background'>
+		<div className='w-full flex-1 xs:px-4 sm:px-7 pt-6 pb-4 rounded-2xl bg-secondary-background'>
 			<h2 className='font-bold text-xl'>Languages</h2>
 
 			<div className='w-full h-52 mt-9'>
@@ -45,9 +45,9 @@ export const LanguageChart = () => {
 						}}
 					>
 						<XAxis type='number' />
-						<YAxis dataKey='name' type='category' scale='band' />
+						<YAxis dataKey='name' type='category' scale='auto' />
 						<Tooltip />
-						<Bar dataKey='pv' barSize={20} fill='#8884d8' />
+						<Bar dataKey='pv' barSize={25} fill='#8884d8' />
 					</ComposedChart>
 				</ResponsiveContainer>
 			</div>

@@ -100,3 +100,7 @@ input[type='number']::-webkit-outer-spin-button {
 .rs-picker-input.rs-picker-tag .rs-picker-toggle.rs-btn {
 	background-color: #0e102e !important;
 }
+
+.recharts-tooltip-cursor {
+	fill: transparent;
+}

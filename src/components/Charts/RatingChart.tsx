@@ -43,9 +43,13 @@ const data = [
 	},
 ];
 
+const CustomizedBar = () => {
+	return <div className='bg-red-500 w-2 h-2' />;
+};
+
 export const RatingChart = () => {
 	return (
-		<div className='w-full flex-1 px-9 pt-6 pb-4 rounded-2xl bg-secondary-background'>
+		<div className='w-full flex-1 xs:px-4 sm:px-7 pt-6 pb-4 rounded-2xl bg-secondary-background'>
 			<h2 className='font-bold text-xl'>Rating Stars</h2>
 
 			<div className='w-full h-52 mt-9'>
@@ -56,8 +60,8 @@ export const RatingChart = () => {
 						data={data}
 						margin={{
 							top: 5,
-							right: 30,
-							left: 20,
+							right: 0,
+							left: -30,
 							bottom: 5,
 						}}
 					>
