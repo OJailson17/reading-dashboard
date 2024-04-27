@@ -11,6 +11,8 @@ import {
 
 import { Book } from '@/@types/book';
 
+import { CustomTooltip } from './CustomTooltip';
+
 interface AuthorsChartProps {
 	books: Book[];
 }
@@ -67,7 +69,7 @@ export const AuthorsChart = ({ books }: AuthorsChartProps) => {
 							fontSize={14}
 							width={100}
 						/>
-						<Tooltip />
+						<Tooltip content={CustomTooltip} />
 						<Bar dataKey='books' barSize={25} fill='#8884d8' />
 					</ComposedChart>
 				</ResponsiveContainer>

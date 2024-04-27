@@ -3,52 +3,92 @@
 import {
 	PolarAngleAxis,
 	PolarGrid,
-	PolarRadiusAxis,
 	Radar,
 	RadarChart,
 	ResponsiveContainer,
 } from 'recharts';
 
-const data = [
+import { Book } from '@/@types/book';
+
+interface PageNumberChartProps {
+	books: Book[];
+}
+
+const pageNumberChartData = [
 	{
 		subject: '<300',
-		A: 120,
-		B: 110,
-		fullMark: 150,
+		amount: 0,
 	},
 	{
 		subject: '300-499',
-		A: 98,
-		B: 130,
-		fullMark: 150,
+		amount: 0,
 	},
 	{
 		subject: '500-699',
-		A: 86,
-		B: 130,
-		fullMark: 150,
+		amount: 0,
 	},
 	{
 		subject: '>1000',
-		A: 99,
-		B: 100,
-		fullMark: 150,
+		amount: 0,
 	},
 	{
 		subject: '900-999',
-		A: 85,
-		B: 90,
-		fullMark: 150,
+		amount: 0,
 	},
 	{
 		subject: '700-899',
-		A: 65,
-		B: 85,
-		fullMark: 150,
+		amount: 0,
 	},
 ];
 
-export const PageNumberChart = () => {
+const booksSizes = {
+	small: (pages: number) => pages < 300,
+	medium: (pages: number) => pages >= 300 && pages < 500,
+	big: (pages: number) => pages >= 500 && pages < 700,
+	large: (pages: number) => pages >= 700 && pages < 900,
+	extraLarge: (pages: number) => pages >= 900 && pages < 1000,
+	gigantic: (pages: number) => pages > 1000,
+};
+
+const calculateBooksPages = (books: Book[]) => {
+	books.map(book => {
+		if (booksSizes.small(book.total_pages)) {
+			pageNumberChartData[0].amount += 1;
+		}
+
+		if (booksSizes.medium(book.total_pages)) {
+			pageNumberChartData[1].amount += 1;
+		}
+
+		if (booksSizes.big(book.total_pages)) {
+			pageNumberChartData[2].amount += 1;
+		}
+
+		if (booksSizes.large(book.total_pages)) {
+			pageNumberChartData[5].amount += 1;
+		}
+		if (booksSizes.extraLarge(book.total_pages)) {
+			pageNumberChartData[4].amount += 1;
+		}
+		if (booksSizes.gigantic(book.total_pages)) {
+			pageNumberChartData[3].amount += 1;
+		}
+
+		return;
+	});
+};
+
+const resetPageNumberChart = () => {
+	for (const [_, value] of Object.entries(pageNumberChartData)) {
+		value.amount = 0;
+	}
+};
+
+export const PageNumberChart = ({ books }: PageNumberChartProps) => {
+	resetPageNumberChart();
+
+	calculateBooksPages(books);
+
 	return (
 		<div className='w-full sm:max-w-80 min-h-64 xs:px-4 sm:px-7 pt-6 bg-secondary-background rounded-2xl'>
 			<h2 className='font-bold text-xl'>Page Number</h2>
@@ -56,12 +96,17 @@ export const PageNumberChart = () => {
 			{/* chart */}
 			<div className='w-full h-64 flex mx-auto'>
 				<ResponsiveContainer width='100%' height='100%'>
-					<RadarChart cx='50%' cy='50%' outerRadius='50%' data={data}>
+					<RadarChart
+						cx='50%'
+						cy='50%'
+						outerRadius='50%'
+						data={pageNumberChartData}
+					>
 						<PolarGrid />
 						<PolarAngleAxis dataKey='subject' />
 						{/* <PolarRadiusAxis /> */}
 						<Radar
-							dataKey='A'
+							dataKey='amount'
 							stroke='#8884d8'
 							fill='#8884d8'
 							fillOpacity={0.6}

@@ -11,6 +11,7 @@ import {
 
 import { Book } from '@/@types/book';
 
+import { CustomTooltip } from './CustomTooltip';
 import { RenderCustomizedLabel } from './PieChartCustomLabel';
 
 interface FictionNonFictionChartProps {
@@ -47,7 +48,7 @@ export const FictionNonFictionChart = ({
 			<div className='w-full h-64 flex mx-auto'>
 				<ResponsiveContainer width='100%' height='100%'>
 					<PieChart width={400} height={400}>
-						<Tooltip />
+						<Tooltip content={CustomTooltip} />
 						<Legend />
 						<Pie
 							data={data}

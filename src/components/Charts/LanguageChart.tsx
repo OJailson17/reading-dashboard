@@ -12,6 +12,8 @@ import {
 
 import { Book, BookLanguages } from '@/@types/book';
 
+import { CustomTooltip } from './CustomTooltip';
+
 interface LanguageChartProps {
 	books: Book[];
 }
@@ -55,7 +57,7 @@ export const LanguageChart = ({ books }: LanguageChartProps) => {
 					>
 						<XAxis type='number' />
 						<YAxis dataKey='language' type='category' scale='auto' />
-						<Tooltip />
+						<Tooltip content={CustomTooltip} />
 						<Bar dataKey='amount' barSize={25} fill='#8884d8' />
 					</ComposedChart>
 				</ResponsiveContainer>

@@ -93,18 +93,18 @@ export default async function Stats() {
 						<GenreStatisticsChart books={finishedBooks} />
 					</div>
 
-					<BooksPagesChart />
+					<BooksPagesChart books={finishedBooks} />
 				</section>
 
 				<section className='w-full h-full flex items-start gap-6 flex-col sm:flex-row flex-wrap sm:max-lg:flex-row-reverse'>
 					<FictionNonFictionChart books={finishedBooks} />
 					<LanguageChart books={finishedBooks} />
-					<PageNumberChart />
+					<PageNumberChart books={finishedBooks} />
 				</section>
 
 				<section className='w-full h-full flex items-start justify-center gap-6 flex-col sm:flex-row'>
 					<AuthorsChart books={finishedBooks} />
-					<RatingChart />
+					<RatingChart books={finishedBooks} />
 				</section>
 			</main>
 

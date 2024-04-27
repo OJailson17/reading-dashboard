@@ -11,78 +11,67 @@ import {
 	YAxis,
 } from 'recharts';
 
+import { Book } from '@/@types/book';
+import { MonthLabel } from '@/@types/chart';
+import {
+	handleRemoveZeroDigit,
+	isSameMonth,
+	resetBooksPagesChart,
+} from '@/utils';
+import { monthsBooksPagesQtd } from '@/utils/charts/yearlyBooksPagesChartData';
+
 import { CustomTooltip } from './CustomTooltip';
 
-const data = [
-	{
-		name: 'Jan',
-		pages: 800,
-		books: 389,
-		amt: 2400,
-	},
-	{
-		name: 'Feb',
-		pages: 300,
-		books: 139,
-		amt: 2210,
-	},
-	{
-		name: 'Mar',
-		pages: 200,
-		books: 980,
-		amt: 2290,
-	},
-	{
-		name: 'Apr',
-		pages: 278,
-		books: 398,
-		amt: 2000,
-	},
-	{
-		name: 'Jun',
-		pages: 189,
-		books: 480,
-		amt: 2181,
-	},
-	{
-		name: 'Jul',
-		pages: 239,
-		books: 380,
-		amt: 2500,
-	},
-	{
-		name: 'Aug',
-		pages: 349,
-		books: 430,
-		amt: 2100,
-	},
-	{
-		name: 'Sep',
-		pages: 200,
-		books: 980,
-		amt: 2100,
-	},
-	{
-		name: 'Oct',
-		pages: 349,
-		books: 430,
-		amt: 2100,
-	},
-	{
-		name: 'Nov',
-		pages: 349,
-		books: 40,
-		amt: 2100,
-	},
-	{
-		name: 'Dec',
-		pages: 800,
-		books: 389,
-		amt: 2100,
-	},
+interface BooksPagesChartsProps {
+	books: Book[];
+}
+
+const monthsLabels: MonthLabel[] = [
+	'Jan',
+	'Feb',
+	'Mar',
+	'Apr',
+	'May',
+	'Jun',
+	'Jul',
+	'Aug',
+	'Sep',
+	'Oct',
+	'Nov',
+	'Dec',
 ];
 
-export const BooksPagesChart = () => {
+const getMonthsData = ({ finishedBooks }: { finishedBooks: Book[] }) => {
+	const currentYear = new Date().getUTCFullYear(); // 2024
+
+	for (let i = 0; i < finishedBooks.length; i++) {
+		monthsLabels.map(month => {
+			const isFromSameMonth = isSameMonth({
+				monthDate: new Date(`${month}, 1, ${currentYear}`),
+				bookDate: new Date(
+					handleRemoveZeroDigit(finishedBooks[i].finished_date || ''),
+				),
+			});
+
+			if (isFromSameMonth) {
+				monthsBooksPagesQtd[month].books += 1;
+				monthsBooksPagesQtd[month].pages += finishedBooks[i].total_pages;
+			}
+		});
+	}
+};
+
+export const BooksPagesChart = ({ books }: BooksPagesChartsProps) => {
+	resetBooksPagesChart();
+
+	getMonthsData({ finishedBooks: books });
+
+	const chartData = monthsLabels.map(month => ({
+		month: monthsBooksPagesQtd[month].month,
+		books: monthsBooksPagesQtd[month].books,
+		pages: monthsBooksPagesQtd[month].pages,
+	}));
+
 	// hide the default props warning
 	const error = console.error;
 	console.error = (...args: any) => {
@@ -99,11 +88,11 @@ export const BooksPagesChart = () => {
 					<LineChart
 						width={500}
 						height={300}
-						data={data}
+						data={chartData}
 						margin={{ top: 5, right: 0, left: -10, bottom: 5 }}
 					>
-						<XAxis dataKey='name' />
-						<YAxis />
+						<XAxis dataKey='month' axisLine={false} />
+						<YAxis axisLine={false} />
 						<Tooltip />
 						<Legend />
 						<Line
@@ -111,12 +100,14 @@ export const BooksPagesChart = () => {
 							dataKey='books'
 							dot={false}
 							stroke='#8884d8'
+							strokeWidth={3}
 						/>
 						<Line
 							type='monotone'
 							dataKey='pages'
 							dot={false}
 							stroke='#5CDAC3'
+							strokeWidth={3}
 						/>
 					</LineChart>
 				</ResponsiveContainer>
