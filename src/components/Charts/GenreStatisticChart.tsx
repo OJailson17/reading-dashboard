@@ -64,7 +64,7 @@ export const GenreStatisticsChart = ({ books }: GenreStatisticsChartProps) => {
 		}));
 
 	return (
-		<div className='w-full sm:max-w-80 min-h-64 xs:px-4 sm:px-7 pt-6 bg-secondary-background rounded-2xl'>
+		<div className='w-full min-h-64 xs:px-4 sm:px-7 pt-6 bg-secondary-background rounded-2xl'>
 			<h2 className='font-bold text-xl'>Most Reading Genres</h2>
 
 			{/* chart */}
