@@ -14,33 +14,6 @@ interface PageNumberChartProps {
 	books: Book[];
 }
 
-const pageNumberChartData = [
-	{
-		subject: '<300',
-		amount: 0,
-	},
-	{
-		subject: '300-499',
-		amount: 0,
-	},
-	{
-		subject: '500-699',
-		amount: 0,
-	},
-	{
-		subject: '>1000',
-		amount: 0,
-	},
-	{
-		subject: '900-999',
-		amount: 0,
-	},
-	{
-		subject: '700-899',
-		amount: 0,
-	},
-];
-
 const booksSizes = {
 	small: (pages: number) => pages < 300,
 	medium: (pages: number) => pages >= 300 && pages < 500,
@@ -50,44 +23,76 @@ const booksSizes = {
 	gigantic: (pages: number) => pages > 1000,
 };
 
+interface BooksPagesDataStructure {
+	pages: string;
+	amount: number;
+}
+
 const calculateBooksPages = (books: Book[]) => {
+	const data = [
+		{
+			pages: '<300',
+			amount: 0,
+		},
+		{
+			pages: '300-499',
+			amount: 0,
+		},
+		{
+			pages: '500-699',
+			amount: 0,
+		},
+		{
+			pages: '>1000',
+			amount: 0,
+		},
+		{
+			pages: '900-999',
+			amount: 0,
+		},
+		{
+			pages: '700-899',
+			amount: 0,
+		},
+	];
+
+	resetPageNumberChart(data);
+
 	books.map(book => {
 		if (booksSizes.small(book.total_pages)) {
-			pageNumberChartData[0].amount += 1;
+			data[0].amount += 1;
 		}
 
 		if (booksSizes.medium(book.total_pages)) {
-			pageNumberChartData[1].amount += 1;
+			data[1].amount += 1;
 		}
 
 		if (booksSizes.big(book.total_pages)) {
-			pageNumberChartData[2].amount += 1;
+			data[2].amount += 1;
 		}
 
 		if (booksSizes.large(book.total_pages)) {
-			pageNumberChartData[5].amount += 1;
+			data[5].amount += 1;
 		}
 		if (booksSizes.extraLarge(book.total_pages)) {
-			pageNumberChartData[4].amount += 1;
+			data[4].amount += 1;
 		}
 		if (booksSizes.gigantic(book.total_pages)) {
-			pageNumberChartData[3].amount += 1;
+			data[3].amount += 1;
 		}
-
-		return;
 	});
+
+	return data;
 };
 
-const resetPageNumberChart = () => {
-	for (const [_, value] of Object.entries(pageNumberChartData)) {
+const resetPageNumberChart = (data: BooksPagesDataStructure[]) => {
+	for (const [_, value] of Object.entries(data)) {
 		value.amount = 0;
 	}
 };
 
 export const PageNumberChart = ({ books }: PageNumberChartProps) => {
-	resetPageNumberChart();
-
-	calculateBooksPages(books);
+	const pageNumberChartData = calculateBooksPages(books);
 
 	return (
 		<div className='w-full sm:max-w-80 min-h-64 xs:px-4 sm:px-7 pt-6 bg-secondary-background rounded-2xl'>
@@ -103,7 +108,7 @@ export const PageNumberChart = ({ books }: PageNumberChartProps) => {
 						data={pageNumberChartData}
 					>
 						<PolarGrid />
-						<PolarAngleAxis dataKey='subject' />
+						<PolarAngleAxis dataKey='pages' />
 						{/* <PolarRadiusAxis /> */}
 						<Radar
 							dataKey='amount'

@@ -14,8 +14,10 @@ import { FinishedStatisticCard } from '@/components/FinishedStatisticsCard';
 import { Footer } from '@/components/Footer';
 import { GeneralStats } from '@/components/GeneralStats';
 import { Header } from '@/components/Header';
+import { SelectStatsYear } from '@/components/SelectStatsYear';
 
 import { fetchBooks } from '../actions/fetchBooks';
+import { fetchBooksByYear } from '../actions/fetchBooksByYear';
 import { getSession } from '../actions/getSession';
 import LoadingScreen from '../loading';
 
@@ -23,17 +25,45 @@ export const metadata: Metadata = {
 	title: 'Stats | Reading Dashboard',
 };
 
-export default async function Stats() {
+interface StatsRequestProps {
+	searchParams: {
+		year: string;
+	};
+}
+
+const getSelectYearsOptions = () => {
+	const currentYear = new Date().getUTCFullYear();
+	const startYear = 2022;
+	const years: number[] = [];
+
+	for (let year = startYear; year <= currentYear; year++) {
+		years.push(year);
+	}
+
+	return years;
+};
+
+export default async function Stats({ searchParams }: StatsRequestProps) {
 	const session = await getSession();
 
 	if (!session) {
 		return redirect('/login');
 	}
 
+	// If the tab param doesn't match with one of the options, select all as default
+	const currentYear = new Date().getUTCFullYear();
+
+	const yearsOptions = getSelectYearsOptions();
+
+	if (!searchParams.year || !yearsOptions.includes(Number(searchParams.year))) {
+		redirect(`/stats/?year=${currentYear}`);
+	}
+
 	// Get all books
 	const books =
-		(await fetchBooks({
+		(await fetchBooksByYear({
 			database_id: session.database_id,
+			year: searchParams.year,
 		})) || [];
 
 	// Filter books for each status
@@ -51,23 +81,7 @@ export default async function Stats() {
 					<div className='w-full sm:max-w-80 h-full p-6 bg-secondary-background rounded-2xl relative opacity-90'>
 						<p className='font-medium text-span'>Reading Stats</p>
 
-						<div className='w-full flex flex-col gap-1 mt-7'>
-							<label htmlFor='stats-year' className='text-span'>
-								year:
-							</label>
-							<select
-								name='stats-year'
-								id='stats-year'
-								className='bg-transparent border border-span rounded-md w-full h-10 px-2'
-							>
-								<option value='2024' className='bg-background text-span'>
-									2024
-								</option>
-								<option value='2023' className='bg-background text-span'>
-									2023
-								</option>
-							</select>
-						</div>
+						<SelectStatsYear currentTabYear={searchParams.year} />
 					</div>
 
 					{/* General Stats Card */}
@@ -93,7 +107,7 @@ export default async function Stats() {
 						<GenreStatisticsChart books={finishedBooks} />
 					</div>
 
-					<BooksPagesChart books={finishedBooks} />
+					<BooksPagesChart books={finishedBooks} tabYear={searchParams.year} />
 				</section>
 
 				<section className='w-full h-full flex items-start gap-6 flex-col sm:flex-row flex-wrap sm:max-lg:flex-row-reverse'>

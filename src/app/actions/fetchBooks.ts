@@ -4,7 +4,7 @@ import { cache } from 'react';
 
 import { Book, BookLanguages, BookStatus } from '@/@types/book';
 
-type BookProperties = {
+export type BookProperties = {
 	Author: {
 		rich_text: [
 			{
@@ -86,7 +86,7 @@ type UpdateFetchBooksProps = {
 	query?: string;
 };
 
-const formatBooks = (books: NotionBookProps[]): Book[] => {
+export const formatBooks = (books: NotionBookProps[]): Book[] => {
 	const formattedBooks = books.map(book => {
 		const properties = book.properties;
 

@@ -49,6 +49,7 @@ const setStatusToFinished = async ({
 		.catch(err => console.log(err));
 
 	revalidateTag('fetch-books');
+	revalidateTag('fetch-book-stats');
 };
 
 const setStatusToReading = async ({
@@ -66,6 +67,7 @@ const setStatusToReading = async ({
 		.catch(err => console.log(err));
 
 	revalidateTag('fetch-books');
+	revalidateTag('fetch-book-stats');
 };
 
 const setStatusToTBR = async ({
@@ -81,4 +83,5 @@ const setStatusToTBR = async ({
 		.catch(err => console.log(err));
 
 	revalidateTag('fetch-books');
+	revalidateTag('fetch-book-stats');
 };

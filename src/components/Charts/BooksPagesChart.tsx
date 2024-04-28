@@ -24,6 +24,7 @@ import { CustomTooltip } from './CustomTooltip';
 
 interface BooksPagesChartsProps {
 	books: Book[];
+	tabYear: string;
 }
 
 const monthsLabels: MonthLabel[] = [
@@ -41,9 +42,13 @@ const monthsLabels: MonthLabel[] = [
 	'Dec',
 ];
 
-const getMonthsData = ({ finishedBooks }: { finishedBooks: Book[] }) => {
-	const currentYear = new Date().getUTCFullYear(); // 2024
-
+const getMonthsData = ({
+	finishedBooks,
+	currentYear,
+}: {
+	finishedBooks: Book[];
+	currentYear: string;
+}) => {
 	for (let i = 0; i < finishedBooks.length; i++) {
 		monthsLabels.map(month => {
 			const isFromSameMonth = isSameMonth({
@@ -61,10 +66,10 @@ const getMonthsData = ({ finishedBooks }: { finishedBooks: Book[] }) => {
 	}
 };
 
-export const BooksPagesChart = ({ books }: BooksPagesChartsProps) => {
+export const BooksPagesChart = ({ books, tabYear }: BooksPagesChartsProps) => {
 	resetBooksPagesChart();
 
-	getMonthsData({ finishedBooks: books });
+	getMonthsData({ finishedBooks: books, currentYear: tabYear });
 
 	const chartData = monthsLabels.map(month => ({
 		month: monthsBooksPagesQtd[month].month,
