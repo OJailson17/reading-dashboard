@@ -93,7 +93,7 @@ export const BooksPagesChart = ({ books }: BooksPagesChartsProps) => {
 					>
 						<XAxis dataKey='month' axisLine={false} />
 						<YAxis axisLine={false} />
-						<Tooltip />
+						<Tooltip content={CustomTooltip} />
 						<Legend />
 						<Line
 							type='monotone'
