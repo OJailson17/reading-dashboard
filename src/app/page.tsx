@@ -14,6 +14,7 @@ import { Header } from '@/components/Header';
 import { ReadingCard } from '@/components/ReadingCard';
 import { TBRCard } from '@/components/TBRCard';
 import { finishedBooksFromThisMonth } from '@/utils';
+import { applicationLinks } from '@/utils/constants/links';
 
 import { fetchBooks } from './actions/fetchBooks';
 import { getSession } from './actions/getSession';
@@ -23,7 +24,7 @@ export default async function Home() {
 	const session = await getSession();
 
 	if (!session) {
-		return redirect('/login');
+		return redirect(applicationLinks.login);
 	}
 
 	const books = (await fetchBooks({ database_id: session.database_id })) || [];
@@ -41,7 +42,7 @@ export default async function Home() {
 				<SearchBar books={books} />
 
 				<Link
-					href={'/bookshelf/?tab=all'}
+					href={`${applicationLinks.bookshelf}/?tab=all`}
 					className='flex gap-2 mt-8 sm:mt-0 hover:underline'
 				>
 					<GiBookshelf size={20} />

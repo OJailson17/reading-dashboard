@@ -13,6 +13,7 @@ import { GeneralStats } from '@/components/GeneralStats';
 import { Header } from '@/components/Header';
 import { SelectTabFilter } from '@/components/SelectFilter';
 import { StatisticSvg } from '@/components/StatsIcon';
+import { applicationLinks } from '@/utils/constants/links';
 
 import { fetchBooks } from '../actions/fetchBooks';
 import { getSession } from '../actions/getSession';
@@ -37,14 +38,14 @@ export default async function Bookshelf({
 	const session = await getSession();
 
 	if (!session) {
-		return redirect('/login');
+		return redirect(applicationLinks.login);
 	}
 
 	// If the tab param doesn't match with one of the options, select all as default
 	const tabValues: Tab[] = ['all', 'tbr', 'reading', 'finished', 'review'];
 
 	if (!searchParams.tab || !tabValues.includes(searchParams.tab)) {
-		redirect('/bookshelf/?tab=all');
+		redirect(`${applicationLinks.bookshelf}/?tab=all`);
 	}
 
 	// Get all books
@@ -122,7 +123,7 @@ export default async function Bookshelf({
 							<div className='flex flex-col items-center justify-center gap-4'>
 								<p className='text-sm font-medium'>Reading over the year</p>
 								<Link
-									href='/stats'
+									href={`${applicationLinks.stats}/?year=${currentYear}`}
 									className='py-2 px-4 rounded-md border border-purple flex items-center justify-center'
 								>
 									View Stats
@@ -155,7 +156,7 @@ export default async function Bookshelf({
 						<div className='w-full lg:w-80 sm:max-lg:w-48 bg-secondary-background p-6 rounded-2xl'>
 							<h3 className='font-bold text-xl sm:max-lg:hidden'>Bookshelf</h3>
 							<Link
-								href={'/books/create'}
+								href={applicationLinks.createBook}
 								className='w-full py-3 px-3 bg-purple mt-9 sm:max-lg:mt-0 flex items-center justify-center gap-3 font-medium text-lg rounded-lg'
 							>
 								<FaPlus />

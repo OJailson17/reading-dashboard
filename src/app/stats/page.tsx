@@ -15,6 +15,7 @@ import { Footer } from '@/components/Footer';
 import { GeneralStats } from '@/components/GeneralStats';
 import { Header } from '@/components/Header';
 import { SelectStatsYear } from '@/components/SelectStatsYear';
+import { applicationLinks } from '@/utils/constants/links';
 
 import { fetchBooks } from '../actions/fetchBooks';
 import { fetchBooksByYear } from '../actions/fetchBooksByYear';
@@ -47,7 +48,7 @@ export default async function Stats({ searchParams }: StatsRequestProps) {
 	const session = await getSession();
 
 	if (!session) {
-		return redirect('/login');
+		return redirect(applicationLinks.login);
 	}
 
 	// If the tab param doesn't match with one of the options, select all as default
@@ -56,7 +57,7 @@ export default async function Stats({ searchParams }: StatsRequestProps) {
 	const yearsOptions = getSelectYearsOptions();
 
 	if (!searchParams.year || !yearsOptions.includes(Number(searchParams.year))) {
-		redirect(`/stats/?year=${currentYear}`);
+		redirect(`${applicationLinks.stats}/?year=${currentYear}`);
 	}
 
 	// Get all books

@@ -1,6 +1,7 @@
 import { cva } from 'class-variance-authority';
 import Link from 'next/link';
 
+import { applicationLinks } from '@/utils/constants/links';
 import { aclonica } from '@/utils/helpers/fonts';
 
 interface LogoProps {
@@ -21,7 +22,7 @@ const logoVariants = cva(
 
 export const Logo = ({ variant = 'default' }: LogoProps) => {
 	return (
-		<Link href={'/'} className={logoVariants({ variant })}>
+		<Link href={applicationLinks.home} className={logoVariants({ variant })}>
 			Reading Dashboard
 		</Link>
 	);

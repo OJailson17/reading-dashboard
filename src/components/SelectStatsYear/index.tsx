@@ -2,6 +2,8 @@
 
 import { useRouter } from 'next/navigation';
 
+import { applicationLinks } from '@/utils/constants/links';
+
 import {
 	Select,
 	SelectContent,
@@ -32,7 +34,7 @@ export const SelectStatsYear = ({ currentTabYear }: SelectStatsYearProps) => {
 
 	const handleChangeStatsYear = (selectedYear: string) => {
 		if (selectedYear !== currentTabYear) {
-			router.push(`/stats/?year=${selectedYear}`, {
+			router.push(`${applicationLinks.stats}/?year=${selectedYear}`, {
 				scroll: false,
 			});
 		}

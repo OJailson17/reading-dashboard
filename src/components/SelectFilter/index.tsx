@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { MouseEvent } from 'react';
 
 import { Tab } from '@/app/bookshelf/page';
+import { applicationLinks } from '@/utils/constants/links';
 
 import {
 	Select,
@@ -40,11 +41,14 @@ export const SelectTabFilter = ({
 	const handleChangeTab = (selectedTab: string) => {
 		if (selectedTab !== currentTab) {
 			if (query) {
-				return router.push(`/bookshelf/?tab=${selectedTab}&q=${query}`, {
-					scroll: false,
-				});
+				return router.push(
+					`${applicationLinks.bookshelf}/?tab=${selectedTab}&q=${query}`,
+					{
+						scroll: false,
+					},
+				);
 			}
-			router.push(`/bookshelf/?tab=${selectedTab}`, {
+			router.push(`${applicationLinks.bookshelf}/?tab=${selectedTab}`, {
 				scroll: false,
 			});
 		}

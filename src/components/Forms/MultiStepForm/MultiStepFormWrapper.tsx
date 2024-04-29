@@ -3,6 +3,7 @@
 import Link from 'next/link';
 
 import { useMultiForm } from '@/context/MultiFormContext';
+import { applicationLinks } from '@/utils/constants/links';
 
 import { MultiStepForm } from '.';
 
@@ -20,7 +21,7 @@ export const MultiStepFormWrapper = ({
 	return (
 		<div className='flex-1 w-full max-w-3xl bg-secondary-background min-h-80 rounded-2xl px-8 sm:px-9 py-6'>
 			<header className='w-full flex items-center justify-between'>
-				<Link href={'/'} className='font-medium underline'>
+				<Link href={applicationLinks.home} className='font-medium underline'>
 					Cancel
 				</Link>
 				<h3 className='bg-gradient-secondary text-transparent bg-clip-text text-2xl font-bold'>

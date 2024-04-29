@@ -8,6 +8,7 @@ import { BookCreationPreview } from '@/components/BookCreationPreview';
 import { Footer } from '@/components/Footer';
 import { MultiStepFormWrapper } from '@/components/Forms/MultiStepForm/MultiStepFormWrapper';
 import { Header } from '@/components/Header';
+import { applicationLinks } from '@/utils/constants/links';
 
 export const metadata: Metadata = {
 	title: 'Create Book | Reading Dashboard',
@@ -17,7 +18,7 @@ export default async function CreateBook() {
 	const session = await getSession();
 
 	if (!session) {
-		return redirect('/login');
+		return redirect(applicationLinks.login);
 	}
 
 	return (

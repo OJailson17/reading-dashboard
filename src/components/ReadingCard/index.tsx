@@ -22,7 +22,7 @@ export const ReadingCard = async () => {
 		<div className='w-full max-w-[403px] h-96 xs:px-4 sm:px-7 py-6 bg-secondary-background rounded-2xl'>
 			<header className='flex items-end justify-between'>
 				<h2 className='font-bold text-xl'>Currently Reading</h2>
-				{/* <Link href={'/'} className='text-span text-sm hover:underline'>
+				{/* <Link href={applicationLinks.home} className='text-span text-sm hover:underline'>
 					see all
 				</Link> */}
 			</header>

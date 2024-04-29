@@ -17,6 +17,7 @@ import {
 import { toast } from '@/components/ui/use-toast';
 import { useMultiForm } from '@/context/MultiFormContext';
 import { removePriceFormat } from '@/utils';
+import { applicationLinks } from '@/utils/constants/links';
 import { handleFormatDate } from '@/utils/formatting/formatDate';
 import { yupResolver } from '@hookform/resolvers/yup';
 
@@ -88,7 +89,11 @@ export const BookDatesForm = ({ user_database_id }: BookDatesProps) => {
 				});
 
 				setTimeout(() => {
-					router.push(`/bookshelf/?tab=${statusTab[data.status || 'To read']}`);
+					router.push(
+						`${applicationLinks.bookshelf}/?tab=${
+							statusTab[data.status || 'To read']
+						}`,
+					);
 				}, 500);
 			})
 			.catch(err => {

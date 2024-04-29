@@ -6,6 +6,7 @@ import { IoIosSearch } from 'react-icons/io';
 import { IoCloseOutline } from 'react-icons/io5';
 import * as yup from 'yup';
 
+import { applicationLinks } from '@/utils/constants/links';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 const searchFormSchema = yup.object({
@@ -29,12 +30,12 @@ export const BookshelfSearch = () => {
 		// activeElement.blur();
 
 		if (!query || query.trim() === '') {
-			return router.push(`/bookshelf/?tab=all`, {
+			return router.push(`${applicationLinks.bookshelf}/?tab=all`, {
 				scroll: false,
 			});
 		}
 
-		return router.push(`/bookshelf/?tab=all&q=${query}`, {
+		return router.push(`${applicationLinks.bookshelf}/?tab=all&q=${query}`, {
 			scroll: false,
 		});
 	};
@@ -42,7 +43,7 @@ export const BookshelfSearch = () => {
 	const handleResetSearch = () => {
 		resetField('query');
 
-		router.push(`/bookshelf/?tab=all`, {
+		router.push(`${applicationLinks.bookshelf}/?tab=all`, {
 			scroll: false,
 		});
 	};

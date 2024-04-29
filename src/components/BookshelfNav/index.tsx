@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { MouseEvent } from 'react';
 
 import { Tab } from '@/app/bookshelf/page';
+import { applicationLinks } from '@/utils/constants/links';
 
 interface Amounts {
 	amountOfAllBooks: number;
@@ -36,12 +37,15 @@ export const BookshelfNav = ({
 
 		if (clickedTab && clickedTab !== currentTab) {
 			if (query) {
-				return router.push(`/bookshelf/?tab=${clickedTab}&q=${query}`, {
-					scroll: false,
-				});
+				return router.push(
+					`${applicationLinks.bookshelf}/?tab=${clickedTab}&q=${query}`,
+					{
+						scroll: false,
+					},
+				);
 			}
 
-			return router.push(`/bookshelf/?tab=${clickedTab}`, {
+			return router.push(`${applicationLinks.bookshelf}/?tab=${clickedTab}`, {
 				scroll: false,
 			});
 		}

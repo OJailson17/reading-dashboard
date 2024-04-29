@@ -2,6 +2,7 @@ import Link from 'next/link';
 
 import { fetchBooks } from '@/app/actions/fetchBooks';
 import { getSession } from '@/app/actions/getSession';
+import { applicationLinks } from '@/utils/constants/links';
 
 import { BookDialog } from '../BookDialog';
 import { Dialog } from '../ui/dialog';
@@ -20,7 +21,7 @@ export const TBRCard = async () => {
 			<header className='flex items-center justify-between'>
 				<h2 className='font-bold text-xl'>Want to Read</h2>
 				<Link
-					href={'/bookshelf/?tab=tbr'}
+					href={`${applicationLinks.bookshelf}/?tab=tbr`}
 					className='text-span text-sm hover:underline'
 				>
 					see all

@@ -3,6 +3,7 @@ import Link from 'next/link';
 
 import { fetchBooks } from '@/app/actions/fetchBooks';
 import { getSession } from '@/app/actions/getSession';
+import { applicationLinks } from '@/utils/constants/links';
 
 import { BookDialog } from '../BookDialog';
 import { Dialog, DialogTrigger } from '../ui/dialog';
@@ -22,7 +23,7 @@ export const FinishedCard = async () => {
 			<header className='flex items-center justify-between'>
 				<h2 className='font-bold text-xl'>Just Finished</h2>
 				<Link
-					href={'/bookshelf/?tab=finished'}
+					href={`${applicationLinks.bookshelf}/?tab=finished`}
 					className='text-span text-sm hover:underline'
 				>
 					see all
