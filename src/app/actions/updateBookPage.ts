@@ -22,5 +22,4 @@ export const updateBookPage = async ({
 		.catch(err => console.log(err));
 
 	revalidateTag('fetch-books');
-	revalidateTag('fetch-book-stats');
 };

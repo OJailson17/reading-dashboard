@@ -97,6 +97,9 @@ export default async function Bookshelf({
 		},
 	};
 
+	// used for show the year on stas card
+	const currentYear = new Date().getFullYear();
+
 	return (
 		<Suspense fallback={<LoadingScreen />}>
 			<Header />
@@ -105,19 +108,25 @@ export default async function Bookshelf({
 				<section className='w-full sm:h-48 flex items-center justify-center gap-6 flex-col sm:flex-row'>
 					{/* Stats Link Card */}
 					<div className='w-full sm:max-w-80 h-full p-6 bg-secondary-background rounded-2xl relative opacity-90'>
-						<div className='w-full h-full bg-purple/90 absolute left-0 top-0 rounded-2xl flex items-center justify-center  '>
-							<p className='text-white font-bold text-lg'>Coming soon</p>
-						</div>
 						<p className='font-medium text-span'>Reading Stats</p>
 
 						<div className='w-full flex items-center justify-start max-sm:gap-16 sm:justify-between mt-8'>
-							<StatisticSvg />
+							<div className='w-full max-w-[75px] h-[71px] rounded-md bg-gradient-secondary flex flex-col items-center justify-center gap-2'>
+								<span className='text-background font-medium'>
+									{currentYear}
+								</span>
+
+								<StatisticSvg />
+							</div>
 
 							<div className='flex flex-col items-center justify-center gap-4'>
 								<p className='text-sm font-medium'>Reading over the year</p>
-								<button className='py-2 px-4 rounded-md border border-purple flex items-center justify-center'>
+								<Link
+									href='/stats'
+									className='py-2 px-4 rounded-md border border-purple flex items-center justify-center'
+								>
 									View Stats
-								</button>
+								</Link>
 							</div>
 						</div>
 					</div>
