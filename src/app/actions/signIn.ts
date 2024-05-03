@@ -19,8 +19,10 @@ type ResponseError = {
 };
 
 export const onSignIn = async (username: string) => {
+	const databaseId = process.env.NOTION_USERS_DATABASE_ID;
+
 	const response = await fetch(
-		`${process.env.API_BASE_URL}/auth/?username=${username}`,
+		`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/?username=${username}`,
 		{
 			next: {
 				revalidate: false,

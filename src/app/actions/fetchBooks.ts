@@ -119,9 +119,9 @@ export const fetchBooks = cache(
 	async ({ database_id, query }: UpdateFetchBooksProps) => {
 		try {
 			const response = await fetch(
-				`${process.env.API_BASE_URL}/book?db=${database_id}&period=${
-					query ? 'any_time' : 'this_year'
-				}`,
+				`${
+					process.env.NEXT_PUBLIC_API_BASE_URL
+				}/book?db=${database_id}&period=${query ? 'any_time' : 'this_year'}`,
 				{
 					next: {
 						revalidate: false,

@@ -13,7 +13,7 @@ export const fetchBooksByYear = cache(
 	async ({ database_id, year }: UpdateFetchBooksProps) => {
 		try {
 			const response = await fetch(
-				`${process.env.API_BASE_URL}/book/stats?db=${database_id}&year=${year}`,
+				`${process.env.NEXT_PUBLIC_API_BASE_URL}/book/stats?db=${database_id}&year=${year}`,
 				{
 					next: {
 						revalidate: false,

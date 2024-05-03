@@ -67,27 +67,48 @@ export const UpdateReadingDialog = ({ book }: UpdateReadingDialog) => {
 		activeElement.blur();
 
 		if (status === 'To read') {
-			return await updateBookStatus({
+			const updatedStatus = await updateBookStatus({
 				status: 'To read',
 				book,
 			});
+
+			if (updatedStatus?.error) {
+				return toast({
+					description: updatedStatus.error,
+					variant: 'destructive',
+				});
+			}
 		}
 
 		// define as finished if status is finished or current page is more than total pages
 		if (status === 'Finished' || current_page >= book.total_pages) {
-			return await updateBookStatus({
+			const updatedStatus = await updateBookStatus({
 				status: 'Finished',
 				book: {
 					...book,
 					current_page: book.total_pages,
 				},
 			});
+
+			if (updatedStatus?.error) {
+				return toast({
+					description: updatedStatus.error,
+					variant: 'destructive',
+				});
+			}
 		}
 
-		await updateBookPage({
+		const pageUpdated = await updateBookPage({
 			book_id: book.id,
 			current_page: current_page || book.current_page,
 		});
+
+		if (pageUpdated?.error) {
+			return toast({
+				description: pageUpdated.error,
+				variant: 'destructive',
+			});
+		}
 
 		toast({
 			description: 'Book updated!',

@@ -1,6 +1,8 @@
+import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { notion } from '@/lib/notion';
+import { encrypt } from '@/utils/auth/encrypt';
 
 type TitleProperty = {
 	plain_text: string;
@@ -53,6 +55,21 @@ export async function GET(req: NextRequest, res: NextResponse) {
 		// Get the database id
 		const user_database_id =
 			getUsername.properties.database_id.rich_text[0].plain_text;
+
+		const today = Date.now();
+		const oneDay = 60 * 60 * 24 * 1000;
+
+		const encryptedSession = await encrypt({
+			database_id: user_database_id,
+		});
+
+		cookies().set({
+			name: 'session',
+			value: encryptedSession,
+			httpOnly: true,
+			path: '/',
+			expires: today + oneDay,
+		});
 
 		const user = {
 			username,

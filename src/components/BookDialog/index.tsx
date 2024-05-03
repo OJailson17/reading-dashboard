@@ -61,35 +61,63 @@ export const BookDialog = ({ type = 'To read', book }: BookDialogProps) => {
 
 			// if it's reading set started date to today
 			if (bookStatus === 'To read') {
-				await updateBookStatus({
+				const updatedStatus = await updateBookStatus({
 					status: 'To read',
 					book,
 				});
+
+				if (updatedStatus?.error) {
+					setIsBookStatusUpdating(false);
+
+					return toast({
+						description: updatedStatus.error,
+						variant: 'destructive',
+					});
+				}
 			}
 
 			// if it's reading set started date to today
 			if (bookStatus === 'Reading') {
-				await updateBookStatus({
+				const updatedStatus = await updateBookStatus({
 					status: 'Reading',
 					book,
 				});
+
+				if (updatedStatus?.error) {
+					setIsBookStatusUpdating(false);
+
+					return toast({
+						description: updatedStatus.error,
+						variant: 'destructive',
+					});
+				}
 			}
 
 			// if it's Finished set Finished date to today
 			if (bookStatus === 'Finished') {
-				await updateBookStatus({
+				const updatedStatus = await updateBookStatus({
 					status: 'Finished',
 					book: {
 						...book,
 						current_page: book.total_pages,
 					},
 				});
+
+				if (updatedStatus?.error) {
+					setIsBookStatusUpdating(false);
+
+					return toast({
+						description: updatedStatus.error,
+						variant: 'destructive',
+					});
+				}
 			}
 
 			toast({
 				description: 'Book updated!',
 				variant: 'success',
 			});
+
 			setIsBookStatusUpdating(false);
 		}
 	};
@@ -105,13 +133,20 @@ export const BookDialog = ({ type = 'To read', book }: BookDialogProps) => {
 			) {
 				setIsDateUpdating(true);
 
-				await updateBookDates({
+				const bookUpdated = await updateBookDates({
 					book_id: book.id,
 					started_date: handleFormatDate(startedDate, 'utc'),
 					finished_date: handleFormatDate(finishedDate, 'utc'),
 				});
 
 				setIsDateUpdating(false);
+
+				if (bookUpdated?.error) {
+					return toast({
+						description: bookUpdated.error,
+						variant: 'destructive',
+					});
+				}
 
 				toast({
 					description: 'Book updated!',

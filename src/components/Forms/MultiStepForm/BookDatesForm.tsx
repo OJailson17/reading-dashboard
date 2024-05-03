@@ -75,8 +75,9 @@ export const BookDatesForm = ({ user_database_id }: BookDatesProps) => {
 			database_id: user_database_id,
 		})
 			.then(response => {
-				if (!response.success) {
+				if (response?.error) {
 					console.log(response);
+
 					return toast({
 						description: 'Error: Book not created',
 						variant: 'destructive',
@@ -99,7 +100,7 @@ export const BookDatesForm = ({ user_database_id }: BookDatesProps) => {
 			.catch(err => {
 				console.log(err);
 				return toast({
-					description: 'Error: Book not created',
+					description: err,
 					variant: 'destructive',
 				});
 			});
