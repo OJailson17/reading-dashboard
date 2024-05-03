@@ -24,6 +24,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 	}
 
 	revalidateTag('fetch-books');
+	revalidateTag('fetch-book-stats');
 	revalidateTag('sign-in');
 
 	return NextResponse.json(
