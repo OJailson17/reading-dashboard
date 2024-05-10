@@ -42,9 +42,11 @@ export const LoginForm = () => {
 	const router = useRouter();
 
 	const handleLogin = async ({ username }: InputFormDataProps) => {
+		const formattedUsername = username.trim().toLowerCase();
+
 		try {
 			const signInResponse = await fetch(
-				`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/?username=${username}`,
+				`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/?username=${formattedUsername}`,
 				{
 					next: {
 						revalidate: false,
