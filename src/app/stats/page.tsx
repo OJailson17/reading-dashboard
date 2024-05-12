@@ -16,9 +16,8 @@ import { GeneralStats } from '@/components/GeneralStats';
 import { Header } from '@/components/Header';
 import { SelectStatsYear } from '@/components/SelectStatsYear';
 import { applicationLinks } from '@/utils/constants/links';
+import { formatBooks } from '@/utils/formatting/formatBook';
 
-import { fetchBooks } from '../actions/fetchBooks';
-import { fetchBooksByYear } from '../actions/fetchBooksByYear';
 import { getSession } from '../actions/getSession';
 import LoadingScreen from '../loading';
 
@@ -60,12 +59,34 @@ export default async function Stats({ searchParams }: StatsRequestProps) {
 		redirect(`${applicationLinks.stats}/?year=${currentYear}`);
 	}
 
+	const fetchBooksByYear = async () => {
+		try {
+			const response = await fetch(
+				`${process.env.NEXT_PUBLIC_API_BASE_URL}/book/stats?db=${session.database_id}&year=${searchParams.year}`,
+				{
+					next: {
+						revalidate: false,
+						tags: ['fetch-book-stats'],
+					},
+				},
+			);
+
+			if (!response.ok) {
+				throw new Error('Failed to fetch data');
+			}
+
+			const books = await response.json();
+
+			const formattedBooks = formatBooks(books);
+
+			return formattedBooks;
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
 	// Get all books
-	const books =
-		(await fetchBooksByYear({
-			database_id: session.database_id,
-			year: searchParams.year,
-		})) || [];
+	const books = (await fetchBooksByYear()) || [];
 
 	// Filter books for each status
 	const readingBooks = books.filter(book => book.status === 'Reading');

@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import { Suspense } from 'react';
+import { Suspense, cache } from 'react';
 import { FaPlus } from 'react-icons/fa6';
 
 import { BookShelfTable } from '@/components/BookShelfTable';
@@ -14,8 +14,8 @@ import { Header } from '@/components/Header';
 import { SelectTabFilter } from '@/components/SelectFilter';
 import { StatisticSvg } from '@/components/StatsIcon';
 import { applicationLinks } from '@/utils/constants/links';
+import { formatBooks } from '@/utils/formatting/formatBook';
 
-import { fetchBooks } from '../actions/fetchBooks';
 import { getSession } from '../actions/getSession';
 import LoadingScreen from '../loading';
 
@@ -48,12 +48,49 @@ export default async function Bookshelf({
 		redirect(`${applicationLinks.bookshelf}/?tab=all`);
 	}
 
-	// Get all books
-	const books =
-		(await fetchBooks({
-			database_id: session.database_id,
-			query: searchParams.q,
-		})) || [];
+	const fetchBooks = cache(async () => {
+		try {
+			const response = await fetch(
+				`${process.env.NEXT_PUBLIC_API_BASE_URL}/book?db=${
+					session.database_id
+				}&period=${searchParams.q ? 'any_time' : 'this_year'}`,
+				{
+					next: {
+						revalidate: false,
+						tags: ['fetch-books'],
+					},
+				},
+			);
+
+			if (!response.ok) {
+				throw new Error('Failed to fetch data');
+			}
+
+			const bookResponse = await response.json();
+
+			const formattedBooks = formatBooks(bookResponse);
+
+			if (searchParams.q) {
+				const findBooks = formattedBooks.filter(book =>
+					book.title
+						.toLowerCase()
+						.includes(String(searchParams.q).toLowerCase()),
+				);
+
+				if (findBooks.length <= 0) {
+					return [];
+				}
+
+				return findBooks;
+			}
+
+			return formattedBooks;
+		} catch (err) {
+			console.log(err);
+		}
+	});
+
+	const books = (await fetchBooks()) || [];
 
 	// Filter books for each status
 	const toReadBooks = books.filter(book => book.status === 'To read');

@@ -1,19 +1,17 @@
 import Link from 'next/link';
 
-import { fetchBooks } from '@/app/actions/fetchBooks';
-import { getSession } from '@/app/actions/getSession';
+import { Book } from '@/@types/book';
 import { applicationLinks } from '@/utils/constants/links';
 
 import { BookDialog } from '../BookDialog';
 import { Dialog } from '../ui/dialog';
 import { TBRBookStats } from './TBRBookStats';
 
-export const TBRCard = async () => {
-	const session = await getSession();
+interface TBRCardProps {
+	books: Book[];
+}
 
-	const books =
-		(await fetchBooks({ database_id: session?.database_id || '' })) || [];
-
+export const TBRCard = async ({ books }: TBRCardProps) => {
 	const TBRBooks = books.filter(book => book.status === 'To read').slice(0, 5);
 
 	return (

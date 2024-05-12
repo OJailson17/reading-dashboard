@@ -1,19 +1,18 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { fetchBooks } from '@/app/actions/fetchBooks';
+import { Book } from '@/@types/book';
 import { getSession } from '@/app/actions/getSession';
 import { applicationLinks } from '@/utils/constants/links';
 
 import { BookDialog } from '../BookDialog';
 import { Dialog, DialogTrigger } from '../ui/dialog';
 
-export const FinishedCard = async () => {
-	const session = await getSession();
+interface FinishedCardProps {
+	books: Book[];
+}
 
-	const books =
-		(await fetchBooks({ database_id: session?.database_id || '' })) || [];
-
+export const FinishedCard = async ({ books }: FinishedCardProps) => {
 	const finishedBooks = books
 		.filter(book => book.status === 'Finished')
 		.slice(0, 5);

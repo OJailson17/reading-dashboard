@@ -1,7 +1,3 @@
-'use server';
-
-import { cache } from 'react';
-
 import { Book, BookLanguages, BookStatus } from '@/@types/book';
 
 export type BookProperties = {
@@ -81,11 +77,6 @@ type NotionBookProps = {
 	properties: BookProperties;
 };
 
-type UpdateFetchBooksProps = {
-	database_id: string;
-	query?: string;
-};
-
 export const formatBooks = (books: NotionBookProps[]): Book[] => {
 	const formattedBooks = books.map(book => {
 		const properties = book.properties;
@@ -114,45 +105,3 @@ export const formatBooks = (books: NotionBookProps[]): Book[] => {
 
 	return formattedBooks;
 };
-
-export const fetchBooks = cache(
-	async ({ database_id, query }: UpdateFetchBooksProps) => {
-		try {
-			const response = await fetch(
-				`${
-					process.env.NEXT_PUBLIC_API_BASE_URL
-				}/book?db=${database_id}&period=${query ? 'any_time' : 'this_year'}`,
-				{
-					next: {
-						revalidate: false,
-						tags: ['fetch-books'],
-					},
-				},
-			);
-
-			if (!response.ok) {
-				throw new Error('Failed to fetch data');
-			}
-
-			const books = await response.json();
-
-			const formattedBooks = formatBooks(books);
-
-			if (query) {
-				const findBooks = formattedBooks.filter(book =>
-					book.title.toLowerCase().includes(query.toLowerCase()),
-				);
-
-				if (findBooks.length <= 0) {
-					return [];
-				}
-
-				return findBooks;
-			}
-
-			return formattedBooks;
-		} catch (err) {
-			console.log(err);
-		}
-	},
-);

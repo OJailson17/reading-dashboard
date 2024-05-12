@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
 import { GiBookshelf } from 'react-icons/gi';
 
+import { Book } from '@/@types/book';
 import { GenreStatisticsChart } from '@/components/Charts/GenreStatisticChart';
 import { YearlyChart } from '@/components/Charts/YearlyChart';
 import { FinishedCard } from '@/components/FinishedCard';
@@ -15,8 +16,8 @@ import { ReadingCard } from '@/components/ReadingCard';
 import { TBRCard } from '@/components/TBRCard';
 import { finishedBooksFromThisMonth } from '@/utils';
 import { applicationLinks } from '@/utils/constants/links';
+import { formatBooks } from '@/utils/formatting/formatBook';
 
-import { fetchBooks } from './actions/fetchBooks';
 import { getSession } from './actions/getSession';
 import LoadingScreen from './loading';
 
@@ -27,7 +28,23 @@ export default async function Home() {
 		return redirect(applicationLinks.login);
 	}
 
-	const books = (await fetchBooks({ database_id: session.database_id })) || [];
+	const response = await fetch(
+		`${process.env.NEXT_PUBLIC_API_BASE_URL}/book?db=${session.database_id}&period=this_year`,
+		{
+			next: {
+				revalidate: false,
+				tags: ['fetch-books'],
+			},
+		},
+	);
+
+	if (!response.ok) {
+		throw new Error('Failed to fetch data');
+	}
+
+	const bookResponse = await response.json();
+
+	const books = formatBooks(bookResponse);
 
 	const finishedBooks = books.filter(book => book.status === 'Finished');
 
@@ -57,12 +74,12 @@ export default async function Home() {
 						card='year'
 						books={{ current: finishedBooks.length }}
 					/>
-					<ReadingCard />
-					<TBRCard />
+					<ReadingCard books={books} />
+					<TBRCard books={books} />
 					<YearlyChart books={books} />
 				</section>
 				<section className='w-full gap-6 lg:max-[1200px]:gap-4 xs:flex xs:flex-col sm:max-[1023px]:grid sm:max-[1023px]:grid-cols-2 xl:w-max-max flex-1'>
-					<FinishedCard />
+					<FinishedCard books={books} />
 					<GoalsCard />
 					<GenreStatisticsChart books={finishedBooks} />
 				</section>
