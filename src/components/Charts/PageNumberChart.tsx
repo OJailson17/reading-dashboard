@@ -94,13 +94,27 @@ const resetPageNumberChart = (data: BooksPagesDataStructure[]) => {
 export const PageNumberChart = ({ books }: PageNumberChartProps) => {
 	const pageNumberChartData = calculateBooksPages(books);
 
+	const itHasBooks = books.length > 0;
+
 	return (
 		<div className='w-full sm:max-w-80 min-h-64 xs:px-4 sm:px-7 pt-6 bg-secondary-background rounded-2xl'>
 			<h2 className='font-bold text-xl'>Page Number</h2>
 
 			{/* chart */}
-			<div className='w-full h-64 flex mx-auto'>
-				<ResponsiveContainer width='100%' height='100%'>
+			<div className='w-full h-64 flex mx-auto relative'>
+				{!itHasBooks && (
+					<div className='w-full h-full flex items-center justify-center absolute z-10'>
+						<p className='text-center font-medium text-lg text-white'>
+							Not enough data!
+						</p>
+					</div>
+				)}
+
+				<ResponsiveContainer
+					width='100%'
+					height='100%'
+					style={{ opacity: !itHasBooks ? '20%' : '100%' }}
+				>
 					<RadarChart
 						cx='50%'
 						cy='50%'

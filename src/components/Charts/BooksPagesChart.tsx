@@ -84,12 +84,26 @@ export const BooksPagesChart = ({ books, tabYear }: BooksPagesChartsProps) => {
 		error(...args);
 	};
 
+	const itHasBooks = books.length > 0;
+
 	return (
 		<div className='w-full flex-1 xs:px-4 sm:px-7 pt-6 pb-4 rounded-2xl bg-secondary-background'>
 			<h2 className='font-bold text-xl'>Amount of Books and Page</h2>
 
-			<div className='w-full h-52 mt-9'>
-				<ResponsiveContainer width='100%' height='100%'>
+			<div className='w-full h-52 mt-9 relative'>
+				{!itHasBooks && (
+					<div className='w-full h-full flex items-center justify-center absolute z-10'>
+						<p className='text-center font-medium text-lg text-white'>
+							Not enough data!
+						</p>
+					</div>
+				)}
+
+				<ResponsiveContainer
+					width='100%'
+					height='100%'
+					style={{ opacity: !itHasBooks ? '20%' : '100%' }}
+				>
 					<LineChart
 						width={500}
 						height={300}

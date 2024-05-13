@@ -26,7 +26,9 @@ const getSelectYearsOptions = () => {
 		years.push(year);
 	}
 
-	return years;
+	const yearsInDescendingOrder = years.sort((a, b) => b - a);
+
+	return yearsInDescendingOrder;
 };
 
 export const SelectStatsYear = ({ currentTabYear }: SelectStatsYearProps) => {

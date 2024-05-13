@@ -78,6 +78,8 @@ export const YearlyChart = ({ books }: YearlyChartProps) => {
 		error(...args);
 	};
 
+	const itHasBooks = books.length > 0;
+
 	return (
 		<div className='w-full sm:col-span-2 h-80 px-4 xl:px-7 py-6 bg-secondary-background rounded-2xl'>
 			<header className='flex items-center justify-between'>
@@ -97,8 +99,20 @@ export const YearlyChart = ({ books }: YearlyChartProps) => {
 				<span className='text-span text-sm'>2024</span>
 			</header>
 
-			<main className='w-full h-52 mt-9'>
-				<ResponsiveContainer width='100%' height='100%'>
+			<main className='w-full h-52 mt-9 relative'>
+				{!itHasBooks && (
+					<div className='w-full h-full flex items-center justify-center absolute z-10'>
+						<p className='text-center font-medium text-lg text-white'>
+							Not enough data!
+						</p>
+					</div>
+				)}
+
+				<ResponsiveContainer
+					width='100%'
+					height='100%'
+					style={{ opacity: !itHasBooks ? '20%' : '100%' }}
+				>
 					<LineChart
 						width={500}
 						height={300}
