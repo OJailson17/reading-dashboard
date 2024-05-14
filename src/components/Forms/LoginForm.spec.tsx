@@ -15,6 +15,17 @@ vi.mock('next/font/google', () => ({
   }),
 }));
 
+// vi.mock('next/navigation', () => ({
+// 	useRouter() {
+// 		return {
+// 			route: '/',
+// 			pathname: '',
+// 			query: '',
+// 			asPath: '',
+// 		};
+// 	},
+// }));
+
 vi.mock('next/navigation', () => ({
   useRouter: () => ({
     push: vi.fn(),
