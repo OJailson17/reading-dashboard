@@ -10,86 +10,86 @@ import { calculatePercentage, storageStrings } from '@/utils';
 import { CircularProgressBar } from '../CircularProgressBar';
 
 interface Book {
-	current: number;
+  current: number;
 }
 
 interface FinishedStatisticCardProps {
-	card?: 'month' | 'year';
-	books: Book;
+  card?: 'month' | 'year';
+  books: Book;
 }
 
 interface Stats {
-	amountOfPagesRead: number;
-	averagesPages: number;
-	averageDaysToFinish: number;
-	finishedBooks: number;
+  amountOfPagesRead: number;
+  averagesPages: number;
+  averageDaysToFinish: number;
+  finishedBooks: number;
 }
 
 export const FinishedStatisticCard = ({
-	card = 'month',
-	books,
+  card = 'month',
+  books,
 }: FinishedStatisticCardProps) => {
-	const searchParams = useSearchParams();
-	const query = searchParams.get('q');
+  const searchParams = useSearchParams();
+  const query = searchParams.get('q');
 
-	const [bookStats, setBookStats] = useState({
-		goal: '0',
-		current: books.current,
-	});
-	const [goalPercentage, setGoalPercentage] = useState(0);
+  const [bookStats, setBookStats] = useState({
+    goal: '0',
+    current: books.current,
+  });
+  const [goalPercentage, setGoalPercentage] = useState(0);
 
-	const { bookGoals } = useGoal();
+  const { bookGoals } = useGoal();
 
-	useEffect(() => {
-		if (card === 'month') {
-			setBookStats({ ...bookStats, goal: bookGoals.month });
-		} else {
-			// if it's year card and it has search query, get the goals from local storage
-			const getStorageStats = localStorage.getItem(storageStrings.stats);
+  useEffect(() => {
+    if (card === 'month') {
+      setBookStats({ ...bookStats, goal: bookGoals.month });
+    } else {
+      // if it's year card and it has search query, get the goals from local storage
+      const getStorageStats = localStorage.getItem(storageStrings.stats);
 
-			if (query && getStorageStats) {
-				const convertStats = JSON.parse(getStorageStats) as Stats;
+      if (query && getStorageStats) {
+        const convertStats = JSON.parse(getStorageStats) as Stats;
 
-				return setBookStats({
-					goal: bookGoals.year,
-					current: convertStats.finishedBooks,
-				});
-			}
+        return setBookStats({
+          goal: bookGoals.year,
+          current: convertStats.finishedBooks,
+        });
+      }
 
-			setBookStats({ goal: bookGoals.year, current: books.current });
-		}
-	}, [bookGoals, books, card]);
+      setBookStats({ goal: bookGoals.year, current: books.current });
+    }
+  }, [bookGoals, books, card]);
 
-	useEffect(() => {
-		if (Number(bookStats.goal) <= 0) {
-			return setGoalPercentage(0);
-		}
+  useEffect(() => {
+    if (Number(bookStats.goal) <= 0) {
+      return setGoalPercentage(0);
+    }
 
-		const finishedPercentage = calculatePercentage({
-			total: Number(bookStats.goal),
-			value: bookStats.current,
-		});
+    const finishedPercentage = calculatePercentage({
+      total: Number(bookStats.goal),
+      value: bookStats.current,
+    });
 
-		setGoalPercentage(finishedPercentage);
-	}, [bookStats]);
+    setGoalPercentage(finishedPercentage);
+  }, [bookStats]);
 
-	return (
-		<div className='max-w-[403px] h-48 px-8 lg:px-3 xl:px-8 bg-secondary-background flex items-center justify-center gap-6 rounded-2xl'>
-			<CircularProgressBar bar_percentage={goalPercentage} />
+  return (
+    <div className="flex h-48 max-w-[403px] items-center justify-center gap-6 rounded-2xl bg-secondary-background px-8 lg:px-3 xl:px-8">
+      <CircularProgressBar bar_percentage={goalPercentage} />
 
-			<div className='text-span flex-1 lg:text-sm xl:text-base'>
-				<p>
-					<span className='font-bold'>{bookStats.current}</span>/
-					{bookStats.goal}
-				</p>
+      <div className="flex-1 text-span lg:text-sm xl:text-base">
+        <p>
+          <span className="font-bold">{bookStats.current}</span>/
+          {bookStats.goal}
+        </p>
 
-				{card === 'month' && <p>books read this month</p>}
-				{card === 'year' && (
-					<p>
-						books completed to <span className='font-bold'>year</span> challenge
-					</p>
-				)}
-			</div>
-		</div>
-	);
+        {card === 'month' && <p>books read this month</p>}
+        {card === 'year' && (
+          <p>
+            books completed to <span className="font-bold">year</span> challenge
+          </p>
+        )}
+      </div>
+    </div>
+  );
 };

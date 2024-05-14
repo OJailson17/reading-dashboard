@@ -9,128 +9,128 @@ import { calculateAmountOfRatingStars } from '@/utils';
 import { DialogTrigger } from '../ui/dialog';
 
 interface BookTableRowProps {
-	book: Book;
+  book: Book;
 }
 
 const bookStatusColor = {
-	'To read': 'border-placeholder',
-	Reading: 'border-yellow-500',
-	Finished: 'border-light-green',
+  'To read': 'border-placeholder',
+  Reading: 'border-yellow-500',
+  Finished: 'border-light-green',
 };
 
 export const BookTableRow = ({ book }: BookTableRowProps) => {
-	const getFirstTwoGenres = book.genres.filter((_, i) => i <= 1);
+  const getFirstTwoGenres = book.genres.filter((_, i) => i <= 1);
 
-	let startedYear: string | null = null;
-	let finishedYear: string | null = null;
+  let startedYear: string | null = null;
+  let finishedYear: string | null = null;
 
-	if (book.started_date) {
-		startedYear = book.started_date.split('-')[0];
-	}
+  if (book.started_date) {
+    startedYear = book.started_date.split('-')[0];
+  }
 
-	if (book.finished_date) {
-		finishedYear = book.finished_date.split('-')[0];
-	}
+  if (book.finished_date) {
+    finishedYear = book.finished_date.split('-')[0];
+  }
 
-	const { amountOfGrayStars, amountOfYellowStars } =
-		calculateAmountOfRatingStars(
-			book.review && book.review !== 'none' ? book.review.length : 0,
-		);
+  const { amountOfGrayStars, amountOfYellowStars } =
+    calculateAmountOfRatingStars(
+      book.review && book.review !== 'none' ? book.review.length : 0,
+    );
 
-	return (
-		<tr>
-			{/* Details */}
-			<td>
-				<DialogTrigger className='flex items-center gap-4'>
-					{book.cover_url !== '' && (
-						<div className='min-w-16 h-24 rounded-md relative'>
-							<Image
-								src={book.cover_url}
-								alt={`cover`}
-								fill
-								priority
-								className='object-cover rounded-md'
-							/>
-						</div>
-					)}
-					{book.cover_url === '' && (
-						<div className='w-16 h-24 bg-background rounded-md flex items-center justify-center break-words text-center text-xs overflow-y-hidden p-px'>
-							{book.title}
-						</div>
-					)}
+  return (
+    <tr>
+      {/* Details */}
+      <td>
+        <DialogTrigger className="flex items-center gap-4">
+          {book.cover_url !== '' && (
+            <div className="relative h-24 min-w-16 rounded-md">
+              <Image
+                src={book.cover_url}
+                alt={`cover`}
+                fill
+                priority
+                className="rounded-md object-cover"
+              />
+            </div>
+          )}
+          {book.cover_url === '' && (
+            <div className="flex h-24 w-16 items-center justify-center overflow-y-hidden break-words rounded-md bg-background p-px text-center text-xs">
+              {book.title}
+            </div>
+          )}
 
-					<div className='flex flex-col gap-3'>
-						<div className='max-w-60 text-left'>
-							<p className='font-bold break-words ellipsis-title'>
-								{book.title}
-							</p>
-							<span className='font-bold text-span text-xs'>{book.author}</span>
-						</div>
+          <div className="flex flex-col gap-3">
+            <div className="max-w-60 text-left">
+              <p className="ellipsis-title break-words font-bold">
+                {book.title}
+              </p>
+              <span className="text-xs font-bold text-span">{book.author}</span>
+            </div>
 
-						<div className='flex items-center gap-1'>
-							{[...new Array(amountOfYellowStars)].map((_, i) => (
-								<IoStar key={i} fill='yellow' />
-							))}
-							{[...new Array(amountOfGrayStars)].map((_, i) => (
-								<IoStar key={i} fill='gray' />
-							))}
-						</div>
-					</div>
-				</DialogTrigger>
-			</td>
+            <div className="flex items-center gap-1">
+              {[...new Array(amountOfYellowStars)].map((_, i) => (
+                <IoStar key={i} fill="yellow" />
+              ))}
+              {[...new Array(amountOfGrayStars)].map((_, i) => (
+                <IoStar key={i} fill="gray" />
+              ))}
+            </div>
+          </div>
+        </DialogTrigger>
+      </td>
 
-			{/* Status */}
-			<td className='max-sm:hidden'>
-				<div
-					className={`font-light max-h-6 text-white border-[1.5px] ${
-						bookStatusColor[book.status]
-					} w-[90%] mx-auto max-w-40 px-2 rounded-md text-center text-sm py-3 flex items-center justify-center`}
-				>
-					{book.status}
-				</div>
-			</td>
+      {/* Status */}
+      <td className="max-sm:hidden">
+        <div
+          className={`max-h-6 border-[1.5px] font-light text-white ${
+            bookStatusColor[book.status]
+          } mx-auto flex w-[90%] max-w-40 items-center justify-center rounded-md px-2 py-3 text-center text-sm`}
+        >
+          {book.status}
+        </div>
+      </td>
 
-			{/* Genres */}
-			<td className='space-y-2 max-sm:hidden'>
-				{getFirstTwoGenres.map(genre => (
-					<div
-						key={genre.name}
-						className='font-light max-h-6 text-white border-[1.5px] border-purple w-[90%] mx-auto max-w-40 px-2 rounded-md text-center text-sm py-3 flex items-center justify-center'
-					>
-						{genre.name}
-					</div>
-				))}
-			</td>
+      {/* Genres */}
+      <td className="space-y-2 max-sm:hidden">
+        {getFirstTwoGenres.map((genre) => (
+          <div
+            key={genre.name}
+            className="mx-auto flex max-h-6 w-[90%] max-w-40 items-center justify-center rounded-md border-[1.5px] border-purple px-2 py-3 text-center text-sm font-light text-white"
+          >
+            {genre.name}
+          </div>
+        ))}
+      </td>
 
-			{/* Started */}
-			<td className='max-sm:hidden'>
-				<div className='text-center'>
-					<p className='font-bold text-xs'>
-						{book.started_date
-							? format(
-									new Date(handleRemoveZeroDigit(book.started_date)),
-									'MMM dd',
-							  )
-							: 'Not Set'}
-					</p>
-					<span className='font-bold text-span text-xs'>{startedYear}</span>
-				</div>
-			</td>
+      {/* Started */}
+      <td className="max-sm:hidden">
+        <div className="text-center">
+          <p className="text-xs font-bold">
+            {book.started_date
+              ? format(
+                  new Date(handleRemoveZeroDigit(book.started_date)),
+                  'MMM dd',
+                )
+              : 'Not Set'}
+          </p>
+          <span className="text-xs font-bold text-span">{startedYear}</span>
+        </div>
+      </td>
 
-			{/* Finished */}
-			<td className='max-sm:hidden'>
-				<div className='text-center'>
-					<p className='font-bold text-xs'>
-						{book.finished_date
-							? format(
-									new Date(handleRemoveZeroDigit(book.finished_date)),
-									'MMM dd',
-							  )
-							: 'Not Set'}
-					</p>
-					<span className='font-bold text-span text-xs'>{finishedYear}</span>
-				</div>
-			</td>
-		</tr>
-	);
+      {/* Finished */}
+      <td className="max-sm:hidden">
+        <div className="text-center">
+          <p className="text-xs font-bold">
+            {book.finished_date
+              ? format(
+                  new Date(handleRemoveZeroDigit(book.finished_date)),
+                  'MMM dd',
+                )
+              : 'Not Set'}
+          </p>
+          <span className="text-xs font-bold text-span">{finishedYear}</span>
+        </div>
+      </td>
+    </tr>
+  );
 };

@@ -11,44 +11,44 @@ import { Dialog } from '../ui/dialog';
 import { BookTableRow } from './BookTableRow';
 
 interface BookShelfTableProps {
-	books: Book[];
+  books: Book[];
 }
 
 export const BookShelfTable = ({ books }: BookShelfTableProps) => {
-	const { onResetForm } = useMultiForm();
+  const { onResetForm } = useMultiForm();
 
-	// Reset create book form after being submitted
-	useEffect(() => {
-		onResetForm();
-	}, []);
+  // Reset create book form after being submitted
+  useEffect(() => {
+    onResetForm();
+  }, []);
 
-	if (books.length <= 0) {
-		return (
-			<p className='text-span font-bold text-center text-lg'>
-				There is nothing here
-			</p>
-		);
-	}
+  if (books.length <= 0) {
+    return (
+      <p className="text-center text-lg font-bold text-span">
+        There is nothing here
+      </p>
+    );
+  }
 
-	return (
-		<table className='w-full table-auto border-separate border-spacing-y-3 px-1 bookshelf-table'>
-			<thead>
-				<tr className='text-center text-span'>
-					<th className='text-left'>Book Details</th>
-					<th className='max-sm:hidden'>Status</th>
-					<th className='max-sm:hidden'>Genres</th>
-					<th className='max-sm:hidden'>Started</th>
-					<th className='max-sm:hidden'>Finished</th>
-				</tr>
-			</thead>
-			<tbody>
-				{books.map(book => (
-					<Dialog key={book.id}>
-						<BookTableRow book={book} />
-						<BookDialog type={book.status} book={book} />
-					</Dialog>
-				))}
-			</tbody>
-		</table>
-	);
+  return (
+    <table className="bookshelf-table w-full table-auto border-separate border-spacing-y-3 px-1">
+      <thead>
+        <tr className="text-center text-span">
+          <th className="text-left">Book Details</th>
+          <th className="max-sm:hidden">Status</th>
+          <th className="max-sm:hidden">Genres</th>
+          <th className="max-sm:hidden">Started</th>
+          <th className="max-sm:hidden">Finished</th>
+        </tr>
+      </thead>
+      <tbody>
+        {books.map((book) => (
+          <Dialog key={book.id}>
+            <BookTableRow book={book} />
+            <BookDialog type={book.status} book={book} />
+          </Dialog>
+        ))}
+      </tbody>
+    </table>
+  );
 };

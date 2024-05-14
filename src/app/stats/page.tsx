@@ -22,129 +22,129 @@ import { getSession } from '../actions/getSession';
 import LoadingScreen from '../loading';
 
 export const metadata: Metadata = {
-	title: 'Stats | Reading Dashboard',
+  title: 'Stats | Reading Dashboard',
 };
 
 interface StatsRequestProps {
-	searchParams: {
-		year: string;
-	};
+  searchParams: {
+    year: string;
+  };
 }
 
 const getSelectYearsOptions = () => {
-	const currentYear = new Date().getUTCFullYear();
-	const startYear = 2022;
-	const years: number[] = [];
+  const currentYear = new Date().getUTCFullYear();
+  const startYear = 2022;
+  const years: number[] = [];
 
-	for (let year = startYear; year <= currentYear; year++) {
-		years.push(year);
-	}
+  for (let year = startYear; year <= currentYear; year++) {
+    years.push(year);
+  }
 
-	return years;
+  return years;
 };
 
 export default async function Stats({ searchParams }: StatsRequestProps) {
-	const session = await getSession();
+  const session = await getSession();
 
-	if (!session) {
-		return redirect(applicationLinks.login);
-	}
+  if (!session) {
+    return redirect(applicationLinks.login);
+  }
 
-	// If the tab param doesn't match with one of the options, select all as default
-	const currentYear = new Date().getUTCFullYear();
+  // If the tab param doesn't match with one of the options, select all as default
+  const currentYear = new Date().getUTCFullYear();
 
-	const yearsOptions = getSelectYearsOptions();
+  const yearsOptions = getSelectYearsOptions();
 
-	if (!searchParams.year || !yearsOptions.includes(Number(searchParams.year))) {
-		redirect(`${applicationLinks.stats}/?year=${currentYear}`);
-	}
+  if (!searchParams.year || !yearsOptions.includes(Number(searchParams.year))) {
+    redirect(`${applicationLinks.stats}/?year=${currentYear}`);
+  }
 
-	const fetchBooksByYear = async () => {
-		try {
-			const response = await fetch(
-				`${process.env.NEXT_PUBLIC_API_BASE_URL}/book/stats?db=${session.database_id}&year=${searchParams.year}`,
-				{
-					next: {
-						revalidate: false,
-						tags: ['fetch-book-stats'],
-					},
-				},
-			);
+  const fetchBooksByYear = async () => {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/book/stats?db=${session.database_id}&year=${searchParams.year}`,
+        {
+          next: {
+            revalidate: false,
+            tags: ['fetch-book-stats'],
+          },
+        },
+      );
 
-			if (!response.ok) {
-				throw new Error('Failed to fetch data');
-			}
+      if (!response.ok) {
+        throw new Error('Failed to fetch data');
+      }
 
-			const books = await response.json();
+      const books = await response.json();
 
-			const formattedBooks = formatBooks(books);
+      const formattedBooks = formatBooks(books);
 
-			return formattedBooks;
-		} catch (err) {
-			console.log(err);
-		}
-	};
+      return formattedBooks;
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-	// Get all books
-	const books = (await fetchBooksByYear()) || [];
+  // Get all books
+  const books = (await fetchBooksByYear()) || [];
 
-	// Filter books for each status
-	const readingBooks = books.filter(book => book.status === 'Reading');
-	const finishedBooks = books.filter(book => book.status === 'Finished');
+  // Filter books for each status
+  const readingBooks = books.filter((book) => book.status === 'Reading');
+  const finishedBooks = books.filter((book) => book.status === 'Finished');
 
-	return (
-		<Suspense fallback={<LoadingScreen />}>
-			<Header />
+  return (
+    <Suspense fallback={<LoadingScreen />}>
+      <Header />
 
-			<main className='w-full flex flex-col gap-9 max-sm:max-w-md max-sm:mx-auto mt-20 max-w-7xl'>
-				<section className='w-full sm:h-48 flex items-center justify-center gap-6 flex-col sm:flex-row'>
-					{/* Stats Link Card */}
+      <main className="mt-20 flex w-full max-w-7xl flex-col gap-9 max-sm:mx-auto max-sm:max-w-md">
+        <section className="flex w-full flex-col items-center justify-center gap-6 sm:h-48 sm:flex-row">
+          {/* Stats Link Card */}
 
-					<div className='w-full sm:max-w-80 h-full p-6 bg-secondary-background rounded-2xl relative opacity-90'>
-						<p className='font-medium text-span'>Reading Stats</p>
+          <div className="relative h-full w-full rounded-2xl bg-secondary-background p-6 opacity-90 sm:max-w-80">
+            <p className="font-medium text-span">Reading Stats</p>
 
-						<SelectStatsYear currentTabYear={searchParams.year} />
-					</div>
+            <SelectStatsYear currentTabYear={searchParams.year} />
+          </div>
 
-					{/* General Stats Card */}
-					<div className='w-full max-w-[490px] h-full p-4 sm:p-6 bg-secondary-background rounded-2xl'>
-						<p className='text-span font-medium text-lg'>Year in Books</p>
-						<GeneralStats
-							finishedBooks={finishedBooks}
-							readingBooks={readingBooks}
-						/>
-					</div>
+          {/* General Stats Card */}
+          <div className="h-full w-full max-w-[490px] rounded-2xl bg-secondary-background p-4 sm:p-6">
+            <p className="text-lg font-medium text-span">Year in Books</p>
+            <GeneralStats
+              finishedBooks={finishedBooks}
+              readingBooks={readingBooks}
+            />
+          </div>
 
-					{/* Yearly Stats Card */}
-					<div className='sm:max-lg:hidden lg:block lg:w-full xl:w-auto'>
-						<FinishedStatisticCard
-							card='year'
-							books={{ current: finishedBooks.length }}
-						/>
-					</div>
-				</section>
+          {/* Yearly Stats Card */}
+          <div className="sm:max-lg:hidden lg:block lg:w-full xl:w-auto">
+            <FinishedStatisticCard
+              card="year"
+              books={{ current: finishedBooks.length }}
+            />
+          </div>
+        </section>
 
-				<section className='w-full h-full flex items-start justify-center gap-6 flex-col sm:flex-row'>
-					<div className='w-full h-full sm:max-w-80'>
-						<GenreStatisticsChart books={finishedBooks} />
-					</div>
+        <section className="flex h-full w-full flex-col items-start justify-center gap-6 sm:flex-row">
+          <div className="h-full w-full sm:max-w-80">
+            <GenreStatisticsChart books={finishedBooks} />
+          </div>
 
-					<BooksPagesChart books={finishedBooks} tabYear={searchParams.year} />
-				</section>
+          <BooksPagesChart books={finishedBooks} tabYear={searchParams.year} />
+        </section>
 
-				<section className='w-full h-full flex items-start gap-6 flex-col sm:flex-row flex-wrap sm:max-lg:flex-row-reverse'>
-					<FictionNonFictionChart books={finishedBooks} />
-					<LanguageChart books={finishedBooks} />
-					<PageNumberChart books={finishedBooks} />
-				</section>
+        <section className="flex h-full w-full flex-col flex-wrap items-start gap-6 sm:flex-row sm:max-lg:flex-row-reverse">
+          <FictionNonFictionChart books={finishedBooks} />
+          <LanguageChart books={finishedBooks} />
+          <PageNumberChart books={finishedBooks} />
+        </section>
 
-				<section className='w-full h-full flex items-start justify-center gap-6 flex-col sm:flex-row'>
-					<AuthorsChart books={finishedBooks} />
-					<RatingChart books={finishedBooks} />
-				</section>
-			</main>
+        <section className="flex h-full w-full flex-col items-start justify-center gap-6 sm:flex-row">
+          <AuthorsChart books={finishedBooks} />
+          <RatingChart books={finishedBooks} />
+        </section>
+      </main>
 
-			<Footer />
-		</Suspense>
-	);
+      <Footer />
+    </Suspense>
+  );
 }

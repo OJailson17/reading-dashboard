@@ -10,70 +10,70 @@ import { applicationLinks } from '@/utils/constants/links';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 const searchFormSchema = yup.object({
-	query: yup.string().optional(),
+  query: yup.string().optional(),
 });
 
 type SearchBookForm = yup.InferType<typeof searchFormSchema>;
 
 export const BookshelfSearch = () => {
-	const { register, handleSubmit, resetField, watch } = useForm<SearchBookForm>(
-		{
-			resolver: yupResolver(searchFormSchema),
-		},
-	);
+  const { register, handleSubmit, resetField, watch } = useForm<SearchBookForm>(
+    {
+      resolver: yupResolver(searchFormSchema),
+    },
+  );
 
-	const queryFieldWatch = watch('query');
-	const router = useRouter();
+  const queryFieldWatch = watch('query');
+  const router = useRouter();
 
-	const handleSearch = ({ query }: SearchBookForm) => {
-		// const activeElement = document.activeElement as HTMLInputElement;
-		// activeElement.blur();
+  const handleSearch = ({ query }: SearchBookForm) => {
+    // const activeElement = document.activeElement as HTMLInputElement;
+    // activeElement.blur();
 
-		if (!query || query.trim() === '') {
-			return router.push(`${applicationLinks.bookshelf}/?tab=all`, {
-				scroll: false,
-			});
-		}
+    if (!query || query.trim() === '') {
+      return router.push(`${applicationLinks.bookshelf}/?tab=all`, {
+        scroll: false,
+      });
+    }
 
-		return router.push(`${applicationLinks.bookshelf}/?tab=all&q=${query}`, {
-			scroll: false,
-		});
-	};
+    return router.push(`${applicationLinks.bookshelf}/?tab=all&q=${query}`, {
+      scroll: false,
+    });
+  };
 
-	const handleResetSearch = () => {
-		resetField('query');
+  const handleResetSearch = () => {
+    resetField('query');
 
-		router.push(`${applicationLinks.bookshelf}/?tab=all`, {
-			scroll: false,
-		});
-	};
+    router.push(`${applicationLinks.bookshelf}/?tab=all`, {
+      scroll: false,
+    });
+  };
 
-	return (
-		<form
-			onSubmit={handleSubmit(handleSearch)}
-			autoComplete='off'
-			className='w-full xs:max-[500px]:h-12 sm:w-80 h-10 bg-background flex items-center justify-center gap-3 shrink-0 px-5 rounded-full'
-		>
-			<IoIosSearch size={25} />
+  return (
+    <form
+      onSubmit={handleSubmit(handleSearch)}
+      autoComplete="off"
+      className="flex h-10 w-full shrink-0 items-center justify-center gap-3 rounded-full bg-background px-5 xs:max-[500px]:h-12 sm:w-80"
+    >
+      <IoIosSearch size={25} />
 
-			<input
-				type='text'
-				placeholder='Search books'
-				className='w-full max-w-72 h-full bg-transparent text-span px-3 placeholder:text-placeholder placeholder:text-sm outline-none'
-				{...register('query')}
-			/>
+      <input
+        type="text"
+        placeholder="Search books"
+        className="h-full w-full max-w-72 bg-transparent px-3 text-span outline-none placeholder:text-sm placeholder:text-placeholder"
+        {...register('query')}
+      />
 
-			{queryFieldWatch && queryFieldWatch.length > 0 ? (
-				<button
-					onClick={handleResetSearch}
-					className='bg-transparent border-none rounded-sm'
-					type='button'
-				>
-					<IoCloseOutline size={20} />
-				</button>
-			) : (
-				<div className='w-5 h-5 bg-transparent' />
-			)}
-		</form>
-	);
+      {queryFieldWatch && queryFieldWatch.length > 0 ? (
+        <button
+          onClick={handleResetSearch}
+          className="rounded-sm border-none bg-transparent"
+          type="button"
+        >
+          <IoCloseOutline size={20} />
+        </button>
+      ) : (
+        <div className="h-5 w-5 bg-transparent" />
+      )}
+    </form>
+  );
 };

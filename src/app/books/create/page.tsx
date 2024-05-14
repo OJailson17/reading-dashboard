@@ -11,27 +11,27 @@ import { Header } from '@/components/Header';
 import { applicationLinks } from '@/utils/constants/links';
 
 export const metadata: Metadata = {
-	title: 'Create Book | Reading Dashboard',
+  title: 'Create Book | Reading Dashboard',
 };
 
 export default async function CreateBook() {
-	const session = await getSession();
+  const session = await getSession();
 
-	if (!session) {
-		return redirect(applicationLinks.login);
-	}
+  if (!session) {
+    return redirect(applicationLinks.login);
+  }
 
-	return (
-		<Suspense fallback={<LoadingScreen />}>
-			<Header />
+  return (
+    <Suspense fallback={<LoadingScreen />}>
+      <Header />
 
-			<main className='w-full max-sm:max-w-md max-sm:mx-auto mt-20 max-w-7xl flex sm:items-start items-center justify-center gap-8 max-sm:flex-col'>
-				<BookCreationPreview />
+      <main className="mt-20 flex w-full max-w-7xl items-center justify-center gap-8 max-sm:mx-auto max-sm:max-w-md max-sm:flex-col sm:items-start">
+        <BookCreationPreview />
 
-				<MultiStepFormWrapper user_database_id={session.database_id} />
-			</main>
+        <MultiStepFormWrapper user_database_id={session.database_id} />
+      </main>
 
-			<Footer />
-		</Suspense>
-	);
+      <Footer />
+    </Suspense>
+  );
 }

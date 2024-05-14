@@ -1,12 +1,12 @@
 'use client';
 
 import {
-	Line,
-	LineChart,
-	ResponsiveContainer,
-	Tooltip,
-	XAxis,
-	YAxis,
+  Line,
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
 } from 'recharts';
 
 import { Book } from '@/@types/book';
@@ -18,73 +18,74 @@ import { isSameMonth } from '@/utils/validations/validateIsSameMonth';
 import { CustomTooltip } from './CustomTooltip';
 
 interface YearlyChartProps {
-	books: Book[];
+  books: Book[];
 }
 
 const monthsLabels: MonthLabel[] = [
-	'Jan',
-	'Feb',
-	'Mar',
-	'Apr',
-	'May',
-	'Jun',
-	'Jul',
-	'Aug',
-	'Sep',
-	'Oct',
-	'Nov',
-	'Dec',
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
 ];
 
 const getBookMonths = ({ finishedBooks }: { finishedBooks: Book[] }) => {
-	const currentYear = new Date().getUTCFullYear(); // 2024
+  const currentYear = new Date().getUTCFullYear(); // 2024
 
-	for (let i = 0; i < finishedBooks.length; i++) {
-		monthsLabels.map(month => {
-			const isFromSameMonth = isSameMonth({
-				monthDate: new Date(`${month}, 1, ${currentYear}`),
-				bookDate: new Date(
-					handleRemoveZeroDigit(finishedBooks[i].finished_date || ''),
-				),
-			});
+  for (let i = 0; i < finishedBooks.length; i++) {
+    monthsLabels.map((month) => {
+      const isFromSameMonth = isSameMonth({
+        monthDate: new Date(`${month}, 1, ${currentYear}`),
+        bookDate: new Date(
+          handleRemoveZeroDigit(finishedBooks[i].finished_date || ''),
+        ),
+      });
 
-			if (isFromSameMonth) {
-				monthsBooksQtd[month].amount += 1;
-			}
-		});
-	}
+      if (isFromSameMonth) {
+        monthsBooksQtd[month].amount += 1;
+      }
+    });
+  }
 
-	// console.log({ monthsBooksQtd });
+  // console.log({ monthsBooksQtd });
 };
 
 export const YearlyChart = ({ books }: YearlyChartProps) => {
-	const finishedBooks = books.filter(book => book.status === 'Finished');
+  const finishedBooks = books.filter((book) => book.status === 'Finished');
 
-	// Reset the quantity of books on each month
-	resetYearlyChart();
+  // Reset the quantity of books on each month
+  resetYearlyChart();
 
-	// Got through the book list and check which month the book was finished
-	getBookMonths({ finishedBooks });
+  // Got through the book list and check which month the book was finished
+  getBookMonths({ finishedBooks });
 
-	const chartData = monthsLabels.map(month => ({
-		month: monthsBooksQtd[month].month,
-		amount: monthsBooksQtd[month].amount,
-	}));
+  const chartData = monthsLabels.map((month) => ({
+    month: monthsBooksQtd[month].month,
+    amount: monthsBooksQtd[month].amount,
+  }));
 
-	// hide the default props warning
-	const error = console.error;
-	console.error = (...args: any) => {
-		if (/defaultProps/.test(args[0])) return;
-		error(...args);
-	};
+  // hide the default props warning
+  const error = console.error;
+  console.error = (...args: any) => {
+    if (/defaultProps/.test(args[0])) return;
+    error(...args);
+  };
 
-	const itHasBooks = books.length > 0;
+  const itHasBooks = books.length > 0;
+  const currentYear = new Date().getUTCFullYear();
 
-	return (
-		<div className='w-full sm:col-span-2 h-80 px-4 xl:px-7 py-6 bg-secondary-background rounded-2xl'>
-			<header className='flex items-center justify-between'>
-				<h2 className='font-bold text-xl'>Reading Activity</h2>
-				{/* <Select defaultValue='2024'>
+  return (
+    <div className="h-80 w-full rounded-2xl bg-secondary-background px-4 py-6 sm:col-span-2 xl:px-7">
+      <header className="flex items-center justify-between">
+        <h2 className="text-xl font-bold">Reading Activity</h2>
+        {/* <Select defaultValue='2024'>
 					<SelectTrigger className='w-60'>
 						<SelectValue placeholder='2024' />
 					</SelectTrigger>
@@ -96,47 +97,47 @@ export const YearlyChart = ({ books }: YearlyChartProps) => {
 						</SelectGroup>
 					</SelectContent>
 				</Select> */}
-				<span className='text-span text-sm'>2024</span>
-			</header>
+        <span className="text-sm text-span">{currentYear}</span>
+      </header>
 
-			<main className='w-full h-52 mt-9 relative'>
-				{!itHasBooks && (
-					<div className='w-full h-full flex items-center justify-center absolute z-10'>
-						<p className='text-center font-medium text-lg text-white'>
-							Not enough data!
-						</p>
-					</div>
-				)}
+      <main className="relative mt-9 h-52 w-full">
+        {!itHasBooks && (
+          <div className="absolute z-10 flex h-full w-full items-center justify-center">
+            <p className="text-center text-lg font-medium text-white">
+              Not enough data!
+            </p>
+          </div>
+        )}
 
-				<ResponsiveContainer
-					width='100%'
-					height='100%'
-					style={{ opacity: !itHasBooks ? '20%' : '100%' }}
-				>
-					<LineChart
-						width={500}
-						height={300}
-						data={chartData}
-						margin={{
-							top: 5,
-							right: 0,
-							left: -30,
-							bottom: 5,
-						}}
-					>
-						<XAxis dataKey='month' axisLine={false} />
-						<YAxis axisLine={false} />
-						<Tooltip content={CustomTooltip} cursor={false} />
-						<Line
-							type='monotone'
-							dataKey='amount'
-							stroke='#8884d8'
-							strokeWidth={3}
-							dot={false}
-						/>
-					</LineChart>
-				</ResponsiveContainer>
-			</main>
-		</div>
-	);
+        <ResponsiveContainer
+          width="100%"
+          height="100%"
+          style={{ opacity: !itHasBooks ? '20%' : '100%' }}
+        >
+          <LineChart
+            width={500}
+            height={300}
+            data={chartData}
+            margin={{
+              top: 5,
+              right: 0,
+              left: -30,
+              bottom: 5,
+            }}
+          >
+            <XAxis dataKey="month" axisLine={false} />
+            <YAxis axisLine={false} />
+            <Tooltip content={CustomTooltip} cursor={false} />
+            <Line
+              type="monotone"
+              dataKey="amount"
+              stroke="#8884d8"
+              strokeWidth={3}
+              dot={false}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </main>
+    </div>
+  );
 };

@@ -9,34 +9,34 @@ import { GoalContextProvider } from '@/context/GoalContext';
 import MultiFormProvider from '@/context/MultiFormContext';
 
 const poppins = Poppins({
-	subsets: ['latin'],
-	weight: ['300', '400', '500', '600', '700'],
-	variable: '--poppins',
-	display: 'swap',
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700'],
+  variable: '--poppins',
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
-	title: 'Home | Reading Dashboard',
-	description: 'Reading Tracker',
+  title: 'Home | Reading Dashboard',
+  description: 'Reading Tracker',
 };
 
 export default function RootLayout({
-	children,
+  children,
 }: Readonly<{
-	children: React.ReactNode;
+  children: React.ReactNode;
 }>) {
-	return (
-		<html lang='en' className={`${poppins.className}`}>
-			<body className={`bg-background text-white overflow-x-hidden h-screen`}>
-				<div id='app' className='px-6 xl:px-24 flex flex-col w-screen mx-auto'>
-					<CustomProvider theme='dark'>
-						<MultiFormProvider>
-							<GoalContextProvider>{children}</GoalContextProvider>
-						</MultiFormProvider>
-					</CustomProvider>
-				</div>
-				<Toaster />
-			</body>
-		</html>
-	);
+  return (
+    <html lang="en" className={`${poppins.className}`}>
+      <body className={`h-screen overflow-x-hidden bg-background text-white`}>
+        <div id="app" className="mx-auto flex w-screen flex-col px-6 xl:px-24">
+          <CustomProvider theme="dark">
+            <MultiFormProvider>
+              <GoalContextProvider>{children}</GoalContextProvider>
+            </MultiFormProvider>
+          </CustomProvider>
+        </div>
+        <Toaster />
+      </body>
+    </html>
+  );
 }
