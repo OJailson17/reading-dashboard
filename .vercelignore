@@ -3,7 +3,7 @@
 jest.config.js
 jest.setup.js
 
-src/**/\*.spec.tsx
-src/**/\*.spec.ts
+src/**/*.spec.tsx
+src/**/*.test.tsx
 
-test/\*\*
+test
