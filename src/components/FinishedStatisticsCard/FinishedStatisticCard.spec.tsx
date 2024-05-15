@@ -4,14 +4,6 @@ import { cleanup, render } from '@testing-library/react';
 
 import { FinishedStatisticCard } from './index';
 
-vi.mock('next/font/google', () => ({
-  Aclonica: () => ({
-    style: {
-      fontFamily: 'mocked',
-    },
-  }),
-}));
-
 vi.mock('next/navigation', () => ({
   useSearchParams: () => ({
     get: vi.fn(),

@@ -64,6 +64,8 @@ export const LoginForm = () => {
 
       const userResponse = (await signInResponse.json()) as Response;
 
+      console.log(userResponse);
+
       onSetInitialGoals({
         month: String(userResponse.user.monthly_goal || '0'),
         year: String(userResponse.user.yearly_goal || '0'),

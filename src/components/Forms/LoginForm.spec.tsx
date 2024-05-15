@@ -7,14 +7,6 @@ import userEvent from '@testing-library/user-event';
 
 import { LoginForm } from './LoginForm';
 
-vi.mock('next/font/google', () => ({
-  Aclonica: () => ({
-    style: {
-      fontFamily: 'mocked',
-    },
-  }),
-}));
-
 // vi.mock('next/navigation', () => ({
 // 	useRouter() {
 // 		return {
