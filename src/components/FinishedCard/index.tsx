@@ -2,7 +2,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { Book } from '@/@types/book';
-import { getSession } from '@/app/actions/getSession';
 import { applicationLinks } from '@/utils/constants/links';
 
 import { BookDialog } from '../BookDialog';
@@ -12,7 +11,7 @@ interface FinishedCardProps {
   books: Book[];
 }
 
-export const FinishedCard = async ({ books }: FinishedCardProps) => {
+export const FinishedCard = ({ books }: FinishedCardProps) => {
   const finishedBooks = books
     .filter((book) => book.status === 'Finished')
     .slice(0, 5);
