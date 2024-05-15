@@ -11,7 +11,7 @@ interface TBRCardProps {
   books: Book[];
 }
 
-export const TBRCard = async ({ books }: TBRCardProps) => {
+export const TBRCard = ({ books }: TBRCardProps) => {
   const TBRBooks = books
     .filter((book) => book.status === 'To read')
     .slice(0, 5);
