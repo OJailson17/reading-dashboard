@@ -11,7 +11,7 @@ interface ReadingCardProps {
   books: Book[];
 }
 
-export const ReadingCard = async ({ books }: ReadingCardProps) => {
+export const ReadingCard = ({ books }: ReadingCardProps) => {
   const readingBooks = books.filter((book) => book.status === 'Reading');
 
   return (
