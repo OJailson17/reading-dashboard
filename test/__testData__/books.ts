@@ -2,7 +2,7 @@ import { Book } from '@/@types/book';
 
 export const testBookList: Book[] = [
   {
-    id: '1',
+    id: '3529466d-772c-46c3-97dd-77c80de486fe',
     author: 'Sean Carson',
     title: 'test title 1',
     cover_url: '',
@@ -18,7 +18,7 @@ export const testBookList: Book[] = [
     qtd_days: 134,
   },
   {
-    id: '2',
+    id: '3680298b-67c8-4e52-8ca0-9608347a0e9d',
     author: 'Elizabeth Cooper',
     title: 'test title 2',
     cover_url: '',
@@ -34,7 +34,7 @@ export const testBookList: Book[] = [
     qtd_days: 134,
   },
   {
-    id: '3',
+    id: '8b4b25e5-881f-4f69-bad0-6b78686d8e48',
     author: 'Isaiah Townsend',
     title: 'test title 3',
     cover_url: '',
