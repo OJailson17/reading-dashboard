@@ -18,9 +18,11 @@ import { LoginForm } from './LoginForm';
 // 	},
 // }));
 
+const pushMock = vi.fn();
+
 vi.mock('next/navigation', () => ({
   useRouter: () => ({
-    push: vi.fn(),
+    push: (route: string) => pushMock(),
   }),
 }));
 
@@ -47,16 +49,15 @@ describe('Login Form Component', () => {
   });
 
   // !FIX not passing
-  // it('should be able to redirect the user after the submit', async () => {
-  //   const { getByRole } = render(<LoginForm />);
-  //   const router = useRouter();
+  it.skip('should be able to redirect the user after the submit', async () => {
+    const { getByRole } = render(<LoginForm />);
 
-  //   const input = getByRole('textbox');
-  //   const button = getByRole('button');
+    const input = getByRole('textbox');
+    const button = getByRole('button');
 
-  //   await userEvent.type(input, 'demo_user');
-  //   await userEvent.click(button);
+    await userEvent.type(input, 'demo_user');
+    await userEvent.click(button);
 
-  //   expect(router.push).toHaveBeenCalledWith('/');
-  // });
+    expect(pushMock).toHaveBeenCalledWith('/');
+  });
 });
