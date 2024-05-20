@@ -14,6 +14,7 @@
 		"server": "json-server db.json --port 8082"
 	},
 	"dependencies": {
+		"@google/generative-ai": "^0.11.3",
 		"@hookform/resolvers": "^3.3.4",
 		"@notionhq/client": "^2.2.14",
 		"@radix-ui/react-dialog": "^1.0.5",

@@ -1,29 +1,22 @@
 'use client';
 
-import { format } from 'date-fns';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ImSpinner2 } from 'react-icons/im';
-import { IoMdCalendar, IoMdCheckbox } from 'react-icons/io';
 
 import { Book, BookStatus } from '@/@types/book';
-import { updateBookDates } from '@/app/actions/updateBookDates';
 import { updateBookStatus } from '@/app/actions/updateBookStatus';
-import { handleFormatDate, handleRemoveZeroDigit } from '@/utils';
+import { storageStrings } from '@/utils';
 
-import { Calendar } from '../ui/calendar';
 import { DialogContent, DialogTitle } from '../ui/dialog';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { useToast } from '../ui/use-toast';
+import { BookDialogDates } from './BookDialogDates';
+import { BookDialogSummarizer } from './BookDialogSummarizer';
 
 interface BookDialogProps {
   type: BookStatus;
   book: Book;
-}
-
-interface HandleDateProps {
-  date: Date;
-  date_type: 'started' | 'finished';
 }
 
 const bookStatusColor = {
@@ -32,28 +25,12 @@ const bookStatusColor = {
   Finished: 'border-light-green',
 };
 
-const today = format(new Date(), 'yyyy-MM-dd');
-
 export const BookDialog = ({ type = 'To read', book }: BookDialogProps) => {
-  const [startedDate, setStartedDate] = useState<Date>(
-    new Date(handleRemoveZeroDigit(book.started_date || today)),
-  );
-  const [finishedDate, setFinishedDate] = useState<Date>(
-    new Date(handleRemoveZeroDigit(book.finished_date || today)),
-  );
   const [bookStatus, setBookStatus] = useState<BookStatus>(book.status);
   const [isBookStatusUpdating, setIsBookStatusUpdating] = useState(false);
-  const [isDateUpdating, setIsDateUpdating] = useState(false);
+  const [isSummaryEnabled, setIsSummaryEnabled] = useState(false);
 
   const { toast } = useToast();
-
-  const handleSetDate = ({ date, date_type }: HandleDateProps) => {
-    if (date_type === 'started') {
-      return setStartedDate(date);
-    }
-
-    setFinishedDate(date);
-  };
 
   const handleUpdateStatus = async (isStatusModalOpen: boolean) => {
     if (!isStatusModalOpen && bookStatus !== book.status) {
@@ -122,42 +99,20 @@ export const BookDialog = ({ type = 'To read', book }: BookDialogProps) => {
     }
   };
 
-  const handleUpdateDates = async (isDatePickerOpen: boolean) => {
-    // update the date if date picker is closed and a different date was chosen
-    if (!isDatePickerOpen) {
-      if (
-        handleFormatDate(startedDate) !==
-          handleFormatDate(new Date(book.started_date || today)) ||
-        handleFormatDate(finishedDate) !==
-          handleFormatDate(new Date(book.finished_date || today))
-      ) {
-        setIsDateUpdating(true);
+  useEffect(() => {
+    const username = localStorage.getItem(storageStrings.username);
 
-        const bookUpdated = await updateBookDates({
-          book_id: book.id,
-          started_date: handleFormatDate(startedDate, 'utc'),
-          finished_date: handleFormatDate(finishedDate, 'utc'),
-        });
-
-        setIsDateUpdating(false);
-
-        if (bookUpdated?.error) {
-          return toast({
-            description: bookUpdated.error,
-            variant: 'destructive',
-          });
-        }
-
-        toast({
-          description: 'Book updated!',
-          variant: 'success',
-        });
-      }
+    if (username && username !== 'demo_user') {
+      setIsSummaryEnabled(true);
     }
-  };
+  }, []);
 
   return (
     <DialogContent className="flex w-[90%] max-w-[450px] flex-col items-center justify-center rounded-3xl border-none bg-background px-9 py-6 xs:px-6">
+      {isSummaryEnabled && (
+        <BookDialogSummarizer bookAuthor={book.author} bookTitle={book.title} />
+      )}
+
       <DialogTitle className="mt-5 text-center text-lg font-semibold">
         {book.title}
       </DialogTitle>
@@ -182,69 +137,11 @@ export const BookDialog = ({ type = 'To read', book }: BookDialogProps) => {
       </div>
 
       {type === 'Finished' && (
-        <div className="relative mt-3 flex w-full items-center justify-center gap-7">
-          <Popover onOpenChange={handleUpdateDates}>
-            <PopoverTrigger className="flex items-center justify-center gap-2">
-              <IoMdCalendar size={18} />
-              <span className="text-sm font-light text-span">
-                {startedDate
-                  ? handleFormatDate(startedDate)
-                  : handleFormatDate(new Date())}
-              </span>
-            </PopoverTrigger>
-
-            <PopoverContent className="w-auto p-0">
-              <Calendar
-                mode="single"
-                selected={startedDate}
-                onSelect={(e) =>
-                  handleSetDate({
-                    date: e || new Date(book.started_date || today),
-                    date_type: 'started',
-                  })
-                }
-                disabled={(date) =>
-                  date > new Date() || date < new Date('1900-01-01')
-                }
-                defaultMonth={new Date(book.started_date || today)}
-                className="border-none bg-secondary-background text-span"
-              />
-            </PopoverContent>
-          </Popover>
-
-          <Popover onOpenChange={handleUpdateDates}>
-            <PopoverTrigger className="flex items-center justify-center gap-2">
-              <IoMdCheckbox size={18} />
-              <span className="text-sm font-light text-span">
-                {finishedDate
-                  ? handleFormatDate(finishedDate)
-                  : handleFormatDate(new Date())}
-              </span>
-            </PopoverTrigger>
-
-            <PopoverContent className="w-auto p-0">
-              <Calendar
-                mode="single"
-                selected={finishedDate}
-                onSelect={(e) =>
-                  handleSetDate({
-                    date: e || new Date(),
-                    date_type: 'finished',
-                  })
-                }
-                defaultMonth={new Date(book.finished_date || today)}
-                disabled={(date) =>
-                  date > new Date() || date < new Date('1900-01-01')
-                }
-                className="border-none bg-secondary-background text-span outline-none"
-              />
-            </PopoverContent>
-          </Popover>
-
-          {isDateUpdating && (
-            <ImSpinner2 className="absolute right-1 animate-spin" />
-          )}
-        </div>
+        <BookDialogDates
+          bookFinishedDate={book.finished_date}
+          bookStartedDate={book.started_date}
+          bookId={book.id}
+        />
       )}
 
       <div className="mt-4 flex w-full flex-col space-y-3">
