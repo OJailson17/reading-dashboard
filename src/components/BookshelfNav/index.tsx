@@ -116,7 +116,7 @@ export const BookshelfNav = ({
       <button
         data-tab="review"
         onClick={handleChangeTab}
-        className=" rounded-sm max-sm:w-40"
+        className=" rounded-sm max-sm:w-40 sm:max-lg:hidden"
       >
         <p
           className={

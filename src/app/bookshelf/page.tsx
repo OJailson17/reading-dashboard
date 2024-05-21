@@ -2,9 +2,11 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { Suspense, cache } from 'react';
+import { BsStars } from 'react-icons/bs';
 import { FaPlus } from 'react-icons/fa6';
 
 import { BookShelfTable } from '@/components/BookShelfTable';
+import { BookshelfActions } from '@/components/BookshelfActions';
 import { BookshelfNav } from '@/components/BookshelfNav';
 import { BookshelfSearch } from '@/components/BookshelfSearch';
 import { FinishedStatisticCard } from '@/components/FinishedStatisticsCard';
@@ -190,16 +192,7 @@ export default async function Bookshelf({
         <section className="mt-9 flex w-full flex-col justify-center gap-6 lg:flex-row">
           {/* Navbar */}
           <div className="flex flex-col items-center justify-center gap-9 sm:max-lg:flex-row sm:max-lg:gap-3">
-            <div className="w-full rounded-2xl bg-secondary-background p-6 sm:max-lg:w-48 lg:w-80">
-              <h3 className="text-xl font-bold sm:max-lg:hidden">Bookshelf</h3>
-              <Link
-                href={applicationLinks.createBook}
-                className="mt-9 flex w-full items-center justify-center gap-3 rounded-lg bg-purple px-3 py-3 text-lg font-medium sm:max-lg:mt-0"
-              >
-                <FaPlus />
-                Add Book
-              </Link>
-            </div>
+            <BookshelfActions books={books} />
 
             <div className="flex h-full w-full flex-1 flex-col items-center justify-center gap-9 rounded-2xl bg-secondary-background px-4 py-8 sm:w-80">
               <BookshelfNav

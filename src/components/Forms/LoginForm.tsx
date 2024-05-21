@@ -7,6 +7,7 @@ import * as yup from 'yup';
 
 import { useGoal } from '@/context/GoalContext';
 import { storageStrings } from '@/utils';
+import { encrypt } from '@/utils/auth/encrypt';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { toast } from '../ui/use-toast';
@@ -75,6 +76,7 @@ export const LoginForm = () => {
 
       router.push('/');
     } catch (error) {
+      console.log(error);
       return toast({
         description: 'Error: Something went wrong',
         variant: 'destructive',
