@@ -9,7 +9,6 @@ import { ImSpinner2 } from 'react-icons/im';
 import { Book } from '@/@types/book';
 import { generateRecommendations } from '@/app/actions/generateRecommendations';
 import { storageStrings } from '@/utils';
-import { decrypt } from '@/utils/auth/decrypt';
 import { applicationLinks } from '@/utils/constants/links';
 
 import { Dialog, DialogContent, DialogTrigger } from '../ui/dialog';
@@ -87,7 +86,7 @@ export const BookshelfActions = ({ books }: BookshelfActionsProps) => {
               <BsStars size={20} />
             </DialogTrigger>
 
-            <DialogContent className="flex  w-[90%] max-w-[450px] flex-col items-center rounded-3xl border-none bg-background px-9 py-6 xs:px-6">
+            <DialogContent className="flex min-h-60  w-[90%] max-w-[450px] flex-col items-center rounded-3xl border-none bg-background px-9 py-6 xs:px-6">
               <h1 className="mt-3 text-center text-xl font-medium">
                 Recommendation
               </h1>
@@ -99,17 +98,32 @@ export const BookshelfActions = ({ books }: BookshelfActionsProps) => {
               {!isRecommendationLoading && recommendation && (
                 <div className="mt-4 w-full">
                   <p className="break-words font-thin leading-relaxed text-span">
-                    Based on you taste, I recommend you to read{' '}
-                    <strong>{recommendation?.title}</strong> by{' '}
-                    {recommendation?.author}. It is a{' '}
-                    {recommendation?.genres[0]} book and it has{' '}
-                    {recommendation?.pages} pages
+                    Based on your taste, I recommend you read{' '}
+                    <span className="font-bold text-light-green">
+                      {recommendation?.title}
+                    </span>{' '}
+                    by{' '}
+                    <span className="font-medium">
+                      {recommendation?.author}
+                    </span>
+                    . It is a{' '}
+                    <span className="font-medium">
+                      {recommendation?.genres[0]}
+                    </span>{' '}
+                    book and has{' '}
+                    <span className="font-medium">{recommendation?.pages}</span>{' '}
+                    pages
                   </p>
                 </div>
               )}
 
               {recommendation && (
-                <button onClick={handleGetRecommendation}>Try again</button>
+                <button
+                  onClick={handleGetRecommendation}
+                  className="hover:text-light-green"
+                >
+                  Try again
+                </button>
               )}
 
               {!isRecommendationLoading && !recommendation && (
