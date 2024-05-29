@@ -79,6 +79,8 @@ export default async function Stats({ searchParams }: StatsRequestProps) {
 
       const formattedBooks = formatBooks(books);
 
+      console.log(formattedBooks.length);
+
       return formattedBooks;
     } catch (err) {
       console.log(err);
