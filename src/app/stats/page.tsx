@@ -65,7 +65,6 @@ export default async function Stats({ searchParams }: StatsRequestProps) {
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/book/stats?db=${session.database_id}&year=${searchParams.year}`,
         {
           next: {
-            revalidate: false,
             tags: ['fetch-book-stats'],
           },
         },
@@ -79,7 +78,7 @@ export default async function Stats({ searchParams }: StatsRequestProps) {
 
       const formattedBooks = formatBooks(books);
 
-      console.log(formattedBooks.length);
+      console.log('api', formattedBooks.length);
 
       return formattedBooks;
     } catch (err) {
