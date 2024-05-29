@@ -54,8 +54,6 @@ export async function GET(req: NextRequest, res: NextResponse) {
       ],
     });
 
-    console.log(response.results.length);
-
     return NextResponse.json(response.results);
   } catch (error) {
     if (isNotionClientError(error)) {
