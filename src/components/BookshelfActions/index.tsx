@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { BsStars } from 'react-icons/bs';
 import { FaPlus } from 'react-icons/fa6';
@@ -8,7 +9,8 @@ import { ImSpinner2 } from 'react-icons/im';
 
 import { Book } from '@/@types/book';
 import { generateRecommendations } from '@/app/actions/generateRecommendations';
-import { storageStrings } from '@/utils';
+import { useMultiForm } from '@/context/MultiFormContext';
+import { handleFormatCoverURL, storageStrings } from '@/utils';
 import { applicationLinks } from '@/utils/constants/links';
 
 import { Dialog, DialogContent, DialogTrigger } from '../ui/dialog';
@@ -22,6 +24,7 @@ interface Recommendation {
   author: string;
   genres: string[];
   pages: number;
+  isbn: string;
 }
 
 export const BookshelfActions = ({ books }: BookshelfActionsProps) => {
@@ -31,6 +34,9 @@ export const BookshelfActions = ({ books }: BookshelfActionsProps) => {
   );
   const [showRecommendationButton, setShowRecommendationButton] =
     useState(false);
+
+  const { onSetFormData } = useMultiForm();
+  const router = useRouter();
 
   const handleDialogState = async (isDialogOPen: boolean) => {
     if (isDialogOPen) {
@@ -65,6 +71,19 @@ export const BookshelfActions = ({ books }: BookshelfActionsProps) => {
       console.log(error);
       setIsRecommendationLoading(false);
     }
+  };
+
+  // Set the recommendation book to form default data and redirect the user to create book page
+  const handleAddBook = () => {
+    onSetFormData({
+      title: recommendation?.title,
+      author: recommendation?.author,
+      status: 'To read',
+      total_pages: recommendation?.pages,
+      cover_url: handleFormatCoverURL(recommendation?.isbn || ''),
+    });
+
+    router.push(applicationLinks.createBook);
   };
 
   useEffect(() => {
@@ -118,12 +137,20 @@ export const BookshelfActions = ({ books }: BookshelfActionsProps) => {
               )}
 
               {recommendation && (
-                <button
-                  onClick={handleGetRecommendation}
-                  className="hover:text-light-green"
-                >
-                  Try again
-                </button>
+                <div className="flex w-full items-center justify-between">
+                  <button
+                    onClick={handleGetRecommendation}
+                    className="hover:text-light-green"
+                  >
+                    Try Again
+                  </button>
+                  <button
+                    onClick={handleAddBook}
+                    className="rounded-md bg-purple p-2"
+                  >
+                    Add Book
+                  </button>
+                </div>
               )}
 
               {!isRecommendationLoading && !recommendation && (
