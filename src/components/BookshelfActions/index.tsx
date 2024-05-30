@@ -45,6 +45,8 @@ export const BookshelfActions = ({ books }: BookshelfActionsProps) => {
   };
 
   const handleGetRecommendation = async () => {
+    if (books.length <= 0) return;
+
     setIsRecommendationLoading(true);
     const formatBooks = books.map((book) => {
       return {
