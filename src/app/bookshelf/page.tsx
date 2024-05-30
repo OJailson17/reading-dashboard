@@ -102,9 +102,6 @@ export default async function Bookshelf({
     (book) => book.status === 'Finished' && book.review === 'none',
   );
 
-  // const booksFinishedThisMonth =
-  // 	finishedBooksFromThisMonth(finishedBooks).length;
-
   // Get the amount of books from each status
   const booksAmount = {
     amountOfAllBooks: books.length,

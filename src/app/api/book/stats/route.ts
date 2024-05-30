@@ -23,17 +23,27 @@ export async function GET(req: NextRequest, res: NextResponse) {
     const response = await notion.databases.query({
       database_id: databaseIdCookie || '',
       filter: {
-        and: [
+        or: [
           {
-            property: 'Finished Date',
-            date: {
-              on_or_after: `${year}-01-01`,
-            },
+            and: [
+              {
+                property: 'Finished Date',
+                date: {
+                  on_or_after: `${year}-01-01`,
+                },
+              },
+              {
+                property: 'Finished Date',
+                date: {
+                  on_or_before: `${year}-12-31`,
+                },
+              },
+            ],
           },
           {
-            property: 'Finished Date',
-            date: {
-              on_or_before: `${year}-12-31`,
+            property: 'Status',
+            select: {
+              equals: 'Reading',
             },
           },
         ],
