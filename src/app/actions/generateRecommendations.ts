@@ -6,9 +6,13 @@ import { HarmCategory, HarmBlockThreshold } from '@google/generative-ai';
 import { getSession } from './getSession';
 import { onSignOut } from './signOut';
 
-type SummarizeProps = {
-  bookTitle: string;
-  bookAuthor: string;
+type Book = {
+  title: string;
+  author: string;
+};
+
+type RecommendationsProps = {
+  books: Book[];
 };
 
 const model = genAI.getGenerativeModel({
@@ -39,10 +43,9 @@ const safetySettings = [
   },
 ];
 
-export const createSummary = async ({
-  bookAuthor,
-  bookTitle,
-}: SummarizeProps) => {
+export const generateRecommendations = async ({
+  books,
+}: RecommendationsProps) => {
   const session = await getSession();
 
   if (!session || session?.database_id !== process.env.ADMIN_DATABASE_ID) {
@@ -55,7 +58,10 @@ export const createSummary = async ({
     history: [],
   });
 
-  const prompt = `make a short and simple summary about the book "${bookTitle}" by ${bookAuthor}. Answer in the same language as the book title. The titles of the books will be in English or Portuguese, if it's in another language, answer in English. Don't need to put the title in the beginning and don't use markdown.`;
+  const prompt = `based on this list of books, recommend me a new book, but just one. The new book can't be one of the list. Return me an object on the same structure as the list objects, but adding the amount of pages, the genre(s) and the ISBN-10 code. If there is just one genre, keep it in a array. The ISBN code should be add in a property called isbn"
+  
+  ${JSON.stringify(books)}
+  `;
 
   const result = await chatSession.sendMessage(prompt);
 

@@ -5,6 +5,7 @@ import { Book } from '@/@types/book';
 import { applicationLinks } from '@/utils/constants/links';
 
 import { BookDialog } from '../BookDialog';
+import { EmptyCard } from '../EmptyCard';
 import { Dialog, DialogTrigger } from '../ui/dialog';
 
 interface FinishedCardProps {
@@ -28,31 +29,35 @@ export const FinishedCard = ({ books }: FinishedCardProps) => {
         </Link>
       </header>
 
-      <div className="books-container mt-10 flex gap-6 overflow-x-auto overflow-y-hidden px-1 pb-6 pt-1 sm:w-full lg:max-w-[320px]">
-        {finishedBooks.map((book) => (
-          <Dialog key={book.id}>
-            <DialogTrigger className="h-40 min-w-28 rounded-md">
-              {book.cover_url !== '' && (
-                <div className="relative h-full w-full">
-                  <Image
-                    src={book.cover_url}
-                    alt={`${book.title} cover`}
-                    fill
-                    priority
-                    className="rounded-md object-cover"
-                  />
-                </div>
-              )}
-              {book.cover_url === '' && (
-                <div className="flex h-full w-28 items-center justify-center overflow-y-hidden break-words rounded-md bg-background p-px text-center text-xs">
-                  {book.title}
-                </div>
-              )}
-            </DialogTrigger>
-            <BookDialog type="Finished" book={book} />
-          </Dialog>
-        ))}
-      </div>
+      {!books || books.length <= 0 ? (
+        <EmptyCard />
+      ) : (
+        <div className="books-container mt-10 flex gap-6 overflow-x-auto overflow-y-hidden px-1 pb-6 pt-1 sm:w-full lg:max-w-[320px]">
+          {finishedBooks.map((book) => (
+            <Dialog key={book.id}>
+              <DialogTrigger className="h-40 min-w-28 rounded-md">
+                {book.cover_url !== '' && (
+                  <div className="relative h-full w-full">
+                    <Image
+                      src={book.cover_url}
+                      alt={`${book.title} cover`}
+                      fill
+                      priority
+                      className="rounded-md object-cover"
+                    />
+                  </div>
+                )}
+                {book.cover_url === '' && (
+                  <div className="flex h-full w-28 items-center justify-center overflow-y-hidden break-words rounded-md bg-background p-px text-center text-xs">
+                    {book.title}
+                  </div>
+                )}
+              </DialogTrigger>
+              <BookDialog type="Finished" book={book} />
+            </Dialog>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

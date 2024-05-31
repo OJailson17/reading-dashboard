@@ -59,7 +59,10 @@ export const UpdateReadingDialog = ({ book }: UpdateReadingDialog) => {
     status,
   }: UpdateReadingFormProps) => {
     // just return if page and status didn't change
-    if (current_page === book.current_page && status === book.status) {
+    if (
+      String(current_page) === String(book.current_page) &&
+      status === book.status
+    ) {
       return;
     }
 
@@ -100,7 +103,7 @@ export const UpdateReadingDialog = ({ book }: UpdateReadingDialog) => {
 
     const pageUpdated = await updateBookPage({
       book_id: book.id,
-      current_page: current_page || book.current_page,
+      current_page: String(current_page) || String(book.current_page),
     });
 
     if (pageUpdated?.error) {

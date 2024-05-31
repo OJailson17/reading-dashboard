@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { BsStars } from 'react-icons/bs';
 import { ImSpinner2 } from 'react-icons/im';
 
@@ -9,15 +9,15 @@ import { createSummary } from '@/app/actions/createSummary';
 import { Dialog, DialogContent, DialogTrigger } from '../ui/dialog';
 import { toast } from '../ui/use-toast';
 
-interface BookDialogSummarizerProps {
+interface BookSummarizerDialogProps {
   bookTitle: string;
   bookAuthor: string;
 }
 
-export const BookDialogSummarizer = ({
+export const BookSummarizerDialog = ({
   bookAuthor,
   bookTitle,
-}: BookDialogSummarizerProps) => {
+}: BookSummarizerDialogProps) => {
   const [bookSummary, setBookSummary] = useState('');
   const [isSummaryLoading, setIsSummaryLoading] = useState(false);
 

@@ -65,7 +65,6 @@ export default async function Stats({ searchParams }: StatsRequestProps) {
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/book/stats?db=${session.database_id}&year=${searchParams.year}`,
         {
           next: {
-            revalidate: false,
             tags: ['fetch-book-stats'],
           },
         },

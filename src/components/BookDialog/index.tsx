@@ -8,11 +8,11 @@ import { Book, BookStatus } from '@/@types/book';
 import { updateBookStatus } from '@/app/actions/updateBookStatus';
 import { storageStrings } from '@/utils';
 
+import { BookSummarizerDialog } from '../BookSummarizerDialog';
 import { DialogContent, DialogTitle } from '../ui/dialog';
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import { useToast } from '../ui/use-toast';
 import { BookDialogDates } from './BookDialogDates';
-import { BookDialogSummarizer } from './BookDialogSummarizer';
 
 interface BookDialogProps {
   type: BookStatus;
@@ -110,7 +110,7 @@ export const BookDialog = ({ type = 'To read', book }: BookDialogProps) => {
   return (
     <DialogContent className="flex w-[90%] max-w-[450px] flex-col items-center justify-center rounded-3xl border-none bg-background px-9 py-6 xs:px-6">
       {isSummaryEnabled && (
-        <BookDialogSummarizer bookAuthor={book.author} bookTitle={book.title} />
+        <BookSummarizerDialog bookAuthor={book.author} bookTitle={book.title} />
       )}
 
       <DialogTitle className="mt-5 text-center text-lg font-semibold">
