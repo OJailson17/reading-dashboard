@@ -151,7 +151,7 @@ export const BookshelfActions = ({ books }: BookshelfActionsProps) => {
                 </div>
               )}
 
-              {recommendation && (
+              {!isRecommendationLoading && recommendation && (
                 <div className="flex w-full items-center justify-between">
                   <button
                     onClick={handleGetRecommendation}
