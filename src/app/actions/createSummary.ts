@@ -55,7 +55,7 @@ export const createSummary = async ({
     history: [],
   });
 
-  const prompt = `make a short, simple summary about the book "${bookTitle}" by ${bookAuthor}. Answer in the same language as the book title. The titles of the books will be in English or Portuguese, if it's in another language, answer in English. Don't need to put the title in the beginning and don't use markdown`;
+  const prompt = `make a short, simple summary about the book "${bookTitle}" by ${bookAuthor}. Answer in the same language as the book title. The titles of the books will be in English or Portuguese, if it's in another language, answer in English. Don't need to put the title in the beginning and don't use markdown. Also, don't give me spoiler.`;
 
   const result = await chatSession.sendMessage(prompt);
 

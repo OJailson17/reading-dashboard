@@ -13,7 +13,13 @@ import { useMultiForm } from '@/context/MultiFormContext';
 import { handleFormatCoverURL, storageStrings } from '@/utils';
 import { applicationLinks } from '@/utils/constants/links';
 
-import { Dialog, DialogContent, DialogTrigger } from '../ui/dialog';
+import { BookSummarizerDialog } from '../BookSummarizerDialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from '../ui/dialog';
 
 interface BookshelfActionsProps {
   books: Book[];
@@ -108,9 +114,16 @@ export const BookshelfActions = ({ books }: BookshelfActionsProps) => {
             </DialogTrigger>
 
             <DialogContent className="flex min-h-60  w-[90%] max-w-[450px] flex-col items-center rounded-3xl border-none bg-background px-9 py-6 xs:px-6">
-              <h1 className="mt-3 text-center text-xl font-medium">
+              {showRecommendationButton && (
+                <BookSummarizerDialog
+                  bookAuthor={recommendation?.author || ''}
+                  bookTitle={recommendation?.title || ''}
+                />
+              )}
+
+              <DialogTitle className="mt-3 text-center text-xl font-medium">
                 Recommendation
-              </h1>
+              </DialogTitle>
 
               {isRecommendationLoading && (
                 <ImSpinner2 className="animate-spin" />
