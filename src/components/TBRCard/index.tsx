@@ -4,6 +4,7 @@ import { Book } from '@/@types/book';
 import { applicationLinks } from '@/utils/constants/links';
 
 import { BookDialog } from '../BookDialog';
+import { EmptyCard } from '../EmptyCard';
 import { Dialog } from '../ui/dialog';
 import { TBRBookStats } from './TBRBookStats';
 
@@ -28,14 +29,18 @@ export const TBRCard = async ({ books }: TBRCardProps) => {
         </Link>
       </header>
 
-      <div className="books-container mt-9 h-60 space-y-6 overflow-y-auto py-1 pl-1 pr-3">
-        {TBRBooks.map((book) => (
-          <Dialog key={book.id}>
-            <TBRBookStats book={book} />
-            <BookDialog type="To read" book={book} />
-          </Dialog>
-        ))}
-      </div>
+      {!books || books.length <= 0 ? (
+        <EmptyCard />
+      ) : (
+        <div className="books-container mt-9 h-60 space-y-6 overflow-y-auto py-1 pl-1 pr-3">
+          {TBRBooks.map((book) => (
+            <Dialog key={book.id}>
+              <TBRBookStats book={book} />
+              <BookDialog type="To read" book={book} />
+            </Dialog>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

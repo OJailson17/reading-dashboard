@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Book } from '@/@types/book';
 import { applicationLinks } from '@/utils/constants/links';
 
+import { EmptyCard } from '../EmptyCard';
 import { Drawer } from '../ui/drawer';
 import { ReadingBookStats } from './ReadingBookStats';
 import { UpdateReadingDialog } from './UpdateReadingDialog';
@@ -47,14 +48,18 @@ export const ReadingCard = async ({ books }: ReadingCardProps) => {
         </Link>
       </header>
 
-      <div className="books-container mt-9 h-60 space-y-6 overflow-y-auto py-1 pl-1 pr-3">
-        {booksByProgress.map((book, i) => (
-          <Drawer key={book.id}>
-            <ReadingBookStats book={book} />
-            <UpdateReadingDialog book={book} />
-          </Drawer>
-        ))}
-      </div>
+      {!books || books.length <= 0 ? (
+        <EmptyCard />
+      ) : (
+        <div className="books-container mt-9 h-60 space-y-6 overflow-y-auto py-1 pl-1 pr-3">
+          {booksByProgress.map((book, i) => (
+            <Drawer key={book.id}>
+              <ReadingBookStats book={book} />
+              <UpdateReadingDialog book={book} />
+            </Drawer>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
