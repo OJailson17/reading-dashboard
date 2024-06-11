@@ -114,7 +114,7 @@ export const BookshelfActions = ({ books }: BookshelfActionsProps) => {
             </DialogTrigger>
 
             <DialogContent className="flex min-h-60  w-[90%] max-w-[450px] flex-col items-center rounded-3xl border-none bg-background px-9 py-6 xs:px-6">
-              {showRecommendationButton && (
+              {!isRecommendationLoading && recommendation && (
                 <BookSummarizerDialog
                   bookAuthor={recommendation?.author || ''}
                   bookTitle={recommendation?.title || ''}
@@ -151,7 +151,7 @@ export const BookshelfActions = ({ books }: BookshelfActionsProps) => {
                 </div>
               )}
 
-              {recommendation && (
+              {!isRecommendationLoading && recommendation && (
                 <div className="flex w-full items-center justify-between">
                   <button
                     onClick={handleGetRecommendation}
