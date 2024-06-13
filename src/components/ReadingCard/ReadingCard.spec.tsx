@@ -20,11 +20,11 @@ describe('Reading Card Component', () => {
     expect(getByText(testBookList[1].author)).toBeInTheDocument();
   });
 
-  it.skip('should be able to show a message when there is no books on the list', () => {
+  it('should be able to show a message when there is no books on the list', () => {
     const { getByText } = render(<ReadingCard books={[]} />);
 
-    expect(getByText('Want to Read')).toBeInTheDocument();
-    expect(getByText('There is nothing here')).toBeInTheDocument();
+    expect(getByText('Currently Reading')).toBeInTheDocument();
+    expect(getByText('No Books')).toBeInTheDocument();
   });
 
   it('should be able to open a dialog after click on some book', async () => {

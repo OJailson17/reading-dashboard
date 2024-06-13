@@ -18,11 +18,11 @@ describe('Finished Card Component', () => {
     expect(getByText(testBookList[2].title)).toBeInTheDocument();
   });
 
-  it.skip('should be able to show a message when there is no books on the list', () => {
+  it('should be able to show a message when there is no books on the list', () => {
     const { getByText } = render(<FinishedCard books={[]} />);
 
     expect(getByText('Just Finished')).toBeInTheDocument();
-    expect(getByText('There is nothing here')).toBeInTheDocument();
+    expect(getByText('No Books')).toBeInTheDocument();
   });
 
   it('should be able to open a dialog after click on some book', async () => {
