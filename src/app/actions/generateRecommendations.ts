@@ -58,7 +58,7 @@ export const generateRecommendations = async ({
     history: [],
   });
 
-  const prompt = `based on this list of books, recommend me a new book, but just one. The new book can't be one of the list. Return me an object on the same structure as the list objects, but adding the amount of pages, the genre(s) and the ISBN-10 code. If there is just one genre, keep it in a array. The ISBN code should be add in a property called isbn"
+  const prompt = `based on the genres of the books on this list, recommend me a new book, but just one. The new book can't be one of the list. Return me an object on the same structure as the list objects, but adding the amount of pages, the genre(s), and the ISBN-10 code. If there is just one genre, keep it in an array. The ISBN code must be added to a property called isbn"
   
   ${JSON.stringify(books)}
   `;
