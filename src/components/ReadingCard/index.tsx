@@ -31,7 +31,7 @@ const sortByProgress = ({ readingBooks }: SortByProgressProps) => {
   });
 };
 
-export const ReadingCard = async ({ books }: ReadingCardProps) => {
+export const ReadingCard = ({ books }: ReadingCardProps) => {
   const readingBooks = books.filter((book) => book.status === 'Reading');
   // sort book by progress Desc
   const booksByProgress = sortByProgress({ readingBooks });
