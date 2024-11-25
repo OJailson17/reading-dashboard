@@ -16,7 +16,7 @@ type RecommendationsProps = {
 };
 
 const model = genAI.getGenerativeModel({
-  model: 'gemini-1.5-flash',
+  model: 'gemini-1.0-pro',
 });
 
 const generationConfig = {
@@ -58,7 +58,7 @@ export const generateRecommendations = async ({
     history: [],
   });
 
-  const prompt = `based on the books on this list, recommend me a new book, but just one. The new book can't be one of the list. It can have a similar genre, topic or anything related with the books from the list. Return me an object on the same structure as the list objects, but adding the amount of pages, the genre(s), and the ISBN-10 code. If there is just one genre, keep it in an array. The ISBN code must be added to a property called isbn.
+  const prompt = `based on the books on this list, recommend me a new book, but just one. The new book can't be one of the list. It can have a similar genre, topic or anything somehow related with the books from the list. Return me an object on the same structure as the list objects, but adding the amount of pages, the genre(s), and the ISBN-10 code. If there is just one genre, keep it in an array. The ISBN code must be added to a property called isbn. Don't add anything else besides the object with the data
   
   ${JSON.stringify(books, null, 2)}
   `;
