@@ -18,7 +18,7 @@ export default async function CreateBook() {
   const session = await getSession();
 
   if (!session) {
-    return redirect(applicationLinks.login);
+    return;
   }
 
   return (

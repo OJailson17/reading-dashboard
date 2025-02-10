@@ -40,7 +40,7 @@ export default async function Bookshelf({
   const session = await getSession();
 
   if (!session) {
-    return redirect(applicationLinks.login);
+    return;
   }
 
   // If the tab param doesn't match with one of the options, select all as default

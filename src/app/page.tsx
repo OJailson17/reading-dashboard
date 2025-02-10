@@ -25,7 +25,7 @@ export default async function Home() {
   const session = await getSession();
 
   if (!session) {
-    return redirect(applicationLinks.login);
+    return;
   }
 
   const response = await fetch(

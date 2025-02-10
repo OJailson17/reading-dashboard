@@ -13,6 +13,9 @@
     "lint:fix": "eslint --fix .",
     "server": "json-server db.json --port 8082"
   },
+  "engines": {
+    "node": "22.x"
+  },
   "dependencies": {
     "@google/generative-ai": "^0.11.3",
     "@hookform/resolvers": "^3.3.4",
