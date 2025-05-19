@@ -10,10 +10,12 @@ import {
 import { Book } from '@/@types/book';
 
 const style = {
+  maxWidth: '8rem',
   top: '50%',
   right: 0,
   transform: 'translate(0, -50%)',
   lineHeight: '1.5',
+  overflow: 'hidden',
 };
 
 interface GenreStatisticsChartProps {
