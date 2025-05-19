@@ -29,7 +29,7 @@ export const TBRCard = async ({ books }: TBRCardProps) => {
         </Link>
       </header>
 
-      {!books || books.length <= 0 ? (
+      {!TBRBooks || TBRBooks.length <= 0 ? (
         <EmptyCard />
       ) : (
         <div className="books-container mt-9 h-60 space-y-6 overflow-y-auto py-1 pl-1 pr-3">

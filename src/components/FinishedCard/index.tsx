@@ -30,7 +30,7 @@ export const FinishedCard = async ({ books }: FinishedCardProps) => {
         </Link>
       </header>
 
-      {!books || books.length <= 0 ? (
+      {!finishedBooks || finishedBooks.length <= 0 ? (
         <EmptyCard />
       ) : (
         <div className="books-container mt-10 flex gap-6 overflow-x-auto overflow-y-hidden px-1 pb-6 pt-1 sm:w-full lg:max-w-[320px]">

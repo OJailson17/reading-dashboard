@@ -33,6 +33,7 @@ const sortByProgress = ({ readingBooks }: SortByProgressProps) => {
 
 export const ReadingCard = ({ books }: ReadingCardProps) => {
   const readingBooks = books.filter((book) => book.status === 'Reading');
+
   // sort book by progress Desc
   const booksByProgress = sortByProgress({ readingBooks });
 
@@ -48,7 +49,7 @@ export const ReadingCard = ({ books }: ReadingCardProps) => {
         </Link>
       </header>
 
-      {!books || books.length <= 0 ? (
+      {!readingBooks || readingBooks.length <= 0 ? (
         <EmptyCard />
       ) : (
         <div className="books-container mt-9 h-60 space-y-6 overflow-y-auto py-1 pl-1 pr-3">
