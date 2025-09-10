@@ -16,7 +16,7 @@ const model = genAI.getGenerativeModel({
 });
 
 const generationConfig = {
-  temperature: 0.5,
+  temperature: 0.9,
   responseMimeType: 'text/plain',
 };
 
@@ -55,7 +55,7 @@ export const createSummary = async ({
     history: [],
   });
 
-  const prompt = `make a short and simple summary about the book "${bookTitle}" by ${bookAuthor}. Answer in the same language as the book title. The titles of the books will be in English or Portuguese, if it's in another language, answer in English. Don't need to put the title in the beginning and don't use markdown.`;
+  const prompt = `Write a short and simple summary of the book "${bookTitle}" by ${bookAuthor}. Respond in the same language as the book title. If the title is in English or Portuguese, use that language. If the title is in any other language, respond in English. Do not repeat the book title in the answer, and do not use markdown or extra formatting.`;
 
   const result = await chatSession.sendMessage(prompt);
 

@@ -1,7 +1,11 @@
 'use server';
 
 import { genAI } from '@/lib/gemini';
-import { HarmCategory, HarmBlockThreshold } from '@google/generative-ai';
+import {
+  HarmCategory,
+  HarmBlockThreshold,
+  ChatSession,
+} from '@google/generative-ai';
 
 import { getSession } from './getSession';
 import { onSignOut } from './signOut';
@@ -20,7 +24,7 @@ const model = genAI.getGenerativeModel({
 });
 
 const generationConfig = {
-  temperature: 0.5,
+  temperature: 0.9,
   responseMimeType: 'text/plain',
 };
 
@@ -42,6 +46,7 @@ const safetySettings = [
     threshold: HarmBlockThreshold.BLOCK_NONE,
   },
 ];
+const pastRecommendations = new Set();
 
 export const generateRecommendations = async ({
   books,
@@ -58,16 +63,54 @@ export const generateRecommendations = async ({
     history: [],
   });
 
-  const prompt = `based on the books on this list, recommend me a new book, but just one. The new book can't be one of the list. It can have a similar genre, topic or anything somehow related with the books from the list. Return me an object on the same structure as the list objects, but adding the amount of pages, the genre(s), and the ISBN-10 code. If there is just one genre, keep it in an array. The ISBN code must be added to a property called isbn. Don't add anything else besides the object with the data
+  const prompt = `You will receive a list of books in the form of an object array (as a string). Your task is to recommend exactly one new book that is not already in the list or in the list of previously recommended books. The recommendation must still match the genres, themes, or style of the provided books.
+
+Rules:
+
+  - Never recommend a book that already appears in the input list.
+  - Never recommend a book that has been given before. A list of previously recommended books is provided at the end.
+  - Return only one book recommendation.
+  - the book can be in Portuguese or English.
+
+The output must be in the same object format as the input, but include additional properties:
+  pages (number of pages)
+  isbn (the ISBN-10 code of the book)
+  genres (an array of genres for the book, even if there is only one)
+
+Avoid the most common or obvious recommendations. Favor variety, including lesser-known or alternative works, while keeping them relevant.
+
+Do not include explanations, just return the object.
+
+Do not recommend any of these again.
+Here are books that have already been recommended before:
+${JSON.stringify(Array.from(pastRecommendations))}
+
+The following is the list of books:
   
   ${JSON.stringify(books, null, 2)}
   `;
 
+  const response = await getRecommendation(chatSession, prompt);
+
+  if (!wasBookRecommended(JSON.parse(response))) {
+    return await getRecommendation(chatSession, prompt);
+  }
+
+  return response;
+};
+
+const getRecommendation = async (chatSession: ChatSession, prompt: string) => {
   const result = await chatSession.sendMessage(prompt);
   const formattedResponse = result.response
     .text()
     .replace(/```json|```/g, '')
     .trim();
-
   return formattedResponse;
+};
+
+const wasBookRecommended = (rec: Book) => {
+  if (pastRecommendations.has(rec.title)) return false;
+
+  pastRecommendations.add(rec.title);
+  return true;
 };

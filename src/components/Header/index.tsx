@@ -9,7 +9,6 @@ import { MyAvatar } from '../Avatar';
 import { Logo } from '../Logo';
 
 export const Header = () => {
-  const [username, setUsername] = useState('demo');
   const [userFullName, setUserFullName] = useState('Demo User');
 
   const handleSignOut = async () => {
@@ -20,11 +19,9 @@ export const Header = () => {
 
   useEffect(() => {
     if (typeof window !== undefined) {
-      const username = localStorage.getItem(storageStrings.username);
       const fullName = localStorage.getItem(storageStrings.name);
 
-      if (username && fullName) {
-        setUsername(username);
+      if (fullName) {
         setUserFullName(fullName);
       }
     }
@@ -43,7 +40,6 @@ export const Header = () => {
         </div>
         <div className="hidden flex-1 overflow-hidden md:block ">
           <p className="font-semibold ">{userFullName}</p>
-          <span className="text-span">@{username}</span>
         </div>
       </button>
     </header>
