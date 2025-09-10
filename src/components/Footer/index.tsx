@@ -11,7 +11,7 @@ export const Footer = () => {
       <p>
         developed by 💜
         <Link
-          href={applicationLinks.home}
+          href={applicationLinks.personalWebsite}
           className="font-medium text-purple hover:underline"
         >
           Jailson de Oliveira
