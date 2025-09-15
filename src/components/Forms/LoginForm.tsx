@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { ImSpinner2 } from 'react-icons/im';
+import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa';
 import * as yup from 'yup';
 
 import { useGoal } from '@/context/GoalContext';
@@ -10,6 +11,7 @@ import { storageStrings } from '@/utils';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { toast } from '../ui/use-toast';
+import { useState } from 'react';
 
 interface Response {
   user: {
@@ -30,6 +32,8 @@ const loginSchemaValidation = yup.object({
 type InputFormDataProps = yup.InferType<typeof loginSchemaValidation>;
 
 export const LoginForm = () => {
+  const [showUsername, setShowUsername] = useState(true);
+
   const {
     register,
     handleSubmit,
@@ -40,6 +44,11 @@ export const LoginForm = () => {
 
   const { onSetInitialGoals } = useGoal();
   const router = useRouter();
+
+  const handleUsernameVisibility = () => {
+    setShowUsername((currentState) => !currentState);
+    console.log(showUsername);
+  };
 
   const handleLogin = async ({ username }: InputFormDataProps) => {
     const formattedUsername = username.trim().toLowerCase();
@@ -91,18 +100,34 @@ export const LoginForm = () => {
       className="mt-9 flex w-full flex-col items-center justify-center px-6 sm:px-20"
     >
       <div className="w-full">
-        <label htmlFor="username" className="block text-span">
-          use{' '}
+        <label htmlFor="username-input" className="block text-span">
+          coloque{' '}
           <span className="inline-block bg-gradient-primary bg-clip-text font-bold text-transparent">
             demo_user
-          </span>
+          </span>{' '}
+          para entrar
         </label>
-        <input
-          type="text"
-          placeholder="username"
-          className="mt-1 h-12 w-full rounded-md bg-background px-6 text-span placeholder:text-placeholder"
-          {...register('username')}
-        />
+        <div className="mt-1 flex h-12 w-full items-center justify-start gap-2 rounded-md bg-background pr-2 text-span">
+          <input
+            type={showUsername ? 'text' : 'password'}
+            placeholder="username"
+            className="h-full w-full rounded-md border-none bg-transparent px-2 outline-none placeholder:text-placeholder"
+            {...register('username')}
+            autoComplete="off"
+            id="username-input"
+          />
+          <button
+            type="button"
+            onClick={handleUsernameVisibility}
+            className="h-max"
+          >
+            {showUsername ? (
+              <FaRegEyeSlash color="#7e808d" size={18} />
+            ) : (
+              <FaRegEye color="#7e808d" size={18} />
+            )}
+          </button>
+        </div>
         <span className="mt-1 text-sm text-red-400">
           {errors.username?.message}
         </span>
