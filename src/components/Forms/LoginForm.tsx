@@ -47,7 +47,6 @@ export const LoginForm = () => {
 
   const handleUsernameVisibility = () => {
     setShowUsername((currentState) => !currentState);
-    console.log(showUsername);
   };
 
   const handleLogin = async ({ username }: InputFormDataProps) => {
