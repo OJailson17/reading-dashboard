@@ -40,21 +40,29 @@ export const createSummary = async ({
     await onSignOut();
   }
 
-  const prompt = `Write a short and simple summary of the book "${bookTitle}" by ${bookAuthor}. Respond in the same language as the book title. If the title is in English or Portuguese, use that language. If the title is in any other language, respond in English. Do not repeat the book title in the answer, and do not use markdown or extra formatting.`;
+  const prompt = `Write a short and simple summary of the book "${bookTitle}" by ${bookAuthor}. Respond in the same language as the book title. If the title is in English or Portuguese, use that language. If the title is in any other language, respond in English. Do not repeat the book title in the answer, and do not use markdown or extra formatting. Do not give spoilers`;
 
-  const response = await genAI.models.generateContent({
+  const stream = await genAI.models.generateContentStream({
     model: 'gemini-2.5-flash',
     contents: prompt,
     config: {
       safetySettings,
       temperature: 0.9,
       responseMimeType: 'text/plain',
+      thinkingConfig: {
+        thinkingBudget: 0,
+      },
     },
   });
 
-  if (!response.text) {
-    return '';
+  let result = '';
+  for await (const chunk of stream) {
+    const text = chunk.text;
+    if (text) {
+      result += text;
+    }
   }
+  const formattedText = result.replace(/```json|```/g, '').trim();
 
-  return response.text;
+  return formattedText;
 };

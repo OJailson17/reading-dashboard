@@ -81,22 +81,30 @@ The following is the list of books:
 };
 
 const getRecommendation = async (prompt: string) => {
-  const response = await genAI.models.generateContent({
+  const stream = await genAI.models.generateContentStream({
     model: 'gemini-2.5-flash',
     contents: prompt,
     config: {
       safetySettings,
       temperature: 0.9,
       responseMimeType: 'text/plain',
+      thinkingConfig: {
+        thinkingBudget: 0,
+      },
     },
   });
 
-  if (!response.text) {
-    return '';
+  let result = '';
+  for await (const chunk of stream) {
+    const text = chunk.text;
+    if (text) {
+      console.log(text);
+      result += text;
+    }
   }
+  const formattedText = result.replace(/```json|```/g, '').trim();
 
-  const formattedResponse = response.text.replace(/```json|```/g, '').trim();
-  return formattedResponse;
+  return formattedText;
 };
 
 const wasBookRecommended = (rec: Book) => {
