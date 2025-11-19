@@ -65,7 +65,7 @@ export const BookshelfActions = ({ books }: BookshelfActionsProps) => {
     try {
       const response = await generateRecommendations({ books: formatBooks });
 
-      if (response.length <= 0) {
+      if (!Boolean(response)) {
         setIsRecommendationLoading(false);
         setRecommendation(null);
         return;

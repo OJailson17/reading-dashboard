@@ -1,11 +1,7 @@
 'use server';
 
 import { genAI } from '@/lib/gemini';
-import {
-  HarmCategory,
-  HarmBlockThreshold,
-  ChatSession,
-} from '@google/generative-ai';
+import { HarmBlockThreshold, HarmCategory } from '@google/genai';
 
 import { getSession } from './getSession';
 import { onSignOut } from './signOut';
@@ -17,15 +13,6 @@ type Book = {
 
 type RecommendationsProps = {
   books: Book[];
-};
-
-const model = genAI.getGenerativeModel({
-  model: 'gemini-2.5-flash',
-});
-
-const generationConfig = {
-  temperature: 0.9,
-  responseMimeType: 'text/plain',
 };
 
 const safetySettings = [
@@ -57,12 +44,6 @@ export const generateRecommendations = async ({
     await onSignOut();
   }
 
-  const chatSession = model.startChat({
-    generationConfig,
-    safetySettings,
-    history: [],
-  });
-
   const prompt = `You will receive a list of books in the form of an object array (as a string). Your task is to recommend exactly one new book that is not already in the list or in the list of previously recommended books. The recommendation must still match the genres, themes, or style of the provided books.
 
 Rules:
@@ -90,21 +71,31 @@ The following is the list of books:
   ${JSON.stringify(books, null, 2)}
   `;
 
-  const response = await getRecommendation(chatSession, prompt);
+  const response = await getRecommendation(prompt);
 
   if (!wasBookRecommended(JSON.parse(response))) {
-    return await getRecommendation(chatSession, prompt);
+    return await getRecommendation(prompt);
   }
 
   return response;
 };
 
-const getRecommendation = async (chatSession: ChatSession, prompt: string) => {
-  const result = await chatSession.sendMessage(prompt);
-  const formattedResponse = result.response
-    .text()
-    .replace(/```json|```/g, '')
-    .trim();
+const getRecommendation = async (prompt: string) => {
+  const response = await genAI.models.generateContent({
+    model: 'gemini-2.5-flash',
+    contents: prompt,
+    config: {
+      safetySettings,
+      temperature: 0.9,
+      responseMimeType: 'text/plain',
+    },
+  });
+
+  if (!response.text) {
+    return '';
+  }
+
+  const formattedResponse = response.text.replace(/```json|```/g, '').trim();
   return formattedResponse;
 };
 

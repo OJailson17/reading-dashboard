@@ -35,7 +35,7 @@ export const BookSummarizerDialog = ({
         bookTitle,
       });
 
-      if (summaryResponse.length <= 0) {
+      if (!Boolean(summaryResponse)) {
         setBookSummary('Nothing Found!');
         setIsSummaryLoading(false);
         return;

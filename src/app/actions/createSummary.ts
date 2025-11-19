@@ -1,7 +1,7 @@
 'use server';
 
 import { genAI } from '@/lib/gemini';
-import { HarmCategory, HarmBlockThreshold } from '@google/generative-ai';
+import { HarmCategory, HarmBlockThreshold } from '@google/genai';
 
 import { getSession } from './getSession';
 import { onSignOut } from './signOut';
@@ -9,15 +9,6 @@ import { onSignOut } from './signOut';
 type SummarizeProps = {
   bookTitle: string;
   bookAuthor: string;
-};
-
-const model = genAI.getGenerativeModel({
-  model: 'gemini-2.5-flash',
-});
-
-const generationConfig = {
-  temperature: 0.9,
-  responseMimeType: 'text/plain',
 };
 
 const safetySettings = [
@@ -49,15 +40,21 @@ export const createSummary = async ({
     await onSignOut();
   }
 
-  const chatSession = model.startChat({
-    generationConfig,
-    safetySettings,
-    history: [],
-  });
-
   const prompt = `Write a short and simple summary of the book "${bookTitle}" by ${bookAuthor}. Respond in the same language as the book title. If the title is in English or Portuguese, use that language. If the title is in any other language, respond in English. Do not repeat the book title in the answer, and do not use markdown or extra formatting.`;
 
-  const result = await chatSession.sendMessage(prompt);
+  const response = await genAI.models.generateContent({
+    model: 'gemini-2.5-flash',
+    contents: prompt,
+    config: {
+      safetySettings,
+      temperature: 0.9,
+      responseMimeType: 'text/plain',
+    },
+  });
 
-  return result.response.text();
+  if (!response.text) {
+    return '';
+  }
+
+  return response.text;
 };
