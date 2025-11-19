@@ -98,7 +98,6 @@ const getRecommendation = async (prompt: string) => {
   for await (const chunk of stream) {
     const text = chunk.text;
     if (text) {
-      console.log(text);
       result += text;
     }
   }
