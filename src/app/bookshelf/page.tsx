@@ -2,14 +2,11 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { Suspense, cache } from 'react';
-import { BsStars } from 'react-icons/bs';
-import { FaPlus } from 'react-icons/fa6';
 
 import { BookShelfTable } from '@/components/BookShelfTable';
 import { BookshelfActions } from '@/components/BookshelfActions';
 import { BookshelfNav } from '@/components/BookshelfNav';
 import { BookshelfSearch } from '@/components/BookshelfSearch';
-import { FinishedStatisticCard } from '@/components/FinishedStatisticsCard';
 import { Footer } from '@/components/Footer';
 import { GeneralStats } from '@/components/GeneralStats';
 import { Header } from '@/components/Header';
@@ -21,6 +18,7 @@ import { formatBooks } from '@/utils/formatting/formatBook';
 import { getSession } from '../actions/getSession';
 import LoadingScreen from '../loading';
 import { BookshelfCompletionStats } from '@/components/BookshelfCompletionStats';
+import { RevalidateButton } from '@/components/RevalidateButton';
 
 export type Tab = 'all' | 'tbr' | 'reading' | 'finished' | 'review';
 
@@ -212,9 +210,13 @@ export default async function Bookshelf({
           {/* Books Result */}
           <div className="h-full max-h-[622px] flex-1 rounded-2xl bg-secondary-background px-4 py-8 sm:px-6 ">
             <div className="flex w-full flex-col items-start justify-between max-sm:gap-4 sm:flex-row">
-              <h3 className="text-xl font-bold">
-                {tabsOptions[searchParams.tab].name}
-              </h3>
+              <div className="flex items-center justify-center gap-2">
+                <h3 className="text-xl font-bold">
+                  {tabsOptions[searchParams.tab].name}
+                </h3>
+
+                <RevalidateButton />
+              </div>
 
               <BookshelfSearch />
             </div>

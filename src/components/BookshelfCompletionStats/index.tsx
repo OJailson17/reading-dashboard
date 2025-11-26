@@ -1,10 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
-import { cache, Suspense, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CircularProgressBar } from '../CircularProgressBar';
 import { formatBooks } from '@/utils/formatting/formatBook';
-import { Book } from '@/@types/book';
 
 interface CompletionStats {
   total_books: number;
