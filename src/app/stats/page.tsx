@@ -20,6 +20,7 @@ import { formatBooks } from '@/utils/formatting/formatBook';
 
 import { getSession } from '../actions/getSession';
 import LoadingScreen from '../loading';
+import { BookshelfCompletionStats } from '@/components/BookshelfCompletionStats';
 
 export const metadata: Metadata = {
   title: 'Stats | Reading Dashboard',
@@ -116,10 +117,7 @@ export default async function Stats({ searchParams }: StatsRequestProps) {
 
           {/* Yearly Stats Card */}
           <div className="sm:max-lg:hidden lg:block lg:w-full xl:w-auto">
-            <FinishedStatisticCard
-              card="year"
-              books={{ current: finishedBooks.length }}
-            />
+            <BookshelfCompletionStats database_id={session.database_id} />
           </div>
         </section>
 

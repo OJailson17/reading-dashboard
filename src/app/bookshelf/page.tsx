@@ -178,9 +178,7 @@ export default async function Bookshelf({
 
           {/* Bookshelf Completion Stats Card */}
           <div className="hidden lg:block lg:w-full xl:w-auto">
-            {/* <Suspense fallback={<div>is loading</div>}> */}
             <BookshelfCompletionStats database_id={session.database_id} />
-            {/* </Suspense> */}
           </div>
         </section>
 
