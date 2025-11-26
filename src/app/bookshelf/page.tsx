@@ -20,6 +20,7 @@ import { formatBooks } from '@/utils/formatting/formatBook';
 
 import { getSession } from '../actions/getSession';
 import LoadingScreen from '../loading';
+import { BookshelfCompletionStats } from '@/components/BookshelfCompletionStats';
 
 export type Tab = 'all' | 'tbr' | 'reading' | 'finished' | 'review';
 
@@ -177,12 +178,11 @@ export default async function Bookshelf({
             />
           </div>
 
-          {/* Yearly Stats Card */}
+          {/* Bookshelf Completion Stats Card */}
           <div className="hidden lg:block lg:w-full xl:w-auto">
-            <FinishedStatisticCard
-              card="year"
-              books={{ current: finishedBooks.length }}
-            />
+            {/* <Suspense fallback={<div>is loading</div>}> */}
+            <BookshelfCompletionStats database_id={session.database_id} />
+            {/* </Suspense> */}
           </div>
         </section>
 
