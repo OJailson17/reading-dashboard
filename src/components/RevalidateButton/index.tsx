@@ -1,25 +1,32 @@
 'use client';
 
 import { revalidateData } from '@/app/actions/revalidateData';
-import { usePathname, useRouter } from 'next/navigation';
-import { startTransition } from 'react';
+import { useTransition } from 'react';
 import { IoMdRefresh } from 'react-icons/io';
+import { toast } from '@/components/ui/use-toast';
 
 export const RevalidateButton = () => {
-  const router = useRouter();
-  const pathname = usePathname();
+  const [isPending, startTransition] = useTransition();
 
-  const handleRevalidateData = async () => {
-    localStorage.removeItem('@reading_dashboard:bookshelf_completion_stats');
-    await revalidateData();
+  const handleRevalidateData = () => {
+    startTransition(async () => {
+      localStorage.removeItem('@reading_dashboard:bookshelf_completion_stats');
+      await revalidateData();
 
-    startTransition(() => {
-      router.replace(pathname || '/bookshelf');
+      toast({
+        description: 'Books Updated',
+        variant: 'success',
+      });
     });
   };
 
   return (
-    <button onClick={handleRevalidateData} title="Update">
+    <button
+      onClick={handleRevalidateData}
+      title="Update"
+      disabled={isPending}
+      className={isPending ? 'animate-spin' : ''}
+    >
       <IoMdRefresh size={20} />
     </button>
   );

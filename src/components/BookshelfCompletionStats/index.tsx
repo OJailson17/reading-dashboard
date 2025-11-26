@@ -90,7 +90,7 @@ export const BookshelfCompletionStats = ({
           {bookStats.total_books}
         </p>
 
-        <p>completed bookshelf</p>
+        <p>Books completed from the bookshelf</p>
       </div>
     </div>
   );
