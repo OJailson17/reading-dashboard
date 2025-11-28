@@ -4,13 +4,14 @@ import { revalidateData } from '@/app/actions/revalidateData';
 import { useTransition } from 'react';
 import { IoMdRefresh } from 'react-icons/io';
 import { toast } from '@/components/ui/use-toast';
+import { storageStrings } from '@/utils';
 
 export const RevalidateButton = () => {
   const [isPending, startTransition] = useTransition();
 
   const handleRevalidateData = () => {
     startTransition(async () => {
-      localStorage.removeItem('@reading_dashboard:bookshelf_completion_stats');
+      localStorage.removeItem(storageStrings.bookshelf_completion);
       await revalidateData();
 
       toast({

@@ -4,6 +4,7 @@
 import { useEffect, useState } from 'react';
 import { CircularProgressBar } from '../CircularProgressBar';
 import { formatBooks } from '@/utils/formatting/formatBook';
+import { storageStrings } from '@/utils';
 
 interface CompletionStats {
   total_books: number;
@@ -47,7 +48,7 @@ export const BookshelfCompletionStats = ({
   const handleGetAllBooks = async () => {
     let stats: CompletionStats = { finished_books: 0, total_books: 0 };
     const completionStatsFromStorage = localStorage.getItem(
-      '@reading_dashboard:bookshelf_completion_stats',
+      storageStrings.bookshelf_completion,
     );
 
     if (completionStatsFromStorage) {
@@ -62,7 +63,7 @@ export const BookshelfCompletionStats = ({
 
       if (books.length > 0) {
         localStorage.setItem(
-          '@reading_dashboard:bookshelf_completion_stats',
+          storageStrings.bookshelf_completion,
           JSON.stringify(stats),
         );
       }

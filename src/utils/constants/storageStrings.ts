@@ -7,4 +7,5 @@ export const storageStrings = {
   user_id: `${baseString}:user_id`,
   name: `${baseString}:name`,
   stats: `${baseString}:stats`,
+  bookshelf_completion: `${baseString}:bookshelf_completion_stats`,
 };
