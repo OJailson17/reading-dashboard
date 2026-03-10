@@ -178,8 +178,9 @@ export const BookshelfActions = ({ books }: BookshelfActionsProps) => {
         )}
 
         <Link
-          href={applicationLinks.createBook}
-          className="flex w-full items-center justify-center gap-3 rounded-lg bg-purple px-3 py-3 text-lg font-medium sm:max-lg:mt-0 sm:max-lg:px-2 sm:max-lg:py-2"
+          href={showRecommendationButton ? applicationLinks.createBook : '#'}
+          className={`flex w-full items-center justify-center gap-3 rounded-lg bg-purple px-3 py-3 text-lg font-medium sm:max-lg:mt-0 sm:max-lg:px-2 sm:max-lg:py-2
+          ${showRecommendationButton ? '' : 'cursor-not-allowed opacity-50'}`}
         >
           <FaPlus />
           Add
